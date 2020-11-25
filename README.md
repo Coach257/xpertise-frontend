@@ -1,4 +1,4 @@
-# xpertise_site
+# xpertise
 
 ## Project setup
 ```
