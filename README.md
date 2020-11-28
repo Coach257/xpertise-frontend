@@ -1,4 +1,4 @@
-# xpertise
+# xpertise-frontend
 
 ## Project setup
 ```
