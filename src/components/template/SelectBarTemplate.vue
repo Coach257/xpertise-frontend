@@ -56,7 +56,7 @@
  * 1、向组件SelectBar传入一个数组buttons，代表每个选择的名称（长度>=2）
  * 2、改变每个子页面的内容。
  */
-import SelectBar from './SelectBar.vue'
+import SelectBar from '../common/SelectBar.vue'
 export default{
   name: 'SelectBarTemplate',
   inject: ['sleep'],
