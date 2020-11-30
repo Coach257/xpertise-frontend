@@ -66,7 +66,7 @@ export default{
       this.show2=false;
       this.show3=false;
       this.show4=false;
-      this.sleep(200).then(()=>{
+      this.sleep(199).then(()=>{
         switch(index)
         {
             case 0:

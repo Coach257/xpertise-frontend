@@ -3,8 +3,8 @@
   <h1>Test Page</h1>
 
   <SelectBarTemplate></SelectBarTemplate>
-  
   <RelationMap></RelationMap>
+
   </div>
 </template>
 

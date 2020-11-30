@@ -1,7 +1,21 @@
 <template>
-  <div>
+  <div id="root">
     <div id="graph">
-    <RelationGraph ref="seeksRelationGraph" :options="graphOptions" :on-node-click="onNodeClick" :on-line-click="onLineClick" />
+
+    <RelationGraph id="in" ref="seeksRelationGraph" :options="graphOptions" :on-node-click="onNodeClick" :on-line-click="onLineClick">
+
+    <div slot="node" slot-scope="{node}">
+
+      <div id="node">
+          {{node.text}}
+      </div>
+
+      <i class="el-icon-user-solid"></i>
+
+    </div>
+
+    </RelationGraph>
+
     </div>
   </div>
 </template>
@@ -20,7 +34,6 @@
                 "layoutName": "force",
                 "layoutClassName": "seeks-layout-center",
                 "defaultExpandHolderPosition": "hide",
-                "defaultJunctionPoint": "border"
               }
            ],
           "defaultLineMarker": {
@@ -34,15 +47,25 @@
           "allowShowMiniView": false,
           "hideNodeContentByZoom": false,
           "defaultNodeShape": 0,
+          "defaultLineWidth": 2,
           "defaultLineShape": 5,
-          "disableZoom": true,
           "disableDragNode": true,
-          "allowShowMiniToolBar": false
+          "disableZoom": true,
+          "allowShowMiniToolBar": false,
+          "defaultNodeColor": "rgba(11, 225, 218, 1)",
+          "defaultNodeBorderColor": "#00BABD",
+          "defaultShowLineLabel": false
          }
        }
      },
      mounted() {
        this.showSeeksGraph()
+
+       for (var i=0; i<this.$refs.seeksRelationGraph.getNodes().length; i++) {
+         this.$refs.seeksRelationGraph.getNodes()[i].width = 50;
+         this.$refs.seeksRelationGraph.getNodes()[i].height = 50;
+       }
+
      },
      methods: {
        showSeeksGraph(query) {
@@ -58,6 +81,14 @@
              { id: '7', text: '郭基联'},
              { id: '8', text: '李寿安'},
              { id: '9', text: '王卓健'},
+             { id: '11', text: '张恒喜'},
+             { id: '12', text: '张喜斌'},
+             { id: '13', text: '虞健飞'},
+             { id: '14', text: '孟科'},
+             { id: '15', text: '杨云'},
+             { id: '16', text: '董彦非'},
+             { id: '17', text: '郭基联'},
+             { id: '18', text: '李寿安'},
            ],
            links: [
              { from: '1', to: '2', text: '关系1' },
@@ -68,8 +99,17 @@
              { from: '1', to: '7', text: '关系1' },
              { from: '1', to: '8', text: '关系1' },
              { from: '2', to: '9', text: '关系1' },
+             { from: '1', to: '11', text: '关系1' },
+             { from: '1', to: '12', text: '关系1' },
+             { from: '1', to: '13', text: '关系1' },
+             { from: '1', to: '14', text: '关系1' },
+             { from: '1', to: '15', text: '关系1' },
+             { from: '1', to: '16', text: '关系1' },
+             { from: '1', to: '17', text: '关系1' },
+             { from: '1', to: '18', text: '关系1' },
            ]
          }
+
          this.$refs.seeksRelationGraph.setJsonData(__graph_json_data, (seeksRGGraph) => {
            // Called when the relation-graph is completed
          })
@@ -85,8 +125,39 @@
 </script>
 
 <style>
+#root {
+  display: flex;
+  justify-content: center;
+}
 #graph {
-  outline:#00ff00 dotted thick;
-  height: 1000px;
+  /* outline:#00ff00 dotted thick; */
+  height: 500px;
+  width: 800px;
+
+  position: relative;
+}
+#in {
+  padding: 10px;
+  border: #e6e6e6 solid thin;
+  border-radius: 30px;
+  box-shadow: 0px 0px 10px 1px #cccccc;
+}
+#node {
+  color: forestgreen;
+  font-size: 16px;
+  position: absolute;
+  left: -2px;
+  top: 95px;
+
+  width: 100px;
+  height:25px;
+  text-align: center;
+  background-color: rgba(66,187,66,0.2);
+}
+.el-icon-user-solid {
+  /* outline:#00ff00 dotted thick; */
+  font-size: 35px;
+  position: relative;
+  top: 5px;
 }
 </style>
