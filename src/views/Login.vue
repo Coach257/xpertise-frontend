@@ -12,16 +12,19 @@
 
             <div style="margin-top: 20px">
                 <div style="text-align:left; margin-left:100px">用户名</div>
-                <el-input v-model="user_input" placeholder="Username" style="border-radius: 50px; margin-left:30px; width: 280px; margin-top:5px">
+                <el-input v-model="loginForm.username" placeholder="Username" style="border-radius: 50px; margin-left:30px; width: 280px; margin-top:5px">
                     <i class="el-icon-user-solid"></i>
                 </el-input >
             </div>
 
             <div style="margin-top: 20px;">
                 <div style="text-align:left; margin-left:100px">密码</div>
-                <el-input v-model="user_input" placeholder="Username" style="border-radius: 50px; margin-left:30px; width: 280px; margin-top:5px">
+                <el-input v-model="loginForm.password" placeholder="Username" style="border-radius: 50px; margin-left:30px; width: 280px; margin-top:5px">
                     <i class="el-icon-user-solid"></i>
                 </el-input >
+            </div>
+            <div style = "margin-top:20px;">
+            <button @click="checklogin()">登录</button>
             </div>
 
         </div>
@@ -55,7 +58,34 @@
     name: 'LoginPage',
     data() {
     return {
-      user_input: ''
+      loginForm:{
+        username:'',
+        password:'',
+      }
+    },
+    methods:{
+      checklogin(){
+        let formData = new FormData();
+        formData.append('username', this.loginForm.username);
+        formData.append('password', this.loginForm.password);
+        let config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        var _this = this
+        axios.post('http://localhost:5000/api/v1/user/login/',formData, config)
+            .then(function (response)  {
+                if (response.data.success!) {
+                   console.log("登陆成功");
+                }else {
+                   console.log("登录失败");
+                }
+            })
+            .catch(function () {
+              _this.errormessage("未知错误，请稍后再试")
+            });
+     },
     }
   }
   }
