@@ -79,7 +79,7 @@ import axios from "axios"
             }
         };
         var _this = this
-        axios.post('http://localhost:5000/api/v1/user/login/',formData, config)
+        axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/login',formData, config)
             .then(function (response)  {
                 if (response.data.success) {
                    console.log("登陆成功");
@@ -87,12 +87,9 @@ import axios from "axios"
                    console.log("登录失败");
                 }
             })
-            .catch(function () {
-              _this.errormessage("未知错误，请稍后再试")
-            });
      },
      getallinfo(){
-       axios.get('https://go-service-296709.df.r.appspot.com/api/v1/user/query/all/')
+       axios.get('https://go-service-296709.df.r.appspot.com/api/v1/user/query/all')
        .then(function(response){
          console.log(response);
        })
