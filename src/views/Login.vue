@@ -26,6 +26,9 @@
             <div style = "margin-top:20px;">
             <button @click="checklogin()">登录</button>
             </div>
+               <div style = "margin-top:20px;">
+            <button @click="getallinfo()">get</button>
+            </div>
 
         </div>
       </el-card>
@@ -54,16 +57,18 @@
 </style>
 
 <script>
+import axios from "axios"
   export default {
     name: 'LoginPage',
     data() {
-    return {
-      loginForm:{
-        username:'',
-        password:'',
-      }
+      return {
+        loginForm:{
+          username:'',
+          password:'',
+        }
+      };
     },
-    methods:{
+    methods: {
       checklogin(){
         let formData = new FormData();
         formData.append('username', this.loginForm.username);
@@ -76,7 +81,7 @@
         var _this = this
         axios.post('http://localhost:5000/api/v1/user/login/',formData, config)
             .then(function (response)  {
-                if (response.data.success!) {
+                if (response.data.success) {
                    console.log("登陆成功");
                 }else {
                    console.log("登录失败");
@@ -86,7 +91,12 @@
               _this.errormessage("未知错误，请稍后再试")
             });
      },
+     getallinfo(){
+       axios.get('https://go-service-296709.df.r.appspot.com/api/v1/user/query/all/')
+       .then(function(response){
+         console.log(response);
+       })
+     },
     }
-  }
   }
 </script>
