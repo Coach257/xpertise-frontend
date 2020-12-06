@@ -68,7 +68,7 @@ export default {
     vertical-align: middle;
   height: 45px;
   background-color: white;
-  opacity: 50%;
+  opacity: 83%;
   backdrop-filter: blur(50px);
   width: 100%;
 }
@@ -76,7 +76,7 @@ export default {
   /* position: relative; */
   bottom: 0px;
   height: 0.5px;
-  opacity: 50%;
+  opacity: 83%;
   background-color: grey;
   width: 100vw;
 }
