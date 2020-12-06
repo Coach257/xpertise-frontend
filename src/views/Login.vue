@@ -106,13 +106,13 @@ import axios from "axios"
                    
                    localStorage.clear()
                    localStorage.setItem('userid',response.data.data.user_id)
-                   localStorage.setItem('passwd',_this.loginForm.password)
+                   //localStorage.setItem('passwd',_this.loginForm.password)
                    localStorage.setItem('token',response.data.data.token)
                    
 
                    sessionStorage.clear()
                    sessionStorage.setItem('userid',response.data.data.user_id)
-                   sessionStorage.setItem('passwd',_this.loginForm.password)
+                   //sessionStorage.setItem('passwd',_this.loginForm.password)
                    sessionStorage.setItem('token',response.data.data.token)
                 }else {
                    console.log("登录失败");
