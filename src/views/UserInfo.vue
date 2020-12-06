@@ -1,7 +1,8 @@
 <template>
-    <div v-title data-title="个人信息页面">
+   
+    <div>
       <h1>欢迎来到 {{ this.$route.params.userid }} 的主页面</h1>
-        <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+        <el-form :label-position="labelPosition" label-width="80px" :model="userinfo">
             <el-form-item label="用户名">
                 <el-input v-model="userinfo.username"></el-input>
             </el-form-item>
@@ -31,6 +32,7 @@ export default {
             labelPosition: 'right',
             userinfo: {
                 username: '',
+                userid: '',
                 password: '',
                 email: '',
                 description: '',
@@ -76,20 +78,28 @@ export default {
         }
     },
     mounted() {
-        this.userinfo.username = this.$route.params.userid;
         let formData = new FormData();
-        formData.append('userid',this.$route.params.userid);
+        formData.append('user_id', this.userinfo.userid);
         console.log(this.$route.params.userid);
         let config = {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         };
         var _this = this;
-        axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/getinfo',formData,config)
+        axios.get('https://go-service-296709.df.r.appspot.com/api/v1/user/return/account_info',formData,config)
         .then(function(response) {
             if(response) {
-            _this.userObj = response.data;
+                console.log(response.data)
+                if(response.success) {
+                    _this.username = response.data.username
+                    _this.email = response.data.email
+                    _this.info = response.data.info
+                }
+                else {
+                    console.log("登录失败 " + response.data.message)
+                }
+                //_this.username = response.data.
             }
         }).catch(error=> {
             console.log('error', error);
