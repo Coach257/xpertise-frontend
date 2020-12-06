@@ -1,16 +1,18 @@
 <template>
   <div id="app">
     <NavBar/>
-    <router-view/>
+    <SearchSection />
   </div>
 </template>
 
 <script>
 import NavBar from './components/common/NavBar.vue'
+import SearchSection from "./components/search/SearchSection.vue";
 export default {
   name: 'App',
   components:{
     NavBar,
+    SearchSection
   },
   provide () {
     return {
@@ -26,11 +28,19 @@ export default {
 </script>
 
 <style>
-#app {
- font-family: 'Avenir', Helvetica, Arial, sans-serif;
- -webkit-font-smoothing: antialiased;
- -moz-osx-font-smoothing: grayscale;
- text-align: center;
- color: #191919;
+@import "../node_modules/@elastic/react-search-ui-views/lib/styles/styles.css";
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+.header {
+  text-align: center;
 }
 </style>
