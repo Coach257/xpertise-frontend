@@ -5,6 +5,7 @@ import HomePage from '@/views/HomePage.vue'
 import Login from '@/views/Login.vue'
 import AdminManage from '@/views/AdminManage.vue'
 import Register from '@/views/Register.vue'
+import UserInfo from '@/views/UserInfo.vue'
 
 Vue.use(VueRouter)
 
@@ -35,7 +36,13 @@ const routes = [
     name: 'AdminManage',
     component: AdminManage,
     meta: {title: "登录"}
-  }
+  },
+  {
+    path: '/userinfo/:username',
+    name: 'userInfo',
+    component: UserInfo,
+    meta: {title: "个人信息"}
+  },
 ]
 
 const router = new VueRouter({
