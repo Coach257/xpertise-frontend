@@ -13,6 +13,7 @@
                 <el-input v-model="userinfo.email"></el-input>
             </el-form-item>
             <el-button type="primary" icon="el-icon-check" @click="saveChange('userinfo')">保存</el-button>
+            <el-button type="primary" icon="el-icon-check" @click="getInfo()">获取</el-button>
         </el-form>
     </div>
 </template>
@@ -75,35 +76,40 @@ export default {
             return false;
             }
         });
+        },
+        getInfo() {
+            let formData = new FormData();
+            console.log(this.$route.params.userid);
+            console.log(localStorage.getItem("user_id"));
+            formData.append("user_id", 1);
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            var _this = this;
+            axios.get('https://go-service-296709.df.r.appspot.com/api/v1/user/return/account_info', formData, config)
+            .then(function(response) {
+                if(response) {
+                    console.log(response.data)
+                    if(response.success) {
+                        _this.username = response.data.username
+                        _this.email = response.data.email
+                        _this.info = response.data.info
+                    }
+                    else {
+                        console.log("获取失败 " + response.data.message)
+                    }
+                    //_this.username = response.data.
+                }
+            }).catch(error=> {
+                console.log('error', error);
+            })
         }
     },
+       
     mounted() {
-        let formData = new FormData();
-        formData.append('user_id', this.userinfo.userid);
-        console.log(this.$route.params.userid);
-        let config = {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        };
-        var _this = this;
-        axios.get('https://go-service-296709.df.r.appspot.com/api/v1/user/return/account_info',formData,config)
-        .then(function(response) {
-            if(response) {
-                console.log(response.data)
-                if(response.success) {
-                    _this.username = response.data.username
-                    _this.email = response.data.email
-                    _this.info = response.data.info
-                }
-                else {
-                    console.log("登录失败 " + response.data.message)
-                }
-                //_this.username = response.data.
-            }
-        }).catch(error=> {
-            console.log('error', error);
-        })
+        this.getInfo();
   }
 }
 </script>
