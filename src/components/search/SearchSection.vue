@@ -90,7 +90,7 @@ export default {
       driver.setResultsPerPage(newResultsPerPage);
     },
     sortBy(newSortBy) {
-      driver.setSort(newSortBy, "asc");
+      driver.setSort(newSortBy, "desc");
     }
   },
   mounted() {
