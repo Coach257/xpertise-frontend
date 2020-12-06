@@ -49,9 +49,12 @@ export default {
             formData.append('username', this.userinfo.username);
             formData.append('email', this.userinfo.email);
             formData.append('info', this.userinfo.basic_info);
+            formData.append('token', localStorage.getItem('token'));
+            console.log(localStorage.getItem('token')); // 验证
+            // 在form中附上token字段
             let config = {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'application/json'
                 }
             };
             axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/reset/account_info', formData,config)
@@ -101,7 +104,6 @@ export default {
             })
         }
     },
-       
     mounted() {
         this.getInfo();
   }
