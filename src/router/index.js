@@ -38,7 +38,7 @@ const routes = [
     meta: {title: "登录"}
   },
   {
-    path: '/userinfo/:username',
+    path: '/userinfo/:userid',
     name: 'userInfo',
     component: UserInfo,
     meta: {title: "个人信息"}
