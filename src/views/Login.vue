@@ -81,8 +81,41 @@ import axios from "axios"
         var _this = this
         axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/login',formData, config)
             .then(function (response)  {
+                /*
+                localStorage.clear()
+                localStorage.setItem('userid',11451)
+                localStorage.['token']=11452
+                sessionStorage.clear()
+                sessionStorage.setItem('userid',_this.loginForm.username)
+                sessionStorage.setItem('passwd',_this.loginForm.password)
+                sessionStorage['token']=11454
+                console.log(_this.loginForm.username);
+                console.log(_this.loginForm.password);
+                console.log(response.data);
+                */
                 if (response.data.success) {
+                   //console.log(response.data.data.user_id);
                    console.log("登陆成功");
+
+
+                   /*
+                   应当将登录成功后的token存储部分写在这里。
+                   但目前无法登陆成功，所以先将这一部分写在外面，方便测试。
+
+                   */
+                   
+                   localStorage.clear()
+                   localStorage.setItem('userid',response.data.data.user_id)
+                   localStorage.setItem('username',response.data.data.username)
+                   //localStorage.setItem('passwd',_this.loginForm.password)
+                   localStorage.setItem('token',response.data.data.token)
+                   
+
+                   sessionStorage.clear()
+                   sessionStorage.setItem('userid',response.data.data.user_id)
+                   sessionStorage.setItem('username',response.data.data.username)
+                   //sessionStorage.setItem('passwd',_this.loginForm.password)
+                   sessionStorage.setItem('token',response.data.data.token)
                 }else {
                    console.log("登录失败");
                 }
