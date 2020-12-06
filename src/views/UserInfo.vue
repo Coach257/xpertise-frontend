@@ -35,7 +35,7 @@ export default {
                 userid: '',
                 password: '',
                 email: '',
-                description: '',
+                info: '',
             },
         };
         
