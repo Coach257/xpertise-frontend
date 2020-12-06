@@ -5,7 +5,7 @@ import HomePage from '@/views/HomePage.vue'
 import Login from '@/views/Login.vue'
 import AdminManage from '@/views/AdminManage.vue'
 import Register from '@/views/Register.vue'
-
+import NavBarTemplate from '@/components/template/NavBarTemplate.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -35,6 +35,10 @@ const routes = [
     name: 'AdminManage',
     component: AdminManage,
     meta: {title: "登录"}
+  },{
+    path:'/navbar',
+    name:'NavBarTemplate',
+    component: NavBarTemplate,
   }
 ]
 
