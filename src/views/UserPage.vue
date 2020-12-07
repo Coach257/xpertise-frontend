@@ -1,7 +1,7 @@
 <template>
    
     <div>
-      <h1>欢迎来到 {{ localStorage.getItem('userid') }} 的个人信息修改页面</h1>
+      <h1>欢迎来到 {{ this.$route.params.userid }} 的个人信息页面 </h1>
         <el-form :label-position="labelPosition" label-width="80px" :model="userinfo">
             <el-form-item label="用户名">
                 <el-input v-model="userinfo.username"></el-input>
@@ -85,7 +85,7 @@ export default {
                 }
             };
             var _this = this;
-            axios.get('https://go-service-296709.df.r.appspot.com/api/v1/user/return/account_info/' + localStorage.getItem('userid')).then(response => {
+            axios.get('https://go-service-296709.df.r.appspot.com/api/v1/user/return/account_info/' + this.$route.params.userid).then(response => {
                 if(response) {
                      if(response) {
                         if(response.data.success) {
