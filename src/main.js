@@ -9,7 +9,8 @@ import "element-ui/lib/theme-chalk/index.css";
 import axios from 'axios';
 import '@/assets/fonts/font.scss'; 
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+Vue.config.devtools = true;
 
 Vue.use(ElementUI);
 Vue.prototype.$loading = Loading.service;

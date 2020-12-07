@@ -90,7 +90,6 @@ import axios from "axios"
         formData.append('password', this.RegistForm.password);
         formData.append('password2', this.RegistForm.confirmation);
         formData.append('email', this.RegistForm.email);
-        formData.append('info', this.RegistForm.username);
         let config = {
             headers: {
                 'Content-Type': 'multipart/form-data'
