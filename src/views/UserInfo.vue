@@ -54,7 +54,8 @@ export default {
             // 在form中附上token字段
             let config = {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
                 }
             };
             axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/reset/account_info', formData,config)
