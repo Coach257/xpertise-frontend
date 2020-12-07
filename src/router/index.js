@@ -62,15 +62,12 @@ const routes = [
     path: '/userpage/:userid',
     name: 'UserPage',
     component: UserPage,
-    meat: { title: "个人主页"}
-
+    meta: { title: "个人主页"}
   },
   {
     path: '/portal',
     name: 'Portal',
     component: Portal
-  },
-    meta: { title: "个人主页"}
   },
   {
     path: '/settle',
