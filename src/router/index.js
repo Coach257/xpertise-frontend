@@ -40,7 +40,7 @@ const routes = [
     path: '/admin',
     name: 'AdminManage',
     component: AdminManage,
-    meta: {title: "登录"}
+    meta: {title: "管理"}
   },
   {
     path:'/navbar',
