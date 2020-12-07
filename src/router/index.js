@@ -9,6 +9,7 @@ import NavBarTemplate from '@/components/template/NavBarTemplate.vue'
 import Detail from '@/views/Detail.vue'
 import UserInfo from '@/views/UserInfo.vue'
 import UserPage from '@/views/UserPage.vue'
+import Portal from '@/views/Portal.vue'
 
 Vue.use(VueRouter)
 
@@ -62,7 +63,12 @@ const routes = [
     component: UserPage,
     meat: { title: "个人主页"}
 
-  }
+  },
+  {
+    path: '/portal',
+    name: 'Portal',
+    component: Portal
+  },
 ]
 
 const router = new VueRouter({

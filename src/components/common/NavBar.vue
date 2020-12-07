@@ -75,7 +75,7 @@ export default {
         },
         {
           title: "学者",
-          url: "/scholars",
+          url: "/portal",
         },
       ],
       active_index: 0,
