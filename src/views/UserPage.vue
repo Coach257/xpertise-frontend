@@ -2,18 +2,19 @@
    
     <div>
       <h1>欢迎来到 {{ this.$route.params.userid }} 的个人信息页面 </h1>
+        <div>
+            <el-avatar> {{ userinfo.username }} </el-avatar>
+        </div>
         <el-form :label-position="labelPosition" label-width="80px" :model="userinfo">
             <el-form-item label="用户名">
-                <el-input v-model="userinfo.username"></el-input>
+                <el-row> {{ userinfo.username}}</el-row>
             </el-form-item>
             <el-form-item label="描述">
-                <el-input v-model="userinfo.basic_info"></el-input>
+                <el-row> {{ userinfo.basic_info }}</el-row>
             </el-form-item>
             <el-form-item label="邮箱">
-                <el-input v-model="userinfo.email"></el-input>
+                <el-row> {{ userinfo.email }}</el-row>
             </el-form-item>
-            <el-button type="primary" icon="el-icon-check" @click="saveChange('userinfo')">保存</el-button>
-            <el-button type="primary" icon="el-icon-check" @click="getInfo()">获取</el-button>
         </el-form>
     </div>
 </template>
@@ -42,43 +43,9 @@ export default {
         
     },
     methods: {
-        saveChange(formName) {
-            var _this = this;
-            let formData = new FormData();
-            formData.append('user_id', localStorage.getItem('userid'));
-            formData.append('username', this.userinfo.username);
-            formData.append('email', this.userinfo.email);
-            formData.append('info', this.userinfo.basic_info);
-            formData.append('token', localStorage.getItem('token'));
-            console.log(localStorage.getItem('token')); // 验证
-            // 在form中附上token字段
-            let config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: localStorage.getItem('token')
-                }
-            };
-            axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/reset/account_info', formData,config)
-                .then(function (response) {
-                    if (response){
-                        console.log(response)
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 2000);
-                    }
-                    else {
-                        console.log("error2");
-                    }
-                })
-                .catch(function () {
-                    console.log("error");
-                });
-        },
         getInfo() {
             let formData = new FormData();
             //console.log(this.$route.params.userid);
-            //console.log(localStorage.getItem('userid'));
-            //formData.append('user_id', 1);
             let config = {
                 headers: {
                     'Content-Type': 'multipart/form-data'

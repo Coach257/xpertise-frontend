@@ -32,13 +32,23 @@
           </router-link>
         </div>
         <div v-else>
+
           <router-link
             tag="div"
             class="nav_bar_action_link"
-            :to="'/userinfo/' + user_info.id"
+            :to="'/settle'"
+          >
+            申请入驻
+          </router-link>
+
+          <router-link
+            tag="div"
+            class="nav_bar_action_link"
+            :to="'/userinfo/'"
           >
             个人中心
           </router-link>
+          
         </div>
       </div>
     </div>
@@ -93,6 +103,12 @@ export default {
       this.$root.$router.push(pages[this.active_index].url);
     },
   },
+  mounted() {
+    if(localStorage.getItem('userid')) {
+      this.user_info.id = localStorage.getItem('userid');
+      this.logged_in = true;
+    }
+  }
 };
 </script>
 

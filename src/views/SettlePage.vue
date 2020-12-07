@@ -1,19 +1,24 @@
 <template>
    
     <div>
-      <h1>欢迎来到 {{ userinfo.username }} 的个人信息修改页面</h1>
-        <el-form :label-position="labelPosition" label-width="80px" :model="userinfo">
-            <el-form-item label="用户名">
-                <el-input v-model="userinfo.username"></el-input>
+      <h1>欢迎来到 {{ settleForm.username }} 进行平台入驻服务 </h1>
+        <el-form :label-position="labelPosition" label-width="80px" :model="settleForm">
+            <el-form-item label="用户ID">
+                <el-input v-model="settleForm.userid" :disabled="true"></el-input>
             </el-form-item>
-            <el-form-item label="描述">
-                <el-input v-model="userinfo.basic_info"></el-input>
+            <el-form-item label="用户名">
+                <el-input v-model="settleForm.username" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="邮箱">
-                <el-input v-model="userinfo.email"></el-input>
+                <el-input v-model="settleForm.email" :disabled="true"></el-input>
             </el-form-item>
-            <el-button type="primary" icon="el-icon-check" @click="saveChange('userinfo')">保存</el-button>
-            <el-button type="primary" icon="el-icon-check" @click="getInfo()">获取</el-button>
+            <el-form-item label="身份证号">
+                <el-input v-model="settleForm.idnum" :disabled="false"></el-input>
+            </el-form-item>
+            <el-form-item label="所属单位">
+                <el-input v-model="settleForm.school" :disabled="false"></el-input>
+            </el-form-item>
+            <el-button type="primary" icon="el-icon-check" @click="submitForm('settleForm')">提交</el-button>
         </el-form>
     </div>
 </template>
@@ -31,25 +36,24 @@ export default {
     data() {
         return {
             labelPosition: 'right',
-            userinfo: {
-                username: '',
+            settleForm: {
                 userid: '',
-                password: '',
+                username: '',
                 email: '',
-                basic_info: '',
-            },
+                idnum: '',
+                school: '',
+            }
         };
         
     },
     methods: {
-        saveChange(formName) {
+        submitForm(formName) {
             var _this = this;
             let formData = new FormData();
             formData.append('user_id', localStorage.getItem('userid'));
             formData.append('username', this.userinfo.username);
             formData.append('email', this.userinfo.email);
             formData.append('info', this.userinfo.basic_info);
-            formData.append('token', localStorage.getItem('token'));
             console.log(localStorage.getItem('token')); // 验证
             // 在form中附上token字段
             let config = {
@@ -90,10 +94,9 @@ export default {
                      if(response) {
                         if(response.data.success) {
                             console.log(response)
-                            _this.userinfo.username = response.data.data.username
-                            _this.userinfo.email = response.data.data.email
-                            _this.userinfo.basic_info = response.data.data.basic_info
-                            _this.userinfo.password = response.data.data.password
+                            _this.settleForm.username = response.data.data.username
+                            _this.settleForm.email = response.data.data.email
+                            _this.settleForm.userid = response.data.data.user_id
                         }
                         else {
                             console.log(response.data)

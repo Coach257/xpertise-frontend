@@ -10,6 +10,7 @@ import Detail from '@/views/Detail.vue'
 import UserInfo from '@/views/UserInfo.vue'
 import UserPage from '@/views/UserPage.vue'
 import Portal from '@/views/Portal.vue'
+import SettlePage from '@/views/SettlePage.vue'
 
 Vue.use(VueRouter)
 
@@ -69,6 +70,14 @@ const routes = [
     name: 'Portal',
     component: Portal
   },
+    meta: { title: "个人主页"}
+  },
+  {
+    path: '/settle',
+    name: 'SettlePage',
+    component: SettlePage,
+    meta: {title: "申请入驻"}
+  }
 ]
 
 const router = new VueRouter({
