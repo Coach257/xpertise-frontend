@@ -6,7 +6,7 @@
           <div class="nav_bar_icon_title">  Scholar</div>
       </div>
       <div class="nav_bar_item_outer_frame">
-          <router-link :to="item.url" tag="div" class="nav_bar_item_frame" v-for="(item,i) in pages" :key=item @click="onIndexChange(i)">
+          <router-link :to="item.url" tag="div" class="nav_bar_item_frame" v-for="(item,i) in pages" :key=item.name @click="onIndexChange(i)">
               
               <div class="nav_bar_active_item" v-if="i===activeIndex">
                  {{item.title}}
