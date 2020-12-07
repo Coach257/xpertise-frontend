@@ -7,6 +7,7 @@ import AdminManage from '@/views/AdminManage.vue'
 import Register from '@/views/Register.vue'
 import NavBarTemplate from '@/components/template/NavBarTemplate.vue'
 import UserInfo from '@/views/UserInfo.vue'
+import UserPage from '@/views/UserPage.vue'
 
 Vue.use(VueRouter)
 
@@ -43,10 +44,17 @@ const routes = [
     component: NavBarTemplate,
   },
   {
-    path: '/userinfo/:userid',
+    path: '/userinfo',
     name: 'userInfo',
     component: UserInfo,
     meta: {title: "个人信息"}
+  },
+  {
+    path: '/userpage/:userid',
+    name: 'UserPage',
+    component: UserPage,
+    meat: { title: "个人主页"}
+
   }
 ]
 
