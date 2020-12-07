@@ -55,7 +55,7 @@ export default {
             let config = {
                 headers: {
                     'Content-Type': 'application/json',
-                    'token': localStorage.getItem('token')
+                    Authorization: localStorage.getItem('token')
                 }
             };
             axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/reset/account_info', formData,config)
@@ -63,7 +63,7 @@ export default {
                     if (response){
                         console.log(response)
                         setTimeout(() => {
-                            myrefresh();
+                            window.location.reload();
                         }, 2000);
                     }
                     else {
