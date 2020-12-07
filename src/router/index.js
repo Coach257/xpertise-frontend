@@ -40,7 +40,7 @@ const routes = [
     path: '/admin',
     name: 'AdminManage',
     component: AdminManage,
-    meta: {title: "登录"}
+    meta: {title: "管理"}
   },
   {
     path:'/navbar',
@@ -48,12 +48,12 @@ const routes = [
     component: NavBarTemplate,
   },
   {
-    path: '/detail',
+    path: '/detail/:docid',
     name: 'Detail',
     component: Detail,
   },  
   {
-    path: '/userinfo',
+    path: '/userinfo/:userid',
     name: 'userInfo',
     component: UserInfo,
     meta: {title: "个人信息"}
