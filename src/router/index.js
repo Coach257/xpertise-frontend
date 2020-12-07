@@ -39,11 +39,17 @@ const routes = [
     name: 'AdminManage',
     component: AdminManage,
     meta: {title: "登录"}
-  },{
+  },
+  {
     path:'/navbar',
     name:'NavBarTemplate',
     component: NavBarTemplate,
   },
+  {
+    path: '/detail',
+    name: 'Detail',
+    component: Detail,
+  },  
   {
     path: '/userinfo',
     name: 'userInfo',

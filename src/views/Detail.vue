@@ -1,6 +1,6 @@
 <template>
   <div>
-  <h1>Detail Page</h1>
+  <h1>Detail Page1</h1>
   <h1>欢迎来到 {{ this.$route.params.docid }} 的详情页</h1>
   <h1>title</h1>
   <h1>摘要</h1>
