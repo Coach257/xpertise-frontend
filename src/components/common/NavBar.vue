@@ -11,7 +11,7 @@
           tag="div"
           class="nav_bar_item_frame"
           v-for="(item, i) in pages"
-          :key="item.name"
+          :key="item"
           @click="onIndexChange(i)"
         >
           <div class="nav_bar_active_item" v-if="i === active_index">
