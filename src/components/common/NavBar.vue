@@ -99,6 +99,7 @@ export default {
 <style scoped>
 #nav_bar {
   position: fixed;
+  z-index: 1000;
   top: 0px;
   height: 46px;
   width: 100%;
@@ -109,7 +110,7 @@ export default {
   vertical-align: middle;
   height: 45px;
   background-color: white;
-  opacity: 83%;
+  opacity: 100%;
   backdrop-filter: blur(50px);
   width: 100%;
 }
@@ -117,7 +118,7 @@ export default {
   /* position: relative; */
   bottom: 0px;
   height: 0.5px;
-  opacity: 83%;
+  opacity: 100%;
   background-color: grey;
   width: 100vw;
 }
