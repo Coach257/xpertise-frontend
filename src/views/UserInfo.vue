@@ -96,7 +96,6 @@ export default {
                             _this.userinfo.password = response.data.data.password
                         }
                         else {
-                            console.log(userid)
                             console.log(response.data)
                             console.log("获取失败 " + response.data)
                         }
