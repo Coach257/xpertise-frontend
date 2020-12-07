@@ -9,6 +9,8 @@ import NavBarTemplate from '@/components/template/NavBarTemplate.vue'
 import Detail from '@/views/Detail.vue'
 import UserInfo from '@/views/UserInfo.vue'
 import UserPage from '@/views/UserPage.vue'
+import Portal from '@/views/Portal.vue'
+import SettlePage from '@/views/SettlePage.vue'
 
 Vue.use(VueRouter)
 
@@ -38,7 +40,7 @@ const routes = [
     path: '/admin',
     name: 'AdminManage',
     component: AdminManage,
-    meta: {title: "登录"}
+    meta: {title: "管理"}
   },
   {
     path:'/navbar',
@@ -60,8 +62,18 @@ const routes = [
     path: '/userpage/:userid',
     name: 'UserPage',
     component: UserPage,
-    meat: { title: "个人主页"}
-
+    meta: { title: "个人主页"}
+  },
+  {
+    path: '/portal',
+    name: 'Portal',
+    component: Portal
+  },
+  {
+    path: '/settle',
+    name: 'SettlePage',
+    component: SettlePage,
+    meta: {title: "申请入驻"}
   }
 ]
 
