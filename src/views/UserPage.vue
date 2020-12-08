@@ -1,7 +1,7 @@
 <template>
    
     <div>
-      <h1>欢迎来到 {{ this.$route.params.userid }} 的个人信息页面 </h1>
+      <h1>1欢迎来到 {{ this.$route.params.userid }} 的个人信息页面 </h1>
         <div>
             <el-avatar> {{ userinfo.username }} </el-avatar>
         </div>

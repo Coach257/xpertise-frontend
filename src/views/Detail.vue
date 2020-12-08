@@ -1,9 +1,15 @@
 <template>
   <div>
-  <h1>Detail Page6</h1>
+  <h1>Detail Page4</h1>
   <h1>欢迎来到 {{ this.$route.params.docid }} 的详情页</h1>
   <h1>title</h1>
+  <div>
+        <h1> {{ docinfo.title }} </h1>
+  </div>
   <h1>摘要</h1>
+  <div>
+        <h1> {{ docinfo.abstract }} </h1>
+  </div>
   <h1>信息</h1>
   <h1>版本历史</h1>
 
@@ -34,7 +40,8 @@
     methods: {
         getInfo() {
             let formData = new FormData();
-            //console.log(this.$route.params.userid);
+            console.log("hello");
+            console.log(this.$route.params.docid);
             //console.log(localStorage.getItem('userid'));
             //formData.append('user_id', 1);
             let config = {
