@@ -1,6 +1,6 @@
 <template>
   <div>
-  <h1>Detail Page5</h1>
+  <h1>Detail Page6</h1>
   <h1>欢迎来到 {{ this.$route.params.docid }} 的详情页</h1>
   <h1>title</h1>
   <h1>摘要</h1>
@@ -43,7 +43,7 @@
                 }
             };
             var _this = this;
-            axios.get('https://go-service-296709.df.r.appspot.com/api/v1/portal/doc/query/' + $route.params.docid).then(response => {
+            axios.get('https://go-service-296709.df.r.appspot.com/api/v1/portal/doc/query/' + this.$route.params.docid).then(response => {
                 console("进入")
                 if(response) {
                      if(response) {
