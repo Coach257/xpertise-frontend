@@ -11,14 +11,21 @@ import UserInfo from '@/views/UserInfo.vue'
 import UserPage from '@/views/UserPage.vue'
 import Portal from '@/views/Portal.vue'
 import SettlePage from '@/views/SettlePage.vue'
+import StartPage from '@/views/StartPage.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  
   {
     path: '/',
     name: 'HomePage',
     component: HomePage
+  },
+  {
+    path: '/startpage',
+    name: 'StartPage',
+    component: StartPage
   },
   {
     path: '/test',
@@ -51,7 +58,7 @@ const routes = [
     path: '/detail/:docid',
     name: 'Detail',
     component: Detail,
-  },  
+  },
   {
     path: '/userinfo/:userid',
     name: 'userInfo',
