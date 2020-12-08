@@ -31,7 +31,7 @@
         </div>
 
         <!-- 登陆按钮 -->
-        <div id="loginButton" >
+        <div id="LoginButton" @mouseenter="mouseOver()" @mouseleave="mouseLeave()">
           <i class="el-icon-arrow-right" @click="checklogin()"></i>
         </div>
 
@@ -48,19 +48,19 @@
     align-items: center;
     flex-direction: column;
 
-
-
-    background-image: url(../assets/logo.png);
+    background-image: url(../assets/loginBack.jpeg);
+    background-repeat:no-repeat;
+    background-size:100% 100%;
   }
 
 
   #LoginCard {
-    /* outline: #00ff00 dotted thick;*/
-    border: #e6e6e6 solid thin;
+    /* outline: #808080 dotted thick;*/
+    border: #cccccc solid thin;
     border-radius: 30px;
 
     backdrop-filter: blur(20px);
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(255,255,255,0.5);
 
     display: flex;
     flex-direction: column;
@@ -103,7 +103,7 @@
     top: 20px;
   }
 
-  #loginButton {
+  #LoginButton {
     /* outline: #00ff00 dotted thick; */
     border-radius: 70px;
     background-color: #e6e6e6;
@@ -118,31 +118,15 @@
     align-items: center;
 
     position: relative;
-    top: 50px;
+    top: 60px;
   }
 
-  #loginButton i {
+  #LoginButton i {
     /* outline: #00ff00 dotted thick; */
     font-size: 35px;
     color: black;
   }
 
-/*  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both
-  }
-
-  .box-card {
-    width: 480px;
-    height: 400px;
-    margin-left: 400px;
-    margin-top: 150px;
-    border-radius: 180px;
-  } */
 </style>
 
 <script>
@@ -219,6 +203,12 @@ import axios from "axios"
          console.log(response);
        })
      },
+     mouseOver () {
+       this.$gsap.to("#LoginButton", {duration: 0.1, height: '85px', width: '85px', top: '52px',  boxShadow:'0px 0px 10px 10px rgba(128, 128, 128, 0.3)'})
+     },
+     mouseLeave () {
+       this.$gsap.to("#LoginButton", {duration: 0.1, height: '70px', width: '70px', top: '60px',  boxShadow:'0px 0px 10px 0px #b3b3b3'})
+     }
     }
   }
 </script>
