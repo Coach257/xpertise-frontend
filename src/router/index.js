@@ -65,7 +65,7 @@ const routes = [
     component: Detail,
   },
   {
-    path: '/userinfo/:userid',
+    path: '/userinfo',
     name: 'userInfo',
     component: UserInfo,
     meta: {title: "个人信息"}

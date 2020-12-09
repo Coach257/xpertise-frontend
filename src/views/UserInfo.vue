@@ -12,6 +12,12 @@
             <el-form-item label="邮箱">
                 <el-input v-model="userinfo.email"></el-input>
             </el-form-item>
+            <el-form-item label="原密码">
+                <el-input v-model="userinfo.password1"></el-input>
+            </el-form-item>
+            <el-form-item label= "新密码">
+                <el-input v-model="userinfo.password2"></el-input>
+            </el-form-item>
             <el-button type="primary" icon="el-icon-check" @click="saveChange('userinfo')">保存</el-button>
             <el-button type="primary" icon="el-icon-check" @click="getInfo()">获取</el-button>
         </el-form>
@@ -34,7 +40,8 @@ export default {
             userinfo: {
                 username: '',
                 userid: '',
-                password: '',
+                password1: '',
+                password2: '',
                 email: '',
                 basic_info: '',
             },
@@ -49,16 +56,17 @@ export default {
             formData.append('username', this.userinfo.username);
             formData.append('email', this.userinfo.email);
             formData.append('info', this.userinfo.basic_info);
-            formData.append('token', localStorage.getItem('token'));
-            console.log(localStorage.getItem('token')); // 验证
-            // 在form中附上token字段
+            formData.append('password1', this.userinfo.password1);
+            formData.append('password2', this.userinfo.password2);
+            //formData.append('token', localStorage.getItem('token'));
+            //console.log(localStorage.getItem('token')); // 验证
             let config = {
                 headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: localStorage.getItem('token')
+                    'Content-Type': 'multipart/form-data',
+                    //Authorization: localStorage.getItem('token')
                 }
             };
-            axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/reset/account_info', formData,config)
+            axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/modify', formData,config)
                 .then(function (response) {
                     if (response){
                         console.log(response)
@@ -76,20 +84,19 @@ export default {
         },
         getInfo() {
             let formData = new FormData();
-            //console.log(this.$route.params.userid);
-            //console.log(localStorage.getItem('userid'));
-            //formData.append('user_id', 1);
+            console.log(localStorage.getItem('userid'));
+            formData.append('user_id', localStorage.getItem('userid'));
             let config = {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             };
             var _this = this;
-            axios.get('https://go-service-296709.df.r.appspot.com/api/v1/user/return/account_info/' + localStorage.getItem('userid')).then(response => {
+            axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/info', formData, config).then(response => {
                 if(response) {
                      if(response) {
                         if(response.data.success) {
-                            console.log(response)
+                            console.log(response.data)
                             _this.userinfo.username = response.data.data.username
                             _this.userinfo.email = response.data.data.email
                             _this.userinfo.basic_info = response.data.data.basic_info
@@ -130,6 +137,6 @@ export default {
     },
     mounted() {
         this.getInfo();
-  }
+    }
 }
 </script>
