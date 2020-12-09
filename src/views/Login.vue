@@ -192,6 +192,8 @@ import axios from "axios"
                    sessionStorage.setItem('username',response.data.data.username)
                    //sessionStorage.setItem('passwd',_this.loginForm.password)
                    sessionStorage.setItem('token',response.data.data.token)
+
+                   _this.$router.replace('/home');
                 }else {
                    console.log("登录失败");
                 }

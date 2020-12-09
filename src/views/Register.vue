@@ -49,7 +49,6 @@
           <i class="el-icon-arrow-right" @click="regist()"></i>
         </div>
 
-
       </div>
     </div>
 
@@ -172,8 +171,10 @@ import axios from "axios"
                 console.log(response)
                 if (response.data.success) {
                    console.log("注册成功");
+                   _this.$router.replace('/login');
                 }else {
                    console.log("注册失败");
+                   _this.$router.replace('/login');
                 }
             })
      },
