@@ -2,8 +2,8 @@
     <div>
       <NavBar/>
       <div id="app">
-        
-        <SearchSection />
+
+        <SearchSection input='?'/>
       </div>
     </div>
 </template>

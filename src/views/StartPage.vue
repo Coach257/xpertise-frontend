@@ -1,7 +1,7 @@
 <template>
   <div id='root'>
 
-      <div id='backpic'>
+      <div id='backpic' v-if='!show'>
 
         <div id='title'>
             <span style="font-weight: bold; font-size: 40px; margin-right: 10px;">Xpertise</span>  <span style="font-size: 20px;">Scholar</span>
@@ -13,25 +13,31 @@
 
       </div>
 
+      <SearchSection :input='input' v-if='show' />
 
   </div>
 </template>
 
 <script>
+  import SearchSection from "../components/search/SearchSection.vue";
+
   export default {
     name: 'StartPage',
+    components: {
+      SearchSection
+    },
     mounted() {
       this.$gsap.set("#root", {height: document.documentElement.clientHeight})
     },
     data () {
       return {
-        input: ''
+        input: '',
+        show: false
       }
     },
     methods: {
       submit () {
-        console.log(this.input)
-        this.$router.push('/')
+        this.show = true
       }
     }
   }

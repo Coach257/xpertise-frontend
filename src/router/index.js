@@ -16,14 +16,9 @@ import StartPage from '@/views/StartPage.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  
+
   {
     path: '/',
-    name: 'HomePage',
-    component: HomePage
-  },
-  {
-    path: '/startpage',
     name: 'StartPage',
     component: StartPage
   },
