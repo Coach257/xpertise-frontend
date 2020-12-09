@@ -61,6 +61,7 @@ import SearchResultsPerPage from "./SearchResultsPerPage";
 const driver = new SearchDriver(config);
 
 export default {
+  props: ['input'],
   components: {
     SearchResults,
     SearchFacet,
@@ -117,6 +118,8 @@ export default {
     driver.subscribeToStateChanges(state => {
       this.searchState = state;
     });
+    
+    driver.getActions().setSearchTerm(this.input)
   },
   methods: {
     handleFormSubmit() {

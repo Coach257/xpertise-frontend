@@ -1,9 +1,9 @@
 <template>
     <div>
-      <h1>HomePage</h1>
+      <NavBar/>
       <div id="app">
-        <NavBar/>
-        <SearchSection />
+
+        <SearchSection input='?'/>
       </div>
     </div>
 </template>
@@ -43,7 +43,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-
+.app {
+  top: 400px;
+}
 .header {
   text-align: center;
 }

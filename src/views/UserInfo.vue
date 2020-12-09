@@ -1,7 +1,7 @@
 <template>
    
     <div>
-      <h1>欢迎来到 {{ this.$route.params.userid }} 的主页面</h1>
+      <h1>欢迎来到 {{ userinfo.username }} 的个人信息修改页面</h1>
         <el-form :label-position="labelPosition" label-width="80px" :model="userinfo">
             <el-form-item label="用户名">
                 <el-input v-model="userinfo.username"></el-input>

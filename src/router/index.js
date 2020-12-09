@@ -6,15 +6,22 @@ import Login from '@/views/Login.vue'
 import AdminManage from '@/views/AdminManage.vue'
 import Register from '@/views/Register.vue'
 import NavBarTemplate from '@/components/template/NavBarTemplate.vue'
+import Detail from '@/views/Detail.vue'
 import UserInfo from '@/views/UserInfo.vue'
 import ResultDetailPage from '@/views/ResultDetailPage.vue'
+import UserPage from '@/views/UserPage.vue'
+import Portal from '@/views/Portal.vue'
+import SettlePage from '@/views/SettlePage.vue'
+import StartPage from '@/views/StartPage.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
+
   {
     path: '/',
-    name: 'HomePage',
-    component: HomePage
+    name: 'StartPage',
+    component: StartPage
   },
   {
     path: '/test',
@@ -36,8 +43,9 @@ const routes = [
     path: '/admin',
     name: 'AdminManage',
     component: AdminManage,
-    meta: {title: "登录"}
-  },{
+    meta: {title: "管理"}
+  },
+  {
     path:'/navbar',
     name:'NavBarTemplate',
     component: NavBarTemplate,
@@ -47,10 +55,32 @@ const routes = [
     component: ResultDetailPage,
   },
   {
+    path: '/detail/:docid',
+    name: 'Detail',
+    component: Detail,
+  },
+  {
     path: '/userinfo/:userid',
     name: 'userInfo',
     component: UserInfo,
     meta: {title: "个人信息"}
+  },
+  {
+    path: '/userpage/:userid',
+    name: 'UserPage',
+    component: UserPage,
+    meta: { title: "个人主页"}
+  },
+  {
+    path: '/portal',
+    name: 'Portal',
+    component: Portal
+  },
+  {
+    path: '/settle',
+    name: 'SettlePage',
+    component: SettlePage,
+    meta: {title: "申请入驻"}
   }
 ]
 

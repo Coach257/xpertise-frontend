@@ -11,7 +11,7 @@
           tag="div"
           class="nav_bar_item_frame"
           v-for="(item, i) in pages"
-          :key="item"
+          :key="item.name"
           @click="onIndexChange(i)"
         >
           <div class="nav_bar_active_item" v-if="i === active_index">
@@ -32,13 +32,23 @@
           </router-link>
         </div>
         <div v-else>
+
           <router-link
             tag="div"
             class="nav_bar_action_link"
-            :to="'/userinfo/' + user_info.id"
+            :to="'/settle'"
+          >
+            申请入驻
+          </router-link>
+
+          <router-link
+            tag="div"
+            class="nav_bar_action_link"
+            :to="'/userinfo/'"
           >
             个人中心
           </router-link>
+          
         </div>
       </div>
     </div>
@@ -75,7 +85,7 @@ export default {
         },
         {
           title: "学者",
-          url: "/scholars",
+          url: "/portal",
         },
       ],
       active_index: 0,
@@ -93,12 +103,19 @@ export default {
       this.$root.$router.push(pages[this.active_index].url);
     },
   },
+  mounted() {
+    if(localStorage.getItem('userid')) {
+      this.user_info.id = localStorage.getItem('userid');
+      this.logged_in = true;
+    }
+  }
 };
 </script>
 
 <style scoped>
 #nav_bar {
   position: fixed;
+  z-index: 1000;
   top: 0px;
   height: 46px;
   width: 100vw;
@@ -108,7 +125,7 @@ export default {
   vertical-align: middle;
   height: 45px;
   background-color: white;
-  opacity: 83%;
+  opacity: 100%;
   backdrop-filter: blur(50px);
   width: 100%;
 }
@@ -116,7 +133,7 @@ export default {
   /* position: relative; */
   bottom: 0px;
   height: 0.5px;
-  opacity: 83%;
+  opacity: 100%;
   background-color: grey;
   width: 100vw;
 }
