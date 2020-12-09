@@ -33,17 +33,16 @@
             class="nav_bar_action_link"
             :to="'/settle'"
           >
-            申请入驻
+            入驻平台
           </router-link>
 
           <router-link
             tag="div"
             class="nav_bar_action_link"
-            :to="'/userinfo/'"
+            :to="'/userinfo'"
           >
             个人中心
           </router-link>
-          
         </div>
       </div>
     </div>
@@ -101,6 +100,10 @@ export default {
       this.$router.push(pages[this.active_index].url);
 
     },
+    logout() {
+      localStorage.clear()
+      
+    }
   },
   mounted() {
     if(localStorage.getItem('userid')) {

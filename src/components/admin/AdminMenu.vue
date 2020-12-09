@@ -1,35 +1,67 @@
 <template>
-  <div class="aside_menu">
-    <el-menu active-text-color="#1A1A1A"
-             text-color="#5E5E5E"
-             @open=""
-             @close=""
-             mode="vertical">
-      <el-menu-item>
-        <i class=""></i>
-        <span slot="title">申请处理</span>
-      </el-menu-item>
+  <div>
+    <div class="aside_menu">
+      <el-menu active-text-color="#1A1A1A"
+              text-color="#5E5E5E"
+              mode="vertical"
+              :default-active="activeIndex"
+              @select="handleSelect"
+              >
+        <el-menu-item index="application-manage">
+          <i class=""></i>
+          <span slot="title">申请处理</span>
+        </el-menu-item>
 
-      <el-divider class="divider"></el-divider>
+        <el-divider class="divider"></el-divider>
 
-      <el-menu-item>
-        <i class=""></i>
-        <span slot="title">举报处理</span>
-      </el-menu-item>
+        <el-menu-item index="report-manage">
+          <i class=""></i>
+          <span slot="title">举报处理</span>
+        </el-menu-item>
 
-      <el-divider class="divider"></el-divider>
+        <el-divider class="divider"></el-divider>
 
-      <el-menu-item>
-        <i class=""></i>
-        <span slot="title">举报处理</span>
-      </el-menu-item>
-    </el-menu>
+        <el-menu-item index="settle-manage">
+          <i class=""></i>
+          <span slot="title">入驻处理</span>
+        </el-menu-item>
+      </el-menu>
+    </div>
+      <div>
+        ？
+        <router-view></router-view>
+      </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "AdminMenu"
+    name: "AdminMenu",
+    data() {
+      return {
+        activeIndex: '2',
+      };      
+    },
+    methods: {
+      handleSelect(key) {
+        console.log(key)
+        switch(key) {
+          case "report-manage":
+            console.log("举报处理");
+            this.$router.push('/report-manage')
+            break;
+          case "application-manage":
+            console.log("申请处理");
+            this.$router.push('/application-manage')
+            break;
+          case "settle-manage":
+            console.log("入驻处理");
+            this.$router.push('/settle-manage')
+            break;
+        }
+      }
+    }
+
   }
 </script>
 

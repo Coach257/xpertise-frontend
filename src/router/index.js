@@ -48,7 +48,21 @@ const routes = [
     path: '/admin',
     name: 'AdminManage',
     component: AdminManage,
-    meta: {title: "管理"}
+    meta: {title: "管理"},
+    childern: [
+      {
+        path: '/report-manage',
+        component: () => import('../components/admin/ReportManage.vue')
+      },
+      {
+        path: '/application-manage',
+        component: () => import('../components/admin/ApplicationManage.vue')
+      },
+      {
+        path: '/settle-manage',
+        component: () => import('../components/admin/SettleManage.vue')
+      },
+    ]
   },
   {
     path:'/navbar',
