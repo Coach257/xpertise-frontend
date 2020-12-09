@@ -7,7 +7,7 @@ import AdminManage from '@/views/AdminManage.vue'
 import Register from '@/views/Register.vue'
 import NavBarTemplate from '@/components/template/NavBarTemplate.vue'
 import UserInfo from '@/views/UserInfo.vue'
-
+import ResultDetailPage from '@/views/ResultDetailPage.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -41,6 +41,10 @@ const routes = [
     path:'/navbar',
     name:'NavBarTemplate',
     component: NavBarTemplate,
+  },{
+    path:'/article/:articleid',
+    name:'ResultDetailPage',
+    component: ResultDetailPage,
   },
   {
     path: '/userinfo/:userid',

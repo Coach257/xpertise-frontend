@@ -101,8 +101,7 @@ export default {
   position: fixed;
   top: 0px;
   height: 46px;
-  width: 100%;
-
+  width: 100vw;
   vertical-align: middle;
 }
 .nav_bar_frame {
