@@ -12,7 +12,7 @@
           class="nav_bar_item"
           active-class="nav_bar_item_active"
           v-for="(item) in pages"
-          :key="item"
+          :key="item.name"
         >
           {{ item.title }}
          </router-link>
