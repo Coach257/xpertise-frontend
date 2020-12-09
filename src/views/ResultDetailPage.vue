@@ -41,7 +41,7 @@
             :to="'/author/' + author.id"
             class="result_detail_author"
             v-for="(author,index) in article.authors"
-            :key="author"
+            :key="author.name"
           >
             {{ author.name}} 
               <div style="display:inline;" v-if="(index < (article.authors_count-1))">,</div>
@@ -53,7 +53,7 @@
         <h3>摘要</h3>
         <p>{{ article.abstract }}</p>
         <h3>信息</h3>
-        <p v-for="item in article.other" :key="item">item</p>
+        <p v-for="item in article.other" :key="item.name1">item</p>
       </div>
       <div class="result_detail_side_area">
         <div class="result_detail_side_container">
@@ -75,7 +75,7 @@
 <script>export default {
   name: "ResultDetailPage",
   props: [],
-  components: [],
+  components: {},
   mounted() {
     /**
      * 获取文章信息
