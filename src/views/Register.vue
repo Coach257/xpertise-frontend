@@ -157,17 +157,19 @@ import axios from "axios"
       regist(){
         let formData = new FormData();
         formData.append('username', this.RegistForm.username);
-        formData.append('password', this.RegistForm.password);
+        formData.append('password1', this.RegistForm.password);
         formData.append('password2', this.RegistForm.confirmation);
         formData.append('email', this.RegistForm.email);
+        formData.append('info', this.RegistForm.username);
         let config = {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         };
-        var _this = this
+        var _this = this;
         axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/register',formData, config)
             .then(function (response)  {
+                console.log(response)
                 if (response.data.success) {
                    console.log("注册成功");
                 }else {
