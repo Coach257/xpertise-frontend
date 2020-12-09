@@ -9,18 +9,13 @@
         <router-link
           :to="item.url"
           tag="div"
-          class="nav_bar_item_frame"
-          v-for="(item, i) in pages"
-          :key="item.name"
-          @click="onIndexChange(i)"
+          class="nav_bar_item"
+          active-class="nav_bar_item_active"
+          v-for="(item) in pages"
+          :key="item"
         >
-          <div class="nav_bar_active_item" v-if="i === active_index">
-            {{ item.title }}
-          </div>
-          <div class="nav_bar_inactive_item" v-else>
-            {{ item.title }}
-          </div>
-        </router-link>
+          {{ item.title }}
+         </router-link>
       </div>
       <div class="nav_bar_action_frame">
         <div v-if="logged_in === false">
@@ -77,7 +72,7 @@ export default {
       pages: [
         {
           title: "首页",
-          url: "/",
+          url: "/home",
         },
         {
           title: "学科",
@@ -99,8 +94,12 @@ export default {
   },
   methods: {
     onIndexChange(i) {
+      console.log("change");
       this.active_index = i;
-      this.$root.$router.push(pages[this.active_index].url);
+      console.log(i);
+      this.$forceUpdate();
+      this.$router.push(pages[this.active_index].url);
+
     },
   },
   mounted() {
@@ -157,13 +156,13 @@ export default {
   float: left;
   margin-left: 20px;
 }
-.nav_bar_item_frame {
+.nav_bar_item {
   display: inline;
   color: black;
   margin: 0px 10px 10px 0px;
   line-height: 45px;
 }
-.nav_bar_active_item {
+.nav_bar_item_active {
   display: inline;
   line-height: 45px;
   border-bottom-style: outset;
@@ -172,9 +171,6 @@ export default {
   font-weight: bold;
   height: 45px;
   width: 100%;
-}
-.nav_bar_inactive_item {
-  display: inline;
 }
 .nav_bar_action_frame {
   float: right;

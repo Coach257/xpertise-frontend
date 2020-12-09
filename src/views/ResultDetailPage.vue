@@ -58,19 +58,24 @@
       <div class="result_detail_side_area">
         <div class="result_detail_side_container">
           <h3>下载</h3>
-          <h3>预览</h3>
+          <el-button type="primary" icon="el-icon-document" plain>查看原文</el-button>
+          <el-button icon="el-icon-download" plain>下载</el-button>
+          <h3>引用</h3>          
+          <el-button icon="el-icon-document-copy" plain>复制引用信息</el-button>
           <h3>操作</h3>
+          <el-button type="warning" icon="el-icon-star-off" v-if="article.starred===false" @click="addToFav" plain>收藏</el-button>
+          <el-button type="warning" icon="el-icon-star-on" v-else @click="removeFromFav">已收藏</el-button>
+           <el-button type="success" icon="el-icon-circle-plus-outline" v-if="article.listed===false" @click="addToList" plain>添加到清单</el-button>
+          <el-button type="success" icon="el-icon-circle-check" v-else @click="removeFromList">已添加到清单</el-button>
         </div>
       </div>
     </div>
   </div>
 </template>
-<script>
-import NavBar from "../components/common/NavBar.vue";
-export default {
+<script>export default {
   name: "ResultDetailPage",
   props: [],
-  components: [NavBar],
+  components: [],
   mounted() {
     /**
      * 获取文章信息
@@ -89,10 +94,25 @@ export default {
         category: "工科",
         sub_category: "计算机科学",
         detailed_category: "机器学习",
+        starred:false,
+        listed:false,
       },
     };
   },
-  methods: {},
+  methods: {
+    addToFav(){
+      this.$data.article.starred = true;
+    },
+    removeFromFav(){
+      this.$data.article.starred = false;
+    },
+    addToList(){
+      this.$data.article.listed = true;
+    },
+    removeFromList(){
+      this.$data.article.listed = false;
+    }
+  },
 };
 </script>
 <style scoped>
@@ -110,12 +130,13 @@ export default {
 .result_detail_page_container {
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 .result_detail_title_area {
   width: 85vw;
-  padding: 50px 20px 20px;
+  padding: 0px 20px 20px;
 }
 .result_detail_article_area{
   width:50vw;
@@ -130,7 +151,15 @@ export default {
        -2px -2px 20px rgba(255, 255,255, .5)
 }
 .result_detail_side_area{
-  width:20vw
+  width:30vw;
+  padding:0px 20px 20px;
+  margin-top:20px;
+  box-shadow: 2px 2px 20px rgba(0,0,0,.1),
+       -2px -2px 20px rgba(255, 255,255, .5)
+}
+.result_detail_side_container{
+  width:100%
+  
 }
 .result_detail_title{
   font-weight: bold;

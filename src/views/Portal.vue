@@ -1,7 +1,6 @@
 <template>
     <div >
         <el-container>
-      <el-header><NavBar></NavBar></el-header> 
    
   <el-main>
  
@@ -224,10 +223,9 @@
 </template>
 
 <script>
- import NavBar from '../components/common/NavBar.vue'
   export default {
     name: 'Portal',
-   components:{NavBar},
+   components:{},
    data(){
        return {
         circleUrl: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",

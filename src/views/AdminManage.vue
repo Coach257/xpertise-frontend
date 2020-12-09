@@ -2,9 +2,6 @@
   <div data-title="管理页面" class="admin_page">
     <!--      <h1>AdminManagePage</h1>-->
     <el-container>
-      <el-header>
-        <NavBar></NavBar>
-      </el-header>
       <el-container>
         <el-aside width="225px" id="aside_left">
           <admin-menu></admin-menu>
@@ -21,12 +18,11 @@
 </template>
 
 <script>
-  import NavBar from "@/components/common/NavBar";
   import AdminMenu from "@/components/admin/AdminMenu";
 
   export default {
     name: 'AdminManagePage',
-    components: {AdminMenu, NavBar},
+    components: {AdminMenu},
     data() {
       return {
         spaceHeight: window.innerHeight - 80 + 'px',

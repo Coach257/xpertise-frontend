@@ -1,6 +1,5 @@
 <template>
     <div>
-      <NavBar/>
       <div id="app">
 
         <SearchSection input='?'/>
@@ -9,13 +8,11 @@
 </template>
 
 <script>
-import NavBar from '../components/common/NavBar.vue'
 import SearchSection from "../components/search/SearchSection.vue";
 
 export default {
   name: 'HomePage',
   components:{
-    NavBar,
     SearchSection
   },
   provide () {
