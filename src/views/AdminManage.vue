@@ -7,15 +7,14 @@
           <el-menu active-text-color="#1A1A1A"
                    text-color="#5E5E5E"
                    mode="vertical"
-                   :default-active="this.$route.path"
-                   @select="handleSelect">
+                   :default-active="this.$route.path">
+
             <router-link :to="{name: 'ApplicationManage'}">
               <el-menu-item index="/admin/application-manage">
                 <i class=""></i>
                 <span slot="title">申请处理</span>
               </el-menu-item>
             </router-link>
-
 
             <el-divider class="divider"></el-divider>
 
