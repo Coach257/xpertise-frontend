@@ -26,22 +26,20 @@ import NavBar from '../src/components/common/NavBar.vue'
 </script>
 
 <style scoped>
+@import "../node_modules/@elastic/react-search-ui-views/lib/styles/styles.css";
+
 #app{
   width: 100vw;
   height: 100vh;
-}
-.app_container{
-  padding-top:55px;
-}
-@import "../node_modules/@elastic/react-search-ui-views/lib/styles/styles.css";
 
-body {
-  margin: 0;
-  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: #191919;
+
+}
+.app_container{
+  padding-top:55px;
 }
 </style>

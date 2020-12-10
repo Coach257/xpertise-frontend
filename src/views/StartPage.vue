@@ -12,16 +12,19 @@
         <input id="searchinput" v-model='input' v-on:keyup.13="submit" @mouseover="mouseOver()" @mouseleave="mouseLeaver()">
             <i class="el-icon-search" @click="submit()"></i>
         </input>
+
       </div>
 
-      <SearchSection :input='input' v-if='show' />
+      <RankingList v-if='!show'/>
 
+      <SearchSection :input='input' v-if='show' />
   </div>
 </template>
 
 <script>
   import SearchSection from "../components/search/SearchSection.vue";
-  import StartPageInfo from "../components/common/StartPageInfo.vue"
+  import StartPageInfo from "../components/common/StartPageInfo.vue";
+  import RankingList from "../components/rankinglist/RankingList.vue"
 
   export default {
     name: 'StartPage',
@@ -29,10 +32,11 @@
     ],
     components: {
       SearchSection,
-      StartPageInfo
+      StartPageInfo,
+      RankingList
     },
     mounted() {
-      this.$gsap.set("#root", {height: document.documentElement.clientHeight})
+      // this.$gsap.set("#root", {height: document.documentElement.clientHeight})
       if(this.$route.params.type == "cs"){
          this.$gsap.set("backpic", {"background-image": "url(../assets/csBack.png)"})
       }
@@ -58,6 +62,15 @@
 </script>
 
 <style scoped>
+#root {
+  /* outline: #21ff06 dotted thick; */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
 #title {
   margin-top: 100px;
 }
@@ -95,16 +108,13 @@
   background-image: url(../assets/startBack.png);
   background-size:100% 100%;
 
-
   height: 500px;
   width: 1200px;
+  margin-top: 6%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  position: relative;
-  top: 20%;
 
   overflow: hidden;
 }
