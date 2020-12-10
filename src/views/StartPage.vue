@@ -3,13 +3,13 @@
 
       <div id='backpic' v-if='!show'>
 
-        <!-- <StartPageInfo/> -->
+        <StartPageInfo/>
 
         <div id='title'>
             <span style="font-weight: bold; font-size: 40px; margin-right: 10px;">Xpertise</span>  <span style="font-size: 20px;">Scholar</span>
         </div>
 
-        <input id="searchinput" v-model='input' v-on:keyup.13="submit">
+        <input id="searchinput" v-model='input' v-on:keyup.13="submit" @mouseover="mouseOver()" @mouseleave="mouseLeaver()">
             <i class="el-icon-search" @click="submit()"></i>
         </input>
       </div>
@@ -34,7 +34,7 @@
     mounted() {
       this.$gsap.set("#root", {height: document.documentElement.clientHeight})
       if(this.$route.params.type == "cs"){
-         this.$gsap.set("backpic", {"background-image": "url(../assets/csBack.png)"})  
+         this.$gsap.set("backpic", {"background-image": "url(../assets/csBack.png)"})
       }
     },
     data () {
@@ -46,6 +46,12 @@
     methods: {
       submit () {
         this.show = true
+      },
+      mouseOver () {
+        this.$gsap.to("#searchinput", {duration: 0.1,  boxShadow:'0px 0px 20px 10px rgb(127,127,127,0.3)'})
+      },
+      mouseLeaver () {
+        this.$gsap.to("#searchinput", {duration: 0.1,  boxShadow:'0px 0px 8px 2px rgb(50,50,50,0.1)'})
       }
     }
   }
@@ -53,7 +59,7 @@
 
 <style scoped>
 #title {
-  margin-top: 120px;
+  margin-top: 115px;
 }
 
 #searchinput {
@@ -63,6 +69,8 @@
   border: #cccccc solid thin;
   width: 500px;
   height: 36px;
+
+  box-shadow: 0px 0px 8px 2px rgb(50,50,50,0.1);
 
   margin-top: 60px;
 }
@@ -88,7 +96,7 @@
   background-size:100% 100%;
 
 
-  height: 450px;
+  height: 500px;
   width: 1200px;
 
   display: flex;
@@ -97,5 +105,7 @@
 
   position: relative;
   top: 20%;
+
+  overflow: hidden;
 }
 </style>
