@@ -59,12 +59,16 @@ export default {
      * 获取登录状态
      *
      */
-    var result = {
-      logged_in: false,
-      user_info: { avatar_url: null, name: null, id: null },
-    };
-    this.logged_in = result.logged_in;
-    this.user_info = result.user_info;
+    if(localStorage.getItem('userid')) {
+      this.user_info.id = localStorage.getItem('userid');
+      this.logged_in = true;
+    }
+    // var result = {
+    //   logged_in: false,
+    //   user_info: { avatar_url: null, name: null, id: null },
+    // };
+    // this.logged_in = result.logged_in;
+    // this.user_info = result.user_info;
   },
   data() {
     return {
@@ -107,12 +111,6 @@ export default {
     logout() {
       localStorage.clear()
       
-    }
-  },
-  mounted() {
-    if(localStorage.getItem('userid')) {
-      this.user_info.id = localStorage.getItem('userid');
-      this.logged_in = true;
     }
   }
 };
