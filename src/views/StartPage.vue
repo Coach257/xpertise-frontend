@@ -3,7 +3,7 @@
 
       <div id='backpic' v-if='!show'>
 
-        <StartPageInfo/>
+        <!-- <StartPageInfo/> -->
 
         <div id='title'>
             <span style="font-weight: bold; font-size: 40px; margin-right: 10px;">Xpertise</span>  <span style="font-size: 20px;">Scholar</span>
@@ -12,7 +12,6 @@
         <input id="searchinput" v-model='input' v-on:keyup.13="submit">
             <i class="el-icon-search" @click="submit()"></i>
         </input>
-
       </div>
 
       <SearchSection :input='input' v-if='show' />
@@ -26,12 +25,17 @@
 
   export default {
     name: 'StartPage',
+    props: [
+    ],
     components: {
       SearchSection,
       StartPageInfo
     },
     mounted() {
       this.$gsap.set("#root", {height: document.documentElement.clientHeight})
+      if(this.$route.params.type == "cs"){
+         this.$gsap.set("backpic", {"background-image": "url(../assets/csBack.png)"})  
+      }
     },
     data () {
       return {

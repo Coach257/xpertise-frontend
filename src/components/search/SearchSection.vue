@@ -66,7 +66,7 @@ import SearchResultsPerPage from "./SearchResultsPerPage";
 const driver = new SearchDriver(config);
 
 export default {
-  props: ['input'],
+  props: ['input','type'],
   components: {
     SearchResults,
     SearchFacet,
