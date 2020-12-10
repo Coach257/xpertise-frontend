@@ -16,7 +16,7 @@
   name: 'SelectBar',
   props: ['buttons'],
   mounted() {
-    this.$gsap.set("#options", {width: this.buttons.length*120+'px', fontWeight: 200})
+    this.$gsap.set("#options", {width: this.buttons.length*70+'px', fontWeight: 200})
     this.$gsap.set('#option'+this.selected, {fontWeight: 500})
   },
   data () {
@@ -28,7 +28,7 @@
     select: function (index) {
       this.$gsap.set(".option", {fontWeight: 200})
       this.$gsap.set('#option'+index, {fontWeight: 500})
-      this.$gsap.to('#block', {duration: 0.4,left: index*120+11+'px', ease: 'power4.out'})
+      this.$gsap.to('#block', {duration: 0.4,left: index*70+5+'px', ease: 'power4.out'})
       this.selected = index
 
       this.$parent.selected(index);
@@ -41,8 +41,8 @@
 #root {
   /* outline:#00ff00 dotted thick; */
   display: flex;
-  justify-content: center;
-  height: 51px;
+  justify-content: flex-start;
+  height: 36px;
 
 }
 
@@ -51,9 +51,9 @@
    border: #e6e6e6 solid thin;
    border-radius: 30px;
    box-shadow:inset 0px 0px 10px 1px #cccccc;
-   background-color: #eeeeee;
+   background-color: #f2f2f2;
 
-   padding: 13px;
+   padding: 5px;
 
    display: flex;
    justify-content: center;
@@ -77,11 +77,11 @@
    /* outline:#00ff00 dotted thick; */
 
    position: absolute;
-   top: 6px;
-   left: 11px;
+   top: 3px;
+   left: 5px;
 
-   width: 120px;
-   height: 35px;
+   width: 70px;
+   height: 28px;
 
    border: #e6e6e6 solid thin;
    border-radius: 30px;
