@@ -46,13 +46,14 @@ export default {
         getInfo() {
             let formData = new FormData();
             //console.log(this.$route.params.userid);
+            formData.append('user_id', localStorage.getItem('userid'));
             let config = {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             };
             var _this = this;
-            axios.get('https://go-service-296709.df.r.appspot.com/api/v1/user/return/account_info/' + this.$route.params.userid).then(response => {
+            axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/info', formData, config).then(response => {
                 if(response) {
                      if(response) {
                         if(response.data.success) {
