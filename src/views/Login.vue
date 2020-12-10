@@ -194,6 +194,9 @@ import axios from "axios"
                    sessionStorage.setItem('token',response.data.data.token)
 
                    _this.$router.replace('/home');
+                   setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
                 }else {
                    console.log("登录失败");
                 }
