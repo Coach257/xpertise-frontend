@@ -13,6 +13,7 @@ import UserPage from '@/views/UserPage.vue'
 import Portal from '@/views/Portal.vue'
 import SettlePage from '@/views/SettlePage.vue'
 import StartPage from '@/views/StartPage.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -45,6 +46,7 @@ const routes = [
   },
   {
     path: '/admin',
+    redirect: '/admin/application-manage',
     name: 'AdminManage',
     component: AdminManage,
     meta: {title: "管理"},
@@ -112,26 +114,28 @@ const router = new VueRouter({
 
 export default router
 
-router.beforeEach((to,from,next) => {
-//   //to到哪儿  from从哪儿离开  next跳转 为空就是放行
-     if (to.path === '/login' || to.path === '/') {
-       //如果跳转为登录，就放行
-       next();
-    }
-    else if(to.path === '/register')
-      next();
-    else if(to.path === '/home')
-      next();
-    else {
-//     //取出localStorage判断
-          let token = localStorage.getItem('userid');
-            if (token == null || token === '') {
-                console.log('请先登录3')
-                console.log(to.path)
-                alert("请先登录！")
-                //next({name:'loginView'});
-              }
-              else
-                next();
-   }}
+router.beforeEach((to, from, next) => {
+// //   //to到哪儿  from从哪儿离开  next跳转 为空就是放行
+//      if (to.path === '/login' || to.path === '/') {
+//        //如果跳转为登录，就放行
+//        next();
+//     }
+//     else if(to.path === '/register')
+//       next();
+//     else if(to.path === '/home')
+//       next();
+//     else {
+// //     //取出localStorage判断
+//           let token = localStorage.getItem('userid');
+//             if (token == null || token === '') {
+//                 console.log('请先登录3')
+//                 console.log(to.path)
+//                 alert("请先登录！")
+//                 //next({name:'loginView'});
+//               }
+//               else
+//                 next();
+//    }
+  next()
+  }
 );
