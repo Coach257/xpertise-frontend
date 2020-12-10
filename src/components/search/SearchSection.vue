@@ -118,8 +118,9 @@ export default {
     driver.subscribeToStateChanges(state => {
       this.searchState = state;
     });
-    
+
     driver.getActions().setSearchTerm(this.input)
+    this.searchInputValue = this.input
   },
   methods: {
     handleFormSubmit() {
