@@ -8,9 +8,8 @@
         </div>
 
         <input id="searchinput" v-model='input' v-on:keyup.13="submit">
-            <i class="el-icon-search"></i>
-        <!-- </input> -->
-
+            <i class="el-icon-search" @click="submit()"></i>
+        </input>
       </div>
 
       <SearchSection :input='input' v-if='show' />
@@ -70,6 +69,8 @@
   position: relative;
   top: -27px;
   left: 220px;
+
+  cursor: pointer;
 }
 
 #backpic {

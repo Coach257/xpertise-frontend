@@ -15,7 +15,7 @@
             @mouseover="mouseOver()"
             @mouseleave="mouseLeaver()"
             >
-           <i class="el-icon-search"></i>
+           <i class="el-icon-search" @click="$emit('submit', $event.target.value)"></i>
            </input>
 
          <!-- <input
@@ -80,6 +80,8 @@ export default {
   position: relative;
   top: -13px;
   left: -40px;
+  
+  cursor: pointer;
 }
 
 </style>
