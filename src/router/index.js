@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Test from '@/views/Test.vue'
-import HomePage from '@/views/HomePage.vue'
 import Login from '@/views/Login.vue'
 import AdminManage from '@/views/AdminManage.vue'
 import Register from '@/views/Register.vue'

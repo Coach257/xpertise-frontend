@@ -59,7 +59,7 @@
 
 <style scoped>
 #title {
-  margin-top: 115px;
+  margin-top: 100px;
 }
 
 #searchinput {
