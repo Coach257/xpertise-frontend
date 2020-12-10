@@ -8,7 +8,6 @@
               text-color="#5E5E5E"
               mode="vertical"
               :default-active="activeIndex"
-              @select="handleSelect"
               router
           >
           <el-submenu index="2">
@@ -83,23 +82,6 @@ import RequestCard from "@/components/admin/RequestCard";
       }
     },
     methods: {
-      handleSelect(key) {
-        console.log(key)
-        switch(key) {
-          case "report-manage":
-            console.log("举报处理");
-            this.$router.push('/report-manage')
-            break;
-          case "application-manage":
-            console.log("申请处理");
-            this.$router.push('/application-manage')
-            break;
-          case "settle-manage":
-            console.log("入驻处理");
-            this.$router.push('/settle-manage')
-            break;
-        }
-      }
     }
   }
 </script>
