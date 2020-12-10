@@ -15,7 +15,12 @@
 
       </div>
 
-      <RankingList v-if='!show'/>
+      <div id='rankinglist'>
+      <RankingList v-if='!show' title='Top Conference'/>
+      <RankingList v-if='!show' title='Top Journal'/>
+      <RankingList v-if='!show' title='Top Author'/>
+      <RankingList v-if='!show' title='Top Affiliation'/>
+      </div>
 
       <SearchSection :input='input' v-if='show' />
   </div>
@@ -109,13 +114,24 @@
   background-size:100% 100%;
 
   height: 500px;
-  width: 1200px;
-  margin-top: 6%;
+  width: 1300px;
+  margin-top: 4%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
   overflow: hidden;
+}
+#rankinglist {
+  /* outline: #21ff06 dotted thick; */
+  width: 800px;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  position: relative;
+  top: -150px;
 }
 </style>
