@@ -9,7 +9,7 @@
 
         <input id="searchinput" v-model='input' v-on:keyup.13="submit">
             <i class="el-icon-search"></i>
-        </input>
+        <!-- </input> -->
 
       </div>
 
@@ -23,11 +23,16 @@
 
   export default {
     name: 'StartPage',
+    props: [
+    ],
     components: {
       SearchSection
     },
     mounted() {
       this.$gsap.set("#root", {height: document.documentElement.clientHeight})
+      if(this.$route.params.type == "cs"){
+         this.$gsap.set("backpic", {"background-image": "url(../assets/csBack.png)"})  
+      }
     },
     data () {
       return {

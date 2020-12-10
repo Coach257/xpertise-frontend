@@ -74,6 +74,10 @@ export default {
           url: "/home",
         },
         {
+          title:"计算机科学",
+          url: "/cs",
+        },
+        {
           title: "学科",
           url: "/categories",
         },

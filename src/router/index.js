@@ -13,6 +13,8 @@ import UserPage from '@/views/UserPage.vue'
 import Portal from '@/views/Portal.vue'
 import SettlePage from '@/views/SettlePage.vue'
 import StartPage from '@/views/StartPage.vue'
+import CSStartPage from '@/views/CSStartPage.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -23,9 +25,14 @@ const routes = [
     component: StartPage
   },
   {
-    path: '/home',
-    name: 'HomePage',
-    component: StartPage
+    path:'/home',
+    name:'HomePage',
+    component:StartPage
+  },
+  {
+    path:'/cs',
+    name:'CSHomePage',
+    component:CSStartPage
   },
   {
     path: '/test',
@@ -111,7 +118,7 @@ export default router
 
 router.beforeEach((to,from,next) => {
 //   //to到哪儿  from从哪儿离开  next跳转 为空就是放行  
-     if (to.path === '/login' || to.path === '/') {
+     if (to.path === '/login' || to.path === '/' || to.path == '/home' || to.path == '/cs') {
        //如果跳转为登录，就放行 
        next();
     } 
