@@ -3,6 +3,8 @@
 
       <div id='backpic' v-if='!show'>
 
+        <StartPageInfo/>
+
         <div id='title'>
             <span style="font-weight: bold; font-size: 40px; margin-right: 10px;">Xpertise</span>  <span style="font-size: 20px;">Scholar</span>
         </div>
@@ -20,11 +22,13 @@
 
 <script>
   import SearchSection from "../components/search/SearchSection.vue";
+  import StartPageInfo from "../components/common/StartPageInfo.vue"
 
   export default {
     name: 'StartPage',
     components: {
-      SearchSection
+      SearchSection,
+      StartPageInfo
     },
     mounted() {
       this.$gsap.set("#root", {height: document.documentElement.clientHeight})

@@ -5,7 +5,7 @@
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
 
-          <div id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()">
+          <div id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
           <SearchSort v-show="thereAreResults" v-model="sortBy" />
 
           <SearchFacet
