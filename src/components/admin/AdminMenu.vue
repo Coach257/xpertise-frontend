@@ -2,11 +2,10 @@
   <div>
     <div class="aside_menu">
       <el-menu active-text-color="#1A1A1A"
-              text-color="#5E5E5E"
-              mode="vertical"
-              :default-active="activeIndex"
-              @select="handleSelect"
-              >
+               text-color="#5E5E5E"
+               mode="vertical"
+               :default-active="activeIndex"
+               @select="handleSelect">
         <el-menu-item index="application-manage">
           <i class=""></i>
           <span slot="title">申请处理</span>
@@ -27,55 +26,54 @@
         </el-menu-item>
       </el-menu>
     </div>
-      <div>
-        ？
-        <router-view></router-view>
-      </div>
+    <div>
+      ？
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "AdminMenu",
-    data() {
-      return {
-        activeIndex: '2',
-      };      
-    },
-    methods: {
-      handleSelect(key) {
-        console.log(key)
-        switch(key) {
-          case "report-manage":
-            console.log("举报处理");
-            this.$router.push('/report-manage')
-            break;
-          case "application-manage":
-            console.log("申请处理");
-            this.$router.push('/application-manage')
-            break;
-          case "settle-manage":
-            console.log("入驻处理");
-            this.$router.push('/settle-manage')
-            break;
-        }
+export default {
+  name: "AdminMenu",
+  data() {
+    return {
+      activeIndex: '2',
+    };
+  },
+  methods: {
+    handleSelect(key) {
+      console.log(key)
+      switch (key) {
+        case "report-manage":
+          console.log("举报处理");
+          this.$router.push('/report-manage')
+          break;
+        case "application-manage":
+          console.log("申请处理");
+          this.$router.push('/application-manage')
+          break;
+        case "settle-manage":
+          console.log("入驻处理");
+          this.$router.push('/settle-manage')
+          break;
       }
     }
-
   }
+
+}
 </script>
 
 
-
 <style>
-  .aside_menu {
-  }
+.aside_menu {
+}
 
-  .divider {
-    margin: 5px 0 !important;
-  }
+.divider {
+  margin: 5px 0 !important;
+}
 
-  .el-menu {
-    border: 0 !important;
-  }
+.el-menu {
+  border: 0 !important;
+}
 </style>
