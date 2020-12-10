@@ -4,6 +4,8 @@
     <div v-if="searchState.wasSearched" class="sui-layout-body">
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
+
+          <div id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()">
           <SearchSort v-show="thereAreResults" v-model="sortBy" />
 
           <SearchFacet
@@ -17,7 +19,10 @@
             :facet="searchState.facets.doc_type[0]"
             @change="handleFacetChange($event, 'doc_type')"
           />
+          </div>
+
         </div>
+
         <div class="sui-layout-main">
           <div class="sui-layout-main-header">
             <div class="sui-layout-main-header__inner">
@@ -147,7 +152,25 @@ export default {
     },
     setCurrentPage(page) {
       driver.setCurrent(page);
+    },
+    mouseOverWrapper () {
+      this.$gsap.to("#wrapper", {duration: 0.1,  boxShadow:'0px 0px 35px 13px rgb(127,127,127,0.3)'})
+    },
+    mouseLeaveWrapper () {
+      this.$gsap.to("#wrapper", {duration: 0.1,  boxShadow:'0px 0px 10px 2px rgb(127,127,127,0.2)'})
     }
   }
 };
 </script>
+
+<style scoped>
+#wrapper {
+  border: #cccccc solid thin;
+  border-radius: 30px;;
+  box-shadow: 0px 0px 10px 2px rgb(127,127,127,0.2);
+  padding: 15px;
+
+  margin-top: 20px;
+
+}
+</style>

@@ -12,6 +12,8 @@
             class="sui-search-box__text-input"
             :value="value"
             @input="$emit('input', $event.target.value)"
+            @mouseover="mouseOver()"
+            @mouseleave="mouseLeaver()"
             >
            <i class="el-icon-search"></i>
            </input>
@@ -38,6 +40,14 @@ export default {
       type: String
     }
   },
+  methods: {
+    mouseOver () {
+      this.$gsap.to(".sui-search-box__text-input", {duration: 0.1,  boxShadow:'0px 0px 20px 6px rgb(127,127,127,0.3)'})
+    },
+    mouseLeaver () {
+      this.$gsap.to(".sui-search-box__text-input", {duration: 0.1,  boxShadow:'0px 0px 8px 2px rgb(50,50,50,0.1)'})
+    }
+  }
 };
 </script>
 
@@ -61,7 +71,7 @@ export default {
   position: relative;
   top: -22px;
 
-  box-shadow: 0px 0px 10px 4px rgb(50,50,50,0.05);
+  box-shadow: 0px 0px 8px 2px rgb(50,50,50,0.1);
 }
 .el-icon-search {
   font-size: 20px;
