@@ -17,7 +17,6 @@
 
       <div id='rankinglist'>
       <RankingList v-if='!show' title='Top Conference'/>
-      <RankingList v-if='!show' title='Top Journal'/>
       <RankingList v-if='!show' title='Top Author'/>
       <RankingList v-if='!show' title='Top Affiliation'/>
       </div>
@@ -115,7 +114,7 @@
 
   height: 500px;
   width: 1300px;
-  margin-top: 4%;
+  margin-top: 5%;
 
   display: flex;
   flex-direction: column;
@@ -125,7 +124,7 @@
 }
 #rankinglist {
   /* outline: #21ff06 dotted thick; */
-  width: 800px;
+  width: 1200px;
 
   display: flex;
   flex-wrap: wrap;

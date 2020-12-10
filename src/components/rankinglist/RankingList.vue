@@ -3,6 +3,9 @@
       <div id='title'>
           <span>{{this.title}}</span>
       </div>
+      <div style="font-weight: 200; font-size: 10px;">
+        In  Computer Science
+      </div>
 
       <div id='rank'>
           <RankingItem v-for='(item,i) in itemList' :information='item' :key='i'/>
