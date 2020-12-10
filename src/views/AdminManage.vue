@@ -25,7 +25,6 @@
               </el-menu-item>
             </router-link>
 
-
             <el-divider class="divider"></el-divider>
 
             <router-link :to="{name: 'SettleManage'}">
@@ -73,19 +72,9 @@ export default {
   },
   mounted() {
     console.log(this.$route.path)
-    window.onresize = () => {
-      return (() => {
-        this.spaceHeight = window.innerHeight - 80 + 'px'
-        if (!this.isScreenWide && window.innerWidth > 1500) {
-          this.isScreenWide = !this.isScreenWide
-          $(".doc_item").css("width", "30%")
-        }
-        if (this.isScreenWide && window.innerWidth <= 1500) {
-          this.isScreenWide = !this.isScreenWide
-          $(".doc_item").css("width", "45%")
-        }
-      })()
-    }
+    window.addEventListener('resize', () => {
+      this.spaceHeight = window.innerHeight - 80 + 'px'
+    }, false)
   },
   methods: {}
 }
@@ -111,8 +100,4 @@ a {
 }
 </style>
 
-<style>
-.admin_page .el-scrollbar__wrap {
-  overflow-x: hidden;
-}
-</style>
+
