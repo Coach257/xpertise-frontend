@@ -1,6 +1,6 @@
 <template>
   <div>
-  <h1>Detail Page4</h1>
+  <h1>Detail Page6</h1>
   <h1>欢迎来到 {{ this.$route.params.docid }} 的详情页</h1>
   <h1>title</h1>
   <div>
@@ -42,6 +42,7 @@
             let formData = new FormData();
             console.log("hello");
             console.log(this.$route.params.docid);
+            
             //console.log(localStorage.getItem('userid'));
             //formData.append('user_id', 1);
             let config = {
@@ -50,6 +51,8 @@
                 }
             };
             var _this = this;
+            console.log("开始");
+            //此接口后端修改，所以暂时无法使用。
             axios.get('https://go-service-296709.df.r.appspot.com/api/v1/portal/doc/query/' + this.$route.params.docid).then(response => {
                 console("进入")
                 if(response) {
