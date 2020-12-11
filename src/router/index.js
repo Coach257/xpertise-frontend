@@ -13,10 +13,7 @@ import UserPage from '@/views/UserPage.vue'
 import Portal from '@/views/Portal.vue'
 import SettlePage from '@/views/SettlePage.vue'
 import StartPage from '@/views/StartPage.vue'
-<<<<<<< HEAD
 import CSStartPage from '@/views/CSStartPage.vue'
-=======
->>>>>>> 982ad634566873937dc491d3e907fc6f3d1a2a81
 
 Vue.use(VueRouter)
 

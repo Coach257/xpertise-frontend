@@ -72,15 +72,18 @@
     </div>
   </div>
 </template>
-<script>export default {
+
+<script>
+export default {
   name: "ResultDetailPage",
-  props: [],
+  props: ['article_data'],
   components: {},
   mounted() {
     /**
      * 获取文章信息
      *
      */
+    this.$data.article = this.$props.article_data;
   },
   data() {
     return {
