@@ -9,16 +9,16 @@
             <span style="font-weight: bold; font-size: 40px; margin-right: 10px;">Xpertise</span>  <span style="font-size: 20px;">Scholar</span>
         </div>
 
-        <input id="searchinput" v-model='input' v-on:keyup.13="submit" @mouseover="mouseOver()" @mouseleave="mouseLeaver()">
+        <input id="searchinput" v-model='input' v-on:keyup.13="submit" @mouseover="mouseOver()" @mouseleave="mouseLeave()">
             <i class="el-icon-search" @click="submit()"></i>
         </input>
 
       </div>
 
-      <div id='rankinglist'>
-      <RankingList v-if='!show' title='Top Conference'/>
-      <RankingList v-if='!show' title='Top Author'/>
-      <RankingList v-if='!show' title='Top Affiliation'/>
+      <div v-if='!show' id='rankinglist'>
+      <RankingList title='Top Conference'/>
+      <RankingList title='Top Author'/>
+      <RankingList title='Top Affiliation'/>
       </div>
 
       <SearchSection :input='input' v-if='show' />
@@ -58,7 +58,7 @@
       mouseOver () {
         this.$gsap.to("#searchinput", {duration: 0.1,  boxShadow:'0px 0px 20px 10px rgb(127,127,127,0.3)'})
       },
-      mouseLeaver () {
+      mouseLeave () {
         this.$gsap.to("#searchinput", {duration: 0.1,  boxShadow:'0px 0px 8px 2px rgb(50,50,50,0.1)'})
       }
     }
