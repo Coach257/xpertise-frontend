@@ -19,7 +19,7 @@
 
       </div>
 
-      <el-progress :percentage='getPercentage' :show-text='false' color="#26BEB8" :stroke-width="9" style="margin-top: 6px;"></el-progress>
+      <el-progress v-if="getPercentage" :percentage='getPercentage' :show-text='false' color="#26BEB8" :stroke-width="9" style="margin-top: 6px;"></el-progress>
 
     </div>
 
