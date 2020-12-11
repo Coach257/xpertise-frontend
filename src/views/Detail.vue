@@ -169,7 +169,7 @@ export default {
       this.$data.article.listed = false;
     },
     showinfo(){
-      console.log(this.results)
+      console.log(this.searchState.results)
     }
   },
 };
