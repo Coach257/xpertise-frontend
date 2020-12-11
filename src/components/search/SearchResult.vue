@@ -67,8 +67,11 @@ export default {
 <style scoped>
 .search-result {
   /* outline: #21ff06 dotted thick; */
-  border: 1px solid #f0f0f0;
-  border-radius: 4px;
+  border: 1px solid #e8e6e9;
+  border-radius: 30px;
+  /* box-shadow: 0px 0px 8px 2px rgb(50,50,50,0.1); */
+
+
   align-items: center;
   padding: 20px;
   height: 100%;
@@ -118,7 +121,7 @@ export default {
   /* outline: #21ff06 dotted thick; */
 
   border-radius: 20px;
-  box-shadow: 0px 0px 10px 5px rgb(127,127,127,0.15);
+  box-shadow: 0px 0px 10px 5px rgb(127,127,127,0.12);
   padding: 15px;
 
   width: 400px;

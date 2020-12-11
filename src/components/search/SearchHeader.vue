@@ -64,7 +64,8 @@ export default {
 
 .sui-search-box__text-input {
   border-radius: 30px;
-  border: #cccccc solid thin;
+  /* border: #cccccc solid thin; */
+  border: 1px solid #f0f0f0;
   width: 600px;
   height: 36px;
 

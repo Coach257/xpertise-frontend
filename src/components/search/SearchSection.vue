@@ -165,7 +165,8 @@ export default {
 
 <style scoped>
 #wrapper {
-  border: #cccccc solid thin;
+  /* border: #cccccc solid thin; */
+  border: 1px solid #f0f0f0;
   border-radius: 30px;;
   box-shadow: 0px 0px 10px 2px rgb(127,127,127,0.2);
   padding: 15px;
