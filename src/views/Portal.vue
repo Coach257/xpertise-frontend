@@ -223,9 +223,27 @@
 </template>
 
 <script>
+
+import { SearchDriver } from "@elastic/search-ui";
+import {mainauthorconfig,csauthorconfig} from "../searchConfig";
+//const driver = new SearchDriver(csauthorconfig)
+
   export default {
-    name: 'Portal',
+   name: 'Portal',
+   props: ['type'],
    components:{},
+   
+   mounted() {
+       driver.subscribeToStateChanges(state => {
+        this.searchState = state;
+       });
+       driver.clearFilters()
+       driver.addFilter("id",this.$route.params.authorid,"any")
+       //driver.getActions().setSearchTerm("")
+       
+       console.log(this.searchState)
+       //this.getInfo();
+   },
    data(){
        return {
         circleUrl: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",

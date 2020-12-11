@@ -45,4 +45,24 @@ const cspaperconfig = {
   }
 };
 
+const mainauthorconfig = {
+  debug: true,
+  apiConnector: mainauthorconfig,
+  searchQuery: {
+    disjunctiveFacets: [],
+    facets: {
+    }
+  }
+};
+
+const csauthorconfig = {
+  debug: true,
+  apiConnector: csauthorconfig,
+  searchQuery: {
+    disjunctiveFacets: [],
+    facets: {
+    }
+  }
+};
+
 export {mainpaperconfig,cspaperconfig};
