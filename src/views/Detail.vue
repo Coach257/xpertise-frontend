@@ -80,7 +80,7 @@ const driver = new SearchDriver(cspaperconfig)
 
 export default {
   name: "ResultDetailPage",
-  props: [],
+  props: ['type'],
   components: {},
   mounted() {
     driver.subscribeToStateChanges(state => {
@@ -92,7 +92,7 @@ export default {
     //driver.getActions().setSearchTerm("")
     
     console.log(this.searchState)
-    // this.getInfo();
+    this.getInfo();
   },
   data() {
     return {
@@ -141,7 +141,7 @@ export default {
                             console.log(response)
                             _this.article.title = response.data.data.title
                             _this.article.abstract = response.data.data.abstract
-                            _this.article.author_list = response.data.data.author_list
+                            _this.article.author_list = response.data.data.authors
                             console("陈坤")
                         }
                         else {
@@ -169,7 +169,7 @@ export default {
       this.$data.article.listed = false;
     },
     showinfo(){
-      console.log(this.results)
+      console.log(this.searchState.results)
     }
   },
 };

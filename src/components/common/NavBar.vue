@@ -43,6 +43,7 @@
           >
             个人中心
           </router-link>
+         <el-button @click="logout">登出 </el-button>
         </div>
       </div>
     </div>
@@ -110,7 +111,6 @@ export default {
     },
     logout() {
       localStorage.clear()
-      
     }
   }
 };
