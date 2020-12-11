@@ -87,9 +87,10 @@ export default {
       this.results = state.results;
     });
 
-    driver.getActions().setSearchTerm("")
     driver.clearFilters()
     driver.addFilter("id",this.$route.params.docid,"any")
+    //driver.getActions().setSearchTerm("")
+    
     console.log(this.searchState)
     // this.getInfo();
   },
