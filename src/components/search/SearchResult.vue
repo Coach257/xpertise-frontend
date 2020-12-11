@@ -30,27 +30,10 @@
     <div class="search-result__author" v-for="(author, i) in this.authors" :key='i'>{{author}}</div>
   </div>
 
-
-
-
-
-    <div class="search-result__body">
-      <div class="search-result__data">
-        <div v-if="result.doc_type">文献类型: {{ result.doc_type.raw }}</div>
-        <div v-if="result.id">文献编号: {{result.id.raw}}</div>
-
-      <!--  <div v-if="result.n_citation">被引次数: {{ result.n_citation.raw }}</div>
-        <div v-if="result.year">年份: {{ result.year.raw }}</div>
-        <div v-if="result.publisher">出版社: {{ result.publisher.raw }}</div>
-        <br/>
-        <div v-if="result.page_start">Page_start: {{ result.page_start.raw }}</div>
-        <div v-if="result.page_end">Page_end: {{ result.page_end.raw }}</div>
-        <br />
-        <div v-if="result.issue">Issue: {{ result.issue.raw }}</div>
-        <div v-if="result.volume">volume: {{ result.volume.raw }}</div> -->
-        <div v-if="result.venue">venue: {{ result.venue.raw }}</div>
-      </div>
-    </div>
+  <div class="search-result__venue">
+    <span id='venuetag'>期刊</span>
+    {{this.venue}}
+  </div>
 
   </article>
 </template>
@@ -65,7 +48,8 @@ export default {
   },
   data () {
     return {
-      authors: []
+      authors: [],
+      venue: ""
     }
   },
   methods: {
@@ -74,7 +58,7 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.result.venue.raw)
+    this.venue = JSON.parse(this.result.venue.raw).raw
     this.result.authors.raw.forEach(this.addToAuthors)
   }
 };
@@ -158,26 +142,25 @@ export default {
   margin-bottom: 3px;
   margin-top: 3px;
 }
+.search-result__venue {
+/*  border: #cccccc solid thin;
+  border-radius: 10px; */
+  /* outline: #21ff06 dotted thick; */
+
+  width: 380px;
+  background-color: white;
+
+  padding: 2px 8px 2px 8px;
+  margin-top: 20px;
 
 
-
-.search-result__body {
-  display: flex;
-  justify-content: flex-start;
-  align-self: flex-start;
 }
-
-.search-result__data {
-  padding-top: 50px;
-}
-
-.search-result__flavor {
-  margin: 0;
-}
-
-.search-result__image {
-  flex: none;
-  width: 256px;
-  height: 387px;
+#venuetag{
+  border-radius: 10px;
+  background-color: #dace0a;
+  color: white;
+  padding: 2px 8px 2px 8px;
+  font-size: 14px;
+  font-weight: 500;
 }
 </style>
