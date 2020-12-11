@@ -1,5 +1,5 @@
 <template>
-  <div id="result_detail_page">
+  <div id="result_detail_page" v-show="thereAreResults"> 
     <div class="result_detail_page_container">
       <div class="result_detail_title_area">
         <div class="result_detail_categories">
@@ -32,8 +32,8 @@
             >{{ article.detailed_category }}
           </router-link>
         </div>
-        <div class="result_detail_title">
-          {{ article.title }}
+        <div v-show="thereAreResults" class="result_detail_title">
+          {{ results[0].title.raw}}
         </div>
         <div class="result_deatil_author_container">
           <router-link
@@ -65,6 +65,7 @@
           <h3>操作</h3>
           <el-button type="warning" icon="el-icon-star-off" v-if="article.starred===false" @click="addToFav" plain>收藏</el-button>
           <el-button type="warning" icon="el-icon-star-on" v-else @click="removeFromFav">已收藏</el-button>
+          <el-button type="warning" @click="showinfo">显示信息</el-button>
            <el-button type="success" icon="el-icon-circle-plus-outline" v-if="article.listed===false" @click="addToList" plain>添加到清单</el-button>
           <el-button type="success" icon="el-icon-circle-check" v-else @click="removeFromList">已添加到清单</el-button>
         </div>
@@ -72,12 +73,25 @@
     </div>
   </div>
 </template>
-<script>export default {
+<script>
+import { SearchDriver } from "@elastic/search-ui";
+import {mainpaperconfig,cspaperconfig} from "../searchConfig";
+const driver = new SearchDriver(cspaperconfig)
+
+export default {
   name: "ResultDetailPage",
   props: [],
   components: {},
   mounted() {
-    this.getInfo();
+    driver.subscribeToStateChanges(state => {
+      this.results = state.results;
+    });
+
+    driver.getActions().setSearchTerm("")
+    driver.clearFilters()
+    driver.addFilter("id",this.$route.params.docid,"any")
+    console.log(this.searchState)
+    // this.getInfo();
   },
   data() {
     return {
@@ -94,7 +108,13 @@
         starred:false,
         listed:false,
       },
+      results:{}
     };
+  },
+  computed: {
+    thereAreResults() {
+      return this.results;
+    }
   },
   methods: {
     getInfo() {
@@ -146,6 +166,9 @@
     },
     removeFromList(){
       this.$data.article.listed = false;
+    },
+    showinfo(){
+      console.log(this.results)
     }
   },
 };
