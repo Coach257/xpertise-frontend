@@ -76,8 +76,8 @@ import RankingItem from './RankItem.vue'
   background-color: white;
 
   width: 350px;
-  height: 450px;
-  margin-top: 50px;
+  height: 470px;
+  margin-top: 55px;
 }
 #title {
 
