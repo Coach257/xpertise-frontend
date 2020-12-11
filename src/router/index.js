@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Test from '@/views/Test.vue'
-import HomePage from '@/views/HomePage.vue'
 import Login from '@/views/Login.vue'
 import AdminManage from '@/views/AdminManage.vue'
 import Register from '@/views/Register.vue'
@@ -120,6 +119,7 @@ const router = new VueRouter({
 
 export default router
 
+
 router.beforeEach((to, from, next) => {
 // //   //to到哪儿  from从哪儿离开  next跳转 为空就是放行
 //      if (to.path === '/login' || to.path === '/' || to.path ==='/home' || to.path ==='/cs') {
@@ -144,4 +144,5 @@ router.beforeEach((to, from, next) => {
 //    }
   next()
   }
+
 );

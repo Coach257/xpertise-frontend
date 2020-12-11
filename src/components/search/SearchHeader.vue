@@ -80,7 +80,7 @@ export default {
   position: relative;
   top: -13px;
   left: -40px;
-  
+
   cursor: pointer;
 }
 

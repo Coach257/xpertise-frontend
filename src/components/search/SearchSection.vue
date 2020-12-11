@@ -5,7 +5,7 @@
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
 
-          <div id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()">
+          <div id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
           <SearchSort v-show="thereAreResults" v-model="sortBy" />
 
           <SearchFacet
@@ -15,9 +15,9 @@
           />
 
           <SearchFacet
-            :checked="doc_type"
-            :facet="searchState.facets.doc_type[0]"
-            @change="handleFacetChange($event, 'doc_type')"
+            :checked="lang"
+            :facet="searchState.facets.lang[0]"
+            @change="handleFacetChange($event, 'lang')"
           />
           </div>
 
@@ -54,7 +54,7 @@
 
 <script>
 import { SearchDriver } from "@elastic/search-ui";
-import config from "../../searchConfig";
+import {mainpaperconfig,cspaperconfig} from "../../searchConfig";
 import SearchResults from "./SearchResults";
 import SearchFacet from "./SearchFacet";
 import SearchHeader from "./SearchHeader";
@@ -63,7 +63,7 @@ import SearchPagination from "./SearchPagination";
 import SearchSort from "./SearchSort";
 import SearchResultsPerPage from "./SearchResultsPerPage";
 
-const driver = new SearchDriver(config);
+const driver = new SearchDriver(mainpaperconfig);
 
 export default {
   props: ['input','type'],
@@ -81,7 +81,7 @@ export default {
       searchInputValue: "",
       searchState: {},
       year: [],
-      doc_type: [],
+      lang: [],
       resultsPerPage: 20,
       sortBy: "relevance"
     };

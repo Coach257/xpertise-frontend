@@ -1,26 +1,48 @@
 import "regenerator-runtime/runtime";
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 
-const connector = new AppSearchAPIConnector({
-  searchKey: "search-rdojotjtma9h575b3urc8da8",
-  engineName: "scholar",
-  hostIdentifier: "host-w5ssjt"
+const mainpaperconnector = new AppSearchAPIConnector({
+  searchKey: "search-684zf3yeseg7dre8woc18f9d",
+  engineName: "test",
+  endpointBase:"https://e633da92fd5c4462a16e73f4acb7e1b5.ent-search.asia-east1.gcp.elastic-cloud.com"
+})
+
+const cspaperconnector = new AppSearchAPIConnector({
+  searchKey: "search-684zf3yeseg7dre8woc18f9d",
+  engineName: "cspaper",
+  endpointBase:"https://e633da92fd5c4462a16e73f4acb7e1b5.ent-search.asia-east1.gcp.elastic-cloud.com"
 });
 
-const config = {
-  debug: true,
-  apiConnector: connector,
+const mainpaperconfig = {
+  debug: false,
+  apiConnector: mainpaperconnector,
   searchQuery: {
-    disjunctiveFacets: ["year", "doc_type"],
+    disjunctiveFacets: ["year", "lang"],
     facets: {
       year: {
         type: "value"
       },
-      doc_type: {
+      lang: {
         type: "value"
       },
     }
   }
 };
 
-export default config;
+const cspaperconfig = {
+  debug: true,
+  apiConnector: cspaperconnector,
+  searchQuery: {
+    disjunctiveFacets: ["year", "venue"],
+    facets: {
+      year: {
+        type: "value"
+      },
+      venue: {
+        type: "value"
+      },
+    }
+  }
+};
+
+export {mainpaperconfig,cspaperconfig};
