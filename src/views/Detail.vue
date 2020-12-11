@@ -33,7 +33,7 @@
           </router-link>
         </div>
         <div v-show="thereAreResults" class="result_detail_title">
-          {{ results[0].title.raw}}
+          {{ searchState.results[0].title.raw}}
         </div>
         <div class="result_deatil_author_container">
           <router-link
@@ -84,7 +84,7 @@ export default {
   components: {},
   mounted() {
     driver.subscribeToStateChanges(state => {
-      this.results = state.results;
+      this.searchState = state;
     });
 
     driver.clearFilters()
@@ -109,12 +109,12 @@ export default {
         starred:false,
         listed:false,
       },
-      results:{}
+      searchState:{}
     };
   },
   computed: {
     thereAreResults() {
-      return this.results;
+      return this.searchState.totalResults && this.searchState.totalResults>0;
     }
   },
   methods: {
