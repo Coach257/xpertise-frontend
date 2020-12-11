@@ -43,7 +43,7 @@
           >
             个人中心
           </router-link>
-         <el-button @click="logout">登出 </el-button>
+         <el-button type="text" @click="logout">登出 </el-button>
         </div>
       </div>
     </div>
@@ -111,6 +111,7 @@ export default {
     },
     logout() {
       localStorage.clear()
+      this.$router.go(0)
     }
   }
 };
@@ -184,5 +185,13 @@ export default {
 .nav_bar_action_link {
   display: inline;
   line-height: 45px;
+}
+.el-button--text{
+  font-size:16px;
+    color: rgb(7, 7, 7);
+}
+.el-button--text:hover{
+  font-size:16px;
+    color: rgb(7, 7, 7);
 }
 </style>
