@@ -17,7 +17,7 @@
     <div class="grid-content ">
         <el-table
         :data="tableDatainfo"
-        show-header="false"
+        
         style="width: 100%"
         :header-cell-style="{textAlign: 'center'}"
         :cell-style="{ textAlign: 'center' }"
