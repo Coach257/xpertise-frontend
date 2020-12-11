@@ -11,7 +11,6 @@
 
         <input id="searchinput" v-model='input' v-on:keyup.13="submit" @mouseover="mouseOver()" @mouseleave="mouseLeave()">
             <i class="el-icon-search" @click="submit()"></i>
-        </input>
 
       </div>
 
