@@ -49,16 +49,28 @@ export default {
   data () {
     return {
       authors: [],
+      authorNum: 0,
       venue: ""
     }
   },
   methods: {
     addToAuthors (value, index, array) {
-      this.authors.push(JSON.parse(value).name)
+      var limit = 10
+      if (this.authorNum == limit) {
+        this.authors.push('.....')
+        this.authorNum++
+        return
+      } else if (this.authorNum > limit) {
+        return
+      } else {
+        this.authors.push(JSON.parse(value).name)
+        this.authorNum++
+      }
     }
   },
   mounted() {
     this.venue = JSON.parse(this.result.venue.raw).raw
+
     this.result.authors.raw.forEach(this.addToAuthors)
   }
 };
