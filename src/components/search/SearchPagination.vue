@@ -32,7 +32,7 @@ export default {
   display: inline-block;
   padding-left: 0;
   margin: 20px 0;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 .pagination > li {
   display: inline;
@@ -42,30 +42,31 @@ export default {
   position: relative;
   float: left;
   padding: 6px 12px;
-  margin-left: -1px;
+  /* margin-left: -1px; */
+  margin: 3px;
   line-height: 1.42857143;
-  color: #337ab7;
+  color: #26BEB8;
   text-decoration: none;
   background-color: #fff;
   border: 1px solid #ddd;
+  border-radius: 100px;
 }
 .pagination > li:first-child > a,
 .pagination > li:first-child > span {
-  margin-left: 0;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  /* border-top-left-radius: 4px; */
+  /* border-bottom-left-radius: 4px; */
 }
 .pagination > li:last-child > a,
 .pagination > li:last-child > span {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+  /* border-top-right-radius: 4px; */
+  /* border-bottom-right-radius: 4px; */
 }
 .pagination > li > a:hover,
 .pagination > li > span:hover,
 .pagination > li > a:focus,
 .pagination > li > span:focus {
   z-index: 3;
-  color: #23527c;
+  color: #26BEB8;
   background-color: #eee;
   border-color: #ddd;
 }
@@ -78,8 +79,8 @@ export default {
   z-index: 2;
   color: #fff;
   cursor: default;
-  background-color: #337ab7;
-  border-color: #337ab7;
+  background-color: #26BEB8;
+  border-color: #26BEB8;
 }
 .pagination > .disabled > span,
 .pagination > .disabled > span:hover,
