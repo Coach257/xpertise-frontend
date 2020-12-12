@@ -5,21 +5,29 @@
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
 
-          <div id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
-          <SearchSort v-show="thereAreResults" v-model="sortBy" />
+          <div v-if="getSearchObject==='article'" id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
+            <SearchSort v-show="thereAreResults" v-model="sortBy" />
 
-          <SearchFacet
-            :checked="year"
-            :facet="searchState.facets.year[0]"
-            @change="handleFacetChange($event, 'year')"
-          />
 
-          <SearchFacet
-            :checked="lang"
-            :facet="searchState.facets.lang[0]"
-            @change="handleFacetChange($event, 'lang')"
-          />
+            <SearchFacet
+              :checked="year"
+              :facet="searchState.facets.year[0]"
+              @change="handleFacetChange($event, 'year')"
+            />
+
+            <SearchFacet
+              :checked="lang"
+              :facet="searchState.facets.lang[0]"
+              @change="handleFacetChange($event, 'lang')"
+            />
           </div>
+
+          <div v-else-if="getSearchObject==='author'" id='wrapper2' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
+            <SearchSort v-show="thereAreResults" v-model="sortBy" />
+
+          </div>
+
+          
 
         </div>
 
@@ -89,6 +97,9 @@ export default {
   computed: {
     thereAreResults() {
       return this.searchState.totalResults && this.searchState.totalResults > 0;
+    },
+    getSearchObject (){
+      return 'article';
     }
   },
   watch: {
@@ -127,6 +138,7 @@ export default {
     driver.getActions().setSearchTerm(this.input)
     this.searchInputValue = this.input
   },
+
   methods: {
     handleFormSubmit() {
       driver.getActions().setSearchTerm(this.searchInputValue);
