@@ -32,7 +32,12 @@
       this.$gsap.to('#block'+this.differkey, {duration: 0.4,left: index*70+5+'px', ease: 'power4.out'})
       this.selected = index
 
-      this.$parent.selected(index);
+
+     /**
+     * @param {Object} index
+     * @param {Object} differkey : differkey是Selectbar第一个选项的名字，用于区分不同的SelectBar
+     */
+      this.$parent.selected(index, this.differkey);
     }
   }
  }

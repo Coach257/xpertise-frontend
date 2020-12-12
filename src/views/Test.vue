@@ -24,6 +24,17 @@
         buttons : ['英格兰', '华为你', '破哦是'],
         buttons2 : ['没带手','发的是']
       }
+    },
+    methods: {
+      selected (index, differkey) {
+        if (differkey == '英格兰') {
+          console.log('11111')
+        } 
+        if (differkey == '没带手') {
+          console.log('22222')
+        } 
+        
+      }
     }
   }
 </script>
