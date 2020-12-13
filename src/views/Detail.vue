@@ -38,12 +38,12 @@
         <div class="result_detail_author_container">
           <router-link
             tag="div"
-            :to="'/author/' + author.id"
+            :to="'/author/' + JSON.parse(author).id"
             class="result_detail_author"
-            v-for="(author,index) in article.authors"
-            :key="author.name"
+            v-for="(author,key,index) in this.searchState.results[0].authors.raw"
+            :key = "author.name"
           >
-            {{ author.name}}
+            {{ JSON.parse(author).name }}
               <div style="display:inline;" v-if="(index < (article.authors_count-1))">,</div>
               <div style="display:inline;" v-else>...</div>
           </router-link>
@@ -87,8 +87,8 @@ export default {
       this.searchState = state;
     });
 
-    driver.clearFilters()
-    driver.addFilter("id",this.$route.params.docid,"any")
+    driver.clearFilters();
+    driver.addFilter("id",this.$route.params.docid,"any");
     //driver.getActions().setSearchTerm("")
     //console.log(this.searchState)
     //console.log(this.searchState.results[0].authors.raw.length)
@@ -110,7 +110,8 @@ export default {
         starred:false,
         listed:false,
       },
-      searchState:{}
+      searchState:{},
+      authors: {},
     };
   },
   computed: {
@@ -123,7 +124,6 @@ export default {
             let formData = new FormData();
             console.log("hello");
             console.log(this.$route.params.docid);
-
             //console.log(localStorage.getItem('userid'));
             //formData.append('user_id', 1);
             let config = {
@@ -170,7 +170,13 @@ export default {
       this.$data.article.listed = false;
     },
     showInfo(){
-      console.log(this.searchState.results)
+      console.log(this.searchState)
+      console.log(this.article.authors);
+      console.log(this.authors);
+      console.log(JSON.parse(this.searchState.results[0].authors.raw[0]));
+      //console.log(this.searchState.results[0].authors.raw);
+      //console.log(this.searchState.results[0].authors.raw[0]);
+      //console.log(JSON.parse(this.searchState.results[0].authors.raw[0]));
     }
   },
 };
