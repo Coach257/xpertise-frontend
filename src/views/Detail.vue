@@ -1,5 +1,5 @@
 <template>
-  <div id="result_detail_page" v-show="thereAreResults"> 
+  <div id="result_detail_page" v-show="thereAreResults">
     <div class="result_detail_page_container">
       <div class="result_detail_title_area">
         <div class="result_detail_categories">
@@ -35,7 +35,7 @@
         <div v-show="thereAreResults" class="result_detail_title">
           {{ searchState.results[0].title.raw}}
         </div>
-        <div class="result_deatil_author_container">
+        <div class="result_detail_author_container">
           <router-link
             tag="div"
             :to="'/author/' + author.id"
@@ -43,7 +43,7 @@
             v-for="(author,index) in article.authors"
             :key="author.name"
           >
-            {{ author.name}} 
+            {{ author.name}}
               <div style="display:inline;" v-if="(index < (article.authors_count-1))">,</div>
               <div style="display:inline;" v-else>...</div>
           </router-link>
@@ -60,12 +60,12 @@
           <h3>下载</h3>
           <el-button type="primary" icon="el-icon-document" plain>查看原文</el-button>
           <el-button icon="el-icon-download" plain>下载</el-button>
-          <h3>引用</h3>          
+          <h3>引用</h3>
           <el-button icon="el-icon-document-copy" plain>复制引用信息</el-button>
           <h3>操作</h3>
           <el-button type="warning" icon="el-icon-star-off" v-if="article.starred===false" @click="addToFav" plain>收藏</el-button>
           <el-button type="warning" icon="el-icon-star-on" v-else @click="removeFromFav">已收藏</el-button>
-          <el-button type="warning" @click="showinfo">显示信息</el-button>
+          <el-button type="warning" @click="showInfo">显示信息</el-button>
            <el-button type="success" icon="el-icon-circle-plus-outline" v-if="article.listed===false" @click="addToList" plain>添加到清单</el-button>
           <el-button type="success" icon="el-icon-circle-check" v-else @click="removeFromList">已添加到清单</el-button>
         </div>
@@ -90,8 +90,9 @@ export default {
     driver.clearFilters()
     driver.addFilter("id",this.$route.params.docid,"any")
     //driver.getActions().setSearchTerm("")
-    
-    console.log(this.searchState)
+    //console.log(this.searchState)
+    //console.log(this.searchState.results[0].authors.raw.length)
+    //console.log(this.searchState.results[0].title.raw)
     //this.getInfo();
   },
   data() {
@@ -122,7 +123,7 @@ export default {
             let formData = new FormData();
             console.log("hello");
             console.log(this.$route.params.docid);
-            
+
             //console.log(localStorage.getItem('userid'));
             //formData.append('user_id', 1);
             let config = {
@@ -168,7 +169,7 @@ export default {
     removeFromList(){
       this.$data.article.listed = false;
     },
-    showinfo(){
+    showInfo(){
       console.log(this.searchState.results)
     }
   },
@@ -177,12 +178,12 @@ export default {
 <style scoped>
 .result_detail_category_part {
   display: inline;
-  
+
   font-size: 13px;
 }
 .result_detail_author {
   display: inline;
-  
+
   font-size: 13px;
   color:royalblue;
 }
@@ -218,7 +219,7 @@ export default {
 }
 .result_detail_side_container{
   width:100%
-  
+
 }
 .result_detail_title{
   font-weight: bold;
