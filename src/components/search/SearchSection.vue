@@ -6,7 +6,7 @@
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
 
-          <div v-if="getSearchObject==='article'" id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
+          <div v-if="getSearchObject==='paper'" id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
             <SearchSort v-show="thereAreResults" v-model="sortBy" />
 
 
@@ -101,7 +101,7 @@ export default {
       return this.searchState.totalResults && this.searchState.totalResults > 0;
     },
     getSearchObject (){
-      return 'article';
+      return 'paper';
     }
   },
   watch: {
