@@ -52,7 +52,9 @@
     },
     methods: {
       submit () {
-        this.show = true
+        if(this.input!=''){
+          this.show = true
+        }
       },
       mouseOver () {
         this.$gsap.to("#searchinput", {duration: 0.1,  boxShadow:'0px 0px 20px 10px rgb(127,127,127,0.3)'})

@@ -82,14 +82,6 @@ export default {
           title:"计算机科学",
           url: "/cs",
         },
-        {
-          title: "学科",
-          url: "/categories",
-        },
-        {
-          title: "学者",
-          url: "/portal",
-        },
       ],
       active_index: 0,
       logged_in: false,

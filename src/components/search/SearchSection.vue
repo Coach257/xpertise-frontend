@@ -141,7 +141,9 @@ export default {
 
   methods: {
     handleFormSubmit() {
-      driver.getActions().setSearchTerm(this.searchInputValue);
+      if(this.searchInputValue!=''){
+        driver.getActions().setSearchTerm(this.searchInputValue);
+      }
     },
     handleFacetChange(event, facet) {
       const { value, checked } = event.target;
