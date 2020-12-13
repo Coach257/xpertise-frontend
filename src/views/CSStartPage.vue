@@ -15,7 +15,7 @@
 
       </div>
 
-      <SearchSection :type="['cs']" :input='input' v-if='show' />
+      <SearchSection :type="'cs'" :input='input' v-if='show' />
 
   </div>
 </template>

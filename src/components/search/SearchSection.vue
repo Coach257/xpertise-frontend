@@ -1,6 +1,7 @@
 <template>
   <div class="sui-layout">
-    <SearchHeader v-model="searchInputValue" @submit="handleFormSubmit" />
+    <el-button @click="debug()">DEBUG</el-button>
+    <SearchHeader v-model="searchInputValue" @submit="handleFormSubmit" v-on:OptionChange="ChangeOption" />
     <div v-if="searchState.wasSearched" class="sui-layout-body">
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
@@ -62,7 +63,7 @@
 
 <script>
 import { SearchDriver } from "@elastic/search-ui";
-import {mainpaperconfig,cspaperconfig} from "../../searchConfig";
+import {mainpaperconfig,mainauthorconfig,cspaperconfig,csauthorconfig,csaffiliationconfig} from "../../searchConfig";
 import SearchResults from "./SearchResults";
 import SearchFacet from "./SearchFacet";
 import SearchHeader from "./SearchHeader";
@@ -71,7 +72,7 @@ import SearchPagination from "./SearchPagination";
 import SearchSort from "./SearchSort";
 import SearchResultsPerPage from "./SearchResultsPerPage";
 
-const driver = new SearchDriver(mainpaperconfig);
+var driver = null;
 
 export default {
   props: ['input','type'],
@@ -91,7 +92,8 @@ export default {
       year: [],
       lang: [],
       resultsPerPage: 20,
-      sortBy: "relevance"
+      sortBy: "relevance",
+      configoption: "paper"
     };
   },
   computed: {
@@ -108,9 +110,19 @@ export default {
     },
     sortBy(newSortBy) {
       driver.setSort(newSortBy, "desc");
+    },
+    configoption(newconfigoption){
+
     }
   },
   mounted() {
+    console.log(this.$props.type)
+    if(this.$props.type=="main"){
+      driver = new SearchDriver(mainpaperconfig)
+    }
+    else{
+      driver = new SearchDriver(cspaperconfig)
+    }
     const {
       searchTerm,
       sortField,
@@ -172,6 +184,15 @@ export default {
     },
     mouseLeaveWrapper () {
       this.$gsap.to("#wrapper", {duration: 0.1,  boxShadow:'0px 0px 10px 2px rgb(127,127,127,0.2)'})
+    },
+    debug(){
+      console.log(this.$props)
+    },
+    ChangeOption:function(data){
+      if(this.configoption != data){
+        this.configoption = data;
+        console.log("change");
+      }
     }
   }
 };

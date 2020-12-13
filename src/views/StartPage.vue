@@ -20,7 +20,7 @@
       <RankingList title='Top Affiliation'/>
       </div>
 
-      <SearchSection :input='input' v-if='show' />
+      <SearchSection :type="'main'" :input='input' v-if='show' />
   </div>
 </template>
 

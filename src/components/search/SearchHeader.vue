@@ -2,13 +2,22 @@
   <div class="sui-layout-header">
 
     <div class="sui-layout-header__inner">
-
+      <el-select v-model="optionvalue" placeholder="" @change="OptionChange">
+                <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+                >
+                </el-option>
+              </el-select>
       <form @submit.prevent="$emit('submit', $event.target.value)">
+        
         <div class="sui-search-box">
 
            <input
             type="text"
-            placeholder="Try searching for 'water', 'dragon' or 'ragnaros'"
+            placeholder="Search anything"
             class="sui-search-box__text-input"
             :value="value"
             @input="$emit('input', $event.target.value)"
@@ -37,17 +46,41 @@ export default {
   props: {
     value: {
       required: true,
-      type: String
-    }
+      type: String,
+    },
+  },
+  data() {
+    return {
+      options: [
+        {
+          value: "paper",
+          label: "文献",
+        },
+        {
+          value: "author",
+          label: "作者",
+        },
+      ],
+      optionvalue: "paper",
+    };
   },
   methods: {
-    mouseOver () {
-      this.$gsap.to(".sui-search-box__text-input", {duration: 0.1,  boxShadow:'0px 0px 20px 6px rgb(127,127,127,0.3)'})
+    mouseOver() {
+      this.$gsap.to(".sui-search-box__text-input", {
+        duration: 0.1,
+        boxShadow: "0px 0px 20px 6px rgb(127,127,127,0.3)",
+      });
     },
-    mouseLeaver () {
-      this.$gsap.to(".sui-search-box__text-input", {duration: 0.1,  boxShadow:'0px 0px 8px 2px rgb(50,50,50,0.1)'})
+    mouseLeaver() {
+      this.$gsap.to(".sui-search-box__text-input", {
+        duration: 0.1,
+        boxShadow: "0px 0px 8px 2px rgb(50,50,50,0.1)",
+      });
+    },
+    OptionChange(){
+      this.$emit('OptionChange',this.optionvalue)
     }
-  }
+  },
 };
 </script>
 
@@ -72,11 +105,11 @@ export default {
   position: relative;
   top: -22px;
 
-  box-shadow: 0px 0px 8px 2px rgb(50,50,50,0.1);
+  box-shadow: 0px 0px 8px 2px rgb(50, 50, 50, 0.1);
 }
 .el-icon-search {
   font-size: 20px;
-  color: rgb(127,127,127,0.6);
+  color: rgb(127, 127, 127, 0.6);
 
   position: relative;
   top: -13px;
@@ -84,5 +117,4 @@ export default {
 
   cursor: pointer;
 }
-
 </style>
