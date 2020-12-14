@@ -117,7 +117,57 @@ export default {
       driver.setSort(newSortBy, "desc");
     },
     configoption(newconfigoption){
+      
+      if(this.$props.type=="main"){
+        if (this.configoption=="paper"){
+          console.log("mainpaperconfig");
+          driver = new SearchDriver(mainpaperconfig)
+        }
+        else {
+          console.log("mainauthorconfig");
+          driver = new SearchDriver(mainauthorconfig)
+        }
+      }
+      else{
+        if (this.configoption=="paper"){
+          console.log("cspaperconfig");
+          driver = new SearchDriver(cspaperconfig)
+        }
+        else {
+          console.log("csauthorconfig");
+          driver = new SearchDriver(csauthorconfig)
+        }
+      }
 
+      const {
+      searchTerm,
+      sortField,
+      resultsPerPage,
+      filters,
+      facets
+      } = driver.getState();
+
+      // restoring UI from url query
+      this.searchInputValue = searchTerm;
+      this.sortBy = sortField;
+      this.resultsPerPage = resultsPerPage;
+      filters.forEach(filter => {
+        if (facets[filter.field][0].type === "range") {
+          this[filter.field] = filter.values.map(value => value.name);
+        } else {
+          this[filter.field] = filter.values;
+        }
+      });
+
+      driver.subscribeToStateChanges(state => {
+        this.searchState = state;
+      });
+
+      driver.getActions().setSearchTerm(this.input)
+      this.searchInputValue = this.input
+      console.log("改变again configoption");
+      //console.log(this.$props.type);
+      //console.log(this.configoption);
     }
   },
   mounted() {
