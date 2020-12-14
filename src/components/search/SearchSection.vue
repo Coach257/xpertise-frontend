@@ -1,14 +1,15 @@
 <template>
   <div class="sui-layout">
     <el-button @click="debug()">DEBUG</el-button>
-    <SearchHeader v-model="searchInputValue" @submit="handleFormSubmit" v-on:OptionChange="ChangeOption" />
+    <SearchHeader v-model="searchInputValue" @submit="handleFormSubmit" />
     <div v-if="searchState.wasSearched" class="sui-layout-body">
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
 
-          <div v-if="getSearchObject==='paper'" id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
-            <SearchSort v-show="thereAreResults" v-model="sortBy" />
+          <div v-if="getSearchObject==='paper'" class='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
+            <SearchSort v-model="sortBy" />
 
+            <SearchTypeSelection v-on:OptionChange="ChangeOption"/>
 
             <SearchFacet
               :checked="year"
@@ -23,12 +24,13 @@
             />
           </div>
 
-          <div v-else-if="getSearchObject==='author'" id='wrapper2' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
-            <SearchSort v-show="thereAreResults" v-model="sortBy" />
+          <div v-else-if="getSearchObject==='author'" class='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
+            <SearchSort v-model="sortBy" />
+            <SearchTypeSelection v-on:OptionChange="ChangeOption"/>
 
           </div>
 
-          
+
 
         </div>
 
@@ -71,6 +73,7 @@ import SearchPagingInfo from "./SearchPagingInfo";
 import SearchPagination from "./SearchPagination";
 import SearchSort from "./SearchSort";
 import SearchResultsPerPage from "./SearchResultsPerPage";
+import SearchTypeSelection from './SearchTypeSelection.vue'
 
 var driver = null;
 
@@ -83,7 +86,8 @@ export default {
     SearchPagingInfo,
     SearchPagination,
     SearchSort,
-    SearchResultsPerPage
+    SearchResultsPerPage,
+    SearchTypeSelection
   },
   data() {
     return {
@@ -101,6 +105,7 @@ export default {
       return this.searchState.totalResults && this.searchState.totalResults > 0;
     },
     getSearchObject (){
+      return this.configoption;
       return 'paper';
     }
   },
@@ -180,10 +185,10 @@ export default {
       driver.setCurrent(page);
     },
     mouseOverWrapper () {
-      this.$gsap.to("#wrapper", {duration: 0.1,  boxShadow:'0px 0px 35px 13px rgb(127,127,127,0.3)'})
+      this.$gsap.to(".wrapper", {duration: 0.1,  boxShadow:'0px 0px 35px 13px rgb(127,127,127,0.3)'})
     },
     mouseLeaveWrapper () {
-      this.$gsap.to("#wrapper", {duration: 0.1,  boxShadow:'0px 0px 10px 2px rgb(127,127,127,0.2)'})
+      this.$gsap.to(".wrapper", {duration: 0.1,  boxShadow:'0px 0px 10px 2px rgb(127,127,127,0.2)'})
     },
     debug(){
       console.log(this.$props)
@@ -192,6 +197,7 @@ export default {
       if(this.configoption != data){
         this.configoption = data;
         console.log("change");
+        console.log(this.configoption);
       }
     }
   }
@@ -199,7 +205,7 @@ export default {
 </script>
 
 <style scoped>
-#wrapper {
+.wrapper {
   /* border: #cccccc solid thin; */
   border: 1px solid #f0f0f0;
   border-radius: 30px;;

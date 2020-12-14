@@ -2,17 +2,9 @@
   <div class="sui-layout-header">
 
     <div class="sui-layout-header__inner">
-      <el-select v-model="optionvalue" placeholder="" @change="OptionChange">
-                <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-                >
-                </el-option>
-              </el-select>
+
       <form @submit.prevent="$emit('submit', $event.target.value)">
-        
+
         <div class="sui-search-box">
 
            <input
@@ -48,21 +40,6 @@ export default {
       required: true,
       type: String,
     },
-  },
-  data() {
-    return {
-      options: [
-        {
-          value: "paper",
-          label: "文献",
-        },
-        {
-          value: "author",
-          label: "作者",
-        },
-      ],
-      optionvalue: "paper",
-    };
   },
   methods: {
     mouseOver() {
