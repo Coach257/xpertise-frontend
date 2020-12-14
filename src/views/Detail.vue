@@ -4,14 +4,14 @@
       <div class="result_detail_title_area">
         <div class="result_detail_categories"></div>
         <div class="result_detail_title">
-          {{ searchState.results[0].title.raw }}
+          {{ this.article.title }}
         </div>
         <div class="result_detail_author_container">
           <router-link
             tag="div"
             :to="'/author/' + author.id"
             class="result_detail_author"
-            v-for="(author, key, index) in this.authors"
+            v-for="(author, index) in this.article.authors"
             :key="author.id"
           >
             {{ author.name }}
@@ -28,9 +28,20 @@
       </div>
       <div class="result_detail_article_area">
         <h3>摘要</h3>
-        <p>{{ article.abstract }}</p>
+        <p>{{ this.article.abstract }}</p>
         <h3>信息</h3>
-        <p v-for="item in article.other" :key="item.name1">item</p>
+        <!-- <p v-for="item in article.other" :key="item.name1">item</p> -->
+        <p>{{this.article.year}}</p>
+        <p>{{this.article.keywords}}</p>
+        <p>{{this.article.n_citation}}</p>
+        <p>{{this.article.page_start}} {{this.article.page_end}}</p>
+        <p>{{this.article.lang}}</p>
+        <p>{{this.article.issue}}</p>
+        <p>{{this.article.venue}}</p>
+        <p>{{this.article.conference}}</p>
+        <p>{{this.article.issn}}</p>
+        <p>{{this.article.doi}}</p>
+        <p>{{this.article.url}}</p>
       </div>
       <div class="result_detail_side_area">
         <div class="result_detail_side_container">
@@ -98,39 +109,76 @@ export default {
   data() {
     return {
       article: {
-        title: "This is an example title.",
-        authors: [
-          { name: "Author One", id: 1 },
-          { name: "Author Two", id: 2 },
-          { name: "Author Three", id: 3 },
-        ],
-        authors_count: 3,
-        abstract:
-          "We study symmetric spiked matrix models with respect to a general class of noise distributions. Given a rank-1 deformation of a random noise matrix, whose entries are independently distributed with zero mean and unit variance, the goal is to estimate the rank-1 part. For the case of Gaussian noise, the top eigenvector of the given matrix is a widely-studied estimator known to achieve optimal statistical guarantees, e.g., in the sense of the celebrated BBP phase transition. However, this estimator can fail completely for heavy-tailed noise. In this work, we exhibit an estimator that works for heavy-tailed noise up to the BBP threshold that is optimal even for Gaussian noise. We give a non-asymptotic analysis of our estimator which relies only on the variance of each entry remaining constant as the size of the matrix grows: higher moments may grow arbitrarily fast or even fail to exist. Previously, it was only known how to achieve these guarantees if higher-order moments of the noises are bounded by a constant independent of the size of the matrix. Our estimator can be evaluated in polynomial time by counting self-avoiding walks via a color -coding technique. Moreover, we extend our estimator to spiked tensor models and establish analogous results.",
-        other: ["Pages:38 pages"],
+        title: "",
+        authors: [],
+        abstract:"",
+        year:"",
+        keywords: [],
+        n_citation:"",
+        page_start:"",
+        page_end:"",
+        lang:"",
+        issue:"",
+        venue:"",
+        conference:"",
+        volume:"",
+        issn:"",
+        doi:"",
+        url:"",
         starred: false,
         listed: false,
       },
       searchState: {},
-      authors: [],
     };
   },
   watch: {
     searchState(newsearchState) {
       if (this.thereAreResults()) {
+        // 任意一种result都有可能没有任意一种属性,任意一种属性的值都有可能为空
+        var results = newsearchState.results[0];
+        var raw;
+        // 更新标题
+        if(results.title)this.article.title = results.title.raw;
         // 更新作者
-        var raw = newsearchState.results[0].authors.raw;
-        for (var i = 0; i<raw.length;i++){
-          this.authors.push(JSON.parse(raw[i]))
+        if(results.authors){
+          raw = results.authors.raw;
+          for (var i = 0; i<raw.length;i++){
+            this.article.authors.push(JSON.parse(raw[i]));
+          }
         }
+        // 更新摘要
+        if(results.abstract)this.article.abstract = results.abstract.raw;
+        // 更新发布年份
+        if(results.year)this.article.year = results.year.raw;
+        // 更新关键词
+        if(results.keywords){
+          raw = results.keywords.raw;
+          for (var i = 0; i<raw.length;i++){
+            this.article.keywords.push(raw[i]);
+          }
+        }
+        // 更新引用数
+        if(results.n_citation)this.article.n_citation = results.n_citation.raw;
+        // 更新页
+        if(results.page_start){
+          this.article.page_start = results.page_start.raw;
+          this.article.page_end = results.page_end.raw;
+        }      
+        if(results.lang)this.article.lang = results.lang.raw;
+        if(results.issue)this.article.issue = results.issue.raw;
+        if(results.venue)this.article.venue = results.venue.raw;
+        if(results.conference)this.article.conference = results.conference.raw;
+        if(results.volume)this.article.volume = results.volume.raw;
+        if(results.issn)this.article.issn = results.issn.raw;
+        if(results.doi)this.article.doi = results.doi.raw;
+        if(results.url)this.article.url = results.url.raw;
       }
     },
   },
   computed: {
     //computed最高优先级，只有当loadfinish为true时,才开始页面加载
     loadfinish(){
-      console.log(this.authors && this.authors.length>0);
-      return this.authors && this.authors.length>0;
+      return this.article.authors && this.article.authors.length>0;
     },
   },
   methods: {

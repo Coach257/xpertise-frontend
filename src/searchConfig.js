@@ -65,12 +65,12 @@ const cspaperconfig = {
   debug: false,
   apiConnector: cspaperconnector,
   searchQuery: {
-    disjunctiveFacets: ["year", "venue"],
+    disjunctiveFacets: ["year", "conference"],
     facets: {
       year: {
         type: "value"
       },
-      venue: {
+      conference: {
         type: "value"
       },
     }
