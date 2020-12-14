@@ -104,6 +104,7 @@ export default {
       return this.searchState.totalResults && this.searchState.totalResults > 0;
     },
     getSearchObject (){
+      return this.configoption;
       return 'paper';
     }
   },
@@ -194,7 +195,8 @@ export default {
     ChangeOption:function(data){
       if(this.configoption != data){
         this.configoption = data;
-        console.log("change to " + data);
+        console.log("change");
+        console.log(this.configoption);
       }
     }
   }
