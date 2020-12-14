@@ -6,7 +6,7 @@
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
 
-          <div v-if="getSearchObject==='paper'" id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
+          <div v-if="getSearchObject==='paper'" class='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
             <SearchSort v-model="sortBy" />
 
             <SearchTypeSelection v-on:OptionChange="ChangeOption"/>
@@ -24,8 +24,9 @@
             />
           </div>
 
-          <div v-else-if="getSearchObject==='author'" id='wrapper2' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
-            <SearchSort v-show="thereAreResults" v-model="sortBy" />
+          <div v-else-if="getSearchObject==='author'" class='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
+            <SearchSort v-model="sortBy" />
+            <SearchTypeSelection v-on:OptionChange="ChangeOption"/>
 
           </div>
 
@@ -184,10 +185,10 @@ export default {
       driver.setCurrent(page);
     },
     mouseOverWrapper () {
-      this.$gsap.to("#wrapper", {duration: 0.1,  boxShadow:'0px 0px 35px 13px rgb(127,127,127,0.3)'})
+      this.$gsap.to(".wrapper", {duration: 0.1,  boxShadow:'0px 0px 35px 13px rgb(127,127,127,0.3)'})
     },
     mouseLeaveWrapper () {
-      this.$gsap.to("#wrapper", {duration: 0.1,  boxShadow:'0px 0px 10px 2px rgb(127,127,127,0.2)'})
+      this.$gsap.to(".wrapper", {duration: 0.1,  boxShadow:'0px 0px 10px 2px rgb(127,127,127,0.2)'})
     },
     debug(){
       console.log(this.$props)
@@ -204,7 +205,7 @@ export default {
 </script>
 
 <style scoped>
-#wrapper {
+.wrapper {
   /* border: #cccccc solid thin; */
   border: 1px solid #f0f0f0;
   border-radius: 30px;;
