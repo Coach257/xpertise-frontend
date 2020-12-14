@@ -20,7 +20,7 @@
           <router-link :to="{name: 'MyCollection'}">
             <el-menu-item index="/user/my-collection">
               <i class=""></i>
-              <span slot="title">我的消息</span>
+              <span slot="title">我的收藏</span>
             </el-menu-item>
           </router-link>
 
