@@ -1,14 +1,15 @@
 <template>
   <div class="sui-layout">
     <el-button @click="debug()">DEBUG</el-button>
-    <SearchHeader v-model="searchInputValue" @submit="handleFormSubmit" v-on:OptionChange="ChangeOption" />
+    <SearchHeader v-model="searchInputValue" @submit="handleFormSubmit" />
     <div v-if="searchState.wasSearched" class="sui-layout-body">
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
 
           <div v-if="getSearchObject==='paper'" id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
-            <SearchSort v-show="thereAreResults" v-model="sortBy" />
+            <SearchSort v-model="sortBy" />
 
+            <SearchTypeSelection v-on:OptionChange="ChangeOption"/>
 
             <SearchFacet
               :checked="year"
@@ -28,7 +29,7 @@
 
           </div>
 
-          
+
 
         </div>
 
@@ -71,6 +72,7 @@ import SearchPagingInfo from "./SearchPagingInfo";
 import SearchPagination from "./SearchPagination";
 import SearchSort from "./SearchSort";
 import SearchResultsPerPage from "./SearchResultsPerPage";
+import SearchTypeSelection from './SearchTypeSelection.vue'
 
 var driver = null;
 
@@ -83,7 +85,8 @@ export default {
     SearchPagingInfo,
     SearchPagination,
     SearchSort,
-    SearchResultsPerPage
+    SearchResultsPerPage,
+    SearchTypeSelection
   },
   data() {
     return {
@@ -191,7 +194,7 @@ export default {
     ChangeOption:function(data){
       if(this.configoption != data){
         this.configoption = data;
-        console.log("change");
+        console.log("change to " + data);
       }
     }
   }
