@@ -119,10 +119,18 @@ export default {
   mounted() {
     console.log(this.$props.type)
     if(this.$props.type=="main"){
-      driver = new SearchDriver(mainpaperconfig)
+      if (this.configoption=="paper"){
+        driver = new SearchDriver(mainpaperconfig)
+      }
+      else 
+        driver = new SearchDriver(mainauthorconfig)
     }
     else{
-      driver = new SearchDriver(cspaperconfig)
+      if (this.configoption=="paper"){
+        driver = new SearchDriver(cspaperconfig)
+      }
+      else 
+        driver = new SearchDriver(csauthorconfig)
     }
     const {
       searchTerm,

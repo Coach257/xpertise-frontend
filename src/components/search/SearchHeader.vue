@@ -78,7 +78,12 @@ export default {
       });
     },
     OptionChange(){
-      this.$emit('OptionChange',this.optionvalue)
+      this.$emit('OptionChange',this.optionvalue);
+      /*
+      setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+      */
     }
   },
 };
