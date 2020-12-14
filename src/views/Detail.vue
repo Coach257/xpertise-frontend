@@ -1,5 +1,5 @@
 <template>
-  <div id="result_detail_page" v-show="thereAreResults">
+  <div id="result_detail_page" v-if="thereAreResults">
     <div class="result_detail_page_container">
       <div class="result_detail_title_area">
         <div class="result_detail_categories">
@@ -32,7 +32,7 @@
             >{{ article.detailed_category }}
           </router-link>
         </div>
-        <div v-show="thereAreResults" class="result_detail_title">
+        <div v-if="thereAreResults" class="result_detail_title">
           {{ searchState.results[0].title.raw}}
         </div>
         <div class="result_detail_author_container">
@@ -66,8 +66,6 @@
           <el-button type="warning" icon="el-icon-star-off" v-if="article.starred===false" @click="addToFav" plain>收藏</el-button>
           <el-button type="warning" icon="el-icon-star-on" v-else @click="removeFromFav">已收藏</el-button>
           <el-button type="warning" @click="showInfo">显示信息</el-button>
-           <el-button type="success" icon="el-icon-circle-plus-outline" v-if="article.listed===false" @click="addToList" plain>添加到清单</el-button>
-          <el-button type="success" icon="el-icon-circle-check" v-else @click="removeFromList">已添加到清单</el-button>
         </div>
       </div>
     </div>
@@ -75,20 +73,26 @@
 </template>
 <script>
 import { SearchDriver } from "@elastic/search-ui";
-import {mainpaperconfig,cspaperconfig} from "../searchConfig";
-const driver = new SearchDriver(cspaperconfig)
+import {mainpaperconfig,mainauthorconfig,cspaperconfig,csauthorconfig,csaffiliationconfig} from "../searchConfig";
+var driver = null;
 
 export default {
   name: "ResultDetailPage",
-  props: ['type'],
+  props: [],
   components: {},
   mounted() {
+    console.log(this.$route.params.type)
+    if(this.$route.params.type == "cs"){
+      driver = new SearchDriver(cspaperconfig);
+      // this.getInfo(); 这里调用scholarly获取补充信息
+    }
+    else{
+      driver = new SearchDriver(mainpaperconfig);
+    }
+    driver.addFilter("id",this.$route.params.docid,"any");
     driver.subscribeToStateChanges(state => {
       this.searchState = state;
     });
-
-    driver.clearFilters();
-    driver.addFilter("id",this.$route.params.docid,"any");
     //driver.getActions().setSearchTerm("")
     //console.log(this.searchState)
     //console.log(this.searchState.results[0].authors.raw.length)
@@ -122,10 +126,7 @@ export default {
   methods: {
     getInfo() {
             let formData = new FormData();
-            console.log("hello");
-            console.log(this.$route.params.docid);
-            //console.log(localStorage.getItem('userid'));
-            //formData.append('user_id', 1);
+            formData.append('id', this.$route.params.docid);
             let config = {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -162,12 +163,6 @@ export default {
     },
     removeFromFav(){
       this.$data.article.starred = false;
-    },
-    addToList(){
-      this.$data.article.listed = true;
-    },
-    removeFromList(){
-      this.$data.article.listed = false;
     },
     showInfo(){
       console.log(this.searchState)

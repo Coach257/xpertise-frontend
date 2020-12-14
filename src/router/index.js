@@ -83,7 +83,7 @@ const routes = [
     component: ResultDetailPage,
   },
   {
-    path: '/detail/:docid',
+    path: '/detail/:type/:docid',
     name: 'Detail',
     component: Detail,
   },
