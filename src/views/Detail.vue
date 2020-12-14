@@ -1,23 +1,28 @@
 <template>
-  <div id="result_detail_page" v-if="thereAreResults">
+  <div id="result_detail_page" v-if="loadfinish">
     <div class="result_detail_page_container">
       <div class="result_detail_title_area">
-        <div class="result_detail_categories">
-        </div>
-        <div v-if="thereAreResults" class="result_detail_title">
-          {{ searchState.results[0].title.raw}}
+        <div class="result_detail_categories"></div>
+        <div class="result_detail_title">
+          {{ searchState.results[0].title.raw }}
         </div>
         <div class="result_detail_author_container">
           <router-link
             tag="div"
-            :to="'/author/' + JSON.parse(author).id"
+            :to="'/author/' + author.id"
             class="result_detail_author"
-            v-for="(author,key,index) in this.searchState.results[0].authors.raw"
-            :key = "author.name"
+            v-for="(author, key, index) in this.authors"
+            :key="author.id"
           >
-            {{ JSON.parse(author).name }}
-              <div style="display:inline;" v-if="(index < (article.authors_count-1))">,</div>
-              <div style="display:inline;" v-else>...</div>
+            {{ author.name }}
+            {{ author.org }}
+            <div
+              style="display: inline"
+              v-if="index < article.authors_count - 1"
+            >
+              ,
+            </div>
+            <div style="display: inline" v-else>...</div>
           </router-link>
         </div>
       </div>
@@ -30,13 +35,28 @@
       <div class="result_detail_side_area">
         <div class="result_detail_side_container">
           <h3>下载</h3>
-          <el-button type="primary" icon="el-icon-document" plain>查看原文</el-button>
+          <el-button type="primary" icon="el-icon-document" plain
+            >查看原文</el-button
+          >
           <el-button icon="el-icon-download" plain>下载</el-button>
           <h3>引用</h3>
           <el-button icon="el-icon-document-copy" plain>复制引用信息</el-button>
           <h3>操作</h3>
-          <el-button type="warning" icon="el-icon-star-off" v-if="article.starred===false" @click="addToFav" plain>收藏</el-button>
-          <el-button type="warning" icon="el-icon-star-on" v-else @click="removeFromFav">已收藏</el-button>
+          <el-button
+            type="warning"
+            icon="el-icon-star-off"
+            v-if="article.starred === false"
+            @click="addToFav"
+            plain
+            >收藏</el-button
+          >
+          <el-button
+            type="warning"
+            icon="el-icon-star-on"
+            v-else
+            @click="removeFromFav"
+            >已收藏</el-button
+          >
           <el-button type="warning" @click="showInfo">显示信息</el-button>
         </div>
       </div>
@@ -45,7 +65,13 @@
 </template>
 <script>
 import { SearchDriver } from "@elastic/search-ui";
-import {mainpaperconfig,mainauthorconfig,cspaperconfig,csauthorconfig,csaffiliationconfig} from "../searchConfig";
+import {
+  mainpaperconfig,
+  mainauthorconfig,
+  cspaperconfig,
+  csauthorconfig,
+  csaffiliationconfig,
+} from "../searchConfig";
 var driver = null;
 
 export default {
@@ -53,16 +79,14 @@ export default {
   props: [],
   components: {},
   mounted() {
-    console.log(this.$route.params.type)
-    if(this.$route.params.type == "cs"){
+    console.log(this.$route.params.type);
+    if (this.$route.params.type == "cs") {
       driver = new SearchDriver(cspaperconfig);
-      // this.getInfo(); 这里调用scholarly获取补充信息
-    }
-    else{
+    } else {
       driver = new SearchDriver(mainpaperconfig);
     }
-    driver.addFilter("id",this.$route.params.docid,"any");
-    driver.subscribeToStateChanges(state => {
+    driver.addFilter("id", this.$route.params.docid, "any");
+    driver.subscribeToStateChanges((state) => {
       this.searchState = state;
     });
     //driver.getActions().setSearchTerm("")
@@ -75,73 +99,96 @@ export default {
     return {
       article: {
         title: "This is an example title.",
-        authors: [{name:"Author One",id:1},{name: "Author Two",id:2},{name:"Author Three",id:3}],
-        authors_count:3,
+        authors: [
+          { name: "Author One", id: 1 },
+          { name: "Author Two", id: 2 },
+          { name: "Author Three", id: 3 },
+        ],
+        authors_count: 3,
         abstract:
           "We study symmetric spiked matrix models with respect to a general class of noise distributions. Given a rank-1 deformation of a random noise matrix, whose entries are independently distributed with zero mean and unit variance, the goal is to estimate the rank-1 part. For the case of Gaussian noise, the top eigenvector of the given matrix is a widely-studied estimator known to achieve optimal statistical guarantees, e.g., in the sense of the celebrated BBP phase transition. However, this estimator can fail completely for heavy-tailed noise. In this work, we exhibit an estimator that works for heavy-tailed noise up to the BBP threshold that is optimal even for Gaussian noise. We give a non-asymptotic analysis of our estimator which relies only on the variance of each entry remaining constant as the size of the matrix grows: higher moments may grow arbitrarily fast or even fail to exist. Previously, it was only known how to achieve these guarantees if higher-order moments of the noises are bounded by a constant independent of the size of the matrix. Our estimator can be evaluated in polynomial time by counting self-avoiding walks via a color -coding technique. Moreover, we extend our estimator to spiked tensor models and establish analogous results.",
         other: ["Pages:38 pages"],
-        starred:false,
-        listed:false,
+        starred: false,
+        listed: false,
       },
-      searchState:{},
-      authors: {},
+      searchState: {},
+      authors: [],
     };
   },
+  watch: {
+    searchState(newsearchState) {
+      if (this.thereAreResults()) {
+        // 更新作者
+        var raw = newsearchState.results[0].authors.raw;
+        for (var i = 0; i<raw.length;i++){
+          this.authors.push(JSON.parse(raw[i]))
+        }
+      }
+    },
+  },
   computed: {
-    thereAreResults() {
-      return this.searchState.totalResults && this.searchState.totalResults>0;
-    }
+    //computed最高优先级，只有当loadfinish为true时,才开始页面加载
+    loadfinish(){
+      console.log(this.authors && this.authors.length>0);
+      return this.authors && this.authors.length>0;
+    },
   },
   methods: {
     getInfo() {
-            let formData = new FormData();
-            formData.append('id', this.$route.params.docid);
-            let config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            };
-            var _this = this;
-            console.log("开始");
-            //此接口后端修改，所以暂时无法使用。
-            axios.get('https://go-service-296709.df.r.appspot.com/api/v1/portal/doc/query/' + this.$route.params.docid).then(response => {
-                console("进入")
-                if(response) {
-                     if(response) {
-                        if(response.data.success) {
-                            console.log(response)
-                            _this.article.title = response.data.data.title
-                            _this.article.abstract = response.data.data.abstract
-                            _this.article.author_list = response.data.data.authors
-                            console("陈坤")
-                        }
-                        else {
-                            console.log(response.data)
-                            console.log("获取失败 " + response.data)
-                        }
-                        console.log(_this.article.title)
-                    }
-                }
-                else {
-                    console.log("error");
-                }
-        })
+      let formData = new FormData();
+      formData.append("id", this.$route.params.docid);
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      var _this = this;
+      console.log("开始");
+      //此接口后端修改，所以暂时无法使用。
+      axios
+        .get(
+          "https://go-service-296709.df.r.appspot.com/api/v1/portal/doc/query/" +
+            this.$route.params.docid
+        )
+        .then((response) => {
+          console("进入");
+          if (response) {
+            if (response) {
+              if (response.data.success) {
+                console.log(response);
+                _this.article.title = response.data.data.title;
+                _this.article.abstract = response.data.data.abstract;
+                _this.article.author_list = response.data.data.authors;
+                console("陈坤");
+              } else {
+                console.log(response.data);
+                console.log("获取失败 " + response.data);
+              }
+              console.log(_this.article.title);
+            }
+          } else {
+            console.log("error");
+          }
+        });
     },
-    addToFav(){
+    addToFav() {
       this.$data.article.starred = true;
     },
-    removeFromFav(){
+    removeFromFav() {
       this.$data.article.starred = false;
     },
-    showInfo(){
-      console.log(this.searchState)
+    thereAreResults() {
+      return this.searchState.totalResults && this.searchState.totalResults > 0;
+    },
+    showInfo() {
+      console.log(this.searchState);
       console.log(this.article.authors);
       console.log(this.authors);
       console.log(JSON.parse(this.searchState.results[0].authors.raw[0]));
       //console.log(this.searchState.results[0].authors.raw);
       //console.log(this.searchState.results[0].authors.raw[0]);
       //console.log(JSON.parse(this.searchState.results[0].authors.raw[0]));
-    }
+    },
   },
 };
 </script>
@@ -155,7 +202,7 @@ export default {
   display: inline;
 
   font-size: 13px;
-  color:royalblue;
+  color: royalblue;
 }
 .result_detail_page_container {
   display: flex;
@@ -168,33 +215,32 @@ export default {
   width: 85vw;
   padding: 0px 20px 20px;
 }
-.result_detail_article_area{
-  width:50vw;
+.result_detail_article_area {
+  width: 50vw;
   border-width: 1px;
-  border-color:grey;
+  border-color: grey;
   /* border-style: solid; */
   border-radius: 10px;
-  margin-top:20px;
+  margin-top: 20px;
   padding: 0px 20px;
   /* background-image: linear-gradient(to right bottom, #abb7b7 ,#dadfe1); */
-  box-shadow: 2px 2px 20px rgba(0,0,0,.1),
-       -2px -2px 20px rgba(255, 255,255, .5)
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1),
+    -2px -2px 20px rgba(255, 255, 255, 0.5);
 }
-.result_detail_side_area{
-  width:30vw;
-  padding:0px 20px 20px;
-  margin-top:20px;
-  box-shadow: 2px 2px 20px rgba(0,0,0,.1),
-       -2px -2px 20px rgba(255, 255,255, .5)
+.result_detail_side_area {
+  width: 30vw;
+  padding: 0px 20px 20px;
+  margin-top: 20px;
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1),
+    -2px -2px 20px rgba(255, 255, 255, 0.5);
 }
-.result_detail_side_container{
-  width:100%
-
+.result_detail_side_container {
+  width: 100%;
 }
-.result_detail_title{
+.result_detail_title {
   font-weight: bold;
   font-size: 40px;
-  margin-top:-5px;
+  margin-top: -5px;
   margin-bottom: -5px;
   color: black;
 }
