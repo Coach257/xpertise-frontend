@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import gsap from 'gsap/all'
+import {gsap, PixiPlugin} from 'gsap/all'
 import {Message, MessageBox, Loading} from 'element-ui';
 import ElementUI from 'element-ui';
 import "element-ui/lib/theme-chalk/index.css";
@@ -22,6 +22,9 @@ Vue.prototype.$message = Message;
 Vue.prototype.$gsap = gsap
 Vue.prototype.$axios = axios;
 // Vue.prototype.$router = router;
+
+gsap.registerPlugin(PixiPlugin)
+
 new Vue({
   router,
   store,

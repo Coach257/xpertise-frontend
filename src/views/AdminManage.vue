@@ -2,56 +2,54 @@
   <div data-title="管理页面" class="admin_page">
     <!--      <h1>AdminManagePage</h1>-->
     <el-container>
-      <el-container>
-        <el-aside width="225px" id="aside_left">
-          <el-menu active-text-color="#1A1A1A"
-                   text-color="#5E5E5E"
-                   mode="vertical"
-                   :default-active="this.$route.path">
+      <el-aside width="225px" id="aside_left">
+        <el-menu active-text-color="#1A1A1A"
+                 text-color="#5E5E5E"
+                 mode="vertical"
+                 :default-active="this.$route.path">
 
-            <router-link :to="{name: 'ApplicationManage'}">
-              <el-menu-item index="/admin/application-manage">
-                <i class=""></i>
-                <span slot="title">申请处理</span>
-              </el-menu-item>
-            </router-link>
+          <router-link :to="{name: 'ApplicationManage'}">
+            <el-menu-item index="/admin/application-manage">
+              <i class=""></i>
+              <span slot="title">申请处理</span>
+            </el-menu-item>
+          </router-link>
 
-            <el-divider class="divider"></el-divider>
+          <el-divider class="divider"></el-divider>
 
-            <router-link :to="{name: 'ReportManage'}">
-              <el-menu-item index="/admin/report-manage">
-                <i class=""></i>
-                <span slot="title">举报处理</span>
-              </el-menu-item>
-            </router-link>
+          <router-link :to="{name: 'ReportManage'}">
+            <el-menu-item index="/admin/report-manage">
+              <i class=""></i>
+              <span slot="title">举报处理</span>
+            </el-menu-item>
+          </router-link>
 
-            <el-divider class="divider"></el-divider>
+          <el-divider class="divider"></el-divider>
 
-            <router-link :to="{name: 'SettleManage'}">
-              <el-menu-item index="/admin/settle-manage">
-                <i class=""></i>
-                <span slot="title">入驻处理</span>
-              </el-menu-item>
-            </router-link>
+          <router-link :to="{name: 'SettleManage'}">
+            <el-menu-item index="/admin/settle-manage">
+              <i class=""></i>
+              <span slot="title">入驻处理</span>
+            </el-menu-item>
+          </router-link>
 
-          </el-menu>
-        </el-aside>
-        <el-main :style="{height: spaceHeight}">
-          <router-view></router-view>
-          <!--          <el-scrollbar style="height: 100%">-->
-          <!--            <request-card></request-card>-->
-          <!--            <request-card></request-card>-->
-          <!--            <request-card></request-card>-->
-          <!--            <request-card></request-card>-->
-          <!--            <request-card></request-card>-->
+        </el-menu>
+      </el-aside>
+      <el-main :style="{height: spaceHeight}">
+        <router-view></router-view>
+        <!--          <el-scrollbar style="height: 100%">-->
+        <!--            <request-card></request-card>-->
+        <!--            <request-card></request-card>-->
+        <!--            <request-card></request-card>-->
+        <!--            <request-card></request-card>-->
+        <!--            <request-card></request-card>-->
 
-          <!--            &lt;!&ndash;            <DocumentCard context="isWorkingSpace" v-for="(doc,index) in docList" :key="index" :doc="doc" :doc-type="'isDefault'"/>&ndash;&gt;-->
-          <!--            &lt;!&ndash;            <div v-if="docList.length===0 && !isLoading" class="list_empty_notice">工作台空空如也</div>&ndash;&gt;-->
-          <!--            -->
-          <!--            ?-->
-          <!--          </el-scrollbar>-->
-        </el-main><!--主体-->
-      </el-container>
+        <!--            &lt;!&ndash;            <DocumentCard context="isWorkingSpace" v-for="(doc,index) in docList" :key="index" :doc="doc" :doc-type="'isDefault'"/>&ndash;&gt;-->
+        <!--            &lt;!&ndash;            <div v-if="docList.length===0 && !isLoading" class="list_empty_notice">工作台空空如也</div>&ndash;&gt;-->
+        <!--            -->
+        <!--            ?-->
+        <!--          </el-scrollbar>-->
+      </el-main><!--主体-->
     </el-container>
   </div>
 </template>

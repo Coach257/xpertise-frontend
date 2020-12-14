@@ -3,35 +3,47 @@
 
       <div id='backpic' v-if='!show'>
 
-        <div id='title' style="color:white ;font-family:MavenPro">
-             <span style="font-weight: bold; font-size: 40px; margin-right: 10px;">Xpertise</span>  <span style="font-size: 40px;">Scholar</span>
-             <br/>
-             <span style="font-size: 15px;">计算机科学  Computer Science</span>
+        <StartPageInfo style='color: white;'/>
+
+        <div id='title'>
+            <span style="font-weight: bold; font-size: 40px; margin-right: 10px;">Xpertise</span>  <span style="font-size: 20px;">Scholar</span><br>
+            <span>计算机科学 Computer Science</span>
         </div>
 
         <input id="searchinput" v-model='input' v-on:keyup.13="submit">
-            <i class="el-icon-search"></i>
-        <!-- </input> -->
+            <i class="el-icon-search" @click="submit()"></i>
 
       </div>
 
-      <SearchSection :type="'cs'" :input='input' v-if='show' />
+      <div v-if='!show' id='rankinglist'>
+      <RankingList title='Top Conference' type='cs'/>
+      <RankingList title='Top Author' type='cs'/>
+      <RankingList title='Top Affiliation' type='cs'/>
+      </div>
 
+      <SearchSection :type="'cs'" :input='input' v-if='show' />
   </div>
 </template>
 
 <script>
   import SearchSection from "../components/search/SearchSection.vue";
+  import StartPageInfo from "../components/common/StartPageInfo.vue";
+  import RankingList from "../components/rankinglist/RankingList.vue"
 
   export default {
-    name: 'CSStartPage',
+    name: 'StartPage',
     props: [
     ],
     components: {
-      SearchSection
+      SearchSection,
+      StartPageInfo,
+      RankingList
     },
     mounted() {
-      this.$gsap.set("#root", {height: document.documentElement.clientHeight})
+      // this.$gsap.set("#root", {height: document.documentElement.clientHeight})
+      if(this.$route.params.type == "cs"){
+         this.$gsap.set("backpic", {"background-image": "url(../assets/csBack.png)"})
+      }
     },
     data () {
       return {
@@ -41,24 +53,38 @@
     },
     methods: {
       submit () {
-        this.show = true
-      }
+        if(this.input!=''){
+          this.show = true
+        }
+      },
     }
   }
 </script>
 
 <style scoped>
+#root {
+  /* outline: #21ff06 dotted thick; */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
 #title {
-  margin-top: 120px;
+  margin-top: 100px;
+  color: white;
 }
 
 #searchinput {
   /* outline: #21ff06 dotted thick; */
 
   border-radius: 30px;
-  border: #cccccc solid thin;
+  /* border: #cccccc solid thin; */
+  border: 1px solid #f0f0f0;
   width: 500px;
   height: 36px;
+
 
   margin-top: 60px;
 }
@@ -69,6 +95,8 @@
   position: relative;
   top: -27px;
   left: 220px;
+
+  cursor: pointer;
 }
 
 #backpic {
@@ -81,15 +109,25 @@
   background-image: url(../assets/csBack.png);
   background-size:100% 100%;
 
-
-  height: 450px;
-  width: 1200px;
+  height: 500px;
+  width: 1300px;
+  margin-top: 5%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
+  overflow: hidden;
+}
+#rankinglist {
+  /* outline: #21ff06 dotted thick; */
+  width: 1200px;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
   position: relative;
-  top: 20%;
+  top: -150px;
 }
 </style>
