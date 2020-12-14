@@ -2,7 +2,6 @@
   <div id="result_detail_page" v-if="loadfinish">
     <div class="result_detail_page_container">
       <div class="result_detail_title_area">
-        <div class="result_detail_categories"></div>
         <div class="result_detail_title">
           {{ this.article.title }}
         </div>
@@ -71,6 +70,9 @@
           <el-button type="warning" @click="showInfo">显示信息</el-button>
         </div>
       </div>
+      <div v-if="referenceloadfinish">
+        这里要加引用关系图谱
+      </div>
     </div>
   </div>
 </template>
@@ -129,6 +131,8 @@ export default {
         listed: false,
       },
       searchState: {},
+      referenceloaded:false,
+      articleloaded:false
     };
   },
   watch: {
@@ -172,14 +176,22 @@ export default {
         if(results.issn)this.article.issn = results.issn.raw;
         if(results.doi)this.article.doi = results.doi.raw;
         if(results.url)this.article.url = results.url.raw;
+        if(this.$route.params.type=='cs'){
+          this.loadscholarly();
+          this.loadreference();
+        }
+        this.articleloaded = true;
       }
     },
   },
   computed: {
     //computed最高优先级，只有当loadfinish为true时,才开始页面加载
     loadfinish(){
-      return this.article.authors && this.article.authors.length>0;
+      return this.articleloaded;
     },
+    referenceloadfinish(){
+      return this.referenceloaded;
+    }
   },
   methods: {
     getInfo() {
@@ -227,6 +239,14 @@ export default {
     },
     thereAreResults() {
       return this.searchState.totalResults && this.searchState.totalResults > 0;
+    },
+    loadreference(){
+      console.log("这个函数请求引用关系");
+      this.referenceloaded = true;
+    },
+    loadscholarly(){
+      console.log("这个函数请求scholarly");
+      this.articleloaded = true;
     },
     showInfo() {
       console.log(this.searchState);
