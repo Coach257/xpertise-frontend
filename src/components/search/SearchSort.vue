@@ -1,8 +1,8 @@
 <template>
-  <div class="sui-sorting">
+  <div>
     <div class="sui-sorting__label">Sort by</div>
 
-    <SelectBar :buttons="buttons" style='margin-top: 8px;'/>
+    <SelectBar :buttons="buttons" style='margin-top: 9px; margin-bottom: 35px;'/>
 
 <!--    <select
       name="sortBy"
@@ -60,7 +60,4 @@ export default {
 </script>
 
 <style scoped>
-.sui-sorting {
-  /* outline: #21ff06 dotted thick; */
-}
 </style>

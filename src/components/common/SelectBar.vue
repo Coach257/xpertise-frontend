@@ -59,10 +59,13 @@
    box-shadow:inset 0px 0px 10px 1px #cccccc;
    background-color: #f2f2f2;
 
+   height: 36px;
+
    padding: 5px;
 
    display: flex;
    justify-content: center;
+   align-items: center;
 
    position: absolute;
 

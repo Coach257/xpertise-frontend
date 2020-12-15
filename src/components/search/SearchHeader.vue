@@ -20,7 +20,7 @@
            </input>
 
 
-           <SelectBar class="sui-sorting" :buttons="buttons" />
+           <SelectBar attr='SelectBar' :buttons="buttons" />
 
 
         </div>
@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style scoped>
-.sui-sorting{
+[attr='SelectBar']{
   /* outline: #21ff06 dotted thick; */
   position: relative;
   top: -22px;
