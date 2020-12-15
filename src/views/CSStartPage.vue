@@ -90,7 +90,7 @@
 }
 .el-icon-search {
   font-size: 20px;
-  color: rgb(127,127,127,0.6);
+  color: rgba(127,127,127,0.6);
 
   position: relative;
   top: -27px;
@@ -104,7 +104,7 @@
 
   border: #cccccc solid thin;
   border-radius: 300px;
-  box-shadow: 0px 0px 50px 10px rgb(127,127,127,0.3);
+  box-shadow: 0px 0px 50px 10px rgba(127,127,127,0.3);
 
   background-image: url(../assets/csBack.png);
   background-size:100% 100%;

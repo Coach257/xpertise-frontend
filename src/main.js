@@ -7,7 +7,7 @@ import {Message, MessageBox, Loading} from 'element-ui';
 import ElementUI from 'element-ui';
 import "element-ui/lib/theme-chalk/index.css";
 import axios from 'axios';
-import '@/assets/fonts/font.scss'; 
+import '@/assets/fonts/font.scss';
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
@@ -21,7 +21,6 @@ Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$message = Message;
 Vue.prototype.$gsap = gsap
 Vue.prototype.$axios = axios;
-// Vue.prototype.$router = router;
 
 gsap.registerPlugin(PixiPlugin)
 

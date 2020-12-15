@@ -19,11 +19,8 @@
            <i class="el-icon-search" @click="$emit('submit', $event.target.value)"></i>
            </input>
 
-         <!-- <input
-            type="submit"
-            class="button sui-search-box__submit"
-            value="Search"
-          /> -->
+
+           <SelectBar class="sui-sorting" :buttons="buttons" />
 
 
         </div>
@@ -34,12 +31,21 @@
 </template>
 
 <script>
+import SelectBar from '../common/SelectBar.vue'
 export default {
   props: {
     value: {
       required: true,
       type: String,
     },
+  },
+  components: {
+    SelectBar
+  },
+  data () {
+    return {
+      buttons: ['文献','作者']
+    }
   },
   methods: {
     mouseOver() {
@@ -54,19 +60,30 @@ export default {
         boxShadow: "0px 0px 8px 2px rgb(50,50,50,0.1)",
       });
     },
-    OptionChange(){
-      this.$emit('OptionChange',this.optionvalue);
-      /*
-      setTimeout(() => {
-                            window.location.reload();
-                        }, 2000);
-      */
+    selected (index, differkey) {
+      if (differkey == '文献') {
+        switch(index)
+        {
+            case 0:
+                this.$emit('OptionChange', "paper")
+                break;
+            case 1:
+                this.$emit('OptionChange', "author")
+                break;
+        }
+      }
     }
   },
 };
 </script>
 
 <style scoped>
+.sui-sorting{
+  /* outline: #21ff06 dotted thick; */
+  position: relative;
+  top: -22px;
+  width: 200px;
+}
 .sui-layout-header {
   height: 15px;
 }
@@ -78,10 +95,11 @@ export default {
 }
 
 .sui-search-box__text-input {
+  /* outline: #21ff06 dotted thick; */
   border-radius: 30px;
   /* border: #cccccc solid thin; */
   border: 1px solid #f0f0f0;
-  width: 600px;
+  width: 500px;
   height: 36px;
 
   position: relative;

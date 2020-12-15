@@ -89,13 +89,13 @@
   width: 500px;
   height: 36px;
 
-  box-shadow: 0px 0px 8px 2px rgb(50,50,50,0.1);
+  box-shadow: 0px 0px 8px 2px rgba(50,50,50,0.1);
 
   margin-top: 60px;
 }
 .el-icon-search {
   font-size: 20px;
-  color: rgb(127,127,127,0.6);
+  color: rgba(127,127,127,0.6);
 
   position: relative;
   top: -27px;
@@ -109,7 +109,7 @@
 
   border: #cccccc solid thin;
   border-radius: 300px;
-  box-shadow: 0px 0px 50px 10px rgb(127,127,127,0.3);
+  box-shadow: 0px 0px 50px 10px rgba(127,127,127,0.3);
 
   background-image: url(../assets/startBack.png);
   background-size:100% 100%;

@@ -1,15 +1,13 @@
 <template>
   <div class="sui-layout">
     <el-button @click="debug()">DEBUG</el-button>
-    <SearchHeader v-model="searchInputValue" @submit="handleFormSubmit" />
+    <SearchHeader v-model="searchInputValue" @submit="handleFormSubmit" v-on:OptionChange="ChangeOption"/>
     <div v-if="searchState.wasSearched" class="sui-layout-body">
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
 
           <div v-if="getSearchObject==='paper'" class='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
             <SearchSort v-model="sortBy" />
-
-            <SearchTypeSelection v-on:OptionChange="ChangeOption"/>
 
             <SearchFacet
               :checked="year"
@@ -26,7 +24,6 @@
 
           <div v-else-if="getSearchObject==='author'" class='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
             <SearchSort v-model="sortBy" />
-            <SearchTypeSelection v-on:OptionChange="ChangeOption"/>
 
           </div>
 
@@ -73,7 +70,6 @@ import SearchPagingInfo from "./SearchPagingInfo";
 import SearchPagination from "./SearchPagination";
 import SearchSort from "./SearchSort";
 import SearchResultsPerPage from "./SearchResultsPerPage";
-import SearchTypeSelection from './SearchTypeSelection.vue'
 
 var driver = null;
 
@@ -87,7 +83,6 @@ export default {
     SearchPagination,
     SearchSort,
     SearchResultsPerPage,
-    SearchTypeSelection
   },
   data() {
     return {
@@ -117,7 +112,7 @@ export default {
       driver.setSort(newSortBy, "desc");
     },
     configoption(newconfigoption){
-      
+
       if(this.$props.type=="main"){
         if (this.configoption=="paper"){
           console.log("mainpaperconfig");
@@ -176,14 +171,14 @@ export default {
       if (this.configoption=="paper"){
         driver = new SearchDriver(mainpaperconfig)
       }
-      else 
+      else
         driver = new SearchDriver(mainauthorconfig)
     }
     else{
       if (this.configoption=="paper"){
         driver = new SearchDriver(cspaperconfig)
       }
-      else 
+      else
         driver = new SearchDriver(csauthorconfig)
     }
     const {
