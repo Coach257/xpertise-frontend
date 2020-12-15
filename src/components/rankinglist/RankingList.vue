@@ -84,6 +84,10 @@ import RankingItem from './RankItem.vue'
   width: 350px;
   height: 470px;
   margin-top: 55px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #title {
 
