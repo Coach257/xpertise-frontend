@@ -13,7 +13,7 @@
 </el-row>
 
 <el-row :gutter="24">
-  <el-col :span="10" :offset="2">
+  <el-col :span="20" :offset="2">
     <div class="grid-content ">
         <el-table
         :data="tableDatainfo"
@@ -31,31 +31,15 @@
     </div>
   </el-col>
 
-  <el-col :span="8">
-      <div class="grid-content ">
-        <el-table
-        :data="tableDatapaper"
-        icon="el-icon-tickets"
-        style="width: 100%"
-        :header-cell-style="{textAlign: 'center'}"
-        :cell-style="{ textAlign: 'center' }">
-            <el-table-column
-            prop="papers"
-            label="最具影响力成果">
-            </el-table-column>
-        </el-table>
-      </div>
-    </el-col>
 
-     <el-col :span="2"><div class="grid-content ">
-         <el-link href="https://element.eleme.io" type="primary" icon="el-icon-tickets" target="_blank">查看更多</el-link>
-      </div></el-col>
+
+
 </el-row>
  <el-row :gutter="5"> <el-col :span="20" :offset="2"><h1> </h1></el-col>  </el-row>
 <el-row :gutter="10">
 <el-col :span="20" :offset="2">
     <el-tabs v-model="activeName" @tab-click="handleClick" >
-    <el-tab-pane label="全部" name="first">
+    <el-tab-pane label="我的文献" name="first">
         <el-row class="block-col-2">
             <el-col :span="2">
                 <el-dropdown trigger="click">
@@ -95,7 +79,7 @@
             </el-col>
         </el-row>
     </el-tab-pane>
-    <el-tab-pane label="科研成果" name="second">
+    <el-tab-pane label="我的合作伙伴" name="second">
          <el-row class="block-col-2">
             <el-col :span="2">
                 <el-dropdown trigger="click">
@@ -135,7 +119,7 @@
         </el-row>
     </el-tab-pane>
 
-    <el-tab-pane label="期刊会议论文" name="third">
+    <el-tab-pane label="我的机构" name="third">
          <el-row class="block-col-2">
             <el-col :span="2">
                 <el-dropdown trigger="click">
@@ -174,45 +158,7 @@
             </el-col>
         </el-row>
     </el-tab-pane>
-    <el-tab-pane label="专利" name="fourth">
-         <el-row class="block-col-2">
-            <el-col :span="2">
-                <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    所有时间<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>最近五年</el-dropdown-item>
-                    <el-dropdown-item>最近一年</el-dropdown-item>
-                    <el-dropdown-item>最近一月</el-dropdown-item>
-                </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
-            <el-col :span="2">
-                <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    全部作者<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>仅合作作者</el-dropdown-item>
-                    <el-dropdown-item>其他作者</el-dropdown-item>
 
-                </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
-            <el-col :span="2">
-                <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    按时间排序<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>倒序</el-dropdown-item>
-                    <el-dropdown-item>顺序</el-dropdown-item>
-                </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
-        </el-row>
-    </el-tab-pane>
   </el-tabs>
   </el-col>
   </el-row>
@@ -232,7 +178,7 @@ import {mainauthorconfig,csauthorconfig} from "../searchConfig";
    name: 'Portal',
    props: ['type'],
    components:{},
-   
+
    mounted() {
        driver.subscribeToStateChanges(state => {
         this.searchState = state;
@@ -240,7 +186,7 @@ import {mainauthorconfig,csauthorconfig} from "../searchConfig";
        driver.clearFilters()
        driver.addFilter("id",this.$route.params.authorid,"any")
        //driver.getActions().setSearchTerm("")
-       
+
        console.log(this.searchState)
        //this.getInfo();
    },
