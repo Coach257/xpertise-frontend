@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1> 我的收藏 </h1>
-
+    <el-button @click="testout"></el-button>
     <el-table :data="favorList" stripe height="75vh" style="width:100%;" @cell-click="handleClick"> 
       <el-table-column type="index" width="80px" fixed="left">
       </el-table-column>
@@ -53,53 +53,57 @@ export default {
     };
     var that = this;
     axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/list', formData, config).then(response => {
-          if(response) {
-            if(response.data.success) {
-              let favorArray = response.data.data;
-              console.log(favorArray);
-              for(let i = 0, len = favorArray.length; i < len; i++) {
-                //读取response中数据
-                let favorItem = new Object();
-                favorItem.favorID = favorArray[i].favor_id;
-                favorItem.paperID = favorArray[i].paper_id;
-                favorItem.description = favorArray[i].paper_info;
+      if(response) {
+        if(response.data.success) {
+          let favorArray = response.data.data;
+          console.log(favorArray);
+          for(let i = 0, len = favorArray.length; i < len; i++) {
+            //读取response中数据
+            let favorItem = new Object();
+            favorItem.favorID = favorArray[i].favor_id;
+            favorItem.paperID = favorArray[i].paper_id;
+            favorItem.description = favorArray[i].paper_info;
 
-                //请求论文相关信息
-                formData = new FormData();
-                formData.append("paper_id",favorItem.paperID);
-                axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/list', formData, config).then(res => {
-                  if(response) {
-                    if(response.data.success) {
-                      let paper = response.data.data;
-                      favorItem.paperTitle = paper.title;
-                    } else {
-                      console.log(res.data);
-                      console.log("获取失败 " + res.data);
-                      alert("详细信息获取失败，请检查网络");
-                    }
-                  } else {
-                    console.log(res.data);
-                    console.log("获取失败 " + res.data);
-                    alert("详细信息获取失败，请检查网络");
-                  }
-                })
-
-                //收藏项加入收藏列表
-                that.favorList[that.favorList.length] = favorItem;
+            /*
+            //请求论文相关信息
+            formData = new FormData();
+            formData.append("paper_id",favorItem.paperID);
+            axios.post('https://go-service-296709.df.r.appspot.com/api/v1/', formData, config).then(res => {
+              if(res) {
+                if(res.data.success) {
+                  console.log("paper found, ",res.data.data);
+                  let paper = res.data.data;
+                  favorItem.paperTitle = paper.title;
+                } else {
+                  console.log(res.data);
+                  console.log("获取失败 " + res.data);
+                  alert("详细信息获取失败，请检查网络");
+                }
+              } else {
+                console.log(res.data);
+                console.log("获取失败 " + res.data);
+                alert("详细信息获取失败，请检查网络");
               }
-              console.log("list loaded")
-              console.log(that.favorList);
-            } else {
-              console.log(response.data);
-              console.log("获取失败 " + response.data);
-              alert("收藏列表获取失败，请检查网络");
-            }
-          } else {
-            console.log(response.data);
-            console.log("获取失败 " + response.data);
-            alert("收藏列表获取失败，请检查网络");
+            })
+            */
+
+            //收藏项加入收藏列表
+            that.favorList.push(favorItem);
           }
-      })
+          console.log("list loaded")
+          console.log(that.favorList);
+        } else {
+          console.log(response.data);
+          console.log("获取失败 " + response.data);
+          alert("收藏列表获取失败，请检查网络");
+        }
+      } else {
+        console.log(response.data);
+        console.log("获取失败 " + response.data);
+        alert("收藏列表获取失败，请检查网络");
+      }
+    });
+    console.log("end of mounted, ",that.favorList);
   },
   methods:{
     handleDelete(favorID) {
@@ -118,6 +122,9 @@ export default {
         console.log("routing to "+"/article/:"+row.paperID.toString());
         this.$router.push({path: "/article/:"+row.paperID.toString()});
       }
+    },
+    testout() {
+      console.log(this.favorList);
     }
   }
 }
