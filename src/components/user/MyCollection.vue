@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1> 我的收藏 </h1>
-    <el-button @click="testout"></el-button>
     <el-table :data="favorList" stripe height="75vh" style="width:100%;" @cell-click="handleClick"> 
       <el-table-column type="index" width="80px" fixed="left">
       </el-table-column>
@@ -123,9 +122,6 @@ export default {
         this.$router.push({path: "/article/:"+row.paperID.toString()});
       }
     },
-    testout() {
-      console.log(this.favorList);
-    }
   }
 }
 </script>
