@@ -46,7 +46,7 @@
           <router-link
             tag="div"
             class="nav_bar_action_link"
-            :to="'/userinfo'"
+            :to="'/admin'"
           >
             管理员
           </router-link>
