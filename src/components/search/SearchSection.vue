@@ -1,25 +1,36 @@
 <template>
   <div class="sui-layout">
+    <el-button @click="debug()">DEBUG</el-button>
     <SearchHeader v-model="searchInputValue" @submit="handleFormSubmit" />
     <div v-if="searchState.wasSearched" class="sui-layout-body">
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
 
-          <div id='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
-          <SearchSort v-show="thereAreResults" v-model="sortBy" />
+          <div v-if="getSearchObject==='paper'" class='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
+            <SearchSort v-model="sortBy" />
 
-          <SearchFacet
-            :checked="year"
-            :facet="searchState.facets.year[0]"
-            @change="handleFacetChange($event, 'year')"
-          />
+            <SearchTypeSelection v-on:OptionChange="ChangeOption"/>
 
-          <SearchFacet
-            :checked="lang"
-            :facet="searchState.facets.lang[0]"
-            @change="handleFacetChange($event, 'lang')"
-          />
+            <SearchFacet
+              :checked="year"
+              :facet="searchState.facets.year[0]"
+              @change="handleFacetChange($event, 'year')"
+            />
+
+            <SearchFacet
+              :checked="lang"
+              :facet="searchState.facets.lang[0]"
+              @change="handleFacetChange($event, 'lang')"
+            />
           </div>
+
+          <div v-else-if="getSearchObject==='author'" class='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
+            <SearchSort v-model="sortBy" />
+            <SearchTypeSelection v-on:OptionChange="ChangeOption"/>
+
+          </div>
+
+
 
         </div>
 
@@ -54,7 +65,7 @@
 
 <script>
 import { SearchDriver } from "@elastic/search-ui";
-import {mainpaperconfig,cspaperconfig} from "../../searchConfig";
+import {mainpaperconfig,mainauthorconfig,cspaperconfig,csauthorconfig,csaffiliationconfig} from "../../searchConfig";
 import SearchResults from "./SearchResults";
 import SearchFacet from "./SearchFacet";
 import SearchHeader from "./SearchHeader";
@@ -62,8 +73,9 @@ import SearchPagingInfo from "./SearchPagingInfo";
 import SearchPagination from "./SearchPagination";
 import SearchSort from "./SearchSort";
 import SearchResultsPerPage from "./SearchResultsPerPage";
+import SearchTypeSelection from './SearchTypeSelection.vue'
 
-const driver = new SearchDriver(mainpaperconfig);
+var driver = null;
 
 export default {
   props: ['input','type'],
@@ -74,7 +86,8 @@ export default {
     SearchPagingInfo,
     SearchPagination,
     SearchSort,
-    SearchResultsPerPage
+    SearchResultsPerPage,
+    SearchTypeSelection
   },
   data() {
     return {
@@ -83,12 +96,17 @@ export default {
       year: [],
       lang: [],
       resultsPerPage: 20,
-      sortBy: "relevance"
+      sortBy: "relevance",
+      configoption: "paper"
     };
   },
   computed: {
     thereAreResults() {
       return this.searchState.totalResults && this.searchState.totalResults > 0;
+    },
+    getSearchObject (){
+      return this.configoption;
+      return 'paper';
     }
   },
   watch: {
@@ -97,9 +115,77 @@ export default {
     },
     sortBy(newSortBy) {
       driver.setSort(newSortBy, "desc");
+    },
+    configoption(newconfigoption){
+      
+      if(this.$props.type=="main"){
+        if (this.configoption=="paper"){
+          console.log("mainpaperconfig");
+          driver = new SearchDriver(mainpaperconfig)
+        }
+        else {
+          console.log("mainauthorconfig");
+          driver = new SearchDriver(mainauthorconfig)
+        }
+      }
+      else{
+        if (this.configoption=="paper"){
+          console.log("cspaperconfig");
+          driver = new SearchDriver(cspaperconfig)
+        }
+        else {
+          console.log("csauthorconfig");
+          driver = new SearchDriver(csauthorconfig)
+        }
+      }
+
+      const {
+      searchTerm,
+      sortField,
+      resultsPerPage,
+      filters,
+      facets
+      } = driver.getState();
+
+      // restoring UI from url query
+      this.searchInputValue = searchTerm;
+      this.sortBy = sortField;
+      this.resultsPerPage = resultsPerPage;
+      filters.forEach(filter => {
+        if (facets[filter.field][0].type === "range") {
+          this[filter.field] = filter.values.map(value => value.name);
+        } else {
+          this[filter.field] = filter.values;
+        }
+      });
+
+      driver.subscribeToStateChanges(state => {
+        this.searchState = state;
+      });
+
+      driver.getActions().setSearchTerm(this.input)
+      this.searchInputValue = this.input
+      console.log("改变again configoption");
+      //console.log(this.$props.type);
+      //console.log(this.configoption);
     }
   },
   mounted() {
+    console.log(this.$props.type)
+    if(this.$props.type=="main"){
+      if (this.configoption=="paper"){
+        driver = new SearchDriver(mainpaperconfig)
+      }
+      else 
+        driver = new SearchDriver(mainauthorconfig)
+    }
+    else{
+      if (this.configoption=="paper"){
+        driver = new SearchDriver(cspaperconfig)
+      }
+      else 
+        driver = new SearchDriver(csauthorconfig)
+    }
     const {
       searchTerm,
       sortField,
@@ -127,9 +213,12 @@ export default {
     driver.getActions().setSearchTerm(this.input)
     this.searchInputValue = this.input
   },
+
   methods: {
     handleFormSubmit() {
-      driver.getActions().setSearchTerm(this.searchInputValue);
+      if(this.searchInputValue!=''){
+        driver.getActions().setSearchTerm(this.searchInputValue);
+      }
     },
     handleFacetChange(event, facet) {
       const { value, checked } = event.target;
@@ -154,18 +243,29 @@ export default {
       driver.setCurrent(page);
     },
     mouseOverWrapper () {
-      this.$gsap.to("#wrapper", {duration: 0.1,  boxShadow:'0px 0px 35px 13px rgb(127,127,127,0.3)'})
+      this.$gsap.to(".wrapper", {duration: 0.1,  boxShadow:'0px 0px 35px 13px rgb(127,127,127,0.3)'})
     },
     mouseLeaveWrapper () {
-      this.$gsap.to("#wrapper", {duration: 0.1,  boxShadow:'0px 0px 10px 2px rgb(127,127,127,0.2)'})
+      this.$gsap.to(".wrapper", {duration: 0.1,  boxShadow:'0px 0px 10px 2px rgb(127,127,127,0.2)'})
+    },
+    debug(){
+      console.log(this.$props)
+    },
+    ChangeOption:function(data){
+      if(this.configoption != data){
+        this.configoption = data;
+        console.log("change");
+        console.log(this.configoption);
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-#wrapper {
-  border: #cccccc solid thin;
+.wrapper {
+  /* border: #cccccc solid thin; */
+  border: 1px solid #f0f0f0;
   border-radius: 30px;;
   box-shadow: 0px 0px 10px 2px rgb(127,127,127,0.2);
   padding: 15px;

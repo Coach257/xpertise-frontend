@@ -15,12 +15,12 @@
       </div>
 
       <div v-if='!show' id='rankinglist'>
-      <RankingList title='Top Conference'/>
-      <RankingList title='Top Author'/>
-      <RankingList title='Top Affiliation'/>
+      <RankingList title='Top Conference' type='main'/>
+      <RankingList title='Top Author' type='main'/>
+      <RankingList title='Top Affiliation' type='main'/>
       </div>
 
-      <SearchSection :input='input' v-if='show' />
+      <SearchSection :type="'main'" :input='input' v-if='show' />
   </div>
 </template>
 
@@ -52,7 +52,9 @@
     },
     methods: {
       submit () {
-        this.show = true
+        if(this.input!=''){
+          this.show = true
+        }
       },
       mouseOver () {
         this.$gsap.to("#searchinput", {duration: 0.1,  boxShadow:'0px 0px 20px 10px rgb(127,127,127,0.3)'})
@@ -82,7 +84,8 @@
   /* outline: #21ff06 dotted thick; */
 
   border-radius: 30px;
-  border: #cccccc solid thin;
+  /* border: #cccccc solid thin; */
+  border: 1px solid #f0f0f0;
   width: 500px;
   height: 36px;
 

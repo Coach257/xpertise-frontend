@@ -1,9 +1,9 @@
 <template>
     <div >
         <el-container>
-   
+
   <el-main>
- 
+
   <div>
 <el-row :gutter="10">
   <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="8" :offset="6"><div class="grid-content "><el-avatar :size="100" :src="circleUrl"></el-avatar></div></el-col>
@@ -17,12 +17,12 @@
     <div class="grid-content ">
         <el-table
         :data="tableDatainfo"
-        show-header="false"
+
         style="width: 100%"
         :header-cell-style="{textAlign: 'center'}"
         :cell-style="{ textAlign: 'center' }"
         icon="el-icon-tickets">
-            <el-table-column 
+            <el-table-column
             prop="info"
             label="信息">
             </el-table-column>
@@ -77,7 +77,7 @@
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>仅合作作者</el-dropdown-item>
                     <el-dropdown-item>其他作者</el-dropdown-item>
-                    
+
                 </el-dropdown-menu>
                 </el-dropdown>
             </el-col>
@@ -117,7 +117,7 @@
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>仅合作作者</el-dropdown-item>
                     <el-dropdown-item>其他作者</el-dropdown-item>
-                    
+
                 </el-dropdown-menu>
                 </el-dropdown>
             </el-col>
@@ -157,7 +157,7 @@
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>仅合作作者</el-dropdown-item>
                     <el-dropdown-item>其他作者</el-dropdown-item>
-                    
+
                 </el-dropdown-menu>
                 </el-dropdown>
             </el-col>
@@ -196,7 +196,7 @@
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>仅合作作者</el-dropdown-item>
                     <el-dropdown-item>其他作者</el-dropdown-item>
-                    
+
                 </el-dropdown-menu>
                 </el-dropdown>
             </el-col>
@@ -223,9 +223,27 @@
 </template>
 
 <script>
+
+import { SearchDriver } from "@elastic/search-ui";
+import {mainauthorconfig,csauthorconfig} from "../searchConfig";
+//const driver = new SearchDriver(csauthorconfig)
+
   export default {
-    name: 'Portal',
+   name: 'Portal',
+   props: ['type'],
    components:{},
+   
+   mounted() {
+       driver.subscribeToStateChanges(state => {
+        this.searchState = state;
+       });
+       driver.clearFilters()
+       driver.addFilter("id",this.$route.params.authorid,"any")
+       //driver.getActions().setSearchTerm("")
+       
+       console.log(this.searchState)
+       //this.getInfo();
+   },
    data(){
        return {
         circleUrl: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
@@ -242,9 +260,14 @@
           papers: '量子力学小概论  被引用数:77'
         }],
         activeName: 'first'
-        
+
       }
-   }
+   },
+   methods: {
+    handleClick(){
+
+    }
+  }
   }
 </script>
 

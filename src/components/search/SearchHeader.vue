@@ -4,11 +4,12 @@
     <div class="sui-layout-header__inner">
 
       <form @submit.prevent="$emit('submit', $event.target.value)">
+
         <div class="sui-search-box">
 
            <input
             type="text"
-            placeholder="Try searching for 'water', 'dragon' or 'ragnaros'"
+            placeholder="Search anything"
             class="sui-search-box__text-input"
             :value="value"
             @input="$emit('input', $event.target.value)"
@@ -37,17 +38,31 @@ export default {
   props: {
     value: {
       required: true,
-      type: String
-    }
+      type: String,
+    },
   },
   methods: {
-    mouseOver () {
-      this.$gsap.to(".sui-search-box__text-input", {duration: 0.1,  boxShadow:'0px 0px 20px 6px rgb(127,127,127,0.3)'})
+    mouseOver() {
+      this.$gsap.to(".sui-search-box__text-input", {
+        duration: 0.1,
+        boxShadow: "0px 0px 20px 6px rgb(127,127,127,0.3)",
+      });
     },
-    mouseLeaver () {
-      this.$gsap.to(".sui-search-box__text-input", {duration: 0.1,  boxShadow:'0px 0px 8px 2px rgb(50,50,50,0.1)'})
+    mouseLeaver() {
+      this.$gsap.to(".sui-search-box__text-input", {
+        duration: 0.1,
+        boxShadow: "0px 0px 8px 2px rgb(50,50,50,0.1)",
+      });
+    },
+    OptionChange(){
+      this.$emit('OptionChange',this.optionvalue);
+      /*
+      setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+      */
     }
-  }
+  },
 };
 </script>
 
@@ -64,18 +79,19 @@ export default {
 
 .sui-search-box__text-input {
   border-radius: 30px;
-  border: #cccccc solid thin;
+  /* border: #cccccc solid thin; */
+  border: 1px solid #f0f0f0;
   width: 600px;
   height: 36px;
 
   position: relative;
   top: -22px;
 
-  box-shadow: 0px 0px 8px 2px rgb(50,50,50,0.1);
+  box-shadow: 0px 0px 8px 2px rgb(50, 50, 50, 0.1);
 }
 .el-icon-search {
   font-size: 20px;
-  color: rgb(127,127,127,0.6);
+  color: rgb(127, 127, 127, 0.6);
 
   position: relative;
   top: -13px;
@@ -83,5 +99,4 @@ export default {
 
   cursor: pointer;
 }
-
 </style>

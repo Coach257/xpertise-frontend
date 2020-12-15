@@ -2,9 +2,9 @@
 
   <div id='root'>
   <div id='SelectBar'>
-    <div id='block'></div>
-    <div id='options'>
-      <div class="option" v-for="(button, i) in buttons" :key="i" :id="['option'+i]" @click="select(i)">{{button}}</div>
+    <div :id="['block'+this.differkey]" attr='block'></div>
+    <div attr='options' :id="['options'+this.differkey]">
+      <div attr='option' :class="['option'+differkey]" v-for="(button, i) in buttons" :key="i" :id="['option'+i+differkey]" @click="select(i)">{{button}}</div>
     </div>
   </div>
   </div>
@@ -16,22 +16,28 @@
   name: 'SelectBar',
   props: ['buttons'],
   mounted() {
-    this.$gsap.set("#options", {width: this.buttons.length*70+'px', fontWeight: 200})
-    this.$gsap.set('#option'+this.selected, {fontWeight: 500})
+    this.$gsap.set("#options"+this.differkey, {width: this.buttons.length*70+'px', fontWeight: 200})
+    this.$gsap.set('#option'+this.selected+this.differkey, {fontWeight: 500})
   },
   data () {
     return {
-      selected: 0
+      selected: 0,
+      differkey: this.buttons[0]
     }
   },
   methods: {
     select: function (index) {
-      this.$gsap.set(".option", {fontWeight: 200})
-      this.$gsap.set('#option'+index, {fontWeight: 500})
-      this.$gsap.to('#block', {duration: 0.4,left: index*70+5+'px', ease: 'power4.out'})
+      this.$gsap.set(".option"+this.differkey, {fontWeight: 200})
+      this.$gsap.set('#option'+index+this.differkey, {fontWeight: 500})
+      this.$gsap.to('#block'+this.differkey, {duration: 0.4,left: index*70+5+'px', ease: 'power4.out'})
       this.selected = index
 
-      this.$parent.selected(index);
+
+     /**
+     * @param {Object} index
+     * @param {Object} differkey : differkey是Selectbar第一个选项的名字，用于区分不同的SelectBar
+     */
+      this.$parent.selected(index, this.differkey);
     }
   }
  }
@@ -61,7 +67,7 @@
    position: absolute;
 
  }
- #options {
+ [attr='options'] {
    /* outline:#00ff00 dotted thick; */
 
   display: flex;
@@ -70,10 +76,10 @@
 
   z-index: 1;
  }
- .option {
+ [attr='option'] {
    cursor: pointer;
  }
- #block {
+ [attr='block'] {
    /* outline:#00ff00 dotted thick; */
 
    position: absolute;

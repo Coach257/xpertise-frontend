@@ -35,16 +35,25 @@ export default {
     }
   },
   methods: {
-    selected (index) {
-      switch(index)
-      {
-          case 0:
-              this.$emit('input', "")
-              break;
-          case 1:
-              this.$emit('input', "n_citation")
-              break;
+
+    /**
+     * @param {Object} index
+     * @param {Object} differkey : differkey是对应的SelectBar的第一个选项的名字，用于区分不同的SelectBar
+     */
+    selected (index, differkey) {
+
+      if (differkey == '相关性') {
+        switch(index)
+        {
+            case 0:
+                this.$emit('input', "")
+                break;
+            case 1:
+                this.$emit('input', "n_citation")
+                break;
+        }
       }
+
     }
   }
 };

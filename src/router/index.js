@@ -83,7 +83,7 @@ const routes = [
     component: ResultDetailPage,
   },
   {
-    path: '/detail/:docid',
+    path: '/detail/:type/:docid',
     name: 'Detail',
     component: Detail,
   },
@@ -91,7 +91,24 @@ const routes = [
     path: '/userinfo',
     name: 'userInfo',
     component: UserInfo,
-    meta: {title: "个人信息"}
+    meta: {title: "个人信息"},
+    children: [
+      {
+        name: 'MessageModify',
+        path: 'message-modify',
+        component: () => import('../components/user/MessageModify.vue'),
+      },
+      {
+        name: 'MyCollection',
+        path: 'my-collection',
+        component: () => import('../components/user/MyCollection.vue'),
+      },
+      {
+        name: 'MessageCentre',
+        path: 'message-centre',
+        component: () => import('../components/user/MessageCentre.vue'),
+      }
+    ]
   },
   {
     path: '/userpage/:userid',
@@ -100,7 +117,7 @@ const routes = [
     meta: {title: "个人主页"}
   },
   {
-    path: '/portal',
+    path: '/portal/:authorid',
     name: 'Portal',
     component: Portal
   },
@@ -109,7 +126,12 @@ const routes = [
     name: 'SettlePage',
     component: SettlePage,
     meta: {title: "申请入驻"}
-  }
+  },
+  // {
+  //   path: '/affiliation',
+  //   name: Affiliation,
+  //
+  // }
 ]
 
 const router = new VueRouter({

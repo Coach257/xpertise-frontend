@@ -3,7 +3,7 @@
       <div id='title'>
           <span>{{this.title}}</span>
       </div>
-      <div style="font-weight: 200; font-size: 10px;">
+      <div v-if='showSubTitle' style="font-weight: 200; font-size: 10px;">
         In  Computer Science
       </div>
 
@@ -19,12 +19,18 @@ import RankingItem from './RankItem.vue'
 
  export default {
    name: 'RankingList',
-   props: ['title'],
+   props: ['title','type'],
    components: {
      RankingItem
    },
+   mounted() {
+     if (this.type == 'cs') {
+       this.showSubTitle = true
+     }
+   },
    data () {
      return {
+       showSubTitle: false,
        itemList : [
        {
          rank: 1,
@@ -76,8 +82,8 @@ import RankingItem from './RankItem.vue'
   background-color: white;
 
   width: 350px;
-  height: 450px;
-  margin-top: 50px;
+  height: 470px;
+  margin-top: 55px;
 }
 #title {
 
