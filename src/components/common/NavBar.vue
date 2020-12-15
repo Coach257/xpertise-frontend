@@ -43,6 +43,13 @@
           >
             个人中心
           </router-link>
+          <router-link
+            tag="div"
+            class="nav_bar_action_link"
+            :to="'/userinfo'"
+          >
+            管理员
+          </router-link>
          <el-button @click="logout">登出 </el-button>
         </div>
       </div>
@@ -123,7 +130,7 @@ export default {
   top: 0px;
   height: 46px;
   width: 100vw;
-  vertical-align: middle;
+  vertical-align: middle;  
 }
 .nav_bar_frame {
   vertical-align: middle;
