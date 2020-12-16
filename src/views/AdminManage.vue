@@ -8,8 +8,8 @@
                  mode="vertical"
                  :default-active="this.$route.path">
 
-          <router-link :to="{name: 'ApplicationManage'}">
-            <el-menu-item index="/admin/application-manage">
+          <router-link :to="{name: 'RequestManage'}">
+            <el-menu-item index="/admin/request-manage">
               <i class=""></i>
               <span slot="title">申请处理</span>
             </el-menu-item>

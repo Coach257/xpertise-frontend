@@ -52,7 +52,7 @@ const routes = [
   },
   {
     path: '/admin',
-    redirect: '/admin/application-manage',
+    redirect: '/admin/request-manage',
     name: 'AdminManage',
     component: AdminManage,
     meta: {title: "管理"},
@@ -63,9 +63,9 @@ const routes = [
         component: () => import('../components/admin/ReportManage.vue'),
       },
       {
-        name: 'ApplicationManage',
-        path: 'application-manage',
-        component: () => import('../components/admin/ApplicationManage.vue'),
+        name: 'RequestManage',
+        path: 'request-manage',
+        component: () => import('../components/admin/RequestManage.vue'),
       },
       {
         name: 'SettleManage',
