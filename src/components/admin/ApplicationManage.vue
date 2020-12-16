@@ -33,9 +33,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.admin_page .el-scrollbar__wrap {
-  overflow-x: hidden;
-}
-</style>

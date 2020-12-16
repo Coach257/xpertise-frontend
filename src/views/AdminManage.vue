@@ -24,14 +24,14 @@
             </el-menu-item>
           </router-link>
 
-          <el-divider class="divider"></el-divider>
+          <!--          <el-divider class="divider"></el-divider>
 
-          <router-link :to="{name: 'SettleManage'}">
-            <el-menu-item index="/admin/settle-manage">
-              <i class=""></i>
-              <span slot="title">入驻处理</span>
-            </el-menu-item>
-          </router-link>
+                    <router-link :to="{name: 'SettleManage'}">
+                      <el-menu-item index="/admin/settle-manage">
+                        <i class=""></i>
+                        <span slot="title">入驻处理</span>
+                      </el-menu-item>
+                    </router-link>-->
 
         </el-menu>
       </el-aside>
@@ -77,6 +77,14 @@ export default {
   methods: {}
 }
 </script>
+
+
+<style>
+/* scrollbar style */
+.admin_page .el-scrollbar__wrap {
+  overflow-x: hidden;
+}
+</style>
 
 <style scoped>
 a {

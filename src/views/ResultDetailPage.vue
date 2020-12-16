@@ -65,7 +65,7 @@
           <h3>操作</h3>
           <el-button type="warning" icon="el-icon-star-off" v-if="article.starred===false" @click="addToFav" plain>收藏</el-button>
           <el-button type="warning" icon="el-icon-star-on" v-else @click="removeFromFav">已收藏</el-button>
-           <el-button type="success" icon="el-icon-circle-plus-outline" v-if="article.listed===false" @click="addToList" plain>添加到清单</el-button>
+          <el-button type="success" icon="el-icon-circle-plus-outline" v-if="article.listed===false" @click="addToList" plain>添加到清单</el-button>
           <el-button type="success" icon="el-icon-circle-check" v-else @click="removeFromList">已添加到清单</el-button>
         </div>
       </div>
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "ResultDetailPage",
   props: ['article_data'],
@@ -81,15 +82,16 @@ export default {
   mounted() {
     /**
      * 获取文章信息
-     *
+     * gr: 未能找到父组件，暂时先注了这一行
      */
-    this.$data.article = this.$props.article_data;
+    //this.$data.article = this.$props.article_data;
   },
   data() {
     return {
       article: {
+        paper_id: "114514",
         title: "This is an example title.",
-        authors: [{name:"Author One",id:1},{name: "Author Two",id:2},{name:"Author Three",id:3}],
+        authors: [{name:"Author One",id:"1"},{name: "Author Two",id:"2"},{name:"Author Three",id:"3"}],
         authors_count:3,
         abstract:
           "We study symmetric spiked matrix models with respect to a general class of noise distributions. Given a rank-1 deformation of a random noise matrix, whose entries are independently distributed with zero mean and unit variance, the goal is to estimate the rank-1 part. For the case of Gaussian noise, the top eigenvector of the given matrix is a widely-studied estimator known to achieve optimal statistical guarantees, e.g., in the sense of the celebrated BBP phase transition. However, this estimator can fail completely for heavy-tailed noise. In this work, we exhibit an estimator that works for heavy-tailed noise up to the BBP threshold that is optimal even for Gaussian noise. We give a non-asymptotic analysis of our estimator which relies only on the variance of each entry remaining constant as the size of the matrix grows: higher moments may grow arbitrarily fast or even fail to exist. Previously, it was only known how to achieve these guarantees if higher-order moments of the noises are bounded by a constant independent of the size of the matrix. Our estimator can be evaluated in polynomial time by counting self-avoiding walks via a color -coding technique. Moreover, we extend our estimator to spiked tensor models and establish analogous results.",
@@ -97,17 +99,40 @@ export default {
         category: "工科",
         sub_category: "计算机科学",
         detailed_category: "机器学习",
-        starred:false,
         listed:false,
+        starred: false,
       },
     };
   },
   methods: {
     addToFav(){
-      this.$data.article.starred = true;
+      let that = this;
+      let formData = new FormData();
+      formData.append("user_id",localStorage.getItem("userid"));
+      console.log(this.$data);
+      formData.append("paper_id",this.article.paper_id);
+      let paperInfo = JSON.stringify(this.article);
+      let articleWithoutAbstract = JSON.parse(paperInfo);
+      delete articleWithoutAbstract["abstract"];
+      paperInfo = JSON.stringify(articleWithoutAbstract);
+      formData.append("paper_info",paperInfo);
+      let config = {headers: {'Content-Type': 'multipart/form-data'} };
+      axios.post("https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/add",formData,config).then(response => {
+        if(response) {
+          if(response.data.success) {
+            console.log("收藏成功",response.data);
+            that.$data.article.starred = true;
+          }else {
+            console.log("收藏失败" + response.data);
+            alert("收藏文献失败，请检查网络");
+          }
+        }else {
+          console.log("收藏失败" + response.data);
+          alert("收藏文献失败，请检查网络");
+        }
+      })
     },
-    removeFromFav(){
-      this.$data.article.starred = false;
+    removeFromFav() {
     },
     addToList(){
       this.$data.article.listed = true;
