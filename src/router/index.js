@@ -13,6 +13,7 @@ import Portal from '@/views/Portal.vue'
 import SettlePage from '@/views/SettlePage.vue'
 import StartPage from '@/views/StartPage.vue'
 import CSStartPage from '@/views/CSStartPage.vue'
+import Affiliation  from '@/views/Affiliation'
 
 Vue.use(VueRouter)
 
@@ -127,11 +128,12 @@ const routes = [
     component: SettlePage,
     meta: {title: "申请入驻"}
   },
-  // {
-  //   path: '/affiliation',
-  //   name: Affiliation,
-  //
-  // }
+  {
+    path: '/affiliation/:affId',
+    name: Affiliation,
+    component: Affiliation,
+    meta: {title: "机构详情页"}
+  }
 ]
 
 const router = new VueRouter({

@@ -88,7 +88,7 @@ const csauthorconfig = {
 };
 
 const csaffiliationconfig = {
-    debug:false,
+    debug: false,
     apiConnector: csaffiliationconnector,
     searchQuery: {
       disjunctiveFacets: [],
