@@ -77,7 +77,7 @@ export default {
         authorNum:0,
         pubsnum:0,
       }
-      
+
     }
   },
   computed:{
@@ -92,6 +92,8 @@ export default {
     }
   },
   methods: {
+    test() {console.log("adasdasdasda")},
+
     addToAuthors (value, index, array) {
       var limit = 10
       if (this.paper.authorNum == limit) {
@@ -152,13 +154,14 @@ export default {
   },
   mounted() {
     console.log(this.$props.type)
-    let _this = this;
+
     if(this.$props.type == 'paper'){
       this.paper.venue = JSON.parse(this.$props.result.venue.raw).raw;
-      this.result.authors.raw.forEach(_this.addToAuthors);
-      // this.paper.title = this.$props.result.title.raw;
-      // this.paper.n_citation = this.$props.result.n_citation.raw;
-      // this.paper.year = this.$props.result.year.raw;
+      this.paper.title = this.$props.result.title.raw;
+      this.paper.n_citation = this.$props.result.n_citation.raw;
+      this.paper.year = this.$props.result.year.raw;
+
+      this.result.authors.raw.forEach(this.addToAuthors)
     }
     else if(this.$props.type == 'author'){
       this.author.name = this.result.name.raw;
@@ -175,9 +178,6 @@ export default {
       this.result.pubs.raw.forEach(this.addToAffiliationPubs);
     }
   },
-  methods:{
-    
-  }
 };
 </script>
 
