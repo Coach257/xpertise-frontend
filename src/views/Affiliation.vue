@@ -303,9 +303,9 @@ export default {
   border-radius: 50px;
   background-color: #dace0a;
   color: white;
-  width: 32px;
-  height: 32px;
-  font-size: 15px;
+ width: 30px;
+ height: 30px;
+ font-size: 15px;
   font-weight: bold;
   display: flex;
   align-items: center;
