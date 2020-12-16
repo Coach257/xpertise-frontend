@@ -1,6 +1,6 @@
 <template>
   <el-scrollbar style="height: 100%">
-    <report-card v-for="report in reportList" :key="report" :report="report"></report-card>
+    <report-card v-for="(report,index) in reportList" :key="index" :report="report"></report-card>
   </el-scrollbar>
 </template>
 

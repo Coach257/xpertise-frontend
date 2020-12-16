@@ -23,39 +23,16 @@
               <span slot="title">举报处理</span>
             </el-menu-item>
           </router-link>
-
-          <!--          <el-divider class="divider"></el-divider>
-
-                    <router-link :to="{name: 'SettleManage'}">
-                      <el-menu-item index="/admin/settle-manage">
-                        <i class=""></i>
-                        <span slot="title">入驻处理</span>
-                      </el-menu-item>
-                    </router-link>-->
-
         </el-menu>
       </el-aside>
       <el-main :style="{height: spaceHeight}">
         <router-view></router-view>
-        <!--          <el-scrollbar style="height: 100%">-->
-        <!--            <request-card></request-card>-->
-        <!--            <request-card></request-card>-->
-        <!--            <request-card></request-card>-->
-        <!--            <request-card></request-card>-->
-        <!--            <request-card></request-card>-->
-
-        <!--            &lt;!&ndash;            <DocumentCard context="isWorkingSpace" v-for="(doc,index) in docList" :key="index" :doc="doc" :doc-type="'isDefault'"/>&ndash;&gt;-->
-        <!--            &lt;!&ndash;            <div v-if="docList.length===0 && !isLoading" class="list_empty_notice">工作台空空如也</div>&ndash;&gt;-->
-        <!--            -->
-        <!--            ?-->
-        <!--          </el-scrollbar>-->
-      </el-main><!--主体-->
+      </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
-import NavBar from "@/components/common/NavBar";
 import AdminMenu from "@/components/admin/AdminMenu";
 import RequestCard from "@/components/admin/RequestCard";
 
