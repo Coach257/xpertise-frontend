@@ -7,6 +7,7 @@
 <script>
 
 import ReportCard from "@/components/admin/ReportCard";
+import $ from "jquery";
 
 const testUrl = ""
 export default {
@@ -18,6 +19,18 @@ export default {
     }
   },
   mounted() {
+    this.isScreenWide = window.innerWidth > 1500
+    $(".request-card").css("width", this.isScreenWide ? "30%" : "45%")
+    window.addEventListener('resize', () => {
+      if (!this.isScreenWide && window.innerWidth > 1500) {
+        this.isScreenWide = !this.isScreenWide
+        $(".request-card").css("width", "30%")
+      }
+      if (this.isScreenWide && window.innerWidth <= 1500) {
+        this.isScreenWide = !this.isScreenWide
+        $(".request-card").css("width", "45%")
+      }
+    }, false)
     // TODO: parsing report prop
     this.$axios.get(testUrl).then((res) => {
       let list = res['result']
