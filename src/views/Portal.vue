@@ -8,8 +8,7 @@
 <el-row :gutter="10">
   <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="8" :offset="6"><div class="grid-content "><el-avatar :size="100" :src="circleUrl"></el-avatar></div></el-col>
   <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="8"><div class="grid-content "><h1 style="font-size:35px;bold"> ztx</h1></div></el-col>
-  <el-col :xs="4" :sm="3" :md="3" :lg="2" :xl="1"><div class="grid-content " style="margin: 35px 0"> <el-button type="primary" size="large" icon="el-icon-edit-outline" round>认领</el-button></div></el-col>
-  <el-col :xs="3" :sm="3" :md="4" :lg="3" :xl="1"><div class="grid-content " style="margin: 35px 0"> <el-button type="warning" size="large" icon="el-icon-star-on" round>收藏</el-button></div></el-col>
+
 </el-row>
 
 <el-row :gutter="24">
@@ -65,7 +64,7 @@
                 </el-dropdown-menu>
                 </el-dropdown>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="3">
                 <el-dropdown trigger="click">
                 <span class="el-dropdown-link">
                     按时间排序<i class="el-icon-arrow-down el-icon--right"></i>
@@ -81,81 +80,15 @@
     </el-tab-pane>
     <el-tab-pane label="我的合作伙伴" name="second">
          <el-row class="block-col-2">
-            <el-col :span="2">
-                <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    所有时间<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>最近五年</el-dropdown-item>
-                    <el-dropdown-item>最近一年</el-dropdown-item>
-                    <el-dropdown-item>最近一月</el-dropdown-item>
-                </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
-            <el-col :span="2">
-                <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    全部作者<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>仅合作作者</el-dropdown-item>
-                    <el-dropdown-item>其他作者</el-dropdown-item>
 
-                </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
-            <el-col :span="2">
-                <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    按时间排序<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>倒序</el-dropdown-item>
-                    <el-dropdown-item>顺序</el-dropdown-item>
-                </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
+
+
         </el-row>
     </el-tab-pane>
 
     <el-tab-pane label="我的机构" name="third">
          <el-row class="block-col-2">
-            <el-col :span="2">
-                <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    所有时间<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>最近五年</el-dropdown-item>
-                    <el-dropdown-item>最近一年</el-dropdown-item>
-                    <el-dropdown-item>最近一月</el-dropdown-item>
-                </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
-            <el-col :span="2">
-                <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    全部作者<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>仅合作作者</el-dropdown-item>
-                    <el-dropdown-item>其他作者</el-dropdown-item>
 
-                </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
-            <el-col :span="2">
-                <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    按时间排序<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>倒序</el-dropdown-item>
-                    <el-dropdown-item>顺序</el-dropdown-item>
-                </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
         </el-row>
     </el-tab-pane>
 
