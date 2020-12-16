@@ -1,23 +1,19 @@
 <template>
   <div id="root">
   <h1>Test Page</h1>
-  <SelectBar :buttons='buttons' />
-
+	
+	<RelationMap/>
+	
   </div>
 </template>
 
 <script>
-  import SelectBar from '../components/common/SelectBar.vue'
+import RelationMap from '../components/common/RelationMap.vue'
+
   export default {
     name: 'Test',
     components: {
-      SelectBar
-    },
-    data () {
-      return {
-        buttons : ['英格兰', '华为你', '破哦是'],
-        buttons2 : ['没带手','发的是']
-      }
+      RelationMap
     },
     methods: {
       

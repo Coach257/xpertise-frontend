@@ -14,6 +14,7 @@ import SettlePage from '@/views/SettlePage.vue'
 import StartPage from '@/views/StartPage.vue'
 import CSStartPage from '@/views/CSStartPage.vue'
 import Affiliation  from '@/views/Affiliation'
+import Author from '@/views/Author'
 
 Vue.use(VueRouter)
 
@@ -121,6 +122,11 @@ const routes = [
     path: '/portal/:authorid',
     name: 'Portal',
     component: Portal
+  },
+  {
+    path: '/author/:type/:authorId',
+    name: 'Author',
+    component: Author,
   },
   {
     path: '/settle',

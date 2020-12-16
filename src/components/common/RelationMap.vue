@@ -30,11 +30,11 @@
          graphOptions: {
           "layouts": [
               {
-                "label": "中心",
-                "layoutName": "force",
-                "layoutClassName": "seeks-layout-center",
-                "defaultExpandHolderPosition": "hide",
-              }
+                    "label": "中心",
+                    "layoutName": "center",
+                    "layoutClassName": "seeks-layout-center",
+                    "distance_coefficient": 1
+                  }
            ],
           "defaultLineMarker": {
             "markerWidth": 20,
