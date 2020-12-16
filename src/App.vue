@@ -29,8 +29,8 @@ import NavBar from '../src/components/common/NavBar.vue'
 @import "../node_modules/@elastic/react-search-ui-views/lib/styles/styles.css";
 
 #app{
-  width: 100vw; /* 会导致/admin/application-manage 出现多余的滚动条 */
-  height: 100vh;
+  width: 98vw;
+  height: 98vh;
 
   font-family: Avenir,apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
