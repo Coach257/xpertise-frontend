@@ -11,6 +11,10 @@
         <div> {{ this.author.name }}</div>
       </div>
 
+      <div id='authorNameFake'>
+        <div> {{ this.author.name }}</div>
+      </div>
+
       <div id='authorInfo'>
 
         <div style="display: flex;">
@@ -57,39 +61,79 @@
     </div>
     </div>
 
+    <div style="height: 270px;"></div>
 
 
-    <h2> 以下是发表论文列表 </h2>
-    <div v-if="type==1">
-      <router-link
-        class="link"
-        v-for="(pub, index) in this.author.pubs"
-        :key = pub.i
-        :to="'/detail/cs/' + pub.id"
-        tag="a"
-        >
-        {{ pub.title }} 引用次数为 {{ pub.r }}
-      </router-link>
-    </div>
+    <div id='authorData'>
 
-    <div v-if="type==2">
-      <router-link
-        class="link"
-        v-for="(pub, index) in this.author.pubs"
-        :key = pub.i
-        :to="'/detail/cs/' + pub.id"
-        tag="a"
-        >
-        {{ pub.i }} 引用次数为 {{ pub.r }}
-      </router-link>
-    </div>
+      <div id='authorPapers' class="dataWrapper">
+
+        <div class="datatitle">
+        <h2>论文列表</h2>
+        <svg class="icon" width="27px" height="27px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M734.634667 72.448C717.824 55.978667 685.226667 42.666667 661.674667 42.666667H204.8C162.389333 42.666667 128 79.189333 128 124.330667v775.338666C128 944.768 162.474667 981.333333 204.8 981.333333h614.4c42.410667 0 76.8-36.693333 76.8-81.578666V273.493333c0-23.68-13.781333-56.405333-30.378667-72.661333l-130.986666-128.426667zM341.333333 298.666667h341.333334a42.666667 42.666667 0 0 1 0 85.333333H341.333333a42.666667 42.666667 0 1 1 0-85.333333z m0 170.666666h170.666667a42.666667 42.666667 0 0 1 0 85.333334H341.333333a42.666667 42.666667 0 0 1 0-85.333334z" fill="#666666"/></svg>
+        </div>
+
+        <el-divider></el-divider>
 
 
-    <div v-if="type==2">
-      <h2> 以下是作者标签 </h2>
+        <div v-if="type==1">
 
-     <div v-for="(tag, index) in this.author.tags" :key = 'tag.t' >
-        {{ tag.t }}
+          <router-link
+            class="link"
+            v-for="(pub, index) in this.author.pubs"
+            :key = pub.i
+            :to="'/detail/cs/' + pub.id"
+            tag="a"
+            >
+
+            <div class='paperindex'>{{ index }}</div>
+            <div style="width: 700px;"> {{ pub.title }} </div>
+
+            <div class="citation">被引{{ pub.r }}次</div>
+
+          </router-link>
+
+        </div>
+
+        <div v-if="type==2">
+
+          <router-link
+            class="link"
+            v-for="(pub, index) in this.author.pubs"
+            :key = pub.i
+            :to="'/detail/main/' + pub.id"
+            tag="a"
+            >
+
+            <div class='paperindex'>{{ index }}</div>
+            <div style="width: 700px;"> {{ pub.i }} </div>
+
+            <div class="citation">被引{{ pub.r }}次</div>
+
+          </router-link>
+
+        </div>
+
+      </div>
+
+
+      <div v-if="type==2" id='authorLabel' class="dataWrapper">
+        <div>
+          <div class="datatitle">
+          <h2>学者标签</h2>
+          <svg class="icon" width="27px" height="27px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M814 122.8l-264.6 12.7c-35.1 1.7-68.3 16.4-93.1 41.2L107.7 525.3c-31.1 31.1-31.1 81.6 0 112.7l277.2 277.2c31.1 31.1 81.6 31.1 112.7 0l14.3-14.3 92.1-92.1 242.2-242.2c24.8-24.8 39.5-58 41.2-93.1l12.7-264.6c2.3-48.5-37.6-88.4-86.1-86.1zM689.6 470c-37.8 37.8-99 37.8-136.8 0s-37.8-99 0-136.8c37.8-37.8 99-37.8 136.8 0 37.8 37.8 37.8 99.1 0 136.8z" fill="#666666" /></svg>
+          </div>
+
+          <el-divider></el-divider>
+
+
+         <div style="width: 200px; display: flex; flex-direction: column; align-items: flex-start">
+         <div class="tagName" v-for="(tag, index) in this.author.tags" :key = 'tag.t' >
+            {{ tag.t }}
+         </div>
+         </div>
+
+        </div>
       </div>
 
     </div>
@@ -176,12 +220,20 @@ export default {
         end: '+=200px',
         scrub: 0.7,
       }})
-      this.$gsap.to('#authorName', {duration: 1, top: '82px', color: "#7f7f7f", fontSize: '23px', scrollTrigger: {
+      this.$gsap.to('#authorName', {duration: 1,opacity: 0, scrollTrigger: {
         trigger: '#authorHeader',
         start: 'top top',
         end: '+=200px',
         scrub: 0.7,
       }})
+      this.$gsap.to('#authorNameFake', {duration: 1,top: '22px', color: "#7f7f7f", fontSize: '23px', opacity: 1, scrollTrigger: {
+        trigger: '#authorHeader',
+        start: 'top top',
+        end: '+=200px',
+        scrub: 0.7,
+      }})
+
+
     },
 
   },
@@ -264,7 +316,23 @@ export default {
 #authorName{
   font-size: 30px;
   font-weight: bolder;
+
+/*  position: absolute;
+  top: 50px; */
   position: relative;
+
+  width: 360px;
+  text-align:center;
+}
+#authorNameFake{
+  opacity: 0;
+
+  font-size: 30px;
+  font-weight: bolder;
+
+  position: absolute;
+  top: 50px;
+
   width: 360px;
   text-align:center;
 }
@@ -296,6 +364,82 @@ export default {
 
   max-width: 300px;
 }
+#authorData {
+  display: flex;
+  justify-content: center;
+  width: 1200px;
+}
+.dataWrapper {
+  border: #e6e6e6 solid thin;
+  border-radius: 30px;
+  box-shadow: 0px 0px 50px 10px rgba(127,127,127,0.2);
+  padding: 20px;
+  margin: 40px;
+}
+.datatitle {
+  /* outline: #21ff06 dotted thick; */
+  height: 40px;
+  margin-top: 10px;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.paperindex{
+  /* outline: #21ff06 dotted thick; */
+  border-radius: 50px;
+  background-color: #26BEB8;
+  color: white;
+  width: 30px;
+  height: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px;
+  margin-right: 10px;
+}
+.citation {
+  position: relative;
+  right: 5px;
+  width: 70px;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  background-color: #808080;
+  color: white;
+
+  border-radius: 10px;
+
+  padding: 2px 8px 2px 8px;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  margin-top: 3px;
+
+}
+.tagName {
+
+  text-align: left;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  background-color: #dace0a;
+  color: white;
+
+  border-radius: 30px;
+
+  padding: 2px 9px 2px 9px;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
 
 .link {
   text-decoration: none;
