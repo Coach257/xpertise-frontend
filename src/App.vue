@@ -32,7 +32,7 @@ import NavBar from '../src/components/common/NavBar.vue'
   width: 98vw;
   height: 98vh;
 
-  font-family: Avenir,apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  font-family: Avenir, apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
