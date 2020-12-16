@@ -1,18 +1,20 @@
 <template>
   <div class="report-card">
-    <el-dialog title="举报处理" :visible.sync="show_dialog" width="40%" >
+    <el-dialog title="举报处理" :visible.sync="show_dialog" width="40%">
       <div style="margin:10px auto">处理选项</div>
       <div style="">
         <el-checkbox-group size="medium" v-model="selections" @change="handleCheckboxChange">
-          <el-checkbox-button v-for="option in options" :label="option" :key="option"
+          <el-checkbox-button v-for="option in options"
+                              :label="option"
+                              :key="option"
                               :disabled="isDenied&&option!=='驳回举报'">
             {{ option }}
           </el-checkbox-button>
         </el-checkbox-group>
       </div>
       <span slot="footer">
-        <el-button class="el-icon-check" size="mini" round type="my_success"> 提交</el-button>
-        <el-button class="el-icon-close" size="mini" round type="default"> 取消</el-button>
+        <el-button class="el-icon-check" size="mini" round type="my_success" @click="submit"> 提交</el-button>
+        <el-button class="el-icon-close" size="mini" round type="default" @click="show_dialog = false"> 取消</el-button>
       </span>
     </el-dialog>
     <el-card>
@@ -22,17 +24,18 @@
       <div>
         <div class="report-card-content">
           <!--          TODO: display report info-->
-          <div class="report-card-content-item"> 举报详情：{{ this.detail }}</div>
           <div class="report-card-content-item"> 举报时间：{{ this.time }}</div>
+          <div class="report-card-content-item"> 举报详情：{{ this.detail }}</div>
         </div>
-        <el-button size="small" @click="show_dialog = true">处理</el-button>
+        <el-button type="my_success" size="small" @click="show_dialog = true">处理</el-button>
       </div>
     </el-card>
   </div>
 </template>
 
 <script>
-
+const testUrl = ""
+const deployUrl = ""
 export default {
   name: "ReportCard",
   props: {
@@ -43,14 +46,16 @@ export default {
       type: "举报",
       time: "xxxx-xx-xx xx:xx:xx",
       detail: "xxxxxxxxdetailxxxxxxxxxx",
+
       show_dialog: false,
       selections: [],
       isDenied: false,
-      options: ["驳回举报", "删除条目", "禁言用户"]
+      options: ["驳回举报", "删除条目", "禁言用户"],
     }
   },
   mounted() {
-    // TODO: parsing report prop
+    this.time = this.report['reportTime']
+    this.detail = this.report['reportDetail']
   },
   methods: {
     handleCheckboxChange(val) {
@@ -65,6 +70,34 @@ export default {
           return
         }
       }
+    },
+    submit: function () {
+      const h = this.$createElement
+      let data = {
+        is_denied: this.isDenied,
+        is_delete: false,
+        is_silent: false,
+      };
+      for (let i = 0; i < this.selections.length; i++) {
+        if (this.selections[i] === "删除条目") {
+          data.is_delete = true
+        }
+        if (this.selections[i] === "禁言用户") {
+          data.is_silent = true
+        }
+      }
+      // TODO: request head / request type / request payload structure
+      this.$axios.post(testUrl, JSON.stringify(data)).then(() => {
+        this.$notify({
+          title: "提示",
+          message: h("div", {class: 'el-icon-check', style: 'color: green'}, " 处理成功！"),
+        })
+      }).catch((err) => {
+        this.$notify({
+          title: "提示",
+          message: h("div", {class: 'el-icon-close', style: 'color: red'}, " 处理失败：" + err.status),
+        })
+      })
     }
   }
 }
@@ -123,6 +156,8 @@ export default {
   background-color: #30C2BA;
   border-color: #30C2BA;
 }
+
+
 </style>
 
 <style>
