@@ -38,6 +38,10 @@ export default {
       required: true,
       type: String,
     },
+    type: {
+      type: String,
+      required: true
+    }
   },
   components: {
     SelectBar
@@ -45,6 +49,12 @@ export default {
   data () {
     return {
       buttons: ['文献','作者']
+    }
+  },
+  mounted(){
+    console.log('SearchHeader'+this.$props.type)
+    if(this.$props.type == 'cs'){
+      this.buttons.push('机构')
     }
   },
   methods: {
@@ -69,6 +79,9 @@ export default {
                 break;
             case 1:
                 this.$emit('OptionChange', "author")
+                break;
+            default:
+                this.$emit('OptionChange',"affiliation")
                 break;
         }
       }

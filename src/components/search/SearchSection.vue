@@ -1,12 +1,24 @@
 <template>
   <div class="sui-layout">
     <el-button @click="debug()">DEBUG</el-button>
-    <SearchHeader v-model="searchInputValue" @submit="handleFormSubmit" v-on:OptionChange="ChangeOption"/>
+    <SearchHeader
+      :type="type"
+      v-model="searchInputValue"
+      @submit="handleFormSubmit"
+      v-on:OptionChange="ChangeOption"
+    />
     <div v-if="searchState.wasSearched" class="sui-layout-body">
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
 
-          <div v-if="getSearchObject==='paper'" class='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
+          <!-- 主文献 -->
+          <div
+            v-if="ismainpaper"
+            class="wrapper"
+            @mouseover="mouseOverWrapper()"
+            @mouseleave="mouseLeaveWrapper()"
+            v-show="thereAreResults"
+          >
             <SearchSort v-model="sortBy" />
 
             <SearchFacet
@@ -21,14 +33,52 @@
               @change="handleFacetChange($event, 'lang')"
             />
           </div>
-
-          <div v-else-if="getSearchObject==='author'" class='wrapper' @mouseover="mouseOverWrapper()" @mouseleave="mouseLeaveWrapper()" v-show="thereAreResults">
+          <!-- 主文献 -->
+          <!-- 计算机文献 -->
+          <div
+            v-if="iscspaper"
+            class="wrapper"
+            @mouseover="mouseOverWrapper()"
+            @mouseleave="mouseLeaveWrapper()"
+            v-show="thereAreResults"
+          >
             <SearchSort v-model="sortBy" />
 
+            <SearchFacet
+              :checked="year"
+              :facet="searchState.facets.year[0]"
+              @change="handleFacetChange($event, 'year')"
+            />
+
+            <SearchFacet
+              :checked="venue"
+              :facet="searchState.facets.venue[0]"
+              @change="handleFacetChange($event, 'venue')"
+            />
           </div>
-
-
-
+          <!-- 计算机文献 -->
+          <!-- 作者 -->
+          <div
+            v-else-if="getSearchObject === 'author'"
+            class="wrapper"
+            @mouseover="mouseOverWrapper()"
+            @mouseleave="mouseLeaveWrapper()"
+            v-show="thereAreResults"
+          >
+            <SearchSort v-model="sortBy" />
+          </div>
+          <!-- 作者 -->
+          <!-- 机构 -->
+          <div
+            v-else-if="getSearchObject === 'affiliation'"
+            class="wrapper"
+            @mouseover="mouseOverWrapper()"
+            @mouseleave="mouseLeaveWrapper()"
+            v-show="thereAreResults"
+          >
+            <SearchSort v-model="sortBy" />
+          </div>
+          <!-- 机构 -->
         </div>
 
         <div class="sui-layout-main">
@@ -43,6 +93,7 @@
           </div>
           <div class="sui-layout-main-body">
             <SearchResults
+              :type="this.configoption"
               v-show="thereAreResults"
               :results="searchState.results"
             />
@@ -62,7 +113,13 @@
 
 <script>
 import { SearchDriver } from "@elastic/search-ui";
-import {mainpaperconfig,mainauthorconfig,cspaperconfig,csauthorconfig,csaffiliationconfig} from "../../searchConfig";
+import {
+  mainpaperconfig,
+  mainauthorconfig,
+  cspaperconfig,
+  csauthorconfig,
+  csaffiliationconfig,
+} from "../../searchConfig";
 import SearchResults from "./SearchResults";
 import SearchFacet from "./SearchFacet";
 import SearchHeader from "./SearchHeader";
@@ -74,7 +131,7 @@ import SearchResultsPerPage from "./SearchResultsPerPage";
 var driver = null;
 
 export default {
-  props: ['input','type'],
+  props: ["input", "type"],
   components: {
     SearchResults,
     SearchFacet,
@@ -90,19 +147,26 @@ export default {
       searchState: {},
       year: [],
       lang: [],
+      venue:[],
       resultsPerPage: 20,
       sortBy: "relevance",
-      configoption: "paper"
+      // 搜索的内容
+      configoption: "paper",
     };
   },
   computed: {
     thereAreResults() {
       return this.searchState.totalResults && this.searchState.totalResults > 0;
     },
-    getSearchObject (){
+    getSearchObject() {
       return this.configoption;
-      return 'paper';
-    }
+    },
+    ismainpaper(){
+      return this.configoption == 'paper' && this.$props.type == 'main';
+    },
+    iscspaper(){
+      return this.configoption == 'paper' && this.$props.type == 'cs';
+    },
   },
   watch: {
     resultsPerPage(newResultsPerPage) {
@@ -111,107 +175,98 @@ export default {
     sortBy(newSortBy) {
       driver.setSort(newSortBy, "desc");
     },
-    configoption(newconfigoption){
-
-      if(this.$props.type=="main"){
-        if (this.configoption=="paper"){
+    configoption(newconfigoption) {
+      if (this.$props.type == "main") {
+        if (this.configoption == "paper") {
           console.log("mainpaperconfig");
-          driver = new SearchDriver(mainpaperconfig)
-        }
-        else {
+          driver = new SearchDriver(mainpaperconfig);
+        } else {
           console.log("mainauthorconfig");
-          driver = new SearchDriver(mainauthorconfig)
+          driver = new SearchDriver(mainauthorconfig);
         }
-      }
-      else{
-        if (this.configoption=="paper"){
+      } else {
+        if (this.configoption == "paper") {
           console.log("cspaperconfig");
-          driver = new SearchDriver(cspaperconfig)
-        }
-        else {
-          console.log("csauthorconfig");
-          driver = new SearchDriver(csauthorconfig)
+          driver = new SearchDriver(cspaperconfig);
+        } else if (this.configoption == "affiliation") {
+          console.log("csaffiliationconfig");
+          driver = new SearchDriver(csaffiliationconfig);
         }
       }
 
       const {
-      searchTerm,
-      sortField,
-      resultsPerPage,
-      filters,
-      facets
+        searchTerm,
+        sortField,
+        resultsPerPage,
+        filters,
+        facets,
       } = driver.getState();
 
       // restoring UI from url query
       this.searchInputValue = searchTerm;
       this.sortBy = sortField;
       this.resultsPerPage = resultsPerPage;
-      filters.forEach(filter => {
+      filters.forEach((filter) => {
         if (facets[filter.field][0].type === "range") {
-          this[filter.field] = filter.values.map(value => value.name);
+          this[filter.field] = filter.values.map((value) => value.name);
         } else {
           this[filter.field] = filter.values;
         }
       });
 
-      driver.subscribeToStateChanges(state => {
+      driver.subscribeToStateChanges((state) => {
         this.searchState = state;
       });
 
-      driver.getActions().setSearchTerm(this.input)
-      this.searchInputValue = this.input
+      driver.getActions().setSearchTerm(this.input);
+      this.searchInputValue = this.input;
       console.log("改变again configoption");
       //console.log(this.$props.type);
       //console.log(this.configoption);
-    }
+    },
   },
   mounted() {
-    console.log(this.$props.type)
-    if(this.$props.type=="main"){
-      if (this.configoption=="paper"){
-        driver = new SearchDriver(mainpaperconfig)
-      }
-      else
-        driver = new SearchDriver(mainauthorconfig)
-    }
-    else{
-      if (this.configoption=="paper"){
-        driver = new SearchDriver(cspaperconfig)
-      }
-      else
-        driver = new SearchDriver(csauthorconfig)
+    console.log("SearchSection" + this.$props.type);
+    if (this.$props.type == "main") {
+      if (this.configoption == "paper") {
+        driver = new SearchDriver(mainpaperconfig);
+      } else driver = new SearchDriver(mainauthorconfig);
+    } else {
+      if (this.configoption == "paper") {
+        driver = new SearchDriver(cspaperconfig);
+      } else driver = new SearchDriver(csauthorconfig);
     }
     const {
       searchTerm,
       sortField,
       resultsPerPage,
       filters,
-      facets
+      facets,
     } = driver.getState();
 
     // restoring UI from url query
     this.searchInputValue = searchTerm;
     this.sortBy = sortField;
     this.resultsPerPage = resultsPerPage;
-    filters.forEach(filter => {
+    filters.forEach((filter) => {
       if (facets[filter.field][0].type === "range") {
-        this[filter.field] = filter.values.map(value => value.name);
+        this[filter.field] = filter.values.map((value) => value.name);
       } else {
         this[filter.field] = filter.values;
       }
     });
 
-    driver.subscribeToStateChanges(state => {
+    driver.subscribeToStateChanges((state) => {
       this.searchState = state;
     });
 
-    driver.getActions().setSearchTerm(this.input)
-    this.searchInputValue = this.input
+    driver.getActions().setSearchTerm(this.input);
+    this.searchInputValue = this.input;
   },
 
   methods: {
     handleFormSubmit() {
-      if(this.searchInputValue!=''){
+      if (this.searchInputValue != "") {
         driver.getActions().setSearchTerm(this.searchInputValue);
       }
     },
@@ -220,7 +275,7 @@ export default {
       const facetFromDriver = driver.getState().facets[facet][0];
       const valueforApi =
         facetFromDriver.type === "range"
-          ? facetFromDriver.data.find(item => item.value.name === value).value
+          ? facetFromDriver.data.find((item) => item.value.name === value).value
           : value;
 
       if (checked) {
@@ -237,23 +292,30 @@ export default {
     setCurrentPage(page) {
       driver.setCurrent(page);
     },
-    mouseOverWrapper () {
-      this.$gsap.to(".wrapper", {duration: 0.1,  boxShadow:'0px 0px 35px 13px rgb(127,127,127,0.3)'})
+    mouseOverWrapper() {
+      this.$gsap.to(".wrapper", {
+        duration: 0.1,
+        boxShadow: "0px 0px 35px 13px rgb(127,127,127,0.3)",
+      });
     },
-    mouseLeaveWrapper () {
-      this.$gsap.to(".wrapper", {duration: 0.1,  boxShadow:'0px 0px 10px 2px rgb(127,127,127,0.2)'})
+    mouseLeaveWrapper() {
+      this.$gsap.to(".wrapper", {
+        duration: 0.1,
+        boxShadow: "0px 0px 10px 2px rgb(127,127,127,0.2)",
+      });
     },
-    debug(){
-      console.log(this.$props)
+   
+    debug() {
+      console.log(this.configoption);
     },
-    ChangeOption:function(data){
-      if(this.configoption != data){
+    ChangeOption: function (data) {
+      if (this.configoption != data) {
         this.configoption = data;
         console.log("change");
         console.log(this.configoption);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -261,11 +323,10 @@ export default {
 .wrapper {
   /* border: #cccccc solid thin; */
   border: 1px solid #f0f0f0;
-  border-radius: 30px;;
-  box-shadow: 0px 0px 10px 2px rgb(127,127,127,0.2);
+  border-radius: 30px;
+  box-shadow: 0px 0px 10px 2px rgb(127, 127, 127, 0.2);
   padding: 15px;
 
   margin-top: 20px;
-
 }
 </style>

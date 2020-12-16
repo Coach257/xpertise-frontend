@@ -5,7 +5,7 @@
       :key="result.id.raw"
       class="search-section__search-result"
     >
-      <SearchResult :result="result" />
+      <SearchResult :type="type" :result="result" />
     </li>
   </ul>
 </template>
@@ -21,6 +21,10 @@ export default {
     results: {
       type: Array,
       required: true
+    },
+    type:{
+      type:String,
+      required:true
     }
   }
 };

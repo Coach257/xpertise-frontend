@@ -52,7 +52,7 @@ const mainpaperconfig = {
 };
 
 const mainauthorconfig = {
-  debug: false,
+  debug: true,
   apiConnector: mainauthorconnector,
   searchQuery: {
     disjunctiveFacets: [],
@@ -62,15 +62,15 @@ const mainauthorconfig = {
 };
 
 const cspaperconfig = {
-  debug: false,
+  debug: true,
   apiConnector: cspaperconnector,
   searchQuery: {
-    disjunctiveFacets: ["year", "conference"],
+    disjunctiveFacets: ["year", "venue"],
     facets: {
       year: {
         type: "value"
       },
-      conference: {
+      venue: {
         type: "value"
       },
     }
@@ -78,7 +78,7 @@ const cspaperconfig = {
 };
 
 const csauthorconfig = {
-  debug: false,
+  debug: true,
   apiConnector: csauthorconnector,
   searchQuery: {
     disjunctiveFacets: [],
@@ -88,7 +88,7 @@ const csauthorconfig = {
 };
 
 const csaffiliationconfig = {
-    debug: false,
+    debug: true,
     apiConnector: csaffiliationconnector,
     searchQuery: {
       disjunctiveFacets: [],

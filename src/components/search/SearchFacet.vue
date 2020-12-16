@@ -46,7 +46,7 @@ export default {
       return this.checked && this.checked.includes(value);
     },
     getValue(facetItem, type) {
-      return type === "range" ? facetItem.value.name : facetItem.value;
+      return this.$props.facet.field == 'venue' ? JSON.parse(facetItem.value).raw : facetItem.value;
     }
   }
 };
