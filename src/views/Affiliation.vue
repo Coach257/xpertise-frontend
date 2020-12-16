@@ -245,7 +245,7 @@ export default {
   position: absolute;
   top: 20px;
   left: 20px;
-  opacity: 10%;
+  opacity: 20%;
 }
 #affiliationName {
   font-size: 30px;
