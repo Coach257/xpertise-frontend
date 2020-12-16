@@ -2,12 +2,12 @@
   <div>
     <h1> 作者名称是 {{ this.author.name }}</h1>
     <h2> 论文引用量 n_citation {{ this.author.n_citation }} </h2>
-    <h2
-      :to="'/affiliation/'+ this.author.orgs_cs.id"
+    <router-link
       v-if="type==1"
+      :to="'/affiliation/'+ this.author.orgs_cs.id"
     >
       作者隶属的机构是 {{ this.author.orgs_cs.name }}
-    </h2>
+    </router-link>
 
     <h2 v-if="type==2"> 作者隶属的机构是 {{ this.author.orgs_main }}</h2>
 
