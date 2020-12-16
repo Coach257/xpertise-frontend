@@ -52,21 +52,8 @@
           <h3>引用</h3>
           <el-button icon="el-icon-document-copy" plain>复制引用信息</el-button>
           <h3>操作</h3>
-          <el-button
-            type="warning"
-            icon="el-icon-star-off"
-            v-if="article.starred === false"
-            @click="addToFav"
-            plain
-            >收藏</el-button
-          >
-          <el-button
-            type="warning"
-            icon="el-icon-star-on"
-            v-else
-            @click="removeFromFav"
-            >已收藏</el-button
-          >
+          <el-button type="warning" icon="el-icon-star-off" v-if="article.starred===false" @click="addToFav" plain>收藏</el-button>
+          <el-button type="warning" icon="el-icon-star-on" v-else @click="removeFromFav">已收藏</el-button>
           <el-button type="warning" @click="showInfo">显示信息</el-button>
         </div>
       </div>
@@ -88,7 +75,7 @@ import {
 var driver = null;
 
 export default {
-  name: "ResultDetailPage",
+  name: "Detail",
   props: [],
   components: {},
   mounted() {
@@ -111,6 +98,7 @@ export default {
   data() {
     return {
       article: {
+        paper_id: "",
         title: "",
         authors: [],
         abstract:"",
@@ -127,8 +115,8 @@ export default {
         issn:"",
         doi:"",
         url:"",
-        starred: false,
         listed: false,
+        starred: false,
       },
       searchState: {},
       referenceloaded:false,
@@ -231,11 +219,35 @@ export default {
           }
         });
     },
-    addToFav() {
-      this.$data.article.starred = true;
+    addToFav(){
+      let that = this;
+      let formData = new FormData();
+      formData.append("user_id",localStorage.getItem("userid"));
+      console.log(this.$data);
+      formData.append("paper_id",this.article.paper_id);
+      let paperInfo = JSON.stringify(this.article);
+      let articleWithoutAbstract = JSON.parse(paperInfo);
+      delete articleWithoutAbstract["abstract"];
+      paperInfo = JSON.stringify(articleWithoutAbstract);
+      formData.append("paper_info",paperInfo);
+      let config = {headers: {'Content-Type': 'multipart/form-data'} };
+      axios.post("https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/add",formData,config).then(response => {
+        if(response) {
+          if(response.data.success) {
+            console.log("收藏成功",response.data);
+            that.$data.article.starred = true;
+          }else {
+            console.log("收藏失败" + response.data);
+            alert("收藏文献失败，请检查网络");
+          }
+        }else {
+          console.log("收藏失败" + response.data);
+          alert("收藏文献失败，请检查网络");
+        }
+      })
     },
     removeFromFav() {
-      this.$data.article.starred = false;
+
     },
     thereAreResults() {
       return this.searchState.totalResults && this.searchState.totalResults > 0;
