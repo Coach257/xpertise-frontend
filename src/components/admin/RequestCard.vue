@@ -1,5 +1,22 @@
 <template>
   <div class="request-card">
+    <el-dialog title="申请处理" :visible.sync="show_dialog" width="40%">
+      <div style="">
+        <el-form :model="idForm" :rules="rules" ref="idForm">
+          <el-form-item label="申请用户ID" prop="user_id">
+            <el-input v-model="idForm.user_id" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="匹配作者门户ID" prop="portal_id">
+            <el-input type="number" v-model="idForm.portal_id" placeholder="请输入ID"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <span slot="footer">
+        <el-button class="el-icon-check" size="mini" round type="my_success"
+                   @click="checkConfirm('idForm')"> 提交</el-button>
+        <el-button class="el-icon-close" size="mini" round type="default" @click="show_dialog = false"> 取消</el-button>
+      </span>
+    </el-dialog>
     <el-card>
       <div slot="header">
         <span class="request-card-header">{{ this.type }}</span>
@@ -7,19 +24,18 @@
       <div>
         <div class="request-card-content">
           <!--          TODO: display request info-->
-          <div class="request-card-content-item"> 申请详情：{{ this.detail }}</div>
           <div class="request-card-content-item"> 申请时间：{{ this.time }}</div>
+          <div class="request-card-content-item"> 申请详情：{{ this.detail }}</div>
         </div>
-        <el-button-group style="width: 90px;height: 30px;right: 0">
-          <el-button class="el-icon-check" size="mini" round type="my_success"></el-button>
-          <el-button class="el-icon-close" size="mini" round type="danger"></el-button>
-        </el-button-group>
+        <el-button type="my_success" size="small" @click="show_dialog = true">处理</el-button>
       </div>
     </el-card>
   </div>
 </template>
 
 <script>
+const testUrl = ""
+const deployUrl = ""
 export default {
   name: "RequestCard",
   props: {
@@ -29,13 +45,66 @@ export default {
     return {
       type: "请求",
       time: "xxxx-xx-xx xx:xx:xx",
-      detail: "xxxxxxxxdetailxxxxxxxxxx"
+      detail: "xxxxxxxxdetailxxxxxxxxxx",
+
+      idForm: {
+        user_id: '',
+        portal_id: ''
+      },
+      rules: {
+        portal_id: [
+          {
+            required: true,
+            message: '请输入对应作者门户ID',
+            trigger: 'blur'
+          }
+        ]
+      },
+
+      show_dialog: false,
     }
   },
   mounted() {
     // TODO: parsing request prop
+    this.idForm.user_id = this.request['userId']
+    this.time = this.request['requestTime']
+    this.detail = this.request['requestDetail']
   },
-  methods: {}
+  methods: {
+    checkConfirm(form_name) {
+      this.$refs[form_name].validate((valid) => {
+        if (valid) {
+          this.$confirm('此操作将通过该申请，是否继续？', '确认', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.confirmRequest()
+          }).finally(() => {
+            this.show_dialog = false
+          })
+        }
+      })
+    },
+    confirmRequest() {
+      const h = this.$createElement
+      let data = {
+        portal_id: parseInt(this.idForm.portal_id),
+        user_id: this.idForm.user_id
+      }
+      this.$axios.post(testUrl, JSON.stringify(data)).then(() => {
+        this.$notify({
+          title: "提示",
+          message: h("div", {class: 'el-icon-check', style: 'color: green'}, " 处理成功！"),
+        })
+      }).catch(err => {
+        this.$notify({
+          title: "提示",
+          message: h("div", {class: 'el-icon-close', style: 'color: red'}, " 处理失败：" + err.status),
+        })
+      })
+    },
+  },
 }
 </script>
 
@@ -95,6 +164,15 @@ export default {
 </style>
 
 <style>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .request-card .el-card__header, .el-card__body {
   padding: 10px 15px;
 }

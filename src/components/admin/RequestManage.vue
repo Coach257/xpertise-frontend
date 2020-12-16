@@ -1,7 +1,6 @@
 <template>
   <el-scrollbar style="height: 100%">
-    <request-card v-for="request in requestList" :key="request" :report="report"></request-card>
-
+    <request-card v-for="(request,index) in requestList" :key="index" :request="request"></request-card>
   </el-scrollbar>
 </template>
 
