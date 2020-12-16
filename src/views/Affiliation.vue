@@ -1,11 +1,6 @@
 <template>
   <div id='root'>
 
-<!--    <br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br> -->
-
     <div id='trigger'> </div>
     <div style="position: fixed;">
     <div id='affiliationHeader'>
