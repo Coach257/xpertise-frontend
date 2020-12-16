@@ -15,6 +15,7 @@ export default {
   components: {ReportCard},
   data() {
     return {
+      isScreenWide: false,
       reportList: []
     }
   },
