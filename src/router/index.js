@@ -68,11 +68,6 @@ const routes = [
         path: 'request-manage',
         component: () => import('../components/admin/RequestManage.vue'),
       },
-      {
-        name: 'SettleManage',
-        path: 'settle-manage',
-        component: () => import('../components/admin/SettleManage.vue'),
-      }
     ]
   },
   {
