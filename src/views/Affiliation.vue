@@ -45,19 +45,31 @@
         <div>
           <router-link
             class="link"
-            v-for="(pub, index) in this.affiliation.pubs"
+            v-for="(pub, index) in (this.affiliation.pubs).slice((this.currentPage1-1)*this.eachPage, this.currentPage1*this.eachPage)"
             :key = pub.id
             :to="'/detail/cs/' + pub.id"
             tag="a"
             >
 
 
-              <div id='paperindex'>{{index}}</div>
+              <div id='paperindex'>{{index+(currentPage1-1)*eachPage}}</div>
               <div style="width: 700px;"> {{ pub.title }} </div>
 
 
           </router-link>
         </div>
+
+        <center style="margin-top: 30px; margin-bottom: 30px">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total='total1'
+          :page-size='eachPage'
+          @current-change='handleCurrentChange1'
+          >
+        </el-pagination>
+        </center>
+
       </div>
 
 
@@ -68,22 +80,36 @@
         <svg class="icon" width="27px" height="27px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M179.224976 417.39239v2.397659c2.397659 0 2.397659 0 2.397658 2.397658l4.795317 4.795317c33.467317 33.467317 71.829854 50.250927 117.285464 50.250927s83.818146-16.78361 114.887805-50.250927c2.397659 0 2.397659 0 4.795317-2.397658l2.397658-2.397659c0-2.397659 0-2.397659 2.397659-2.397658 7.192976-9.590634 16.78361-21.578927 23.976585-33.467317v-2.397659c11.988293-21.479024 16.78361-45.45561 16.78361-71.829853 0-45.45561-16.78361-86.215805-47.853269-117.285464-33.467317-33.467317-71.829854-47.853268-117.285463-47.853268s-83.818146 16.78361-114.887805 47.853268h-2.397658c-31.069659 33.467317-47.853268 71.829854-47.853269 117.285464 0 26.374244 7.093073 50.250927 19.081366 74.227512 4.795317 9.490732 11.988293 21.479024 21.479025 31.069658z m287.219512 45.555512c50.350829 0 76.625171 23.976585 79.122732 74.227513v265.740487c-2.397659 19.081366-4.795317 33.467317-11.988293 45.45561-11.988293 16.78361-28.771902 26.374244-55.046244 28.771903H143.36c-31.069659 0-55.046244-7.093073-66.934634-28.771903-7.093073-11.988293-11.988293-26.374244-11.988293-45.45561v-265.740487c2.397659-50.250927 28.771902-74.227512 78.922927-74.227513h4.795317l2.397659 2.397659c43.057951 40.760195 93.308878 62.23922 153.150439 64.636878 59.841561-2.397659 112.590049-23.976585 153.150439-64.636878l2.397658-2.397659h7.192976z m146.057366 55.046244c28.771902 31.069659 64.636878 45.45561 105.29717 45.45561s76.625171-14.385951 105.297171-45.45561l2.397659-2.397658 2.397658-2.397659c0-2.397659 0-2.397659 2.397659-2.397658 7.192976-9.590634 14.385951-19.081366 21.479024-28.771903v-2.397658c9.590634-19.081366 14.385951-40.760195 14.385951-64.636878 0-40.760195-14.385951-76.625171-43.057951-105.297171-28.771902-28.771902-64.636878-43.057951-105.297171-43.057951s-74.227512 14.385951-105.29717 43.057951c-28.771902 28.771902-43.057951 64.636878-43.057952 105.297171 0 9.590634 2.397659 19.081366 4.795318 28.771902 16.78361 16.78361 28.771902 38.362537 33.467317 69.432195l4.795317 4.795317z m268.138146 38.262634c50.250927-2.397659 76.625171 23.976585 78.922927 71.829854v174.729366c0 19.081366-4.795317 33.467317-11.988293 45.45561-11.988293 16.78361-28.771902 26.374244-52.748488 28.771902H598.016V584.92878c33.467317 23.976585 74.227512 35.864976 119.683122 35.864976 62.23922 0 112.590049-21.479024 155.548098-64.636878l7.39278 0.099902z" fill="#666666"/></svg>
         </div>
 
-         <el-divider></el-divider>
+
+        <el-divider></el-divider>
 
         <div>
           <router-link
             class="link"
-            v-for="(author, index) in this.affiliation.authors"
+            v-for="(author, index) in (this.affiliation.authors).slice((this.currentPage2-1)*this.eachPage, this.currentPage2*this.eachPage)"
             :key = author.id
             :to="'/author/' + author.id"
             tag="a"
             >
 
-            <div id='authorindex'>{{index}}</div>
+            <div id='authorindex'>{{index+(currentPage2-1)*eachPage}}</div>
             <div style="width: 200px;"> {{ author.name }} </div>
 
           </router-link>
         </div>
+
+        <center style="margin-top: 30px; margin-bottom: 30px;">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total='total2'
+          :page-size='eachPage'
+          @current-change='handleCurrentChange2'
+          >
+        </el-pagination>
+        </center>
+
+
       </div>
 
     </div>
@@ -117,10 +143,16 @@ export default {
 
       contendLoaded: false,
       searchState: {},
+
+      currentPage1: 1,
+      currentPage2: 1,
+      eachPage: 50,
+      total1: 0,
+      total2: 0
     };
   },
   mounted() {
-    console.log(this.$route.params.affId);
+    // console.log(this.$route.params.affId);
     driver = new SearchDriver(csaffiliationconfig);
     driver.addFilter("id", this.$route.params.affId, "any");
     driver.subscribeToStateChanges((state) => {
@@ -152,13 +184,19 @@ export default {
         end: '+=200px',
         scrub: 0.7,
       }})
+    },
+    handleCurrentChange1 (currpage) {
+      this.currentPage1 = currpage
+    },
+    handleCurrentChange2 (currpage) {
+      this.currentPage2 = currpage
     }
 
   },
   watch: {
     searchState(newsearchState) {
       if(this.thereAreResults()) {
-        console.log(newsearchState);
+        // console.log(newsearchState);
         var results = newsearchState.results[0];
         var raw;
         if(results.name)
@@ -179,6 +217,8 @@ export default {
             this.affiliation.pubs.push(JSON.parse(raw[i]));
         }
         this.contendLoaded = true;
+        this.total1 = this.affiliation.pubs.length
+        this.total2 = this.affiliation.authors.length
       }
     }
   },
@@ -319,7 +359,7 @@ a:visited {
   color:#666666;
 }
 a:hover {
-  color:#800002;
+  color:#1292fd;
   font-weight: bold;
 }
 </style>
