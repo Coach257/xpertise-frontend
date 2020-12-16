@@ -14,6 +14,11 @@
           <span> {{ scope.row.paperTitle }} </span>
         </template>
       </el-table-column>
+      <el-table-column label="作者" min-width="200px" show-overflow-tooltip> 
+        <template slot-scope="scope"> 
+          <el-link v-for="author in scope.row.authors" :key="author" @click="handleClickOnAuthor(author.id)" style="margin:5px">{{author.name}}</el-link>
+        </template>
+      </el-table-column>
       <el-table-column label="描述" min-width="200px" show-overflow-tooltip> 
         <template slot-scope="scope"> 
           {{ scope.row.description }}
@@ -61,30 +66,12 @@ export default {
             let favorItem = new Object();
             favorItem.favorID = favorArray[i].favor_id;
             favorItem.paperID = favorArray[i].paper_id;
-            favorItem.description = favorArray[i].paper_info;
 
-            /*
             //请求论文相关信息
-            formData = new FormData();
-            formData.append("paper_id",favorItem.paperID);
-            axios.post('https://go-service-296709.df.r.appspot.com/api/v1/', formData, config).then(res => {
-              if(res) {
-                if(res.data.success) {
-                  console.log("paper found, ",res.data.data);
-                  let paper = res.data.data;
-                  favorItem.paperTitle = paper.title;
-                } else {
-                  console.log(res.data);
-                  console.log("获取失败 " + res.data);
-                  alert("详细信息获取失败，请检查网络");
-                }
-              } else {
-                console.log(res.data);
-                console.log("获取失败 " + res.data);
-                alert("详细信息获取失败，请检查网络");
-              }
-            })
-            */
+            let article = JSON.parse(favorArray[i].paper_info);
+            favorItem.paperTitle = article.title;
+            favorItem.authors = article.authors;
+            favorItem.description = JSON.stringify({category:article.category,sub_category:article.sub_category,detailed_category:article.detailed_category});
 
             //收藏项加入收藏列表
             that.favorList.push(favorItem);
@@ -122,6 +109,10 @@ export default {
         this.$router.push({path: "/article/:"+row.paperID.toString()});
       }
     },
+    handleClickOnAuthor(authorID) {
+      console.log("routing to "+"/article/:"+row.paperID.toString());
+      this.$router.push({path: "/portal/:"+authorID});
+    }
   }
 }
 </script>
