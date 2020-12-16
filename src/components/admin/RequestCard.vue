@@ -1,6 +1,6 @@
 <template>
   <div class="request-card">
-    <el-dialog title="申请处理" :visible.sync="show_dialog" width="40%">
+    <el-dialog title="申请处理" :visible.sync="show_dialog" width="50%">
       <div style="">
         <el-form :model="idForm" :rules="rules" ref="idForm">
           <el-form-item label="申请用户ID" prop="user_id">
@@ -23,9 +23,11 @@
       </div>
       <div>
         <div class="request-card-content">
-          <!--          TODO: display request info-->
+          <!--          TODO: display request info -->
+          <div class="request-card-content-item"> 申请人ID：{{ this.idForm.user_id }}</div>
+          <div class="request-card-content-item"> 身份证号：{{ this.citizen_id }}</div>
+          <div class="request-card-content-item"> 所属机构：{{ this.organization }}</div>
           <div class="request-card-content-item"> 申请时间：{{ this.time }}</div>
-          <div class="request-card-content-item"> 申请详情：{{ this.detail }}</div>
         </div>
         <el-button type="my_success" size="small" @click="show_dialog = true">处理</el-button>
       </div>
@@ -43,9 +45,10 @@ export default {
   },
   data() {
     return {
-      type: "请求",
+      type: "入驻申请",
       time: "xxxx-xx-xx xx:xx:xx",
-      detail: "xxxxxxxxdetailxxxxxxxxxx",
+      citizen_id: "xxxxcitizen_idxxxx",
+      organization: "xxxxx org xxxxx",
 
       idForm: {
         user_id: '',
@@ -68,7 +71,8 @@ export default {
     // TODO: parsing request prop
     this.idForm.user_id = this.request['userId']
     this.time = this.request['requestTime']
-    this.detail = this.request['requestDetail']
+    this.citizen_id = this.request['citizen_id']
+    this.organization = this.request['organization']
   },
   methods: {
     checkConfirm(form_name) {
@@ -89,8 +93,8 @@ export default {
     confirmRequest() {
       const h = this.$createElement
       let data = {
-        portal_id: parseInt(this.idForm.portal_id),
-        user_id: this.idForm.user_id
+        author_id: parseInt(this.idForm.portal_id),
+        authreq_id: this.idForm.requestId
       }
       this.$axios.post(testUrl, JSON.stringify(data)).then(() => {
         this.$notify({
@@ -123,7 +127,7 @@ export default {
 
 .request-card-content {
   width: 100%;
-  height: 100px;
+  min-height: 120px;
   font-size: 15px;
 }
 

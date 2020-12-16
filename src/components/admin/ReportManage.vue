@@ -20,14 +20,14 @@ export default {
     }
   },
   mounted() {
-    this.isScreenWide = window.innerWidth > 1500
+    this.isScreenWide = window.innerWidth > 1300
     $(".request-card").css("width", this.isScreenWide ? "30%" : "45%")
     window.addEventListener('resize', () => {
-      if (!this.isScreenWide && window.innerWidth > 1500) {
+      if (!this.isScreenWide && window.innerWidth > 1300) {
         this.isScreenWide = !this.isScreenWide
         $(".request-card").css("width", "30%")
       }
-      if (this.isScreenWide && window.innerWidth <= 1500) {
+      if (this.isScreenWide && window.innerWidth <= 1300) {
         this.isScreenWide = !this.isScreenWide
         $(".request-card").css("width", "45%")
       }
