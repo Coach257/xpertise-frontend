@@ -42,8 +42,8 @@
     },
     filters: {
       cutLongTitle: function (value) {
-        if (value.length > 19) {
-          return value.slice(0, 19) + '...'
+        if (value.length > 17) {
+          return value.slice(0, 17) + '...'
         }
         return value
       }
