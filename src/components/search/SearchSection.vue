@@ -241,6 +241,9 @@ export default {
         driver = new SearchDriver(cspaperconfig);
       } else driver = new SearchDriver(csauthorconfig);
     }
+    driver.setResultsPerPage(this.resultsPerPage)
+    driver.getActions().setSearchTerm(this.input);
+    this.searchInputValue = this.input;
     const {
       searchTerm,
       sortField,
@@ -264,9 +267,6 @@ export default {
     driver.subscribeToStateChanges((state) => {
       this.searchState = state;
     });
-
-    driver.getActions().setSearchTerm(this.input);
-    this.searchInputValue = this.input;
   },
 
   methods: {

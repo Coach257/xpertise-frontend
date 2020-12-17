@@ -18,7 +18,7 @@
             @change="$emit('change', $event)"
           />
           <span class="sui-multi-checkbox-facet__input-text">{{
-            getValue(facetItem, facet.type)
+            showValue(facetItem, facet.type)
           }}</span>
         </div>
         <span class="sui-multi-checkbox-facet__option-count">{{
@@ -46,6 +46,9 @@ export default {
       return this.checked && this.checked.includes(value);
     },
     getValue(facetItem, type) {
+      return  facetItem.value;
+    },
+    showValue(facetItem, type) {
       return this.$props.facet.field == 'venue' ? JSON.parse(facetItem.value).raw : facetItem.value;
     }
   }
