@@ -2,7 +2,7 @@
   <div>
     <div class="sui-sorting__label">Sort by</div>
 
-    <SelectBar :buttons="buttons" style='margin-top: 9px; margin-bottom: 35px;'/>
+    <SelectBar :buttons="buttons" style='margin-top: 9px;'/>
 
 <!--    <select
       name="sortBy"

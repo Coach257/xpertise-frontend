@@ -25,6 +25,7 @@
               :checked="year"
               :facet="searchState.facets.year[0]"
               @change="handleFacetChange($event, 'year')"
+              style='margin-top: 32px;'
             />
 
             <SearchFacet
@@ -48,6 +49,7 @@
               :checked="year"
               :facet="searchState.facets.year[0]"
               @change="handleFacetChange($event, 'year')"
+              style='margin-top: 32px;'
             />
 
             <SearchFacet
@@ -307,7 +309,7 @@ export default {
         boxShadow: "0px 0px 10px 2px rgb(127,127,127,0.2)",
       });
     },
-   
+
     debug() {
       console.log(this.configoption);
     },

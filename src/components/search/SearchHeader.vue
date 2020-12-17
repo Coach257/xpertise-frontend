@@ -54,7 +54,7 @@ export default {
   mounted(){
     console.log('SearchHeader'+this.$props.type)
     if(this.$props.type == 'cs'){
-      this.buttons = ['文献','作者', '机构']
+      this.buttons = ['文献','作者','机构']
     }
 
   },
