@@ -401,6 +401,8 @@ export default {
   margin-right: 10px;
 }
 .citation {
+  white-space: nowrap;
+
   position: relative;
   right: 5px;
 
