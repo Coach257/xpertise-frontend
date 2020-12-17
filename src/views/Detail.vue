@@ -14,14 +14,13 @@
             :key="author.id"
           >
             {{ author.name }}
-            {{ author.org }}
+            {{ author.org }} ,
             <div
               style="display: inline"
               v-if="index < article.authors_count - 1"
             >
               ,
             </div>
-            <div style="display: inline" v-else>...</div>
           </router-link>
         </div>
       </div>
