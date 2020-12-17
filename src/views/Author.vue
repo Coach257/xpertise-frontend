@@ -86,7 +86,7 @@
             tag="a"
             >
 
-            <div class='paperindex'>{{ index }}</div>
+            <div class='paperindex'>{{ index+1 }}</div>
             <div style="width: 700px;"> {{ pub.title }} </div>
 
             <div class="citation">被引{{ pub.r }}次</div>
