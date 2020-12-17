@@ -137,7 +137,7 @@ export default {
   vertical-align: middle;
   height: 45px;
   background-color: white;
-  opacity: 100%;
+  opacity: 0.8;
   backdrop-filter: blur(50px);
   width: 100%;
 }
@@ -145,7 +145,7 @@ export default {
   /* position: relative; */
   bottom: 0px;
   height: 0.5px;
-  opacity: 100%;
+  opacity: 1;
   background-color: grey;
   width: 100vw;
 }
