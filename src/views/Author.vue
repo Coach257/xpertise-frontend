@@ -1,5 +1,5 @@
 <template>
-  <div id='root'>
+  <div id='root' v-if="loadfinish">
 
     <div id='trigger'> </div>
     <div style="position: fixed; top: 70px; z-index: 2">
@@ -164,15 +164,20 @@ export default {
         orgs_main: "",
         orgs_cs: {},
         pubs: [],
-        n_citation: -1,
-        n_pubs: -1,
-        name: "IAmParasite",
+        n_citation: 0,
+        n_pubs: 0,
+        name: "",
         tags: [],
       },
 
       contendLoaded: false,
       searchState: {},
     };
+  },
+  computed:{
+    loadfinish(){
+      return this.contendLoaded;
+    }
   },
   mounted() {
 
@@ -232,8 +237,6 @@ export default {
         end: '+=200px',
         scrub: 0.7,
       }})
-
-
     },
 
   },
@@ -276,7 +279,7 @@ export default {
         }
         this.contendLoaded = true;
       }
-    }
+    },
   },
 
 

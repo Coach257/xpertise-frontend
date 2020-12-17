@@ -23,15 +23,15 @@ const cspaperconnector = new AppSearchAPIConnector({
 });
 
 const csauthorconnector = new AppSearchAPIConnector({
-    searchKey: "search-684zf3yeseg7dre8woc18f9d",
+    searchKey: "search-i1mn5tfi52pkcce26rrizurg",
     engineName: "csauthor",
-    endpointBase:"https://e633da92fd5c4462a16e73f4acb7e1b5.ent-search.asia-east1.gcp.elastic-cloud.com"
+    endpointBase:"https://d8ba07a128ce4a9ca573d1e60d5565fc.ent-search.asia-east1.gcp.elastic-cloud.com"
 });
 
 const csaffiliationconnector = new AppSearchAPIConnector({
-    searchKey: "search-684zf3yeseg7dre8woc18f9d",
+    searchKey: "search-i1mn5tfi52pkcce26rrizurg",
     engineName: "csaffiliation",
-    endpointBase:"https://e633da92fd5c4462a16e73f4acb7e1b5.ent-search.asia-east1.gcp.elastic-cloud.com"
+    endpointBase:"https://d8ba07a128ce4a9ca573d1e60d5565fc.ent-search.asia-east1.gcp.elastic-cloud.com"
 });
 
 
@@ -62,7 +62,7 @@ const mainauthorconfig = {
 };
 
 const cspaperconfig = {
-  debug: false,
+  debug: true,
   apiConnector: cspaperconnector,
   searchQuery: {
     disjunctiveFacets: ["year", "venue"],
@@ -78,7 +78,7 @@ const cspaperconfig = {
 };
 
 const csauthorconfig = {
-  debug: false,
+  debug: true,
   apiConnector: csauthorconnector,
   searchQuery: {
     disjunctiveFacets: [],
@@ -88,7 +88,7 @@ const csauthorconfig = {
 };
 
 const csaffiliationconfig = {
-    debug: false,
+    debug: true,
     apiConnector: csaffiliationconnector,
     searchQuery: {
       disjunctiveFacets: [],
