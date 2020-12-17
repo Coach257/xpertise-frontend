@@ -166,6 +166,7 @@ import axios from "axios"
                    localStorage.setItem('email',response.data.data.email)
                    localStorage.setItem('user_type',response.data.data.user_type)
                    localStorage.setItem('ban',response.data.data.ban)
+                   localStorage.setItem('basic_info',response.data.data.basic_info)
 
                    sessionStorage.clear()
                    sessionStorage.setItem('userid',response.data.data.user_id)
@@ -173,11 +174,10 @@ import axios from "axios"
                    sessionStorage.setItem('email',response.data.data.email)
                    sessionStorage.setItem('user_type',response.data.data.user_type)
                    sessionStorage.setItem('ban',response.data.data.ban)
+                   sessionStorage.setItem('basic_info',response.data.data.basic_info)
 
                    _this.$router.replace('/home');
-                   setTimeout(() => {
-                            window.location.reload();
-                        }, 2000);
+                  window.location.reload();
                 }else {
                    console.log("登录失败");
                 }

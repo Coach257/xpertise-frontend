@@ -18,7 +18,6 @@
         <el-input v-model="userinfo.password2"></el-input>
       </el-form-item>
       <el-button type="primary" icon="el-icon-check" @click="saveChange('userinfo')">保存</el-button>
-      <el-button type="primary" icon="el-icon-check" @click="getInfo()">获取</el-button>
     </el-form>
   </div>
 </template>
@@ -42,7 +41,10 @@ export default {
     };
   },
   mounted () {
-    this.getInfo();
+    this.userinfo.username = localStorage.getItem("username");
+    this.userinfo.userid = localStorage.getItem("userid")
+    this.userinfo.email = localStorage.getItem("email")
+    this.userinfo.basic_info = localStorage.getItem("basic_info")
   },
   methods: {
     saveChange(formName) {
