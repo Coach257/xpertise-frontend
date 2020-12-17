@@ -177,7 +177,11 @@ var driver = null;
    },
     watch: {
     searchState(newsearchState) {
+      console.log("??");
+        console.log(newsearchState);
       if (this.thereAreResults()) {
+        console.log("??");
+        console.log(newsearchState);
         // 任意一种result都有可能没有任意一种属性,任意一种属性的值都有可能为空
         var results = newsearchState.results[0];
         var raw;
@@ -224,11 +228,23 @@ var driver = null;
       }
     },
   },
+  computed: {
+    //computed最高优先级，只有当loadfinish为true时,才开始页面加载
+    loadfinish(){
+      return this.articleloaded;
+    },
+    referenceloadfinish(){
+      return this.referenceloaded;
+    }
+  },
    methods: {
     handleClick(tab, event){
       if(tab.name == 'forth'){
         this.showcolpapers()
       }
+    },
+    thereAreResults() {
+      return this.searchState.totalResults && this.searchState.totalResults > 0;
     },
     showcolpapers(){
 
@@ -241,7 +257,7 @@ var driver = null;
        for ( var i=0;i< this.papersincoll.length;i++){
          driver.addFilter("id",this.papersincoll[i].paper_id,"any")
        driver.subscribeToStateChanges((state) => {
-      this.searchState == state;
+      this.searchState = state;
     });
 
                     console.log(this.papersincoll[i].paper_id);
@@ -254,9 +270,9 @@ var driver = null;
 
       let formData = new FormData();
       formData.append("column_id", this.thiscolid);
-      console.log("colid");
-      console.log(this.thiscolid);
-      console.log("colid");
+      // console.log("colid");
+      // console.log(this.thiscolid);
+      // console.log("colid");
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
