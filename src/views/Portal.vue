@@ -113,6 +113,15 @@
     </el-tab-pane>
     <el-tab-pane label="我的专栏" name="forth" >
          <el-row class="block-col-2">
+            <li
+            tag="div"
+
+            class="result_detail_author"
+            v-for="(author) in this.art.name"
+            :key="author.id"
+          >
+            {{author}}
+           </li>
 
         </el-row>
     </el-tab-pane>
@@ -129,7 +138,11 @@
 <script>
 import axios from 'axios'
 import { SearchDriver } from "@elastic/search-ui";
-import {mainauthorconfig,csauthorconfig} from "../searchConfig";
+import {mainpaperconfig,
+  mainauthorconfig,
+  cspaperconfig,
+  csauthorconfig,
+  csaffiliationconfig,} from "../searchConfig";
 
 //const driver = new SearchDriver(csauthorconfig)
 var driver = null;
@@ -173,6 +186,31 @@ var driver = null;
         thiscolid:'',
         papersincoll:[],
         searchState: {},
+        colpapers:[],
+        art:{
+          name:[]
+        },
+        article: {
+        paper_id: "",
+        title: "",
+        authors: [],
+        abstract:"",
+        year:"",
+        keywords: [],
+        n_citation:"",
+        page_start:"",
+        page_end:"",
+        lang:"",
+        issue:"",
+        venue:"",
+        conference:"",
+        volume:"",
+        issn:"",
+        doi:"",
+        url:"",
+        listed: false,
+        starred: false,
+      },
       }
    },
     watch: {
@@ -180,12 +218,23 @@ var driver = null;
 
       if (this.thereAreResults()) {
         console.log("??");
-        console.log(newsearchState);
+        console.log(newsearchState.results[0].title.raw);
         // 任意一种result都有可能没有任意一种属性,任意一种属性的值都有可能为空
         var results = newsearchState.results[0];
         var raw;
         // 更新标题
-        if(results.title)this.article.title = results.title.raw;
+        if(results.title){
+          console.log(this.art.name.length);
+          var ff=0;
+          for(var i=0;i<this.art.name.length;i++){
+            console.log("???");
+            console.log(this.art.name[i]);
+            console.log(results.title.raw );
+            //console.log(results.title.raw == this.art.name.get(i));
+            if(results.title.raw == this.art.name[i])ff=1;
+          }
+          if(!ff)this.art.name.push ((results.title.raw));
+        }
         // 更新作者
         if(results.authors){
           raw = results.authors.raw;
@@ -247,26 +296,25 @@ var driver = null;
     },
     showcolpapers(){
 
-      driver = new SearchDriver(mainauthorconfig);
+      driver = new SearchDriver(mainpaperconfig);
 
 
        console.log("开始11");
                     console.log(this.papersincoll);
                     console.log("开始22");
-       for ( var i=0;i< this.papersincoll.length;i++){
-         driver.addFilter("id",this.papersincoll[i].paper_id,"any")
-
+      // for ( var i=0;i< this.papersincoll.length;i++){
+         //driver.addFilter("id",this.papersincoll[i].paper_id,"any")
+    driver.addFilter("id","53e99e99b7602d970275f7a5","any")
 
        driver.subscribeToStateChanges((state) => {
       this.searchState = state;
-      console.log("??");
-      console.log(state);
+
     });
 
-                    console.log(this.papersincoll[i].paper_id);
+                   // console.log(this.papersincoll[i].paper_id);
 
-       }
-       console.log(this.searchState);
+
+
 
     },
       papersincol(){
