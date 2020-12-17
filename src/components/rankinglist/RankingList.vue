@@ -7,7 +7,7 @@
         In  Computer Science
       </div>
 
-      <div id='rank'>
+      <div id='rank' v-if="contendLoaded">
           <RankingItem v-for='(item,i) in itemList' :information='item' :key='i'/>
       </div>
 
@@ -16,6 +16,15 @@
 
 <script>
 import RankingItem from './RankItem.vue'
+import { SearchDriver } from "@elastic/search-ui"
+import {
+  mainpaperconfig,
+  mainauthorconfig,
+  cspaperconfig,
+  csauthorconfig,
+  csaffiliationconfig,
+} from "../../searchConfig";
+var driver = null;
 
  export default {
    name: 'RankingList',
@@ -24,13 +33,58 @@ import RankingItem from './RankItem.vue'
      RankingItem
    },
    mounted() {
-     if (this.type == 'cs') {
-       this.showSubTitle = true
+     if (this.type == 'cs')
+       this.showSubTitle = true;
+
+     if(this.title == 'Top Paper')
+       driver = new SearchDriver(mainpaperconfig);
+
+     if(this.title == 'Top Author')
+       driver = new SearchDriver(mainauthorconfig);
+
+     if(this.title == 'Top Affiliation')
+       driver = new SearchDriver(csaffiliationconfig);
+
+     driver.setSearchTerm("");
+     if(this.title == 'Top Paper')
+        driver.setSort("n_citation", "desc");
+     else
+        driver.setSort("n_pubs", "desc");
+     driver.setResultsPerPage(7);
+
+     driver.subscribeToStateChanges((state) => {
+       this.searchState = state;
+     })
+   },
+   watch: {
+     searchState(newsearchState) {
+       if(this.thereAreResults()) {
+         console.log(newsearchState);
+         var results = newsearchState.results;
+         var raw;
+         console.log(results.length);
+         for(let i = 0; i < Math.min(7, results.length); i++) {
+           if(results[i].n_pubs)
+             this.itemList[i].papers = results[i].n_pubs.raw;
+           if(this.title == 'Top Paper')
+             this.itemList[i].title = results[i].title.raw;
+           else
+             this.itemList[i].title = results[i].name.raw;
+         }
+         this.contendLoaded = true;
+       }
      }
+   },
+   methods: {
+     thereAreResults() {
+       return this.searchState.totalResults > 0;
+     },
    },
    data () {
      return {
        showSubTitle: false,
+       contendLoaded: false,
+       searchState: {},
        itemList : [
        {
          rank: 1,
@@ -84,7 +138,7 @@ import RankingItem from './RankItem.vue'
   width: 350px;
   height: 470px;
   margin-top: 55px;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;

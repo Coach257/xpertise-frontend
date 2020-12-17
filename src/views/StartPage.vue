@@ -15,9 +15,9 @@
       </div>
 
       <div v-if='!show' id='rankinglist'>
-      <RankingList title='Top Conference' type='main'/>
-      <RankingList title='Top Author' type='main'/>
-      <RankingList title='Top Affiliation' type='main'/>
+        <RankingList title='Top Paper' type='main'/>
+        <RankingList title='Top Author' type='main'/>
+        <RankingList title='Top Affiliation' type='main'/>
       </div>
 
       <SearchSection :type="'main'" :input='input' v-if='show' />
