@@ -68,10 +68,8 @@ export default {
      *
      */
     if(localStorage.getItem('userid')) {
-      this.user_info.id = localStorage.getItem('userid');
       this.logged_in = true;
       this.user_info.user_type = localStorage.getItem('user_type');
-      this.user_info.ban = localStorage.getItem('ban');
     }
     // var result = {
     //   logged_in: false,
@@ -95,11 +93,7 @@ export default {
       active_index: 0,
       logged_in: false,
       user_info: {
-        avatar_url: null,
-        name: null,
-        id: null,
         user_type:null,
-        ban: null,
       },
     };
   },
@@ -122,6 +116,8 @@ export default {
     },
     logout() {
       localStorage.clear()
+      this.user_info.user_type = null;
+      this.logged_in = false;
       this.$router.push('/login')
     }
   }
