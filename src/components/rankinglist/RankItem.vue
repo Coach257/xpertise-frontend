@@ -10,7 +10,7 @@
       <div id='up'>
 
         <div style="font-weight: bold;">
-          {{this.info.title}}
+          {{this.info.title | cutLongTitle}}
         </div>
 
         <div style="font-size: 10px; text-align: right; display: flex;">
@@ -38,6 +38,14 @@
           papers: 0,
           maximum: 0,
         }
+      }
+    },
+    filters: {
+      cutLongTitle: function (value) {
+        if (value.length > 19) {
+          return value.slice(0, 19) + '...'
+        }
+        return value
       }
     },
     computed: {
