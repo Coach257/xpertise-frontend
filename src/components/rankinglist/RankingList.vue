@@ -36,8 +36,11 @@ var driver = null;
      if (this.type == 'cs')
        this.showSubTitle = true;
 
-     if(this.title == 'Top Paper')
+     if(this.title == 'Top Paper' && this.type == 'main')
        driver = new SearchDriver(mainpaperconfig);
+
+     if(this.title == 'Top Paper' && this.type == 'cs')
+       driver = new SearchDriver(cspaperconfig);
 
      if(this.title == 'Top Author')
        driver = new SearchDriver(mainauthorconfig);

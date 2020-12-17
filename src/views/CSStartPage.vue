@@ -16,7 +16,7 @@
       </div>
 
       <div v-if='!show' id='rankinglist'>
-      <RankingList title='Top Conference' type='cs'/>
+      <RankingList title='Top Paper' type='cs'/>
       <RankingList title='Top Author' type='cs'/>
       <RankingList title='Top Affiliation' type='cs'/>
       </div>
