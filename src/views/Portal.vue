@@ -12,7 +12,7 @@
 </el-row>
 
 <el-row :gutter="24">
-  <el-col :span="20" :offset="2">
+  <el-col :span="10" :offset="2">
     <div class="grid-content ">
         <el-table
         :data="tableDatainfo"
@@ -29,6 +29,26 @@
         </el-table>
     </div>
   </el-col>
+  <el-col :span="9" >
+    <div class="grid-content ">
+        <el-table
+        :data="tableDatapaper"
+
+        style="width: 100%"
+        :header-cell-style="{textAlign: 'center'}"
+        :cell-style="{ textAlign: 'center' }"
+        icon="el-icon-tickets">
+            <el-table-column
+            prop="papers"
+            label="专栏">
+            </el-table-column>
+
+        </el-table>
+    </div>
+  </el-col>
+   <el-col :span="3"><div class="grid-content ">
+         <el-link href="https://element.eleme.io" type="primary" icon="el-icon-tickets" target="_blank">添加文章</el-link>
+      </div></el-col>
 
 
 
