@@ -1,5 +1,5 @@
 <template>
-  <div id='root'>
+  <div id='root' v-if="loadfinish">
 
     <div id='trigger'> </div>
     <div style="position: fixed; top: 70px; z-index: 2">
@@ -174,6 +174,11 @@ export default {
       searchState: {},
     };
   },
+  computed:{
+    loadfinish(){
+      return this.contendLoaded;
+    }
+  },
   mounted() {
 
     // console.log(this.$route.params.authorId);
@@ -232,8 +237,6 @@ export default {
         end: '+=200px',
         scrub: 0.7,
       }})
-
-
     },
 
   },
@@ -276,7 +279,7 @@ export default {
         }
         this.contendLoaded = true;
       }
-    }
+    },
   },
 
 
