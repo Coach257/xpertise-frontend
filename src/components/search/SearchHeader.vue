@@ -48,14 +48,15 @@ export default {
   },
   data () {
     return {
-      buttons: ['文献','作者']
+      buttons: ['文献','作者'],
     }
   },
   mounted(){
     console.log('SearchHeader'+this.$props.type)
     if(this.$props.type == 'cs'){
-      this.buttons.push('机构')
+      this.buttons = ['文献','作者', '机构']
     }
+
   },
   methods: {
     mouseOver() {
@@ -95,7 +96,6 @@ export default {
   /* outline: #21ff06 dotted thick; */
   position: relative;
   top: -22px;
-  width: 200px;
 }
 .sui-layout-header {
   height: 15px;

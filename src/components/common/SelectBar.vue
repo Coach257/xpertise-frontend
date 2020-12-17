@@ -15,6 +15,13 @@
  export default{
   name: 'SelectBar',
   props: ['buttons'],
+  watch: {
+    buttons: {
+      handler: function(val, oldval) {
+        this.$gsap.set("#options"+this.differkey, {width: this.buttons.length*70+'px', fontWeight: 200})
+      }
+    }
+  },
   mounted() {
     this.$gsap.set("#options"+this.differkey, {width: this.buttons.length*70+'px', fontWeight: 200})
     this.$gsap.set('#option'+this.selected+this.differkey, {fontWeight: 500})
