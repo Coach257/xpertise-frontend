@@ -129,7 +129,7 @@
   width: 1200px;
 
   display: flex;
-  flex-wrap: wrap;
+  align-items: flex-start;
   justify-content: space-between;
 
   position: relative;

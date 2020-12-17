@@ -8,7 +8,7 @@
       </div>
 
       <div id='rank' v-if="contendLoaded">
-          <RankingItem v-for='(item,i) in itemList' :information='item' :key='i'/>
+          <RankingItem v-for='(item,i) in itemList' :information='item' :key='i' :type='itemType'/>
       </div>
 
   </div>
@@ -36,11 +36,17 @@ var driver = null;
      if (this.type == 'cs')
        this.showSubTitle = true;
 
-     if(this.title == 'Top Paper' && this.type == 'main')
+     if(this.title == 'Top Paper' && this.type == 'main'){
        driver = new SearchDriver(mainpaperconfig);
+       this.itemType = 'Citations'
+     }
 
-     if(this.title == 'Top Paper' && this.type == 'cs')
+
+     if(this.title == 'Top Paper' && this.type == 'cs'){
        driver = new SearchDriver(cspaperconfig);
+       this.itemType = 'Citations'
+     }
+
 
      if(this.title == 'Top Author')
        driver = new SearchDriver(mainauthorconfig);
@@ -62,18 +68,40 @@ var driver = null;
    watch: {
      searchState(newsearchState) {
        if(this.thereAreResults()) {
-         console.log(newsearchState);
+         // console.log(newsearchState);
          var results = newsearchState.results;
          var raw;
-         console.log(results.length);
-         for(let i = 0; i < Math.min(7, results.length); i++) {
-           if(results[i].n_pubs)
-             this.itemList[i].papers = results[i].n_pubs.raw;
-           if(this.title == 'Top Paper')
-             this.itemList[i].title = results[i].title.raw;
-           else
-             this.itemList[i].title = results[i].name.raw;
+         // console.log(results.length);
+
+         let Maximum
+         if (this.title == 'Top Paper') {
+           Maximum = results[0].n_citation.raw;
+           //TODO 把papers换成citation
+         } else{
+           Maximum = results[0].n_pubs.raw;
          }
+
+
+         for(let i = 0; i < Math.min(7, results.length); i++) {
+          let item = {
+                     rank: 0,
+                     title: '',
+                     papers: 0,
+                     maximum: Maximum,
+                   }
+          item.rank = i+1
+
+          if(this.title == 'Top Paper'){
+            item.title = results[i].title.raw;
+            item.papers = results[i].n_citation.raw;
+          }else{
+            item.title = results[i].name.raw;
+            item.papers = results[i].n_pubs.raw;
+          }
+
+          this.itemList.push(item)
+         }
+
          this.contendLoaded = true;
        }
      }
@@ -88,44 +116,8 @@ var driver = null;
        showSubTitle: false,
        contendLoaded: false,
        searchState: {},
-       itemList : [
-       {
-         rank: 1,
-         title: 'IBM | IBM',
-         papers: 2098,
-         maximum: 2098,
-       },
-       {
-         rank: 2,
-         title: 'THU | THU',
-         papers: 1881,
-         maximum: 2098,
-       },{
-         rank: 3,
-         title: 'INTEL | intel',
-         papers: 1664,
-         maximum: 2098,
-       },{
-         rank: 4,
-         title: 'CSA | CSA',
-         papers: 1423,
-         maximum: 2098,
-       },{
-         rank: 5,
-         title: 'NTU | NTU',
-         papers: 1137,
-         maximum: 2098,
-       },{
-         rank: 6,
-         title: 'CMU | CMU',
-         papers: 983,
-         maximum: 2098,
-       },{
-         rank: 7,
-         title: 'SJTU | SJTU',
-         papers: 981,
-         maximum: 2098,
-       }]
+       itemList : [],
+       itemType : 'Papers'
      }
    }
  }
@@ -139,12 +131,13 @@ var driver = null;
   background-color: white;
 
   width: 350px;
-  height: 470px;
   margin-top: 55px;
 
   display: flex;
   justify-content: center;
   align-items: center;
+
+  padding: 25px 0px 25px 0px;
 }
 #title {
 

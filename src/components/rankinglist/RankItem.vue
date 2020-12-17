@@ -13,8 +13,8 @@
           {{this.info.title}}
         </div>
 
-        <div style="font-size: 10px;">
-          {{this.info.papers}} Papers
+        <div style="font-size: 10px; text-align: right; display: flex;">
+          {{this.info.papers}} {{this.type}}
         </div>
 
       </div>
@@ -29,7 +29,7 @@
 <script>
   export default {
     name: 'RankingItem',
-    props: ['information'],
+    props: ['information','type'],
     data () {
       return {
         info: {
