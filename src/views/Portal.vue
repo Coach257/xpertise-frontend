@@ -177,8 +177,7 @@ var driver = null;
    },
     watch: {
     searchState(newsearchState) {
-      console.log("??");
-        console.log(newsearchState);
+
       if (this.thereAreResults()) {
         console.log("??");
         console.log(newsearchState);
@@ -248,7 +247,7 @@ var driver = null;
     },
     showcolpapers(){
 
-      driver = new SearchDriver(csauthorconfig);
+      driver = new SearchDriver(mainauthorconfig);
 
 
        console.log("开始11");
@@ -256,8 +255,12 @@ var driver = null;
                     console.log("开始22");
        for ( var i=0;i< this.papersincoll.length;i++){
          driver.addFilter("id",this.papersincoll[i].paper_id,"any")
+
+
        driver.subscribeToStateChanges((state) => {
       this.searchState = state;
+      console.log("??");
+      console.log(state);
     });
 
                     console.log(this.papersincoll[i].paper_id);

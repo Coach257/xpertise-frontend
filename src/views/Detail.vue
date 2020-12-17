@@ -8,20 +8,19 @@
         <div class="result_detail_author_container">
           <router-link
             tag="div"
-            :to="'/author/' + author.id"
+            :to="'/author/' +$route.params.type+'/'+author.id"
             class="result_detail_author"
             v-for="(author, index) in this.article.authors"
             :key="author.id"
           >
             {{ author.name }}
-            {{ author.org }}
+            {{ author.org }} ,
             <div
               style="display: inline"
               v-if="index < article.authors_count - 1"
             >
               ,
             </div>
-            <div style="display: inline" v-else>...</div>
           </router-link>
         </div>
       </div>
@@ -72,6 +71,7 @@ import {
   csauthorconfig,
   csaffiliationconfig,
 } from "../searchConfig";
+import axios from "axios"
 var driver = null;
 
 export default {
@@ -85,15 +85,12 @@ export default {
     } else {
       driver = new SearchDriver(mainpaperconfig);
     }
+    driver.reset()
+    driver.setResultsPerPage(1)
     driver.addFilter("id", this.$route.params.docid, "any");
     driver.subscribeToStateChanges((state) => {
       this.searchState = state;
     });
-    //driver.getActions().setSearchTerm("")
-    //console.log(this.searchState)
-    //console.log(this.searchState.results[0].authors.raw.length)
-    //console.log(this.searchState.results[0].title.raw)
-    //this.getInfo();
   },
   data() {
     return {
@@ -170,6 +167,7 @@ export default {
         }
         this.articleloaded = true;
       }
+      driver = null;
     },
   },
   computed: {
@@ -182,43 +180,6 @@ export default {
     }
   },
   methods: {
-    getInfo() {
-      let formData = new FormData();
-      formData.append("id", this.$route.params.docid);
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      var _this = this;
-      console.log("开始");
-      //此接口后端修改，所以暂时无法使用。
-      axios
-        .get(
-          "https://go-service-296709.df.r.appspot.com/api/v1/portal/doc/query/" +
-            this.$route.params.docid
-        )
-        .then((response) => {
-          console("进入");
-          if (response) {
-            if (response) {
-              if (response.data.success) {
-                console.log(response);
-                _this.article.title = response.data.data.title;
-                _this.article.abstract = response.data.data.abstract;
-                _this.article.author_list = response.data.data.authors;
-                console("陈坤");
-              } else {
-                console.log(response.data);
-                console.log("获取失败 " + response.data);
-              }
-              console.log(_this.article.title);
-            }
-          } else {
-            console.log("error");
-          }
-        });
-    },
     addToFav(){
       let that = this;
       let formData = new FormData();
