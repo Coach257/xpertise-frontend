@@ -1,5 +1,5 @@
 <template>
-  <article class="search-result">
+  <article class="search-result" @click="routerPush()">
 
   <div class="search-result__heading" v-if="ispaper">
     <i class="el-icon-document" attr='el-icon'></i>
@@ -105,6 +105,7 @@ export default {
   data () {
     return {
       paper:{
+        id: 0,
         title:"",
         authors: [],
         authorNum: 0,
@@ -113,6 +114,7 @@ export default {
         year:0,
       },
       author:{
+        id: 0,
         name:"",
         n_pubs:0,
         pubs:[],
@@ -121,6 +123,7 @@ export default {
         pubsnum:0,
       },
       affiliation:{
+        id: 0,
         name:"",
         authors:[],
         n_pubs:0,
@@ -207,14 +210,24 @@ export default {
         this.affiliation.pubsnum++;
       }
     },
+    routerPush () {
+      if (this.$props.option == 'paper') {
+        this.$router.push('/detail/'+this.type+'/'+this.paper.id)
+      }else if(this.$props.option == 'author') {
+        this.$router.push('/author/'+this.type+'/'+this.author.id)
+      }else {
+        this.$router.push('/affiliation/'+this.affiliation.id)
+      }
+
+    }
   },
   mounted() {
     if(this.$props.option == 'paper'){
-      console.log("in paper")
       this.paper.venue = JSON.parse(this.$props.result.venue.raw).raw;
       this.paper.title = this.$props.result.title.raw;
       this.paper.n_citation = this.$props.result.n_citation.raw;
       this.paper.year = this.$props.result.year.raw;
+      this.paper.id = this.$props.result.id.raw;
 
       this.result.authors.raw.forEach(this.addToAuthors)
     }
@@ -226,6 +239,7 @@ export default {
         this.result.orgs.raw.forEach(this.addToOrgs);
       }
       this.author.n_citation = this.result.n_citation.raw;
+      this.author.id = this.result.id.raw;
     }
     else{
       this.affiliation.name = this.result.name.raw;
@@ -233,6 +247,7 @@ export default {
       this.affiliation.n_citation = this.result.n_citation.raw;
       this.result.authors.raw.forEach(this.addToAffiliationAuthors);
       this.result.pubs.raw.forEach(this.addToAffiliationPubs);
+      this.affiliation.id = this.result.id.raw;
     }
   },
 };
@@ -241,6 +256,8 @@ export default {
 <style scoped>
 .search-result {
   /* outline: #21ff06 dotted thick; */
+  cursor: pointer;
+
   border: 1px solid #e8e6e9;
   border-radius: 30px;
 
