@@ -5,7 +5,10 @@
       :key="result.id.raw"
       class="search-section__search-result"
     >
-      <SearchResult :type="type" :result="result" />
+      <SearchResult 
+        :type="type"
+        :option="option" 
+        :result="result" />
     </li>
   </ul>
 </template>
@@ -25,7 +28,13 @@ export default {
     type:{
       type:String,
       required:true
+    },
+    option:{
+      type:String,
+      required:true
     }
+  },
+  mounted(){
   }
 };
 </script>

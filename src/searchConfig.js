@@ -52,7 +52,7 @@ const mainpaperconfig = {
 };
 
 const mainauthorconfig = {
-  debug: true,
+  debug: false,
   apiConnector: mainauthorconnector,
   searchQuery: {
     disjunctiveFacets: [],
@@ -62,7 +62,7 @@ const mainauthorconfig = {
 };
 
 const cspaperconfig = {
-  debug: true,
+  debug: false,
   apiConnector: cspaperconnector,
   searchQuery: {
     disjunctiveFacets: ["year", "venue"],
@@ -78,7 +78,7 @@ const cspaperconfig = {
 };
 
 const csauthorconfig = {
-  debug: true,
+  debug: false,
   apiConnector: csauthorconnector,
   searchQuery: {
     disjunctiveFacets: [],
@@ -88,7 +88,7 @@ const csauthorconfig = {
 };
 
 const csaffiliationconfig = {
-    debug: true,
+    debug: false,
     apiConnector: csaffiliationconnector,
     searchQuery: {
       disjunctiveFacets: [],

@@ -93,7 +93,8 @@
           </div>
           <div class="sui-layout-main-body">
             <SearchResults
-              :type="this.configoption"
+              :type="type"
+              :option="this.configoption"
               v-show="thereAreResults"
               :results="searchState.results"
             />
@@ -191,6 +192,8 @@ export default {
         } else if (this.configoption == "affiliation") {
           console.log("csaffiliationconfig");
           driver = new SearchDriver(csaffiliationconfig);
+        } else{
+          driver = new SearchDriver(csauthorconfig);
         }
       }
 
