@@ -403,7 +403,6 @@ export default {
 .citation {
   position: relative;
   right: 5px;
-  width: 70px;
 
   text-align: center;
 
