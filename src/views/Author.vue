@@ -164,9 +164,9 @@ export default {
         orgs_main: "",
         orgs_cs: {},
         pubs: [],
-        n_citation: -1,
-        n_pubs: -1,
-        name: "IAmParasite",
+        n_citation: 0,
+        n_pubs: 0,
+        name: "",
         tags: [],
       },
 
