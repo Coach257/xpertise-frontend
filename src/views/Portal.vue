@@ -119,6 +119,7 @@
             class="result_detail_author"
             v-for="(author) in this.art.name"
             :key="author.id"
+            @click = "routerPush"
           >
             {{author}}
            </li>
@@ -286,6 +287,18 @@ var driver = null;
     }
   },
    methods: {
+     routerPush () {
+
+        this.$router.push('/detail/'+"main"+'/'+"53e99e99b7602d970275f7a5")
+      // if (this.$props.option == 'paper') {
+      //   this.$router.push('/detail/'+this.type+'/'+this.paper.id)
+      // }else if(this.$props.option == 'author') {
+      //   this.$router.push('/author/'+this.type+'/'+this.author.id)
+      // }else {
+      //   this.$router.push('/affiliation/'+this.affiliation.id)
+      // }
+
+    },
     handleClick(tab, event){
       if(tab.name == 'forth'){
         this.showcolpapers()
