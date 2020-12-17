@@ -28,14 +28,11 @@
         </div>
         <div v-else>
 
-          <router-link
-            tag="div"
-            class="nav_bar_action_link"
-            :to="'/settle'"
-          >
+          <div class="nav_bar_action_link" v-if="issettled">
+          <router-link  tag="div"   class="nav_bar_action_link" :to="'/settle'">
             入驻平台
           </router-link>
-
+          </div>
           <router-link
             tag="div"
             class="nav_bar_action_link"
@@ -43,6 +40,7 @@
           >
             个人中心
           </router-link>
+          <div class="nav_bar_action_link" v-if="isadmin">
           <router-link
             tag="div"
             class="nav_bar_action_link"
@@ -50,6 +48,7 @@
           >
             管理员
           </router-link>
+          </div>
 
          <el-button type="text" @click="logout">登出 </el-button>
         </div>
@@ -71,6 +70,8 @@ export default {
     if(localStorage.getItem('userid')) {
       this.user_info.id = localStorage.getItem('userid');
       this.logged_in = true;
+      this.user_info.user_type = localStorage.getItem('user_type');
+      this.user_info.ban = localStorage.getItem('ban');
     }
     // var result = {
     //   logged_in: false,
@@ -97,8 +98,18 @@ export default {
         avatar_url: null,
         name: null,
         id: null,
+        user_type:null,
+        ban: null,
       },
     };
+  },
+  computed:{
+    isadmin(){
+      return this.user_info.user_type && this.user_info.user_type == 3
+    },
+    issettled(){
+      return this.user_info.user_type && this.user_info.user_type != 2
+    },
   },
   methods: {
     onIndexChange(i) {
@@ -111,7 +122,7 @@ export default {
     },
     logout() {
       localStorage.clear()
-      this.$router.go(0)
+      this.$router.push('/login')
     }
   }
 };
