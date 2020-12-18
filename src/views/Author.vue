@@ -214,7 +214,9 @@
       </div>
     </div>
 
-    <div id="authorRelationGraph" v-if="iscspaper">这里是关系图</div>
+    <div id="authorRelationGraph" v-if="iscspaper">
+      <RelationMap :data="mapdata" :type="'author_connection'"/>
+    </div>
 
     <div id="authorColumn" v-if="issettled">这里是专栏</div>
 
@@ -224,6 +226,7 @@
 
 <script>
 import { SearchDriver } from "@elastic/search-ui";
+import RelationMap from '../components/common/RelationMap.vue'
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -236,7 +239,7 @@ import axios from "axios";
 
 export default {
   name: "Author",
-  components: {},
+  components: {RelationMap},
   props: [],
   data() {
     return {
@@ -253,7 +256,9 @@ export default {
         tags: [],
       },
       contendLoaded: false,
+      graphloaded:false,
       searchState: {},
+      mapdata:{},
     };
   },
   computed: {
@@ -261,7 +266,7 @@ export default {
       return this.contendLoaded;
     },
     iscspaper() {
-      return this.type == 1;
+      return this.type == 1 && this.contendLoaded;
     },
   },
   mounted() {
@@ -368,30 +373,6 @@ export default {
           }
         });
     },
-    setgraph(authorID, authorName) {
-      let formData = new FormData();
-      formData.append("author_id", authorID);
-      formData.append("author_name", authorName);
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      var _this = this;
-      axios
-        .post(
-          "https://go-service-296709.df.r.appspot.com/api/v1/branch/graph/author_connection",
-          formData,
-          config
-        )
-        .then(function (response) {
-          if (response.data.success) {
-            console.log(response.data.message);
-          } else {
-            console.log("失败");
-          }
-        });
-    },
   },
   watch: {
     searchState(newsearchState) {
@@ -400,10 +381,12 @@ export default {
         var results = newsearchState.results[0];
         var raw;
         if (results.name) this.author.name = results.name.raw;
-        // 加载关系图
-        if (this.type == 1)
-          this.setgraph(this.$route.params.authorId, this.author.name);
-
+        if(this.type == 1){
+          this.mapdata={
+            author_id:this.$route.params.authorId,
+            author_name:this.author.name
+          }
+        }
         if (results.h_index) this.author.h_index = results.h_index.raw;
         if (results.orgs && results.orgs.raw) {
           this.author.orgs_main = results.orgs.raw[0];
