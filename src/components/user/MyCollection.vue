@@ -19,11 +19,6 @@
           <el-link v-for="author in scope.row.authors" :key="author" @click="handleClickOnAuthor(author.id)" style="margin:5px">{{author.name}}</el-link>
         </template>
       </el-table-column>
-      <el-table-column label="描述" min-width="200px" show-overflow-tooltip> 
-        <template slot-scope="scope"> 
-          {{ scope.row.description }}
-        </template>
-      </el-table-column>
       <el-table-column label="操作" fixed="right" width="80px"> 
         <template slot-scope="scope"> 
           <el-button type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row.favorID)"></el-button>

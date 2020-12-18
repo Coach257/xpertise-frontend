@@ -138,6 +138,7 @@ export default {
         var results = newsearchState.results[0];
         var raw;
         this.article.paper_id = results.id.raw;
+        this.article.starred = this.isFav()
         // 更新标题
         if(results.title)this.article.title = results.title.raw;
         // 更新作者
@@ -174,7 +175,6 @@ export default {
         if(results.doi)this.article.doi = results.doi.raw;
         if(results.url)this.article.url = results.url.raw;
         if(this.$route.params.type=='cs'){
-          this.loadscholarly();
           this.loadreference();
         }
         this.articleloaded = true;
@@ -272,19 +272,32 @@ export default {
       console.log("这个函数请求引用关系");
       this.referenceloaded = true;
     },
-    loadscholarly(){
-      console.log("这个函数请求scholarly");
-      this.articleloaded = true;
-    },
     showInfo() {
       console.log(this.searchState);
       console.log(this.article.authors);
       console.log(this.authors);
       console.log(JSON.parse(this.searchState.results[0].authors.raw[0]));
-      //console.log(this.searchState.results[0].authors.raw);
-      //console.log(this.searchState.results[0].authors.raw[0]);
-      //console.log(JSON.parse(this.searchState.results[0].authors.raw[0]));
     },
+    isFav(){
+      let that = this;
+      let formData = new FormData();
+      formData.append('user_id', localStorage.getItem('userid'));
+      formData.append('paper_id',this.article.id);
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/isfav', formData, config).then(response => {
+        if(response) {
+          if(response.data.message == "true"){
+            return true;
+          }else {
+            return false;
+          }
+        }
+      });
+    }
   },
 };
 </script>
