@@ -185,8 +185,11 @@ export default {
           newVal.fullPath[20]==oldVal.fullPath[20]
           ){
         console.log("仍在原本的路由位置")
-        this.$router.replace('/home');
+        //this.$router.replace('/home');
         //this.$router.go(-10);
+        sessionStorage.setItem('CurrentSearchBool',true)
+        sessionStorage.setItem('CurrentSearchInput',"water")
+        this.$router.replace({name:'/home',query:{show: true}});
         window.location.reload();
       }
       else cosole.log("正常跳转到别的网页")

@@ -39,6 +39,15 @@
       RankingList
     },
     mounted() {
+      /*
+      if (sessionStorage.getItem('CurrentSearchBool')==true) {
+        show = true
+        input = sessionStorage.getItem('CurrentSearchInput')
+        sessionStorage.setItem('CurrentSearchBool',false)
+        sessionStorage.setItem('CurrentSearchInput',"water")
+      }*/
+      console.log("给我看看")
+      console.log(show);
       // this.$gsap.set("#root", {height: document.documentElement.clientHeight})
       if(this.$route.params.type == "cs"){
          this.$gsap.set("backpic", {"background-image": "url(../assets/csBack.png)"})
