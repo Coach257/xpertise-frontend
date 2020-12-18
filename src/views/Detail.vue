@@ -137,6 +137,7 @@ export default {
         // 任意一种result都有可能没有任意一种属性,任意一种属性的值都有可能为空
         var results = newsearchState.results[0];
         var raw;
+        this.article.paper_id = results.id.raw;
         // 更新标题
         if(results.title)this.article.title = results.title.raw;
         // 更新作者
