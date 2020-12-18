@@ -1,3 +1,6 @@
+
+<!-- 注意，这一页用不到 -->
+
 <template>
   <div id="result_detail_page">
     <div class="result_detail_page_container">
