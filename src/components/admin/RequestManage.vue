@@ -1,6 +1,8 @@
 <template>
-  <el-scrollbar style="height: 100%;display: flex">
-    <request-card v-for="(request,index) in requestList" :key="index" :request="request"></request-card>
+  <el-scrollbar style="height: 100%">
+    <div style="width:100%;">
+      <request-card v-for="(request,index) in requestList" :key="index" :request="request" :index="index"></request-card>
+    </div>
   </el-scrollbar>
 </template>
 
@@ -20,18 +22,6 @@ export default {
     }
   },
   mounted() {
-    this.isScreenWide = window.innerWidth > 1300
-    $(".request-card").css("width", this.isScreenWide ? "30%" : "45%")
-    window.addEventListener('resize', () => {
-      if (!this.isScreenWide && window.innerWidth > 1300) {
-        this.isScreenWide = !this.isScreenWide
-        $(".request-card").css("width", "30%")
-      }
-      if (this.isScreenWide && window.innerWidth <= 1300) {
-        this.isScreenWide = !this.isScreenWide
-        $(".request-card").css("width", "45%")
-      }
-    }, false)
     // TODO: request info parse
     this.$axios.get(testUrl).then((res) => {
       let list = res['data']
@@ -46,16 +36,31 @@ export default {
       }
     }).catch(err => {
       console.log(err)
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 5; i++) {
         this.requestList.push({
           requestId: -1,
-          userId: 0,
+          userId: i,
           citizen_id: "110000100001010000",
           requestTime: "XXXX-XX-XX xx:xx:xx",
           organization: "DEBUG XXX XX CN XXXX"
         })
       }
     })
-  }
+    this.isScreenWide = window.innerWidth > 1300
+    console.log(this.isScreenWide)
+    $(".request-card").css("width", this.isScreenWide ? "30%" : "45%")
+    window.addEventListener('resize', () => {
+      if (!this.isScreenWide && window.innerWidth > 1300) {
+        this.isScreenWide = !this.isScreenWide
+        $(".request-card").css("width", "30%")
+      }
+      if (this.isScreenWide && window.innerWidth <= 1300) {
+        this.isScreenWide = !this.isScreenWide
+        $(".request-card").css("width", "45%")
+      }
+    }, false)
+  },
+  methods: {}
+
 }
 </script>
