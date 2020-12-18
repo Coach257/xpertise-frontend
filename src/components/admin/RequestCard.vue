@@ -6,8 +6,8 @@
           <el-form-item label="申请用户ID" prop="user_id">
             <el-input v-model="idForm.user_id" disabled></el-input>
           </el-form-item>
-          <el-form-item label="匹配作者门户ID" prop="portal_id">
-            <el-input type="number" v-model="idForm.portal_id" placeholder="请输入ID"></el-input>
+          <el-form-item label="匹配作者ID" prop="author_id">
+            <el-input type="number" v-model="idForm.author_id" placeholder="请输入ID"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -56,10 +56,10 @@ export default {
 
       idForm: {
         user_id: '',
-        portal_id: ''
+        author_id: ''
       },
       rules: {
-        portal_id: [
+        author_id: [
           {
             required: true,
             message: '请输入对应作者门户ID',
@@ -99,7 +99,7 @@ export default {
     },
     confirmRequest() {
       let formData = new FormData();
-      formData.append('authreq_id', this.idForm.user_id);
+      formData.append('authreq_id', this.idForm.requestId);
       formData.append('action', "Accept");
       let config = {
         headers: {
@@ -124,7 +124,7 @@ export default {
     rejectRequest() {
       const h = this.$createElement
       let formData = new FormData();
-      formData.append('authreq_id', this.idForm.user_id);
+      formData.append('authreq_id', this.idForm.requestId);
       formData.append('action', "Reject");
       let config = {
         headers: {
