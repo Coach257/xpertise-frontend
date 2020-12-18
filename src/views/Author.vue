@@ -138,6 +138,18 @@
 
     </div>
 
+    <div id='authorRelationGraph'>
+      这里是关系图
+    </div>
+
+    <div id='authorColumn' v-if="userType==2">
+      这里是专栏
+    </div>
+
+    <div id='authorRecommend' v-if="userType==2">
+      这里是推荐
+    </div>
+
   </div>
 </template>
 
@@ -158,6 +170,7 @@ export default {
   props: [],
   data() {
     return {
+      userType: 1,
       type: 0,
       author: {
         h_index: -1,
@@ -371,6 +384,48 @@ export default {
   display: flex;
   justify-content: center;
   width: 1200px;
+}
+#authorRelationGraph {
+  border: #e6e6e6 solid thin;
+  border-radius: 30px;
+  box-shadow: 0px 0px 50px 10px rgba(127,127,127,0.2);
+  backdrop-filter: blur(20px);
+  background-color: rgba(255,255,255,0.5);
+  width: 1200px;
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+#authorRecommend {
+  border: #e6e6e6 solid thin;
+  border-radius: 30px;
+  box-shadow: 0px 0px 50px 10px rgba(127,127,127,0.2);
+  backdrop-filter: blur(20px);
+  background-color: rgba(255,255,255,0.5);
+  width: 1200px;
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+#authorColumn {
+  border: #e6e6e6 solid thin;
+  border-radius: 30px;
+  box-shadow: 0px 0px 50px 10px rgba(127,127,127,0.2);
+  backdrop-filter: blur(20px);
+  background-color: rgba(255,255,255,0.5);
+  width: 1200px;
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
 }
 .dataWrapper {
   border: #e6e6e6 solid thin;
