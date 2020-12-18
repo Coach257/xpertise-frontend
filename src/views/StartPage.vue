@@ -39,15 +39,19 @@
       RankingList
     },
     mounted() {
-      /*
-      if (sessionStorage.getItem('CurrentSearchBool')==true) {
-        show = true
-        input = sessionStorage.getItem('CurrentSearchInput')
+      console.log(sessionStorage.getItem('CurrentSearchBool'))
+      console.log("好")
+      if (sessionStorage.getItem('CurrentSearchBool')) {
+        console.log("看看就看看")
+        this.show = true
+        this.input = sessionStorage.getItem('CurrentSearchInput')
         sessionStorage.setItem('CurrentSearchBool',false)
         sessionStorage.setItem('CurrentSearchInput',"water")
-      }*/
+        console.log("看看就看看")
+        console.log(this.show)
+      }
       console.log("给我看看")
-      console.log(show);
+      console.log(this.show);
       // this.$gsap.set("#root", {height: document.documentElement.clientHeight})
       if(this.$route.params.type == "cs"){
          this.$gsap.set("backpic", {"background-image": "url(../assets/csBack.png)"})
