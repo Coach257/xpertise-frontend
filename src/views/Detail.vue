@@ -8,7 +8,7 @@
         <div class="result_detail_author_container">
           <router-link
             tag="div"
-            :to="'/author/' +$route.params.type+'/'+author.id"
+            :to="'/author/' + $route.params.type + '/' + author.id"
             class="result_detail_author"
             v-for="(author, index) in this.article.authors"
             :key="author.id"
@@ -29,17 +29,17 @@
         <p>{{ this.article.abstract }}</p>
         <h3>信息</h3>
         <!-- <p v-for="item in article.other" :key="item.name1">item</p> -->
-        <p>{{this.article.year}}</p>
-        <p>{{this.article.keywords}}</p>
-        <p>{{this.article.n_citation}}</p>
-        <p>{{this.article.page_start}} {{this.article.page_end}}</p>
-        <p>{{this.article.lang}}</p>
-        <p>{{this.article.issue}}</p>
-        <p>{{this.article.venue}}</p>
-        <p>{{this.article.conference}}</p>
-        <p>{{this.article.issn}}</p>
-        <p>{{this.article.doi}}</p>
-        <p>{{this.article.url}}</p>
+        <p>{{ this.article.year }}</p>
+        <p>{{ this.article.keywords }}</p>
+        <p>{{ this.article.n_citation }}</p>
+        <p>{{ this.article.page_start }} {{ this.article.page_end }}</p>
+        <p>{{ this.article.lang }}</p>
+        <p>{{ this.article.issue }}</p>
+        <p>{{ this.article.venue }}</p>
+        <p>{{ this.article.conference }}</p>
+        <p>{{ this.article.issn }}</p>
+        <p>{{ this.article.doi }}</p>
+        <p>{{ this.article.url }}</p>
       </div>
       <div class="result_detail_side_area">
         <div class="result_detail_side_container">
@@ -51,14 +51,25 @@
           <h3>引用</h3>
           <el-button icon="el-icon-document-copy" plain>复制引用信息</el-button>
           <h3>操作</h3>
-          <el-button type="warning" icon="el-icon-star-off" v-if="article.starred===false" @click="addToFav" plain>收藏</el-button>
-          <el-button type="warning" icon="el-icon-star-on" v-else @click="removeFromFav">已收藏</el-button>
+          <el-button
+            type="warning"
+            icon="el-icon-star-off"
+            v-if="article.starred === false"
+            @click="addToFav"
+            plain
+            >收藏</el-button
+          >
+          <el-button
+            type="warning"
+            icon="el-icon-star-on"
+            v-else
+            @click="removeFromFav"
+            >已收藏</el-button
+          >
           <el-button type="warning" @click="showInfo">显示信息</el-button>
         </div>
       </div>
-      <div v-if="referenceloadfinish">
-        这里要加引用关系图谱
-      </div>
+      <div v-if="referenceloadfinish">这里要加引用关系图谱</div>
     </div>
   </div>
 </template>
@@ -186,6 +197,8 @@ export default {
         // 任意一种result都有可能没有任意一种属性,任意一种属性的值都有可能为空
         var results = newsearchState.results[0];
         var raw;
+        this.article.paper_id = results.id.raw;
+        this.article.starred = this.isFav()
         // 更新标题
         if(results.title)this.article.title = results.title.raw;
         // 更新作者
@@ -222,7 +235,6 @@ export default {
         if(results.doi)this.article.doi = results.doi.raw;
         if(results.url)this.article.url = results.url.raw;
         if(this.$route.params.type=='cs'){
-          this.loadscholarly();
           this.loadreference();
         }
         this.articleloaded = true;
@@ -268,7 +280,50 @@ export default {
       })
     },
     removeFromFav() {
-
+      let that = this;
+      let formData = new FormData();
+      formData.append('user_id', localStorage.getItem('userid'));
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/list', formData, config).then(response => {
+        if(response) {
+          if(response.data.success) {
+            let favorArray = response.data.data;
+            console.log(favorArray);
+            for(let i = 0, len = favorArray.length; i < len; i++) {
+              if(favorArray[i].paper_id == this.article.paper_id) {
+                formData = new FormData();
+                formData.append("favor_id",favorArray[i].favor_id);
+                axios.post("https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/remove",formData,config).then(response => {
+                  if(response) {
+                    if(response.data.success) {
+                      console.log("删除成功",response.data);
+                      that.$data.article.starred = false;
+                    }else {
+                      console.log("删除失败",response.data);
+                      alert("取消收藏失败，请检查网络");
+                    }
+                  }else {
+                    console.log("收藏失败",response.data);
+                    alert("取消收藏失败，请检查网络");
+                  }
+                })
+              }
+            }
+          } else {
+            console.log(response.data);
+            console.log("获取失败 " + response.data);
+            alert("收藏列表获取失败，请检查网络");
+          }
+        } else {
+          console.log(response.data);
+          console.log("获取失败 " + response.data);
+          alert("收藏列表获取失败，请检查网络");
+        }
+      });
     },
     thereAreResults() {
       return this.searchState.totalResults && this.searchState.totalResults > 0;
@@ -277,19 +332,32 @@ export default {
       console.log("这个函数请求引用关系");
       this.referenceloaded = true;
     },
-    loadscholarly(){
-      console.log("这个函数请求scholarly");
-      this.articleloaded = true;
-    },
     showInfo() {
       console.log(this.searchState);
       console.log(this.article.authors);
       console.log(this.authors);
       console.log(JSON.parse(this.searchState.results[0].authors.raw[0]));
-      //console.log(this.searchState.results[0].authors.raw);
-      //console.log(this.searchState.results[0].authors.raw[0]);
-      //console.log(JSON.parse(this.searchState.results[0].authors.raw[0]));
     },
+    isFav(){
+      let that = this;
+      let formData = new FormData();
+      formData.append('user_id', localStorage.getItem('userid'));
+      formData.append('paper_id',this.article.id);
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/isfav', formData, config).then(response => {
+        if(response) {
+          if(response.data.message == "true"){
+            return true;
+          }else {
+            return false;
+          }
+        }
+      });
+    }
   },
 };
 </script>
