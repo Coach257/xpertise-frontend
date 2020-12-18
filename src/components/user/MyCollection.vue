@@ -11,7 +11,7 @@
       </el-table-column>
       <el-table-column label="作者" min-width="200px" show-overflow-tooltip> 
         <template slot-scope="scope"> 
-          <el-link v-for="(author,index) in scope.row.authors" :key="index" @click="handleClickOnAuthor(author.id)" style="margin:5px">{{author.name}}</el-link>
+          <el-link v-for="(author,index) in scope.row.authors" :key="index" @click="handleClickOnAuthor(scope.row,author.id)" style="margin:5px">{{author.name}}</el-link>
         </template>
       </el-table-column>
       <el-table-column label="取消收藏" fixed="right" width="80px"> 
@@ -117,13 +117,11 @@ export default {
     handleClick(row,column) {
       console.log(row,column);
       if(column.label === "标题"){
-        console.log("routing to "+"/article/:"+row.paperID.toString());
-        this.$router.push({path: "/article/:"+row.paperID.toString()});
+        this.$router.push({path: "/detail/"+row.paper_type+"/"+row.paperID.toString()});
       }
     },
-    handleClickOnAuthor(authorID) {
-      console.log("routing to "+"/article/:"+row.paperID.toString());
-      this.$router.push({path: "/portal/:"+authorID});
+    handleClickOnAuthor(row,authorID) {
+      this.$router.push({path: "/detail/"+row.paper_type+"/"+authorID});
     }
   }
 }
