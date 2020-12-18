@@ -56,7 +56,8 @@ export default {
 
       idForm: {
         user_id: '',
-        author_id: ''
+        author_id: '',
+        authreq_id: '',
       },
       rules: {
         author_id: [
@@ -80,6 +81,7 @@ export default {
     this.time = this.request['requestTime']
     this.citizen_id = this.request['citizen_id']
     this.organization = this.request['organization']
+    this.idForm.authreq_id = this.request['authreq_id']
   },
   methods: {
     checkConfirm(form_name) {
@@ -99,7 +101,7 @@ export default {
     },
     confirmRequest() {
       let formData = new FormData();
-      formData.append('authreq_id', this.idForm.requestId);
+      formData.append('authreq_id', this.idForm.authreq_id);
       formData.append('action', "Accept");
       let config = {
         headers: {
@@ -124,14 +126,15 @@ export default {
     rejectRequest() {
       const h = this.$createElement
       let formData = new FormData();
-      formData.append('authreq_id', this.idForm.requestId);
+      formData.append('authreq_id', this.idForm.authreq_id);
       formData.append('action', "Reject");
       let config = {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       };
-      this.$axios.post(testUrl, formData).then(() => {
+      this.$axios.post(testUrl, formData).then((res) => {
+        console.log(res);
         this.$notify({
           title: "提示",
           message: h("div", {class: 'el-icon-check', style: 'color: grey'}, " 申请已驳回"),
