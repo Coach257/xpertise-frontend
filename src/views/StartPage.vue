@@ -46,7 +46,7 @@
         this.show = true
         this.input = sessionStorage.getItem('CurrentSearchInput')
         sessionStorage.setItem('CurrentSearchBool',false)
-        sessionStorage.setItem('CurrentSearchInput',"water")
+        //sessionStorage.setItem('CurrentSearchInput',"water")
         console.log("看看就看看")
         console.log(this.show)
       }
@@ -66,6 +66,8 @@
     methods: {
       submit () {
         if(this.input!=''){
+          sessionStorage.setItem('CurrentSearchBool',false)
+          sessionStorage.setItem('CurrentSearchInput',this.input)
           this.show = true
         }
       },

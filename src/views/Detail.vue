@@ -188,7 +188,7 @@ export default {
         //this.$router.replace('/home');
         //this.$router.go(-10);
         sessionStorage.setItem('CurrentSearchBool',true)
-        sessionStorage.setItem('CurrentSearchInput',"water")
+        //sessionStorage.setItem('CurrentSearchInput',"water")
         this.$router.replace({name:'/home',query:{show: true}});
         window.location.reload();
       }
