@@ -1,5 +1,5 @@
 <template>
-   
+
     <div>
       <h1>欢迎来到 {{ settleForm.username }} 进行平台入驻服务 </h1>
         <el-form :label-position="labelPosition" label-width="80px" :model="settleForm">
@@ -44,25 +44,21 @@ export default {
                 school: ''
             }
         };
-        
+
     },
     methods: {
         submitForm(formName) {
             var _this = this;
             let formData = new FormData();
-            formData.append('user_id', localStorage.getItem('userid'));
-            formData.append('username', this.userinfo.username);
-            formData.append('email', this.userinfo.email);
-            formData.append('info', this.userinfo.basic_info);
-            console.log(localStorage.getItem('token')); // 验证
-            // 在form中附上token字段
+            formData.append('user_id', this.settleForm.userid);
+            formData.append('organization', this.settleForm.school);
+            formData.append('citizen_id', this.settleForm.idnum);
             let config = {
                 headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: localStorage.getItem('token')
+                  'Content-Type': 'multipart/form-data'
                 }
             };
-            axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/reset/account_info', formData,config)
+            axios.post('https://go-service-296709.df.r.appspot.com/api/v1/admin/authorize/request', formData,config)
                 .then(function (response) {
                     if (response){
                         console.log(response)

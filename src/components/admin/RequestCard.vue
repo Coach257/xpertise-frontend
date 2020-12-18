@@ -1,5 +1,5 @@
 <template>
-  <div class="request-card">
+  <div class="request-card" v-if="!this.isDeleted">
     <el-dialog title="申请处理" :visible.sync="show_dialog" width="50%">
       <div style="">
         <el-form :model="idForm" :rules="rules" ref="idForm">
@@ -30,18 +30,21 @@
           <div class="request-card-content-item"> 申请时间：{{ this.time }}</div>
         </div>
         <el-button type="my_success" size="small" @click="show_dialog = true">处理</el-button>
+        <el-button type="my_success" size="small" @click="rejectRequest">拒绝</el-button>
       </div>
     </el-card>
   </div>
 </template>
 
 <script>
-const testUrl = ""
+import axios from 'axios';
+const testUrl = "https://go-service-296709.df.r.appspot.com/api/v1/admin/authorize/deal"
 const deployUrl = ""
 export default {
   name: "RequestCard",
   props: {
-    request: Object
+    request: Object,
+    index: Number
   },
   data() {
     return {
@@ -49,6 +52,7 @@ export default {
       time: "xxxx-xx-xx xx:xx:xx",
       citizen_id: "xxxxcitizen_idxxxx",
       organization: "xxxxx org xxxxx",
+      isDeleted: false,
 
       idForm: {
         user_id: '',
@@ -66,6 +70,9 @@ export default {
 
       show_dialog: false,
     }
+  },
+  created() {
+
   },
   mounted() {
     // TODO: parsing request prop
@@ -91,16 +98,22 @@ export default {
       })
     },
     confirmRequest() {
-      const h = this.$createElement
-      let data = {
-        author_id: parseInt(this.idForm.portal_id),
-        authreq_id: this.idForm.requestId
-      }
-      this.$axios.post(testUrl, JSON.stringify(data)).then(() => {
+      let formData = new FormData();
+      formData.append('authreq_id', this.idForm.user_id);
+      formData.append('action', "Accept");
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      const h = this.$createElement;
+      this.$axios.post(testUrl, formData).then((res) => {
+        console.log(res);
         this.$notify({
           title: "提示",
           message: h("div", {class: 'el-icon-check', style: 'color: green'}, " 处理成功！"),
         })
+        this.isDeleted = true
       }).catch(err => {
         this.$notify({
           title: "提示",
@@ -108,6 +121,29 @@ export default {
         })
       })
     },
+    rejectRequest() {
+      const h = this.$createElement
+      let formData = new FormData();
+      formData.append('authreq_id', this.idForm.user_id);
+      formData.append('action', "Reject");
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      this.$axios.post(testUrl, formData).then(() => {
+        this.$notify({
+          title: "提示",
+          message: h("div", {class: 'el-icon-check', style: 'color: grey'}, " 申请已驳回"),
+        })
+        this.isDeleted = true
+      }).catch(err => {
+        this.$notify({
+          title: "提示",
+          message: h("div", {class: 'el-icon-close', style: 'color: red'}, " 驳回失败：" + err.status),
+        })
+      })
+    }
   },
 }
 </script>
@@ -131,19 +167,19 @@ export default {
   font-size: 15px;
 }
 
-.request-card {
-  display: block;
-  float: left;
-  width: 45%;
-  height: 50%;
-  margin: 10px;
-}
-
 .request-card-header {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.request-card {
+  display: block;
+  float: left;
+  height: 50%;
+  width: 30%;
+  margin: 10px;
 }
 
 .el-button--my_success.is-active,
@@ -168,6 +204,8 @@ export default {
 </style>
 
 <style>
+
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
