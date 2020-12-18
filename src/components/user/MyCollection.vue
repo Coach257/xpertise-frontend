@@ -94,12 +94,33 @@ export default {
   methods:{
     handleDelete(favorID) {
       console.log("deleting favorite item ",favorID);
-      for(let i = 0, len = this.favorList.length; i < len; i++) {
-        if(this.favorList[i].favorID === favorID) {
-          this.favorList.splice(i,1);
-          break;
+
+      let that = this;
+      let formData = new FormData();
+      formData.append("favor_id",favorID);
+      let config = {headers: {'Content-Type': 'multipart/form-data'} };
+      axios.post("https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/remove",formData,config).then(response => {
+        if(response) {
+          if(response.data.success) {
+            console.log("删除成功",response.data);
+            
+            for(let i = 0, len = that.favorList.length; i < len; i++) {
+              if(that.favorList[i].favorID === favorID) {
+                that.favorList.splice(i,1);
+                break;
+              }
+            }
+
+          }else {
+            console.log("删除失败" + response.data);
+            alert("取消收藏失败，请检查网络");
+          }
+        }else {
+          console.log("收藏失败" + response.data);
+          alert("取消收藏失败，请检查网络");
         }
-      }
+      })
+
       console.log("item deleted",favorID);
     },
     handleClick(row,column) {
