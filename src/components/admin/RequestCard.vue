@@ -37,9 +37,8 @@
 </template>
 
 <script>
-import $ from "jquery";
-
-const testUrl = ""
+import axios from 'axios';
+const testUrl = "https://go-service-296709.df.r.appspot.com/api/v1/admin/authorize/deal"
 const deployUrl = ""
 export default {
   name: "RequestCard",
@@ -99,12 +98,17 @@ export default {
       })
     },
     confirmRequest() {
-      const h = this.$createElement
-      let data = {
-        author_id: parseInt(this.idForm.portal_id),
-        authreq_id: this.idForm.requestId
-      }
-      this.$axios.post(testUrl, JSON.stringify(data)).then(() => {
+      let formData = new FormData();
+      formData.append('authreq_id', this.idForm.user_id);
+      formData.append('action', "Accept");
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      const h = this.$createElement;
+      this.$axios.post(testUrl, formData).then((res) => {
+        console.log(res);
         this.$notify({
           title: "提示",
           message: h("div", {class: 'el-icon-check', style: 'color: green'}, " 处理成功！"),
@@ -119,10 +123,15 @@ export default {
     },
     rejectRequest() {
       const h = this.$createElement
-      let data = {
-        authreq_id: this.idForm.requestId
-      }
-      this.$axios.post(testUrl, JSON.stringify(data)).then(() => {
+      let formData = new FormData();
+      formData.append('authreq_id', this.idForm.user_id);
+      formData.append('action', "Reject");
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      this.$axios.post(testUrl, formData).then(() => {
         this.$notify({
           title: "提示",
           message: h("div", {class: 'el-icon-check', style: 'color: grey'}, " 申请已驳回"),
