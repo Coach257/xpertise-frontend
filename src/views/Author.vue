@@ -128,7 +128,7 @@
 
 
          <div style="width: 200px; display: flex; flex-direction: column; align-items: flex-start">
-         <div class="tagName" v-for="(tag, index) in this.author.tags" :key = 'tag.t' >
+         <div class="tagName" v-for="(tag, index) in this.author.tags" :key = 'index' >
             {{ tag.t }}
          </div>
          </div>
@@ -138,15 +138,15 @@
 
     </div>
 
-    <div id='authorRelationGraph'>
+    <div id='authorRelationGraph' v-if="iscspaper">
       这里是关系图
     </div>
 
-    <div id='authorColumn' v-if="userType==2">
+    <div id='authorColumn' v-if="issettled">
       这里是专栏
     </div>
 
-    <div id='authorRecommend' v-if="userType==2">
+    <div id='authorRecommend' v-if="issettled">
       这里是推荐
     </div>
 
@@ -163,6 +163,7 @@ import {
   csaffiliationconfig,
 } from "../searchConfig";
 var driver = null;
+import axios from "axios"
 
 export default {
   name: "Author",
@@ -170,7 +171,7 @@ export default {
   props: [],
   data() {
     return {
-      userType: 1,
+      issettled: false,
       type: 0,
       author: {
         h_index: -1,
@@ -182,7 +183,6 @@ export default {
         name: "",
         tags: [],
       },
-
       contendLoaded: false,
       searchState: {},
     };
@@ -190,6 +190,9 @@ export default {
   computed:{
     loadfinish(){
       return this.contendLoaded;
+    },
+    iscspaper(){
+      return this.type == 1;
     }
   },
   mounted() {
@@ -212,8 +215,8 @@ export default {
     driver.subscribeToStateChanges((state) => {
       this.searchState = state;
     })
-
-    this.initAnimation()
+    this.setissettled(this.$route.parse.authorId);
+    this.initAnimation();
   },
   methods: {
     thereAreResults() {
@@ -251,7 +254,25 @@ export default {
         scrub: 0.7,
       }})
     },
-
+    // 请求判断该作者是否入驻
+    setissettled(authorID){
+      let formData = new FormData();
+        formData.append('author_id', authorID);
+        let config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        var _this = this
+        axios.post('https://go-service-296709.df.r.appspot.com/api/v1/portal/issettled',formData, config)
+            .then(function (response)  {
+              if(response.data.message == 'true'){
+                this.issettled = true;
+              } else {
+                this.issettled = false;
+              }
+            })
+    }
   },
   watch: {
     searchState(newsearchState) {
