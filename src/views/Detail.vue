@@ -201,7 +201,8 @@ export default {
         var results = newsearchState.results[0];
         var raw;
         this.article.paper_id = results.id.raw;
-        this.article.starred = this.isFav()
+        this.isFav();
+        console.log(this.article.starred)
         // 更新标题
         if(results.title)this.article.title = results.title.raw;
         // 更新作者
@@ -261,14 +262,17 @@ export default {
       formData.append("user_id",localStorage.getItem("userid"));
       console.log(this.$data);
       formData.append("paper_id",this.article.paper_id);
-      let paperInfo = JSON.stringify(this.article);
-      let articleWithoutAbstract = JSON.parse(paperInfo);
-      delete articleWithoutAbstract["abstract"];
-      paperInfo = JSON.stringify(articleWithoutAbstract);
-      formData.append("paper_info",paperInfo);
+      let paperInfo = {
+        "paper_id": this.article.paper_id,
+        "title": this.article.title,
+        "authors":  JSON.parse(JSON.stringify(this.article.authors)),
+      }
+      formData.append("paper_info",JSON.stringify(paperInfo));
+      console.log(paperInfo);
       let config = {headers: {'Content-Type': 'multipart/form-data'} };
       axios.post("https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/add",formData,config).then(response => {
         if(response) {
+          console.log("收到请求",response)
           if(response.data.success) {
             console.log("收藏成功",response.data);
             that.$data.article.starred = true;
@@ -353,13 +357,15 @@ export default {
       };
       axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/isfav', formData, config).then(response => {
         if(response) {
+          console.log(response.data)
           if(response.data.message == "true"){
-            return true;
+            that.article.starred = true;
           }else {
-            return false;
+            that.article.starred = false;
           }
         }
       });
+      return ;
     }
   },
 };
