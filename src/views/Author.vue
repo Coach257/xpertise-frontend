@@ -215,7 +215,7 @@ export default {
     driver.subscribeToStateChanges((state) => {
       this.searchState = state;
     })
-    this.setissettled(this.$route.parse.authorId);
+    this.setissettled(this.$route.params.authorId);
     this.initAnimation();
   },
   methods: {
@@ -272,6 +272,25 @@ export default {
                 this.issettled = false;
               }
             })
+    },
+    setgraph(authorID,authorName){
+        let formData = new FormData();
+        formData.append('author_id', authorID);
+        formData.append('author_name', authorName);
+        let config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        var _this = this
+        axios.post('https://go-service-296709.df.r.appspot.com/api/v1/branch/graph/author_connection',formData, config)
+            .then(function (response)  {
+                if (response.data.success) {
+                  console.log(response.data.message);
+                }else {
+                   console.log("失败");
+                }
+            })
     }
   },
   watch: {
@@ -282,6 +301,9 @@ export default {
         var raw;
         if(results.name)
           this.author.name = results.name.raw;
+        // 加载关系图 
+        this.setgraph(this.$route.params.authorId,this.author.name);
+
         if(results.h_index)
           this.author.h_index = results.h_index.raw;
         if(results.orgs) {
