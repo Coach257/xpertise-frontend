@@ -121,6 +121,66 @@ export default {
     };
   },
   watch: {
+    '$route':function(newVal,oldVal){
+      console.log("路由"+newVal+"---"+oldVal);
+      console.log("新")
+      console.log(newVal)
+      console.log(newVal.fullPath)
+      console.log("老")
+      console.log(oldVal)
+      console.log(oldVal.fullPath)
+      console.log(oldVal.fullPath[0]+oldVal.fullPath[1])
+      console.log("判断")
+      console.log(oldVal.fullPath[0]+"-----"+newVal.fullPath[0])
+      console.log(oldVal.fullPath[1]+"-----"+newVal.fullPath[1])
+      console.log(oldVal.fullPath[2]+"-----"+newVal.fullPath[2])
+      console.log(oldVal.fullPath[3]+"-----"+newVal.fullPath[3])
+      console.log(oldVal.fullPath[4]+"-----"+newVal.fullPath[4])
+      console.log(oldVal.fullPath[5]+"-----"+newVal.fullPath[5])
+      console.log(oldVal.fullPath[6]+"-----"+newVal.fullPath[6])
+      console.log(oldVal.fullPath[7]+"-----"+newVal.fullPath[7])
+      console.log(oldVal.fullPath[8]+"-----"+newVal.fullPath[8])
+      console.log(oldVal.fullPath[9]+"-----"+newVal.fullPath[9])
+      console.log(oldVal.fullPath[10]+"-----"+newVal.fullPath[10])
+      console.log(oldVal.fullPath[11]+"-----"+newVal.fullPath[11])
+      console.log(oldVal.fullPath[12]+"-----"+newVal.fullPath[12])
+      console.log(oldVal.fullPath[13]+"-----"+newVal.fullPath[13])
+      console.log(oldVal.fullPath[14]+"-----"+newVal.fullPath[14])
+      console.log(oldVal.fullPath[15]+"-----"+newVal.fullPath[15])
+      console.log(oldVal.fullPath[16]+"-----"+newVal.fullPath[16])
+      console.log(oldVal.fullPath[17]+"-----"+newVal.fullPath[17])
+      console.log(oldVal.fullPath[18]+"-----"+newVal.fullPath[18])
+      console.log(oldVal.fullPath[19]+"-----"+newVal.fullPath[19])
+      if (newVal.fullPath[0]==oldVal.fullPath[0]&&
+          newVal.fullPath[1]==oldVal.fullPath[1]&&
+          newVal.fullPath[2]==oldVal.fullPath[2]&&
+          newVal.fullPath[3]==oldVal.fullPath[3]&&
+          newVal.fullPath[4]==oldVal.fullPath[4]&&
+          newVal.fullPath[5]==oldVal.fullPath[5]&&
+          newVal.fullPath[6]==oldVal.fullPath[6]&&
+          newVal.fullPath[7]==oldVal.fullPath[7]&&
+          newVal.fullPath[8]==oldVal.fullPath[8]&&
+          newVal.fullPath[9]==oldVal.fullPath[9]&&
+          newVal.fullPath[10]==oldVal.fullPath[10]&&
+          newVal.fullPath[11]==oldVal.fullPath[11]&&
+          newVal.fullPath[12]==oldVal.fullPath[12]&&
+          newVal.fullPath[13]==oldVal.fullPath[13]&&
+          newVal.fullPath[14]==oldVal.fullPath[14]&&
+          newVal.fullPath[15]==oldVal.fullPath[15]&&
+          newVal.fullPath[16]==oldVal.fullPath[16]&&
+          newVal.fullPath[17]==oldVal.fullPath[17]&&
+          newVal.fullPath[18]==oldVal.fullPath[18]&&
+          newVal.fullPath[19]==oldVal.fullPath[19]&&
+          newVal.fullPath[20]==oldVal.fullPath[20]
+          ){
+        console.log("仍在原本的路由位置")
+        this.$router.replace('/home');
+        //this.$router.go(-10);
+        window.location.reload();
+      }
+      else cosole.log("正常跳转到别的网页")
+      console.log("路由结束")
+    },
     searchState(newsearchState) {
       if (this.thereAreResults()) {
         // 任意一种result都有可能没有任意一种属性,任意一种属性的值都有可能为空
