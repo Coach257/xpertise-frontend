@@ -68,6 +68,7 @@
         if(this.input!=''){
           sessionStorage.setItem('CurrentSearchBool',false)
           sessionStorage.setItem('CurrentSearchInput',this.input)
+          sessionStorage.setItem('CurrentSearchType',"paper")
           this.show = true
         }
       },

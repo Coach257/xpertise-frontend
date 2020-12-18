@@ -275,6 +275,25 @@ export default {
     }
   },
   watch: {
+    '$route':function(newVal,oldVal){
+      let aa = true;
+      for(let i = 0;i<=20;i++) {
+        if (newVal.fullPath[i] != oldValfullPath[i]){
+          aa = false;
+          break;
+        }
+      }
+      if (aa){
+        console.log("仍在原本的路由位置")
+        //this.$router.replace('/home');
+        //this.$router.go(-10);
+        sessionStorage.setItem('CurrentSearchBool',true)
+        //sessionStorage.setItem('CurrentSearchInput',"water")
+        this.$router.replace({name:'/home',query:{show: true}});
+        window.location.reload();
+      }
+      else cosole.log("正常跳转到别的网页")
+    },
     searchState(newsearchState) {
       if(this.thereAreResults()) {
         // console.log(newsearchState);
