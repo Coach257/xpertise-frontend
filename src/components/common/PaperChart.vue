@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="chartContainer" style="width: 800px;height: 600px"></div>
+    <div id="chartContainer" style="width: 900px;height: 650px"></div>
   </div>
 </template>
 
@@ -30,6 +30,10 @@ export default {
     ]
     return {
       option: {
+        title:{
+          text: '计算机会议文献统计表',
+          padding: [60,400,400,400],
+        },
         tooltip: {},
         visualMap: {
           max: 1200,
@@ -40,11 +44,16 @@ export default {
         xAxis3D: {
           type: 'category',
           name: 'year',
-          data: years
+          nameGap: 40,
+          data: years,
+          axisLabel: {
+            margin: 20
+          }
         },
         yAxis3D: {
           type: 'category',
           name: 'conference',
+          nameGap: 30,
           data: confs,
           axisLabel: {
             interval: 0
@@ -52,13 +61,15 @@ export default {
         },
         zAxis3D: {
           type: 'value',
-          name: 'Papers'
+          name: 'Papers',
+          nameGap: 30
         },
         grid3D: {
           boxWidth: 350,
-          boxDepth: 110,
+          boxDepth: 140,
           boxHeight: 150,
           viewControl: {
+
             distance: 500
           }
         },
