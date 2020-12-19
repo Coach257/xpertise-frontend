@@ -46,8 +46,8 @@ export default {
 
     if (sessionStorage.getItem('CurrentSearchBool')) {
       console.log("看看就看看")
-      this.show = true
-      this.input = sessionStorage.getItem('CurrentSearchInput')
+      //this.show = true
+      //this.input = sessionStorage.getItem('CurrentSearchInput')
       sessionStorage.setItem('CurrentSearchBool', false)
     }
     // this.$gsap.set("#root", {height: document.documentElement.clientHeight})
