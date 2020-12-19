@@ -211,14 +211,24 @@ export default {
       }
     },
     routerPush () {
+      console.log(" 至诚不悖否?")
       if (this.$props.option == 'paper') {
-        this.$router.push('/detail/'+this.type+'/'+this.paper.id)
+        let routeData = this.$router.resolve({ path: '/detail/'+this.type+'/'+this.paper.id, query: {  id: 1 } });
+        window.open(routeData.href, '_blank');
+        console.log(" 言行不耻否?")
+        //this.$router.push('/detail/'+this.type+'/'+this.paper.id)
       }else if(this.$props.option == 'author') {
-        this.$router.push('/author/'+this.type+'/'+this.author.id)
+        let routeData = this.$router.resolve({ path: '/author/'+this.type+'/'+this.author.id, query: {  id: 1 } });
+        window.open(routeData.href, '_blank');
+        console.log(" 气力无缺否?")
+        //this.$router.push('/author/'+this.type+'/'+this.author.id)
       }else {
-        this.$router.push('/affiliation/'+this.affiliation.id)
+        let routeData = this.$router.resolve({ path: '/affiliation/'+this.affiliation.id, query: {  id: 1 } });
+        window.open(routeData.href, '_blank');
+        console.log(" 努力无憾否?")
+        //this.$router.push('/affiliation/'+this.affiliation.id)
       }
-
+      console.log(" 亘勿懈怠否?")
     }
   },
   mounted() {
