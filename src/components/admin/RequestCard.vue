@@ -81,7 +81,7 @@ export default {
     this.time = this.request['requestTime']
     this.citizen_id = this.request['citizen_id']
     this.organization = this.request['organization']
-    this.idForm.authreq_id = this.request['authreq_id']
+    this.idForm.authreq_id = this.request['requestId']
   },
   methods: {
     checkConfirm(form_name) {
@@ -124,6 +124,7 @@ export default {
       })
     },
     rejectRequest() {
+      console.log(this.idForm)
       const h = this.$createElement
       let formData = new FormData();
       formData.append('authreq_id', this.idForm.authreq_id);
