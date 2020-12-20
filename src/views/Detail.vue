@@ -37,7 +37,6 @@
         <p>{{ this.article.lang }}</p>
         <p>{{ this.article.issue }}</p>
         <p>{{ this.article.venue }}</p>
-        <p>{{ this.article.conference }}</p>
         <p>{{ this.article.issn }}</p>
         <p>{{ this.article.doi }}</p>
         <p>{{ this.article.url }}</p>
@@ -50,7 +49,7 @@
           >
           <el-button icon="el-icon-download" plain>下载</el-button>
           <h3>引用</h3>
-          <el-button icon="el-icon-document-copy" plain @click="document_copy_visible = true">复制引用信息</el-button>
+          <el-button icon="el-icon-document-copy" plain @click="documentcopyvisible = true">复制引用信息</el-button>
           <h3>操作</h3>
           <el-button
             type="warning"
@@ -84,10 +83,10 @@
       <el-tab-pane label="评论">评论</el-tab-pane>
       <el-tab-pane label="专家推荐">专家推荐</el-tab-pane>
     </el-tabs>
-    <el-dialog title="复制引用信息" :visible.sync="document_copy_visible" width="60%">
-      <li v-for="(document_copy_info,index) in this.document_copy_list" :key="index">
-        {{document_copy_info.name}}     {{document_copy_info.info}}
-        <el-button v-clipboard:copy="document_copy_info.info">copy</el-button>
+    <el-dialog title="复制引用信息" :visible.sync="documentcopyvisible" width="60%">
+      <li v-for="(documentcopyinfo,index) in this.documentcopylist" :key="index">
+        {{documentcopyinfo.name}}     {{documentcopyinfo.info}}
+        <el-button v-clipboard:copy="documentcopyinfo.info">copy</el-button>
       </li>
     </el-dialog>
   </div>
@@ -135,7 +134,6 @@ export default {
         lang: "",
         issue: "",
         venue: "",
-        conference: "",
         volume: "",
         issn: "",
         doi: "",
@@ -153,13 +151,8 @@ export default {
       referenceloaded: false, // 控制引用图谱显示
       articleloaded: false, // 控制整个页面显示
       relatedloaded: false, // 控制相关文章显示
-      document_copy_visible: false,
-      document_copy_list:[
-        {
-          "name":"a",
-          "info":"b",
-        }
-      ],
+      documentcopyvisible: false,
+      documentcopylist:[],
     };
   },
   watch: {
@@ -327,14 +320,14 @@ export default {
       if (results.page_end && results.page_end.raw) this.article.page_end = results.page_end.raw;
       if (results.lang && results.lang.raw) this.article.lang = results.lang.raw;
       if (results.issue && results.issue.raw) this.article.issue = results.issue.raw;
-      if (results.venue && results.venue.raw) this.article.venue = results.venue.raw;
-      if (results.conference && results.conference.raw) this.article.conference = results.conference.raw;
+      if (results.venue && results.venue.raw) this.article.venue = JSON.parse(results.venue.raw).raw;
       if (results.volume && results.volume.raw) this.article.volume = results.volume.raw;
       if (results.issn && results.issn.raw) this.article.issn = results.issn.raw;
       if (results.doi && results.doi.raw) this.article.doi = results.doi.raw;
       if (results.url && results.url.raw) this.article.url = results.url.raw;
       this.articleloaded = true;
       this.loadrelatedpapers();
+      this.loaddocumentcopyinfo();
     },
     // 获取相关文章
     loadrelatedpapers(){
@@ -412,6 +405,48 @@ export default {
     debug(){
       console.log(this.referenceloaded);
     },
+    loaddocumentcopyinfo(){
+      var info="";
+      for(let i=0;i<this.article.authors.length;i++){
+        info += this.article.authors[i].name+".,";
+      }
+      info+=this.article.title+","+this.article.venue+","+this.article.year+","+this.article.volume+"."
+      this.documentcopylist.push({
+        "name":"GB/T 7714",
+        "info":info
+      })
+      info = "";
+      for(let i=0;i<this.article.authors.length;i++){
+        info += this.article.authors[i].name+",";
+      }
+      info+="\""+this.article.title+"\""+this.article.venue+".,vol."+this.article.volume+","+this.article.year+"."
+      this.documentcopylist.push({
+        "name":"MLA",
+        "info":info
+      })
+      info = "";
+      for(let i=0;i<this.article.authors.length;i++){
+        info += this.article.authors[i].name+".,";
+      }
+      info+="("+this.article.year+")."+this.article.title+"."+this.article.venue+","+this.article.volume+"."
+      this.documentcopylist.push({
+        "name":"APA",
+        "info":info
+      })
+      info = "@inproceedings{Xpertise"+this.article.paper_id+",\r";
+      info +="title=\""+this.article.title+"\",\nauthor=\"";
+      for(let i=0;i<this.article.authors.length;i++){
+        info += this.article.authors[i].name+",";
+      }
+      info+="\",\njournal=\"";
+      info+=this.article.venue+"\",\nvolume=\""
+      info+=this.article.year+"\","
+      this.documentcopylist.push({
+        "name":"BibTeX",
+        "info":info
+      })
+      
+    }
   },
 };
 </script>
