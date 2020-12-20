@@ -4,13 +4,13 @@
       <h1>欢迎来到 {{ settleForm.username }} 进行平台入驻服务 </h1>
         <el-form :label-position="labelPosition" label-width="80px" :model="settleForm">
             <el-form-item label="用户ID">
-                <el-input v-model="settleForm.userid" :disabled="true"></el-input>
+                <el-input v-model="settleForm.userid" :disabled="false"></el-input>
             </el-form-item>
             <el-form-item label="用户名">
-                <el-input v-model="settleForm.username" :disabled="true"></el-input>
+                <el-input v-model="settleForm.username" :disabled="false"></el-input>
             </el-form-item>
             <el-form-item label="邮箱">
-                <el-input v-model="settleForm.email" :disabled="true"></el-input>
+                <el-input v-model="settleForm.email" :disabled="false"></el-input>
             </el-form-item>
             <el-form-item label="身份证号">
                 <el-input v-model="settleForm.idnum" :disabled="false"></el-input>
