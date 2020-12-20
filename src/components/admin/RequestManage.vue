@@ -1,7 +1,8 @@
 <template>
   <el-scrollbar style="height: 100%">
     <div style="width:100%;">
-      <request-card v-for="(request,index) in requestList" :key="index" :request="request" :index="index"></request-card>
+      <request-card v-for="(request,index) in requestList" :key="index" :request="request"
+                    :index="index"></request-card>
     </div>
   </el-scrollbar>
 </template>
@@ -26,8 +27,8 @@ export default {
     // TODO: request info parse
     var _this = this;
     axios.get(testUrl).then(response => {
-      if(response) {
-        if(response.data.success == true) {
+      if (response) {
+        if (response.data.success == true) {
           console.log(response.data.data);
           let list = response.data.data;
           for (let i = 0; i < list.length; i++) {
@@ -39,8 +40,7 @@ export default {
               organization: list[i]['organization']
             })
           }
-        }
-        else {
+        } else {
           for (let i = 0; i < 4; i++) {
             this.requestList.push({
               requestId: -1,
@@ -52,8 +52,7 @@ export default {
           }
           console.log(response.data)
         }
-      }
-      else {
+      } else {
         console.log("error");
       }
     })
@@ -80,6 +79,21 @@ export default {
     //     })
     //   }
     // })
+    this.$nextTick(() => {
+      this.isScreenWide = window.innerWidth > 1300
+      $(".request-card").css("width", this.isScreenWide ? "30%" : "45%")
+      window.addEventListener('resize', () => {
+        if (!this.isScreenWide && window.innerWidth > 1300) {
+          this.isScreenWide = !this.isScreenWide
+          $(".request-card").css("width", "30%")
+        }
+        if (this.isScreenWide && window.innerWidth <= 1300) {
+          this.isScreenWide = !this.isScreenWide
+          $(".request-card").css("width", "45%")
+        }
+      }, false)
+    })
+
   }
 }
 </script>
