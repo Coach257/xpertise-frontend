@@ -232,35 +232,33 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.result);
+    console.log(this.result);
     if(this.$props.option == 'paper'){
-      if(this.result.venue)
-        this.paper.venue = JSON.parse(this.result.venue.raw).raw;
-      this.paper.title = this.result.title.raw;
-      this.paper.n_citation = this.result.n_citation.raw;
-      this.paper.year = this.result.year.raw;
-      this.paper.id = this.result.id.raw;
-
-      this.result.authors.raw.forEach(this.addToAuthors)
+      if(this.result.venue && this.result.venue.raw)this.paper.venue = JSON.parse(this.result.venue.raw).raw;
+      if(this.result.title && this.result.title.raw) this.paper.title = this.result.title.raw;
+      if(this.result.n_citation && this.result.n_citation.raw)this.paper.n_citation = this.result.n_citation.raw;
+      if(this.result.year&&this.result.year.raw)this.paper.year = this.result.year.raw;
+      if(this.result.id && this.result.id.raw) this.paper.id = this.result.id.raw;
+      if(this.result.authors && this.result.authors.raw)this.result.authors.raw.forEach(this.addToAuthors)
     }
     else if(this.$props.option == 'author'){
       
-      this.author.name = this.result.name.raw;
-      this.author.n_pubs = this.result.n_pubs.raw;
+      if(this.result.name && this.result.name.raw) this.author.name = this.result.name.raw;
+      if(this.result.n_pubs && this.result.n_pubs.raw) this.author.n_pubs = this.result.n_pubs.raw;
       // this.result.pubs.raw.forEach(this.addToAuthorPubs); mainauhtor数据没有文献标题
       if(this.result.orgs && this.result.orgs.raw){//没有机构，为null值
         this.result.orgs.raw.forEach(this.addToOrgs);
       }
-      this.author.n_citation = this.result.n_citation.raw;
-      this.author.id = this.result.id.raw;
+      if(this.result.n_citation && this.result.n_citation.raw) this.author.n_citation = this.result.n_citation.raw;
+      if(this.result.id && this.result.id.raw) this.author.id = this.result.id.raw;
     }
     else{
-      this.affiliation.name = this.result.name.raw;
-      this.affiliation.n_pubs = this.result.n_pubs.raw;
-      this.affiliation.n_citation = this.result.n_citation.raw;
-      this.result.authors.raw.forEach(this.addToAffiliationAuthors);
-      this.result.pubs.raw.forEach(this.addToAffiliationPubs);
-      this.affiliation.id = this.result.id.raw;
+      if(this.result.name && this.result.name.raw) this.affiliation.name = this.result.name.raw;
+      if(this.result.n_pubs && this.result.n_pubs.raw) this.affiliation.n_pubs = this.result.n_pubs.raw;
+      if(this.result.n_citation && this.result.n_citation.raw) this.affiliation.n_citation = this.result.n_citation.raw;
+      if(this.result.authors && this.result.authors.raw) this.result.authors.raw.forEach(this.addToAffiliationAuthors);
+      if(this.result.pubs && this.result.pubs.raw) this.result.pubs.raw.forEach(this.addToAffiliationPubs);
+      if(this.result.id && this.result.id.raw) this.affiliation.id = this.result.id.raw;
     }
   },
 };
