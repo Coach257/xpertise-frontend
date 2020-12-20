@@ -49,7 +49,7 @@
           >
           <el-button icon="el-icon-download" plain>下载</el-button>
           <h3>引用</h3>
-          <el-button icon="el-icon-document-copy" plain>复制引用信息</el-button>
+          <el-button icon="el-icon-document-copy" plain @click="document_copy_visible = true">复制引用信息</el-button>
           <h3>操作</h3>
           <el-button
             type="warning"
@@ -83,6 +83,12 @@
       <el-tab-pane label="评论">评论</el-tab-pane>
       <el-tab-pane label="专家推荐">专家推荐</el-tab-pane>
     </el-tabs>
+    <el-dialog title="复制引用信息" :visible.sync="document_copy_visible" width="60%">
+      <li v-for="(document_copy_info,index) in this.document_copy_list" :key="index">
+        {{document_copy_info.name}}     {{document_copy_info.info}}
+        <el-button v-clipboard:copy="document_copy_info.info">copy</el-button>
+      </li>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -110,7 +116,6 @@ export default {
     this.init_data();
     this.init_driver();
     this.isFav();
-    if(this.type=="cs") this.loadreference();
     this.loadcomment();
     this.loadrecommand();
   },
@@ -147,6 +152,13 @@ export default {
       referenceloaded: false, // 控制引用图谱显示
       articleloaded: false, // 控制整个页面显示
       relatedloaded: false, // 控制相关文章显示
+      document_copy_visible: false,
+      document_copy_list:[
+        {
+          "name":"a",
+          "info":"b",
+        }
+      ],
     };
   },
   watch: {
@@ -294,6 +306,7 @@ export default {
       var raw;
       this.article.paper_id = results.id.raw;
       if (results.title && results.title.raw) this.article.title = results.title.raw;
+      if(this.type=="cs") this.loadreference();
       if (results.authors && results.authors.raw) {
         raw = results.authors.raw;
         for (var i = 0; i < raw.length; i++) {
@@ -339,6 +352,7 @@ export default {
       let that = this;
       let formData = new FormData();
       formData.append("paper_id", this.docid);
+      formData.append("paper_title", this.article.title);
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -396,7 +410,7 @@ export default {
     loadrecommand() {},
     debug(){
       console.log(this.referenceloaded);
-    }
+    },
   },
 };
 </script>
