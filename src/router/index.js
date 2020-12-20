@@ -114,7 +114,7 @@ const routes = [
     meta: {title: "个人主页"}
   },
   {
-    path: '/portal/:authorid',
+    path: '/portal/:authorId',
     name: 'Portal',
     component: Portal
   },

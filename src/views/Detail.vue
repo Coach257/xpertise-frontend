@@ -49,7 +49,12 @@
           >
           <el-button icon="el-icon-download" plain>下载</el-button>
           <h3>引用</h3>
-          <el-button icon="el-icon-document-copy" plain @click="documentcopyvisible = true">复制引用信息</el-button>
+          <el-button
+            icon="el-icon-document-copy"
+            plain
+            @click="documentcopyvisible = true"
+            >复制引用信息</el-button
+          >
           <h3>操作</h3>
           <el-button
             type="warning"
@@ -68,24 +73,34 @@
           >
           <el-button @click="debug">Debug</el-button>
           <h3>相关文章</h3>
-          <li v-for="result in this.related_papers.slice(1)" :key="result.id.raw">
-            <!-- <SearchResult :type="this.type" :option="this.option" :result="result" /> -->
-            {{result.title.raw}}
-          </li>
+          <related-paper-chart
+            :data="this.related_papers.slice(1)"
+            :type="this.type"
+            v-if="this.relatedloaded"
+          ></related-paper-chart>
           <div v-if="referenceloadfinish">
             <h3>引用关系图谱</h3>
-            <RelationMap :data="this.referencedata" :type="'reference'"/>
+            <RelationMap :data="this.referencedata" :type="'reference'" />
           </div>
         </div>
       </div>
     </div>
     <el-tabs type="border-card">
-      <el-tab-pane label="评论">评论</el-tab-pane>
+      <el-tab-pane label="评论">
+        <CommentCards :id="this.$route.params.docid"> </CommentCards>
+      </el-tab-pane>
       <el-tab-pane label="专家推荐">专家推荐</el-tab-pane>
     </el-tabs>
-    <el-dialog title="复制引用信息" :visible.sync="documentcopyvisible" width="60%">
-      <li v-for="(documentcopyinfo,index) in this.documentcopylist" :key="index">
-        {{documentcopyinfo.name}}     {{documentcopyinfo.info}}
+    <el-dialog
+      title="复制引用信息"
+      :visible.sync="documentcopyvisible"
+      width="60%"
+    >
+      <li
+        v-for="(documentcopyinfo, index) in this.documentcopylist"
+        :key="index"
+      >
+        {{ documentcopyinfo.name }} {{ documentcopyinfo.info }}
         <el-button v-clipboard:copy="documentcopyinfo.info">copy</el-button>
       </li>
     </el-dialog>
@@ -94,7 +109,9 @@
 <script>
 import { SearchDriver } from "@elastic/search-ui";
 import SearchResults from "../components/search/SearchResults";
-import RelationMap from '../components/common/RelationMap.vue'
+import RelationMap from "../components/common/RelationMap.vue";
+import RelatedPaperChart from "../components/common/RelatedPaperChart.vue";
+import CommentCards from "@/components/comment/CommentCards";
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -109,8 +126,10 @@ export default {
   name: "Detail",
   props: [],
   components: {
+    CommentCards,
     SearchResults,
-    RelationMap
+    RelationMap,
+    RelatedPaperChart,
   },
   mounted() {
     this.init_data();
@@ -152,7 +171,7 @@ export default {
       articleloaded: false, // 控制整个页面显示
       relatedloaded: false, // 控制相关文章显示
       documentcopyvisible: false,
-      documentcopylist:[],
+      documentcopylist: [],
     };
   },
   watch: {
@@ -176,7 +195,7 @@ export default {
     },
     relatedpaperloadfinish() {
       return this.relatedloaded;
-    }
+    },
   },
   methods: {
     // 初始化全局数据
@@ -295,34 +314,45 @@ export default {
       return this.searchState.totalResults && this.searchState.totalResults > 0;
     },
     // 赋值article
-    getthispaper(){
+    getthispaper() {
       var results = this.searchState.results[0];
       var raw;
       this.article.paper_id = results.id.raw;
-      if (results.title && results.title.raw) this.article.title = results.title.raw;
-      if(this.type=="cs") this.loadreference();
+      if (results.title && results.title.raw)
+        this.article.title = results.title.raw;
+      if (this.type == "cs") this.loadreference();
       if (results.authors && results.authors.raw) {
         raw = results.authors.raw;
         for (var i = 0; i < raw.length; i++) {
           this.article.authors.push(JSON.parse(raw[i]));
         }
       }
-      if (results.abstract && results.abstract.raw) this.article.abstract = results.abstract.raw;
-      if (results.year && results.year.raw) this.article.year = results.year.raw;
+      if (results.abstract && results.abstract.raw)
+        this.article.abstract = results.abstract.raw;
+      if (results.year && results.year.raw)
+        this.article.year = results.year.raw;
       if (results.keywords && results.keywords.raw) {
         raw = results.keywords.raw;
         for (var i = 0; i < raw.length; i++) {
           this.article.keywords.push(raw[i]);
         }
       }
-      if (results.n_citation && results.n_citation.raw) this.article.n_citation = results.n_citation.raw;
-      if (results.page_start && results.page_start.raw) this.article.page_start = results.page_start.raw;
-      if (results.page_end && results.page_end.raw) this.article.page_end = results.page_end.raw;
-      if (results.lang && results.lang.raw) this.article.lang = results.lang.raw;
-      if (results.issue && results.issue.raw) this.article.issue = results.issue.raw;
-      if (results.venue && results.venue.raw) this.article.venue = JSON.parse(results.venue.raw).raw;
-      if (results.volume && results.volume.raw) this.article.volume = results.volume.raw;
-      if (results.issn && results.issn.raw) this.article.issn = results.issn.raw;
+      if (results.n_citation && results.n_citation.raw)
+        this.article.n_citation = results.n_citation.raw;
+      if (results.page_start && results.page_start.raw)
+        this.article.page_start = results.page_start.raw;
+      if (results.page_end && results.page_end.raw)
+        this.article.page_end = results.page_end.raw;
+      if (results.lang && results.lang.raw)
+        this.article.lang = results.lang.raw;
+      if (results.issue && results.issue.raw)
+        this.article.issue = results.issue.raw;
+      if (results.venue && results.venue.raw)
+        this.article.venue = JSON.parse(results.venue.raw).raw;
+      if (results.volume && results.volume.raw)
+        this.article.volume = results.volume.raw;
+      if (results.issn && results.issn.raw)
+        this.article.issn = results.issn.raw;
       if (results.doi && results.doi.raw) this.article.doi = results.doi.raw;
       if (results.url && results.url.raw) this.article.url = results.url.raw;
       this.articleloaded = true;
@@ -330,14 +360,14 @@ export default {
       this.loaddocumentcopyinfo();
     },
     // 获取相关文章
-    loadrelatedpapers(){
-      this.driverlink = "related"
+    loadrelatedpapers() {
+      this.driverlink = "related";
       driver.reset();
       driver.setResultsPerPage(6);
       driver.getActions().setSearchTerm(this.article.title);
     },
     // 赋值相关文章
-    getrelatedpaper(){
+    getrelatedpaper() {
       this.related_papers = this.searchState.results;
       this.relatedloaded = true;
     },
@@ -352,8 +382,7 @@ export default {
           "Content-Type": "multipart/form-data",
         },
       };
-      axios
-        .post(
+      axios.post(
           "https://go-service-296709.df.r.appspot.com/api/v1/branch/graph/reference",
           formData,
           config
@@ -364,7 +393,7 @@ export default {
               this.referencedata = response.data.data;
               this.referenceloaded = true;
             } else {
-              console.log(response)
+              console.log(response);
             }
           }
         });
@@ -402,51 +431,76 @@ export default {
     loadcomment() {},
     // 加载推荐
     loadrecommand() {},
-    debug(){
+    debug() {
       console.log(this.referenceloaded);
     },
-    loaddocumentcopyinfo(){
-      var info="";
-      for(let i=0;i<this.article.authors.length;i++){
-        info += this.article.authors[i].name+".,";
+    loaddocumentcopyinfo() {
+      var info = "";
+      for (let i = 0; i < this.article.authors.length; i++) {
+        info += this.article.authors[i].name + ".,";
       }
-      info+=this.article.title+","+this.article.venue+","+this.article.year+","+this.article.volume+"."
+      info +=
+        this.article.title +
+        "," +
+        this.article.venue +
+        "," +
+        this.article.year +
+        "," +
+        this.article.volume +
+        ".";
       this.documentcopylist.push({
-        "name":"GB/T 7714",
-        "info":info
-      })
+        name: "GB/T 7714",
+        info: info,
+      });
       info = "";
-      for(let i=0;i<this.article.authors.length;i++){
-        info += this.article.authors[i].name+",";
+      for (let i = 0; i < this.article.authors.length; i++) {
+        info += this.article.authors[i].name + ",";
       }
-      info+="\""+this.article.title+"\""+this.article.venue+".,vol."+this.article.volume+","+this.article.year+"."
+      info +=
+        '"' +
+        this.article.title +
+        '"' +
+        this.article.venue +
+        ".,vol." +
+        this.article.volume +
+        "," +
+        this.article.year +
+        ".";
       this.documentcopylist.push({
-        "name":"MLA",
-        "info":info
-      })
+        name: "MLA",
+        info: info,
+      });
       info = "";
-      for(let i=0;i<this.article.authors.length;i++){
-        info += this.article.authors[i].name+".,";
+      for (let i = 0; i < this.article.authors.length; i++) {
+        info += this.article.authors[i].name + ".,";
       }
-      info+="("+this.article.year+")."+this.article.title+"."+this.article.venue+","+this.article.volume+"."
+      info +=
+        "(" +
+        this.article.year +
+        ")." +
+        this.article.title +
+        "." +
+        this.article.venue +
+        "," +
+        this.article.volume +
+        ".";
       this.documentcopylist.push({
-        "name":"APA",
-        "info":info
-      })
-      info = "@inproceedings{Xpertise"+this.article.paper_id+",\r";
-      info +="title=\""+this.article.title+"\",\nauthor=\"";
-      for(let i=0;i<this.article.authors.length;i++){
-        info += this.article.authors[i].name+",";
+        name: "APA",
+        info: info,
+      });
+      info = "@inproceedings{Xpertise" + this.article.paper_id + ",\r";
+      info += 'title="' + this.article.title + '",\nauthor="';
+      for (let i = 0; i < this.article.authors.length; i++) {
+        info += this.article.authors[i].name + ",";
       }
-      info+="\",\njournal=\"";
-      info+=this.article.venue+"\",\nvolume=\""
-      info+=this.article.year+"\","
+      info += '",\njournal="';
+      info += this.article.venue + '",\nvolume="';
+      info += this.article.year + '",';
       this.documentcopylist.push({
-        "name":"BibTeX",
-        "info":info
-      })
-      
-    }
+        name: "BibTeX",
+        info: info,
+      });
+    },
   },
 };
 </script>
