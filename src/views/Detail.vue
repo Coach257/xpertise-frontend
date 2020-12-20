@@ -67,10 +67,19 @@
             >已收藏</el-button
           >
           <el-button type="warning" @click="showInfo">显示信息</el-button>
+          <h3>相关文章</h3>
+
+          <div v-if="referenceloadfinish">
+            <h3>引用关系图谱</h3>
+            这里要加引用关系图谱
+          </div>
         </div>
       </div>
-      <div v-if="referenceloadfinish">这里要加引用关系图谱</div>
     </div>
+    <el-tabs type="border-card">
+      <el-tab-pane label="评论">评论</el-tab-pane>
+      <el-tab-pane label="专家推荐">专家推荐</el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 <script>
@@ -82,7 +91,7 @@ import {
   csauthorconfig,
   csaffiliationconfig,
 } from "../searchConfig";
-import axios from "axios"
+import axios from "axios";
 var driver = null;
 
 export default {
@@ -96,8 +105,8 @@ export default {
     } else {
       driver = new SearchDriver(mainpaperconfig);
     }
-    driver.reset()
-    driver.setResultsPerPage(1)
+    driver.reset();
+    driver.setResultsPerPage(1);
     driver.addFilter("id", this.$route.params.docid, "any");
     driver.subscribeToStateChanges((state) => {
       this.searchState = state;
@@ -109,92 +118,29 @@ export default {
         paper_id: "",
         title: "",
         authors: [],
-        abstract:"",
-        year:"",
+        abstract: "",
+        year: "",
         keywords: [],
-        n_citation:"",
-        page_start:"",
-        page_end:"",
-        lang:"",
-        issue:"",
-        venue:"",
-        conference:"",
-        volume:"",
-        issn:"",
-        doi:"",
-        url:"",
+        n_citation: "",
+        page_start: "",
+        page_end: "",
+        lang: "",
+        issue: "",
+        venue: "",
+        conference: "",
+        volume: "",
+        issn: "",
+        doi: "",
+        url: "",
         listed: false,
         starred: false,
       },
       searchState: {},
-      referenceloaded:false,
-      articleloaded:false
+      referenceloaded: false,
+      articleloaded: false,
     };
   },
   watch: {
-    '$route':function(newVal,oldVal){
-      console.log("路由"+newVal+"---"+oldVal);
-      console.log("新")
-      console.log(newVal)
-      console.log(newVal.fullPath)
-      console.log("老")
-      console.log(oldVal)
-      console.log(oldVal.fullPath)
-      console.log(oldVal.fullPath[0]+oldVal.fullPath[1])
-      console.log("判断")
-      console.log(oldVal.fullPath[0]+"-----"+newVal.fullPath[0])
-      console.log(oldVal.fullPath[1]+"-----"+newVal.fullPath[1])
-      console.log(oldVal.fullPath[2]+"-----"+newVal.fullPath[2])
-      console.log(oldVal.fullPath[3]+"-----"+newVal.fullPath[3])
-      console.log(oldVal.fullPath[4]+"-----"+newVal.fullPath[4])
-      console.log(oldVal.fullPath[5]+"-----"+newVal.fullPath[5])
-      console.log(oldVal.fullPath[6]+"-----"+newVal.fullPath[6])
-      console.log(oldVal.fullPath[7]+"-----"+newVal.fullPath[7])
-      console.log(oldVal.fullPath[8]+"-----"+newVal.fullPath[8])
-      console.log(oldVal.fullPath[9]+"-----"+newVal.fullPath[9])
-      console.log(oldVal.fullPath[10]+"-----"+newVal.fullPath[10])
-      console.log(oldVal.fullPath[11]+"-----"+newVal.fullPath[11])
-      console.log(oldVal.fullPath[12]+"-----"+newVal.fullPath[12])
-      console.log(oldVal.fullPath[13]+"-----"+newVal.fullPath[13])
-      console.log(oldVal.fullPath[14]+"-----"+newVal.fullPath[14])
-      console.log(oldVal.fullPath[15]+"-----"+newVal.fullPath[15])
-      console.log(oldVal.fullPath[16]+"-----"+newVal.fullPath[16])
-      console.log(oldVal.fullPath[17]+"-----"+newVal.fullPath[17])
-      console.log(oldVal.fullPath[18]+"-----"+newVal.fullPath[18])
-      console.log(oldVal.fullPath[19]+"-----"+newVal.fullPath[19])
-      if (newVal.fullPath[0]==oldVal.fullPath[0]&&
-          newVal.fullPath[1]==oldVal.fullPath[1]&&
-          newVal.fullPath[2]==oldVal.fullPath[2]&&
-          newVal.fullPath[3]==oldVal.fullPath[3]&&
-          newVal.fullPath[4]==oldVal.fullPath[4]&&
-          newVal.fullPath[5]==oldVal.fullPath[5]&&
-          newVal.fullPath[6]==oldVal.fullPath[6]&&
-          newVal.fullPath[7]==oldVal.fullPath[7]&&
-          newVal.fullPath[8]==oldVal.fullPath[8]&&
-          newVal.fullPath[9]==oldVal.fullPath[9]&&
-          newVal.fullPath[10]==oldVal.fullPath[10]&&
-          newVal.fullPath[11]==oldVal.fullPath[11]&&
-          newVal.fullPath[12]==oldVal.fullPath[12]&&
-          newVal.fullPath[13]==oldVal.fullPath[13]&&
-          newVal.fullPath[14]==oldVal.fullPath[14]&&
-          newVal.fullPath[15]==oldVal.fullPath[15]&&
-          newVal.fullPath[16]==oldVal.fullPath[16]&&
-          newVal.fullPath[17]==oldVal.fullPath[17]&&
-          newVal.fullPath[18]==oldVal.fullPath[18]&&
-          newVal.fullPath[19]==oldVal.fullPath[19]&&
-          newVal.fullPath[20]==oldVal.fullPath[20]
-          ){
-        console.log("仍在原本的路由位置")
-        //this.$router.replace('/home');
-        //this.$router.go(-10);
-        sessionStorage.setItem('CurrentSearchBool',true)
-        //sessionStorage.setItem('CurrentSearchInput',"water")
-        this.$router.replace({name:'/home',query:{show: true}});
-        window.location.reload();
-      }
-      else cosole.log("正常跳转到别的网页")
-      console.log("路由结束")
-    },
     searchState(newsearchState) {
       if (this.thereAreResults()) {
         // 任意一种result都有可能没有任意一种属性,任意一种属性的值都有可能为空
@@ -202,43 +148,45 @@ export default {
         var raw;
         this.article.paper_id = results.id.raw;
         this.isFav();
-        console.log(this.article.starred)
+        console.log(this.article.starred);
         // 更新标题
-        if(results.title)this.article.title = results.title.raw;
+        if (results.title) this.article.title = results.title.raw;
         // 更新作者
-        if(results.authors){
+        if (results.authors) {
           raw = results.authors.raw;
-          for (var i = 0; i<raw.length;i++){
+          for (var i = 0; i < raw.length; i++) {
             this.article.authors.push(JSON.parse(raw[i]));
           }
         }
         // 更新摘要
-        if(results.abstract)this.article.abstract = results.abstract.raw;
+        if (results.abstract) this.article.abstract = results.abstract.raw;
         // 更新发布年份
-        if(results.year)this.article.year = results.year.raw;
+        if (results.year) this.article.year = results.year.raw;
         // 更新关键词
-        if(results.keywords){
+        if (results.keywords) {
           raw = results.keywords.raw;
-          for (var i = 0; i<raw.length;i++){
+          for (var i = 0; i < raw.length; i++) {
             this.article.keywords.push(raw[i]);
           }
         }
         // 更新引用数
-        if(results.n_citation)this.article.n_citation = results.n_citation.raw;
+        if (results.n_citation)
+          this.article.n_citation = results.n_citation.raw;
         // 更新页
-        if(results.page_start){
+        if (results.page_start) {
           this.article.page_start = results.page_start.raw;
           this.article.page_end = results.page_end.raw;
-        }      
-        if(results.lang)this.article.lang = results.lang.raw;
-        if(results.issue)this.article.issue = results.issue.raw;
-        if(results.venue)this.article.venue = results.venue.raw;
-        if(results.conference)this.article.conference = results.conference.raw;
-        if(results.volume)this.article.volume = results.volume.raw;
-        if(results.issn)this.article.issn = results.issn.raw;
-        if(results.doi)this.article.doi = results.doi.raw;
-        if(results.url)this.article.url = results.url.raw;
-        if(this.$route.params.type=='cs'){
+        }
+        if (results.lang) this.article.lang = results.lang.raw;
+        if (results.issue) this.article.issue = results.issue.raw;
+        if (results.venue) this.article.venue = results.venue.raw;
+        if (results.conference)
+          this.article.conference = results.conference.raw;
+        if (results.volume) this.article.volume = results.volume.raw;
+        if (results.issn) this.article.issn = results.issn.raw;
+        if (results.doi) this.article.doi = results.doi.raw;
+        if (results.url) this.article.url = results.url.raw;
+        if (this.$route.params.type == "cs") {
           this.loadreference();
         }
         this.articleloaded = true;
@@ -248,94 +196,112 @@ export default {
   },
   computed: {
     //computed最高优先级，只有当loadfinish为true时,才开始页面加载
-    loadfinish(){
+    loadfinish() {
       return this.articleloaded;
     },
-    referenceloadfinish(){
+    referenceloadfinish() {
       return this.referenceloaded;
-    }
+    },
   },
   methods: {
-    addToFav(){
+    addToFav() {
       let that = this;
       let formData = new FormData();
-      formData.append("user_id",localStorage.getItem("userid"));
+      formData.append("user_id", localStorage.getItem("userid"));
       console.log(this.$data);
-      formData.append("paper_id",this.article.paper_id);
+      formData.append("paper_id", this.article.paper_id);
       let paperInfo = {
-        "paper_id": this.article.paper_id,
-        "title": this.article.title,
-        "authors":  JSON.parse(JSON.stringify(this.article.authors)),
-      }
-      formData.append("paper_info",JSON.stringify(paperInfo));
+        paper_id: this.article.paper_id,
+        title: this.article.title,
+        authors: JSON.parse(JSON.stringify(this.article.authors)),
+      };
+      formData.append("paper_info", JSON.stringify(paperInfo));
       console.log(paperInfo);
-      let config = {headers: {'Content-Type': 'multipart/form-data'} };
-      axios.post("https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/add",formData,config).then(response => {
-        if(response) {
-          console.log("收到请求",response)
-          if(response.data.success) {
-            console.log("收藏成功",response.data);
-            that.$data.article.starred = true;
-          }else {
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      axios
+        .post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/add",
+          formData,
+          config
+        )
+        .then((response) => {
+          if (response) {
+            console.log("收到请求", response);
+            if (response.data.success) {
+              console.log("收藏成功", response.data);
+              that.$data.article.starred = true;
+            } else {
+              console.log("收藏失败" + response.data);
+              alert("收藏文献失败，请检查网络");
+            }
+          } else {
             console.log("收藏失败" + response.data);
             alert("收藏文献失败，请检查网络");
           }
-        }else {
-          console.log("收藏失败" + response.data);
-          alert("收藏文献失败，请检查网络");
-        }
-      })
+        });
     },
     removeFromFav() {
       let that = this;
       let formData = new FormData();
-      formData.append('user_id', localStorage.getItem('userid'));
+      formData.append("user_id", localStorage.getItem("userid"));
       let config = {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          "Content-Type": "multipart/form-data",
+        },
       };
-      axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/list', formData, config).then(response => {
-        if(response) {
-          if(response.data.success) {
-            let favorArray = response.data.data;
-            console.log(favorArray);
-            for(let i = 0, len = favorArray.length; i < len; i++) {
-              if(favorArray[i].paper_id == this.article.paper_id) {
-                formData = new FormData();
-                formData.append("favor_id",favorArray[i].favor_id);
-                axios.post("https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/remove",formData,config).then(response => {
-                  if(response) {
-                    if(response.data.success) {
-                      console.log("删除成功",response.data);
-                      that.$data.article.starred = false;
-                    }else {
-                      console.log("删除失败",response.data);
-                      alert("取消收藏失败，请检查网络");
-                    }
-                  }else {
-                    console.log("收藏失败",response.data);
-                    alert("取消收藏失败，请检查网络");
-                  }
-                })
+      axios
+        .post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/list",
+          formData,
+          config
+        )
+        .then((response) => {
+          if (response) {
+            if (response.data.success) {
+              let favorArray = response.data.data;
+              console.log(favorArray);
+              for (let i = 0, len = favorArray.length; i < len; i++) {
+                if (favorArray[i].paper_id == this.article.paper_id) {
+                  formData = new FormData();
+                  formData.append("favor_id", favorArray[i].favor_id);
+                  axios
+                    .post(
+                      "https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/remove",
+                      formData,
+                      config
+                    )
+                    .then((response) => {
+                      if (response) {
+                        if (response.data.success) {
+                          console.log("删除成功", response.data);
+                          that.$data.article.starred = false;
+                        } else {
+                          console.log("删除失败", response.data);
+                          alert("取消收藏失败，请检查网络");
+                        }
+                      } else {
+                        console.log("收藏失败", response.data);
+                        alert("取消收藏失败，请检查网络");
+                      }
+                    });
+                }
               }
+            } else {
+              console.log(response.data);
+              console.log("获取失败 " + response.data);
+              alert("收藏列表获取失败，请检查网络");
             }
           } else {
             console.log(response.data);
             console.log("获取失败 " + response.data);
             alert("收藏列表获取失败，请检查网络");
           }
-        } else {
-          console.log(response.data);
-          console.log("获取失败 " + response.data);
-          alert("收藏列表获取失败，请检查网络");
-        }
-      });
+        });
     },
     thereAreResults() {
       return this.searchState.totalResults && this.searchState.totalResults > 0;
     },
-    loadreference(){
+    loadreference() {
       console.log("这个函数请求引用关系");
       this.referenceloaded = true;
     },
@@ -345,28 +311,34 @@ export default {
       console.log(this.authors);
       console.log(JSON.parse(this.searchState.results[0].authors.raw[0]));
     },
-    isFav(){
+    isFav() {
       let that = this;
       let formData = new FormData();
-      formData.append('user_id', localStorage.getItem('userid'));
-      formData.append('paper_id',this.article.id);
+      formData.append("user_id", localStorage.getItem("userid"));
+      formData.append("paper_id", this.article.id);
       let config = {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          "Content-Type": "multipart/form-data",
+        },
       };
-      axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/isfav', formData, config).then(response => {
-        if(response) {
-          console.log(response.data)
-          if(response.data.message == "true"){
-            that.article.starred = true;
-          }else {
-            that.article.starred = false;
+      axios
+        .post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/isfav",
+          formData,
+          config
+        )
+        .then((response) => {
+          if (response) {
+            console.log(response.data);
+            if (response.data.message == "true") {
+              that.article.starred = true;
+            } else {
+              that.article.starred = false;
+            }
           }
-        }
-      });
-      return ;
-    }
+        });
+      return;
+    },
   },
 };
 </script>
