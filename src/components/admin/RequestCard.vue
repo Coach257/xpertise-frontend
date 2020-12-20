@@ -103,6 +103,7 @@ export default {
       let formData = new FormData();
       formData.append('authreq_id', this.idForm.authreq_id);
       formData.append('action', "Accept");
+      formData.append('author_id', this.idForm.author_id);
       let config = {
         headers: {
           'Content-Type': 'multipart/form-data'
