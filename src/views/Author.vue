@@ -149,6 +149,7 @@
             :key="pub.i"
             :to="'/detail/cs/' + pub.id"
             tag="a"
+            target="_blank"
           >
             <div class="paperindex">{{ index + 1 }}</div>
             <div style="width: 700px">{{ pub.title }}</div>
@@ -164,6 +165,7 @@
             :key="pub.i"
             :to="'/detail/main/' + pub.id"
             tag="a"
+            target="_blank"
           >
             <div class="paperindex">{{ index + 1 }}</div>
             <div style="width: 700px">{{ pub.i }}</div>

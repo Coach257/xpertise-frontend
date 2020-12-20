@@ -382,8 +382,7 @@ export default {
           "Content-Type": "multipart/form-data",
         },
       };
-      axios
-        .post(
+      axios.post(
           "https://go-service-296709.df.r.appspot.com/api/v1/branch/graph/reference",
           formData,
           config

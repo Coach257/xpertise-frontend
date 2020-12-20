@@ -49,6 +49,7 @@
             :key = pub.id
             :to="'/detail/cs/' + pub.id"
             tag="a"
+            target="_blank"
             >
 
 
@@ -90,6 +91,7 @@
             :key = author.id
             :to="'/author/' + author.id"
             tag="a"
+            target="_blank"
             >
 
             <div id='authorindex'>{{index+1+(currentPage2-1)*eachPage}}</div>
