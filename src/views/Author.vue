@@ -215,7 +215,7 @@
     </div>
 
     <div id="authorRelationGraph" v-if="iscspaper">
-      <RelationMap :data="mapdata" :type="'author_connection'"/>
+      <!-- <RelationMap :data="mapdata" :type="'author_connection'"/> -->
     </div>
 
     <div id="authorColumn" v-if="issettled">这里是专栏</div>
@@ -373,29 +373,19 @@ export default {
           }
         });
     },
+    // 加载关系图数据
+    loadauthormap(){
+
+    }
   },
   watch: {
-    '$route':function(newVal,oldVal){
-      console.log("路由改变了")
-      console.log("新")
-      console.log(newVal)
-      console.log(newVal.fullPath)
-      console.log("老")
-      console.log(oldVal)
-      console.log(oldVal.fullPath)
-    },
     searchState(newsearchState) {
       if (this.thereAreResults()) {
         // console.log(newsearchState);
         var results = newsearchState.results[0];
         var raw;
         if (results.name) this.author.name = results.name.raw;
-        if(this.type == 1){
-          this.mapdata={
-            author_id:this.$route.params.authorId,
-            author_name:this.author.name
-          }
-        }
+        if(this.type == 1){this.loadauthormap()}
         if (results.h_index) this.author.h_index = results.h_index.raw;
         if (results.orgs && results.orgs.raw) {
           this.author.orgs_main = results.orgs.raw[0];
@@ -403,21 +393,16 @@ export default {
             this.author.orgs_cs = JSON.parse(results.orgs.raw[0]);
         }
 
-        if (results.authors) {
-          raw = results.authors.raw;
-          for (let i = 0; i < raw.length; i++)
-            this.author.authors.push(JSON.parse(raw[i]));
-        }
         if (results.n_citation) this.author.n_citation = results.n_citation.raw;
         if (results.n_pubs) this.author.n_pubs = results.n_pubs.raw;
 
-        if (results.pubs) {
+        if (results.pubs && results.pubs.raw) {
           raw = results.pubs.raw;
           for (let i = 0; i < raw.length; i++)
             this.author.pubs.push(JSON.parse(raw[i]));
         }
 
-        if (results.tags) {
+        if (results.tags && results.tags.raw) {
           raw = results.tags.raw;
           for (let i = 0; i < raw.length; i++)
             this.author.tags.push(JSON.parse(raw[i]));

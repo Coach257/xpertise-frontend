@@ -13,7 +13,7 @@
 
           <!-- 主文献 -->
           <div
-            v-if="ismainpaper"
+            v-if="ismainpaper && thereAreResults"
             class="wrapper"
             @mouseover="mouseOverWrapper()"
             @mouseleave="mouseLeaveWrapper()"
@@ -37,7 +37,7 @@
           <!-- 主文献 -->
           <!-- 计算机文献 -->
           <div
-            v-if="iscspaper"
+            v-if="iscspaper  && thereAreResults"
             class="wrapper"
             @mouseover="mouseOverWrapper()"
             @mouseleave="mouseLeaveWrapper()"
@@ -61,7 +61,7 @@
           <!-- 计算机文献 -->
           <!-- 作者 -->
           <div
-            v-else-if="getSearchObject === 'author'"
+            v-else-if="getSearchObject === 'author'  && thereAreResults"
             class="wrapper"
             @mouseover="mouseOverWrapper()"
             @mouseleave="mouseLeaveWrapper()"
@@ -72,7 +72,7 @@
           <!-- 作者 -->
           <!-- 机构 -->
           <div
-            v-else-if="getSearchObject === 'affiliation'"
+            v-else-if="getSearchObject === 'affiliation'  && thereAreResults"
             class="wrapper"
             @mouseover="mouseOverWrapper()"
             @mouseleave="mouseLeaveWrapper()"
