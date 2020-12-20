@@ -117,11 +117,15 @@ export default {
     handleClick(row,column) {
       console.log(row,column);
       if(column.label === "标题"){
-        this.$router.push({path: "/detail/"+row.paper_type+"/"+row.paperID.toString()});
+        let routeData = this.$router.resolve({path: "/detail/"+row.paper_type+"/"+row.paperID.toString()});
+        window.open(routeData.href, '_blank');
+        //this.$router.push({path: "/detail/"+row.paper_type+"/"+row.paperID.toString()});
       }
     },
     handleClickOnAuthor(row,authorID) {
-      this.$router.push({path: "/detail/"+row.paper_type+"/"+authorID});
+      let routeData = this.$router.resolve({path: "/detail/"+row.paper_type+"/"+authorID});
+      window.open(routeData.href, '_blank');
+      //this.$router.push({path: "/detail/"+row.paper_type+"/"+authorID});
     }
   }
 }
