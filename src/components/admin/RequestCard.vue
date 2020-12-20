@@ -7,7 +7,7 @@
             <el-input v-model="idForm.user_id" disabled></el-input>
           </el-form-item>
           <el-form-item label="匹配作者ID" prop="author_id">
-            <el-input type="number" v-model="idForm.author_id" placeholder="请输入ID"></el-input>
+            <el-input type="text" v-model="idForm.author_id" placeholder="请输入ID"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -63,7 +63,7 @@ export default {
         author_id: [
           {
             required: true,
-            message: '请输入对应作者门户ID',
+            message: '请输入对应作者ID',
             trigger: 'blur'
           }
         ]
