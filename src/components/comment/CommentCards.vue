@@ -1,5 +1,12 @@
 <template>
   <div style="width:100%;">
+    <el-input
+      type="textarea"
+      :rows="2"
+      placeholder="请输入内容"
+      v-model="textarea">
+    </el-input>
+    <el-button type="primary" @click="submitComment">提交评论</el-button>
     <CommentCard v-for="(comment,index) in commentList" :key="index" :comment="comment"
                   :index="index"></CommentCard>
   </div>
@@ -10,6 +17,7 @@ import CommentCard from '@/components/comment/CommentCard'
 import axios from 'axios'
 
 const testurl = "https://go-service-296709.df.r.appspot.com/api/v1/branch/comment/list_all_comments"
+const commenturl = "https://go-service-296709.df.r.appspot.com/api/v1/branch/comment/create"
 export default {
   name: "CommentCards",
   props: {
@@ -21,6 +29,7 @@ export default {
   data() {
     return{
       commentList: [],
+      textarea: "",
     }
   },
   mounted () {
@@ -53,7 +62,24 @@ export default {
       });
   },
   methods: {
+    submitComment() {
+      let that = this;
+      let formData = new FormData();
+      formData.append("paper_id", this.id);
+      formData.append("content", this.textarea);
+      formData.append("user_id", localStorage.getItem("userid"));
+      let config = { headers: { "Content-Type": "multipart/form-data", }, };
+      axios.post(commenturl, formData, config).then((response) => {
+        if (response) {
+          console.log(response);
+          if (response.data.success) {
 
+          } else {
+            console.log(response)
+          }
+        }
+      });
+    },
   },
 
 }
