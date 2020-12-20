@@ -61,10 +61,8 @@ export default {
             axios.post('https://go-service-296709.df.r.appspot.com/api/v1/admin/authorize/request', formData,config)
                 .then(function (response) {
                     if (response){
-                        console.log(response)
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 2000);
+                        alert("申请成功")
+                        _this.$router.replace("/home")
                     }
                     else {
                         console.log("error2");

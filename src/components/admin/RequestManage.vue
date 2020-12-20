@@ -31,12 +31,11 @@ export default {
           console.log(response.data.data);
           let list = response.data.data;
           for (let i = 0; i < list.length; i++) {
-            console.log(list[0]['authreq_id']);
             this.requestList.push({
               requestId: list[i]['authreq_id'],
               userId: list[i]['user_id'],
               citizen_id: list[i]['citizen_id'],
-              requestTime: list[i]['time'],
+              requestTime: list[i]['request_time'],
               organization: list[i]['organization']
             })
           }

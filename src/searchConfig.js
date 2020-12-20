@@ -5,21 +5,21 @@ import "regenerator-runtime/runtime";
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 
 const mainpaperconnector = new AppSearchAPIConnector({
-  searchKey: "search-684zf3yeseg7dre8woc18f9d",
-  engineName: "test",
-  endpointBase:"https://e633da92fd5c4462a16e73f4acb7e1b5.ent-search.asia-east1.gcp.elastic-cloud.com"
+  searchKey: "search-i1mn5tfi52pkcce26rrizurg",
+  engineName: "mainpaper",
+  endpointBase:"https://d8ba07a128ce4a9ca573d1e60d5565fc.ent-search.asia-east1.gcp.elastic-cloud.com"
 })
 
 const mainauthorconnector = new AppSearchAPIConnector({
-  searchKey: "search-684zf3yeseg7dre8woc18f9d",
+  searchKey: "search-i1mn5tfi52pkcce26rrizurg",
   engineName: "mainauthor",
-  endpointBase:"https://e633da92fd5c4462a16e73f4acb7e1b5.ent-search.asia-east1.gcp.elastic-cloud.com"
+  endpointBase:"https://d8ba07a128ce4a9ca573d1e60d5565fc.ent-search.asia-east1.gcp.elastic-cloud.com"
 });
 
 const cspaperconnector = new AppSearchAPIConnector({
-  searchKey: "search-684zf3yeseg7dre8woc18f9d",
+  searchKey: "search-i1mn5tfi52pkcce26rrizurg",
   engineName: "cspaper",
-  endpointBase:"https://e633da92fd5c4462a16e73f4acb7e1b5.ent-search.asia-east1.gcp.elastic-cloud.com"
+  endpointBase:"https://d8ba07a128ce4a9ca573d1e60d5565fc.ent-search.asia-east1.gcp.elastic-cloud.com"
 });
 
 const csauthorconnector = new AppSearchAPIConnector({

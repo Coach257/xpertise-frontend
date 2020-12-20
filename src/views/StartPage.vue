@@ -43,10 +43,10 @@
       console.log("好")
       if (sessionStorage.getItem('CurrentSearchBool')) {
         console.log("看看就看看")
-        this.show = true
-        this.input = sessionStorage.getItem('CurrentSearchInput')
+        //原本的跳转命令暂时取消
+        //this.show = true
+        //this.input = sessionStorage.getItem('CurrentSearchInput')
         sessionStorage.setItem('CurrentSearchBool',false)
-        //sessionStorage.setItem('CurrentSearchInput',"water")
         console.log("看看就看看")
         console.log(this.show)
       }
