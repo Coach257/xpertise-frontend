@@ -3,7 +3,7 @@
 
       <div id='backpic' v-if='!show'>
 
-        <StartPageInfo/>
+        <StartPageInfo :type="'main'"/>
 
         <div id='title'>
             <span style="font-weight: bold; font-size: 40px; margin-right: 10px;">Xpertise</span>  <span style="font-size: 20px;">Scholar</span>

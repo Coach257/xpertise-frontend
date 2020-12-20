@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <div class="wrapper1">
+    <!-- <div class="wrapper1">
       <i class="el-icon-discover"></i>
 
       <div class="wrapper2">
@@ -66,7 +66,7 @@
           field
         </div>
       </div>
-    </div>
+    </div> -->
 
     </div>
 
@@ -75,14 +75,27 @@
 
 <script>
   export default {
+    props:['type'],
     name: 'StartPageInfo',
     data () {
       return {
-        authors: 14121,
-        papers: 121413,
-        affiliation: 6387,
-        venue: 5399,
-        field: 7128
+          authors: 0,
+          papers: 0,
+          affiliation:0,
+          venue: 0,
+      }
+    },
+    mounted(){
+      if(this.$props.type=='cs'){
+        this.authors = 114445;
+        this.papers = 98215;
+        this.affiliation = 3153;
+        this.venue = 13;
+      } else{
+        this.authors = 744494;
+        this.papers = 1003171;
+        this.affiliation = 7386;
+        this.venue = 4279;
       }
     }
   }

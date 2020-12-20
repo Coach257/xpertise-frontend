@@ -3,7 +3,7 @@
 
     <div id='backpic' v-if='!show'>
 
-      <StartPageInfo style='color: white;'/>
+      <StartPageInfo :type="'cs'" style='color: white;'/>
 
       <div id='title'>
         <span style="font-weight: bold; font-size: 40px; margin-right: 10px;">Xpertise</span> <span
