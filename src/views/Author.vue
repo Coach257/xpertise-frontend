@@ -1,5 +1,5 @@
 <template>
-  <div id="root" v-if="loadfinish">
+  <div id="root" v-show="loadfinish">
     <div id="trigger"></div>
     <div style="position: fixed; top: 70px; z-index: 2">
       <div id="authorHeader">
