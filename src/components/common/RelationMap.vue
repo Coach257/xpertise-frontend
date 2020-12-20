@@ -58,7 +58,6 @@ export default {
         defaultNodeBorderColor: "#00BABD",
         defaultShowLineLabel: false,
       },
-      graphloaded:false,
       graph:{
           rootId: "1",
           nodes: [
@@ -102,15 +101,10 @@ export default {
     };
   },
   watch:{
-    graphloaded(newvalue){
-      if(this.graphloaded){
-        this.showSeeksGraph();
-      }
-    }
   },
   mounted() {
     this.init();
-
+    this.showSeeksGraph();
     for (var i = 0; i < this.$refs.seeksRelationGraph.getNodes().length; i++) {
       this.$refs.seeksRelationGraph.getNodes()[i].width = 50;
       this.$refs.seeksRelationGraph.getNodes()[i].height = 50;
@@ -119,7 +113,10 @@ export default {
   methods: {
     init(){
       if (this.$props.type == "author_connection") {
-        this.set_author_connection_graph(this.$props.data);
+        this.graph = this.$props.data;
+      } else if (this.$props.type == "reference") {
+        this.graph = this.$props.data;
+        console.log(this.graph);
       }
     },
     showSeeksGraph(query) {
@@ -131,33 +128,6 @@ export default {
           // Called when the relation-graph is completed
         }
       );
-    },
-    set_author_connection_graph(data) {
-      console.log(data)
-      let formData = new FormData();
-      formData.append("author_id", data.author_id);
-      formData.append("author_name", data.author_name);
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      var _this = this;
-      axios
-        .post(
-          "https://go-service-296709.df.r.appspot.com/api/v1/branch/graph/author_connection",
-          formData,
-          config
-        )
-        .then(function (response) {
-          if (response.data.success) {
-            console.log(response.data.message)
-            _this.graph = response.data.message;
-            _this.graphloaded = true;
-          } else {
-            console.log("失败");
-          }
-        });
     },
     onNodeClick(nodeObject, $event) {
       console.log("onNodeClick:", nodeObject);

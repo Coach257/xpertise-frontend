@@ -66,6 +66,7 @@
             @click="removeFromFav"
             >已收藏</el-button
           >
+          <el-button @click="debug">Debug</el-button>
           <h3>相关文章</h3>
           <li v-for="result in this.related_papers.slice(1)" :key="result.id.raw">
             <!-- <SearchResult :type="this.type" :option="this.option" :result="result" /> -->
@@ -73,7 +74,7 @@
           </li>
           <div v-if="referenceloadfinish">
             <h3>引用关系图谱</h3>
-            这里要加引用关系图谱
+            <RelationMap :data="this.referencedata" :type="'reference'"/>
           </div>
         </div>
       </div>
@@ -87,6 +88,7 @@
 <script>
 import { SearchDriver } from "@elastic/search-ui";
 import SearchResults from "../components/search/SearchResults";
+import RelationMap from '../components/common/RelationMap.vue'
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -101,11 +103,14 @@ export default {
   name: "Detail",
   props: [],
   components: {
-    SearchResults
+    SearchResults,
+    RelationMap
   },
   mounted() {
     this.init_data();
     this.init_driver();
+    this.isFav();
+    if(this.type=="cs") this.loadreference();
     this.loadcomment();
     this.loadrecommand();
   },
@@ -136,6 +141,7 @@ export default {
       type: "",
       option: "",
       related_papers: [],
+      referencedata: [],
       searchState: {},
       driverlink: "", // 控制es结果赋值
       referenceloaded: false, // 控制引用图谱显示
@@ -284,11 +290,9 @@ export default {
     },
     // 赋值article
     getthispaper(){
-      if(this.type=="cs") this.loadreference();
       var results = this.searchState.results[0];
       var raw;
       this.article.paper_id = results.id.raw;
-      this.isFav();
       if (results.title && results.title.raw) this.article.title = results.title.raw;
       if (results.authors && results.authors.raw) {
         raw = results.authors.raw;
@@ -330,16 +334,39 @@ export default {
       this.related_papers = this.searchState.results;
       this.relatedloaded = true;
     },
+    // 加载引用关系图数据
     loadreference() {
-      console.log("这个函数请求引用关系");
-      this.referenceloaded = true;
+      let that = this;
+      let formData = new FormData();
+      formData.append("paper_id", this.docid);
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      axios
+        .post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/branch/graph/reference",
+          formData,
+          config
+        )
+        .then((response) => {
+          if (response) {
+            if (response.data.success) {
+              this.referencedata = response.data.data;
+              this.referenceloaded = true;
+            } else {
+              console.log(response)
+            }
+          }
+        });
     },
     // 判断该文章是否被收藏
     isFav() {
       let that = this;
       let formData = new FormData();
       formData.append("user_id", localStorage.getItem("userid"));
-      formData.append("paper_id", this.article.id);
+      formData.append("paper_id", this.docid);
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -367,6 +394,9 @@ export default {
     loadcomment() {},
     // 加载推荐
     loadrecommand() {},
+    debug(){
+      console.log(this.referenceloaded);
+    }
   },
 };
 </script>
