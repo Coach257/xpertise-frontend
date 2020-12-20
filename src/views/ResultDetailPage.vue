@@ -1,3 +1,6 @@
+
+<!-- 注意，这一页用不到 -->
+
 <template>
   <div id="result_detail_page">
     <div class="result_detail_page_container">
@@ -133,6 +136,50 @@ export default {
       })
     },
     removeFromFav() {
+      let that = this;
+      let formData = new FormData();
+      formData.append('user_id', localStorage.getItem('userid'));
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/list', formData, config).then(response => {
+        if(response) {
+          if(response.data.success) {
+            let favorArray = response.data.data;
+            console.log(favorArray);
+            for(let i = 0, len = favorArray.length; i < len; i++) {
+              if(favorArray[i].paper_id == this.article.paper_id) {
+                formData = new FormData();
+                formData.append("favor_id",favorArray[i].favor_id);
+                axios.post("https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/remove",formData,config).then(response => {
+                  if(response) {
+                    if(response.data.success) {
+                      console.log("删除成功",response.data);
+                      that.$data.article.starred = false;
+                    }else {
+                      console.log("删除失败",response.data);
+                      alert("取消收藏失败，请检查网络");
+                    }
+                  }else {
+                    console.log("收藏失败",response.data);
+                    alert("取消收藏失败，请检查网络");
+                  }
+                })
+              }
+            }
+          } else {
+            console.log(response.data);
+            console.log("获取失败 " + response.data);
+            alert("收藏列表获取失败，请检查网络");
+          }
+        } else {
+          console.log(response.data);
+          console.log("获取失败 " + response.data);
+          alert("收藏列表获取失败，请检查网络");
+        }
+      });
     },
     addToList(){
       this.$data.article.listed = true;
@@ -143,7 +190,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style scoped
 .result_detail_category_part {
   display: inline;
   

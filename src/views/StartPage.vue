@@ -39,6 +39,19 @@
       RankingList
     },
     mounted() {
+      console.log(sessionStorage.getItem('CurrentSearchBool'))
+      console.log("好")
+      if (sessionStorage.getItem('CurrentSearchBool')) {
+        console.log("看看就看看")
+        //原本的跳转命令暂时取消
+        //this.show = true
+        //this.input = sessionStorage.getItem('CurrentSearchInput')
+        sessionStorage.setItem('CurrentSearchBool',false)
+        console.log("看看就看看")
+        console.log(this.show)
+      }
+      console.log("给我看看")
+      console.log(this.show);
       // this.$gsap.set("#root", {height: document.documentElement.clientHeight})
       if(this.$route.params.type == "cs"){
          this.$gsap.set("backpic", {"background-image": "url(../assets/csBack.png)"})
@@ -53,6 +66,9 @@
     methods: {
       submit () {
         if(this.input!=''){
+          sessionStorage.setItem('CurrentSearchBool',false)
+          sessionStorage.setItem('CurrentSearchInput',this.input)
+          sessionStorage.setItem('CurrentSearchType',"paper")
           this.show = true
         }
       },

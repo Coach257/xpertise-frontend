@@ -211,31 +211,44 @@ export default {
       }
     },
     routerPush () {
+      console.log(" 至诚不悖否?")
       if (this.$props.option == 'paper') {
-        this.$router.push('/detail/'+this.type+'/'+this.paper.id)
+        let routeData = this.$router.resolve({ path: '/detail/'+this.type+'/'+this.paper.id, query: {  id: 1 } });
+        window.open(routeData.href, '_blank');
+        console.log(" 言行不耻否?")
+        //this.$router.push('/detail/'+this.type+'/'+this.paper.id)
       }else if(this.$props.option == 'author') {
-        this.$router.push('/author/'+this.type+'/'+this.author.id)
+        let routeData = this.$router.resolve({ path: '/author/'+this.type+'/'+this.author.id, query: {  id: 1 } });
+        window.open(routeData.href, '_blank');
+        console.log(" 气力无缺否?")
+        //this.$router.push('/author/'+this.type+'/'+this.author.id)
       }else {
-        this.$router.push('/affiliation/'+this.affiliation.id)
+        let routeData = this.$router.resolve({ path: '/affiliation/'+this.affiliation.id, query: {  id: 1 } });
+        window.open(routeData.href, '_blank');
+        console.log(" 努力无憾否?")
+        //this.$router.push('/affiliation/'+this.affiliation.id)
       }
-
+      console.log(" 亘勿懈怠否?")
     }
   },
   mounted() {
+    // console.log(this.result);
     if(this.$props.option == 'paper'){
-      this.paper.venue = JSON.parse(this.$props.result.venue.raw).raw;
-      this.paper.title = this.$props.result.title.raw;
-      this.paper.n_citation = this.$props.result.n_citation.raw;
-      this.paper.year = this.$props.result.year.raw;
-      this.paper.id = this.$props.result.id.raw;
+      if(this.result.venue)
+        this.paper.venue = JSON.parse(this.result.venue.raw).raw;
+      this.paper.title = this.result.title.raw;
+      this.paper.n_citation = this.result.n_citation.raw;
+      this.paper.year = this.result.year.raw;
+      this.paper.id = this.result.id.raw;
 
       this.result.authors.raw.forEach(this.addToAuthors)
     }
     else if(this.$props.option == 'author'){
+      
       this.author.name = this.result.name.raw;
       this.author.n_pubs = this.result.n_pubs.raw;
       // this.result.pubs.raw.forEach(this.addToAuthorPubs); mainauhtor数据没有文献标题
-      if(this.result.orgs.raw){//没有机构，为null值
+      if(this.result.orgs && this.result.orgs.raw){//没有机构，为null值
         this.result.orgs.raw.forEach(this.addToOrgs);
       }
       this.author.n_citation = this.result.n_citation.raw;

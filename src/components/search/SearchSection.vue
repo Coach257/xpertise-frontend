@@ -223,11 +223,7 @@ export default {
         this.searchState = state;
       });
 
-      driver.getActions().setSearchTerm(this.input);
-      this.searchInputValue = this.input;
-      console.log("改变again configoption");
-      //console.log(this.$props.type);
-      //console.log(this.configoption);
+      driver.getActions().setSearchTerm(this.searchInputValue);
     },
   },
   mounted() {
