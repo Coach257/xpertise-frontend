@@ -7,7 +7,8 @@
         </div>
         <div class="result_detail_author_container">
           <router-link
-            tag="div"
+            tag="a"
+            target="_blank"
             :to="'/author/' + $route.params.type + '/' + author.id"
             class="result_detail_author"
             v-for="(author, index) in this.article.authors"
