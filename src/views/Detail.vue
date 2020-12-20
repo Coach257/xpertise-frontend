@@ -80,8 +80,11 @@
       </div>
     </div>
     <el-tabs type="border-card">
-      <el-tab-pane label="评论">评论</el-tab-pane>
+      <el-tab-pane label="评论">
+        <CommentCards :id=this.$route.params.docid> </CommentCards>
+      </el-tab-pane>
       <el-tab-pane label="专家推荐">专家推荐</el-tab-pane>
+
     </el-tabs>
     <el-dialog title="复制引用信息" :visible.sync="documentcopyvisible" width="60%">
       <li v-for="(documentcopyinfo,index) in this.documentcopylist" :key="index">
@@ -95,6 +98,7 @@
 import { SearchDriver } from "@elastic/search-ui";
 import SearchResults from "../components/search/SearchResults";
 import RelationMap from '../components/common/RelationMap.vue'
+import CommentCards from '@/components/comment/CommentCards'
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -109,6 +113,7 @@ export default {
   name: "Detail",
   props: [],
   components: {
+    CommentCards,
     SearchResults,
     RelationMap
   },
@@ -445,7 +450,7 @@ export default {
         "name":"BibTeX",
         "info":info
       })
-      
+
     }
   },
 };
