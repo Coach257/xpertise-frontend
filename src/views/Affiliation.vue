@@ -89,7 +89,7 @@
             class="link"
             v-for="(author, index) in (this.affiliation.authors).slice((this.currentPage2-1)*this.eachPage, this.currentPage2*this.eachPage)"
             :key = author.id
-            :to="'/author/' + author.id"
+            :to="'/author/cs/' + author.id"
             tag="a"
             target="_blank"
             >
