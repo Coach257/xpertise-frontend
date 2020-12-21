@@ -97,21 +97,21 @@ export default {
           const chartData = res.data.data
 
           let arr = chartData.author
-          arr.push(Math.log[arr[0]])
-          arr.push(Math.log[arr[2]])
-          arr.push(Math.log[arr[1]])
+          arr.push(Math.log(arr[0]).toFixed(3))
+          arr.push(Math.log(arr[2]).toFixed(3))
+          arr.push(Math.log(arr[1]).toFixed(3))
           this.option.series[0].data = arr
 
           arr = chartData.max
-          arr.push(Math.log[arr[0]])
-          arr.push(Math.log[arr[2]])
-          arr.push(Math.log[arr[1]])
+          arr.push(Math.log(arr[0]).toFixed(3))
+          arr.push(Math.log(arr[2]).toFixed(3))
+          arr.push(Math.log(arr[1]).toFixed(3))
           this.option.series[1].data = arr
 
           arr = chartData.avg
-          arr.push(Math.log[arr[0]])
-          arr.push(Math.log[arr[2]])
-          arr.push(Math.log[arr[1]])
+          arr.push(Math.log(arr[0]).toFixed(3))
+          arr.push(Math.log(arr[2]).toFixed(3))
+          arr.push(Math.log(arr[1]).toFixed(3))
           this.option.series[2].data = arr
 
         } else {
@@ -136,9 +136,9 @@ export default {
 
         // DEBUG CODE (should be commented when release)
         this.requestError = false
-        this.option.series[0].data = [3.5, 25.9, 291, Math.log(3.5), Math.log(291), Math.log(25.9)]
-        this.option.series[1].data = [250, 2500, 450000, Math.log(250), Math.log(450000), Math.log(2500)]
-        this.option.series[2].data = [6.06, 33.89, 854.77, Math.log(6.06), Math.log(854.77), Math.log(33.89)]
+        this.option.series[0].data = [3.5, 25.9, 291, Math.log(3.5).toFixed(3), Math.log(291).toFixed(3), Math.log(25.9).toFixed(3)]
+        this.option.series[1].data = [250, 2500, 450000, Math.log(250).toFixed(3), Math.log(450000).toFixed(3), Math.log(2500).toFixed(3)]
+        this.option.series[2].data = [6.06, 33.89, 854.77, Math.log(6.06).toFixed(3), Math.log(854.77).toFixed(3), Math.log(33.89).toFixed(3)]
 
       }).finally(() => {
         this.myChart.hideLoading()
