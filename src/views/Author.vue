@@ -111,11 +111,11 @@
           <div v-if="type == 1">
             <span v-for="(org, index) in this.author.orgs_cs" :key="index">
               <router-link
-              class="affname"
+                class="affname"
                 :to="'/affiliation/' + org.id"
-                style="cursor: pointer"
                 tag="a"
                 target="_blank"
+                style="cursor: pointer"
               >
                 {{ org.name }}
               </router-link>
@@ -159,7 +159,7 @@
           >
             <div class="paperindex">{{ index + 1 }}</div>
             <div style="width: 700px">{{ pub.title }}</div>
-            <div >第{{pub.r}}作者</div>
+            <div>第{{ pub.r }}作者</div>
             <div class="citation">被引xx次</div>
           </router-link>
         </div>
@@ -175,7 +175,7 @@
           >
             <div class="paperindex">{{ index + 1 }}</div>
             <div style="width: 700px">{{ pub.i }}</div>
-            <div >第{{pub.r}}作者</div>
+            <div>第{{ pub.r }}作者</div>
           </router-link>
         </div>
       </div>
@@ -224,7 +224,7 @@
     <div id="authorRelationGraph" v-if="iscspaper">
       <!-- <RelationMap :data="mapdata" :type="'author_connection'"/> -->
     </div>
-
+    <related-author-chart :data="relateddata" v-if="relatedloaded"></related-author-chart>
     <div id="authorColumn" v-if="issettled">这里是专栏</div>
 
     <div id="authorRecommend" v-if="issettled">这里是推荐</div>
@@ -234,6 +234,7 @@
 <script>
 import { SearchDriver } from "@elastic/search-ui";
 import RelationMap from "../components/common/RelationMap.vue";
+import RelatedAuthorChart from "../components/common/RelatedAuthorChart.vue";
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -246,7 +247,7 @@ import axios from "axios";
 
 export default {
   name: "Author",
-  components: { RelationMap },
+  components: { RelationMap,RelatedAuthorChart },
   props: [],
   data() {
     return {
@@ -264,10 +265,11 @@ export default {
         tags: [],
       },
       contendLoaded: false,
+      relatedloaded: false,
+      relateddata: [],
       graphloaded: false,
       searchState: {},
       mapdata: {},
-      driverlink: "",
     };
   },
   computed: {
@@ -288,11 +290,7 @@ export default {
   watch: {
     searchState(newsearchState) {
       if (this.thereAreResults()) {
-        if (this.driverlink == "thisauthor") {
-          this.getthisauthor();
-        } else {
-          this.getrelatedauthor();
-        }
+        this.getthisauthor();
       }
     },
   },
@@ -312,7 +310,6 @@ export default {
     },
     // 初始化driver
     initdriver() {
-      this.driverlink = "thisauthor";
       if (this.type == 1) {
         driver = new SearchDriver(csauthorconfig);
       } else {
@@ -382,8 +379,10 @@ export default {
         },
       });
     },
+    // 赋值本作者信息
     getthisauthor() {
       var results = this.searchState.results[0];
+      this.getrelatedauthor();
       var raw;
       if (results.name && results.name.raw) this.author.name = results.name.raw;
       if (this.type == 1) {
@@ -392,14 +391,17 @@ export default {
       if (results.h_index && results.h_index.raw)
         this.author.h_index = results.h_index.raw;
       if (results.orgs && results.orgs.raw) {
-          for (let i = 0; i<results.orgs.raw.length;i++){
-            if (this.type === 1)this.author.orgs_cs.push(JSON.parse(results.orgs.raw[i]))
-            else this.author.orgs_main.push(results.orgs.raw[i])          
-          } 
+        for (let i = 0; i < results.orgs.raw.length; i++) {
+          if (this.type === 1)
+            this.author.orgs_cs.push(JSON.parse(results.orgs.raw[i]));
+          else this.author.orgs_main.push(results.orgs.raw[i]);
+        }
       }
 
-      if (results.n_citation && results.n_citation.raw) this.author.n_citation = results.n_citation.raw;
-      if (results.n_pubs && results.n_pubs.raw) this.author.n_pubs = results.n_pubs.raw;
+      if (results.n_citation && results.n_citation.raw)
+        this.author.n_citation = results.n_citation.raw;
+      if (results.n_pubs && results.n_pubs.raw)
+        this.author.n_pubs = results.n_pubs.raw;
 
       if (results.pubs && results.pubs.raw) {
         raw = results.pubs.raw;
@@ -414,7 +416,31 @@ export default {
       }
       this.contendLoaded = true;
     },
-    getrelatedauthor() {},
+    // 获取合作作者数据
+    getrelatedauthor() {
+      let formData = new FormData();
+      formData.append("author_id", this.authorId);
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      var _this = this;
+      axios
+        .post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/portal/direct_connection/list",
+          formData,
+          config
+        )
+        .then(function (response) {
+          if (response.data.success) {
+            _this.relateddata = response.data.message;
+            _this.relatedloaded = true;
+          } else {
+            console.log("注册失败");
+          }
+        });
+    },
     // 请求判断该作者是否入驻
     setissettled() {
       let formData = new FormData();
