@@ -10,7 +10,6 @@
     <div v-if="searchState.wasSearched" class="sui-layout-body">
       <div class="sui-layout-body__inner">
         <div class="sui-layout-sidebar">
-
           <!-- 主文献 -->
           <div
             v-if="ismainpaper && thereAreResults"
@@ -25,7 +24,7 @@
               :checked="year"
               :facet="searchState.facets.year[0]"
               @change="handleFacetChange($event, 'year')"
-              style='margin-top: 32px;'
+              style="margin-top: 32px"
             />
 
             <SearchFacet
@@ -37,7 +36,7 @@
           <!-- 主文献 -->
           <!-- 计算机文献 -->
           <div
-            v-if="iscspaper  && thereAreResults"
+            v-if="iscspaper && thereAreResults"
             class="wrapper"
             @mouseover="mouseOverWrapper()"
             @mouseleave="mouseLeaveWrapper()"
@@ -49,7 +48,7 @@
               :checked="year"
               :facet="searchState.facets.year[0]"
               @change="handleFacetChange($event, 'year')"
-              style='margin-top: 32px;'
+              style="margin-top: 32px"
             />
 
             <SearchFacet
@@ -61,7 +60,7 @@
           <!-- 计算机文献 -->
           <!-- 作者 -->
           <div
-            v-else-if="getSearchObject === 'author'  && thereAreResults"
+            v-else-if="getSearchObject === 'author' && thereAreResults"
             class="wrapper"
             @mouseover="mouseOverWrapper()"
             @mouseleave="mouseLeaveWrapper()"
@@ -72,7 +71,7 @@
           <!-- 作者 -->
           <!-- 机构 -->
           <div
-            v-else-if="getSearchObject === 'affiliation'  && thereAreResults"
+            v-else-if="getSearchObject === 'affiliation' && thereAreResults"
             class="wrapper"
             @mouseover="mouseOverWrapper()"
             @mouseleave="mouseLeaveWrapper()"
@@ -81,6 +80,21 @@
             <SearchSort v-model="sortBy" />
           </div>
           <!-- 机构 -->
+          <el-button
+            icon="el-icon-document-copy"
+            plain
+            @click="documentcopyvisible = true"
+            >搜索结果分析</el-button
+          >
+          <el-dialog
+            title="搜索结果分析"
+            :visible.sync="documentcopyvisible"
+            width="80%"
+          >
+            <search-results-analysis
+              :data="searchState.facets"
+            ></search-results-analysis>
+          </el-dialog>
         </div>
 
         <div class="sui-layout-main">
@@ -130,6 +144,7 @@ import SearchPagingInfo from "./SearchPagingInfo";
 import SearchPagination from "./SearchPagination";
 import SearchSort from "./SearchSort";
 import SearchResultsPerPage from "./SearchResultsPerPage";
+import SearchResultsAnalysis from "./SearchResultsAnalysis.vue";
 
 var driver = null;
 
@@ -143,6 +158,7 @@ export default {
     SearchPagination,
     SearchSort,
     SearchResultsPerPage,
+    SearchResultsAnalysis,
   },
   data() {
     return {
@@ -150,11 +166,12 @@ export default {
       searchState: {},
       year: [],
       lang: [],
-      venue:[],
+      venue: [],
       resultsPerPage: 20,
       sortBy: "relevance",
       // 搜索的内容
       configoption: "paper",
+      documentcopyvisible: false,
     };
   },
   computed: {
@@ -164,11 +181,11 @@ export default {
     getSearchObject() {
       return this.configoption;
     },
-    ismainpaper(){
-      return this.configoption == 'paper' && this.$props.type == 'main';
+    ismainpaper() {
+      return this.configoption == "paper" && this.$props.type == "main";
     },
-    iscspaper(){
-      return this.configoption == 'paper' && this.$props.type == 'cs';
+    iscspaper() {
+      return this.configoption == "paper" && this.$props.type == "cs";
     },
   },
   watch: {
@@ -194,7 +211,7 @@ export default {
         } else if (this.configoption == "affiliation") {
           console.log("csaffiliationconfig");
           driver = new SearchDriver(csaffiliationconfig);
-        } else{
+        } else {
           driver = new SearchDriver(csauthorconfig);
         }
       }
@@ -237,7 +254,7 @@ export default {
         driver = new SearchDriver(cspaperconfig);
       } else driver = new SearchDriver(csauthorconfig);
     }
-    driver.reset()
+    driver.reset();
 
     const {
       searchTerm,
