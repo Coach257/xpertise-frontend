@@ -1,21 +1,18 @@
 <template>
   <div style="width:100%;">
-    <request-card v-for="(request,index) in resultList" :key="index" :request="request" :index="index"></request-card>
+    <message-card v-for="(message,index) in resultList" :key="index" :message="message" :index="index"></message-card>
   </div>
 </template>
 <script>
-import axios from 'axios';
 const testUrl = "https://go-service-296709.df.r.appspot.com/api/v1/user/authorize/get"
-import RequestCard from "@/components/admin/RequestCard";
+import MessageCard from "@/components/user/MessageCard";
 
 export default {
   name: 'MessageCentre',
-  components: {RequestCard},
+  components: {MessageCard},
   data() {
     return {
-      resultList: [
-
-      ]
+      resultList: []
     }
   },
   mounted() {
@@ -23,11 +20,11 @@ export default {
     let formData = new FormData();
     formData.append('user_id', localStorage.getItem("userid"));
     console.log(localStorage.getItem("userid"));
-    let config = {headers: {'Content-Type': 'multipart/form-data'} };
-    axios.post(testUrl, formData, config).then(response => {
-      if(response) {
+    let config = {headers: {'Content-Type': 'multipart/form-data'}};
+    this.$axios.post(testUrl, formData, config).then(response => {
+      if (response) {
         console.log(response);
-        if(response.data.success == true) {
+        if (response.data.success) {
           console.log(response.data.data);
           let list = response.data.data;
           for (let i = 0; i < list.length; i++) {
@@ -39,8 +36,7 @@ export default {
               organization: list[i]['organization']
             })
           }
-        }
-        else {
+        } else {
           for (let i = 0; i < 4; i++) {
             this.resultList.push({
               requestId: -1,
@@ -52,15 +48,23 @@ export default {
           }
           console.log(response.data)
         }
-      }
-      else {
+      } else {
         console.log("error");
+      }
+    }).catch(() => {
+      for (let i = 0; i < 4; i++) {
+        this.resultList.push({
+          requestId: -1,
+          userId: 0,
+          citizen_id: "110000100001010000",
+          time: "XXXX-XX-XX xx:xx:xx",
+          detail: "DEBUG XXX XX CN XXXX"
+        })
       }
     })
   }
 
 }
-
 
 
 </script>
