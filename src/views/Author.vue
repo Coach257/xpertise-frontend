@@ -108,12 +108,12 @@
             </span>
           </div>
 
-          <div v-if="type == 1">
+          <div v-if="type == 1" style="display: flex; width: 400px;">
             <span v-for="(org, index) in this.author.orgs_cs" :key="index">
               <router-link
                 class="affname"
                 :to="'/affiliation/' + org.id"
-                tag="a"
+                tag="div"
                 target="_blank"
                 style="cursor: pointer"
               >
@@ -159,7 +159,7 @@
           >
             <div class="paperindex">{{ index+1+(currentPage-1)*eachPage }}</div>
             <div style="width: 700px">{{ pub.title }}</div>
-            <div>第{{ pub.r }}作者</div>
+            <div style="font-size: 13px; margin-right: 10px; white-space: nowrap;">第{{ pub.r }}作者</div>
             <div class="citation">被引xx次</div>
           </router-link>
         </div>
@@ -175,7 +175,7 @@
           >
             <div class="paperindex">{{ index+1+(currentPage-1)*eachPage }}</div>
             <div style="width: 700px">{{ pub.i }}</div>
-            <div>第{{ pub.r }}作者</div>
+            <div style="font-size: 13px; margin-right: 10px; white-space: nowrap;">第{{ pub.r }}作者</div>
           </router-link>
         </div>
 
@@ -565,6 +565,8 @@ export default {
 
   padding: 2px 8px 2px 8px;
   margin-top: 10px;
+  margin-right: 3px;
+  margin-left: 3px;
 
   max-width: 300px;
 }
@@ -676,9 +678,9 @@ export default {
   background-color: #dace0a;
   color: white;
 
-  border-radius: 30px;
+  border-radius: 25px;
 
-  padding: 2px 9px 2px 9px;
+  padding: 3px 10px 3px 10px;
   margin-left: 3px;
   margin-right: 3px;
   margin-bottom: 5px;
