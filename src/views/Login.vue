@@ -163,9 +163,10 @@ export default {
     },
     watch: {
       searchState(newsearchState) {
-        console.log(newsearchState);
         if(newsearchState.results.length > 0) {
-          localStorage.setItem("paper_info", newsearchState.results[0].pubs.raw);
+          let list = this.searchState.results[0].pubs.raw;
+          localStorage.setItem("paper_info", JSON.stringify(list));
+          list = JSON.parse(localStorage.getItem('paper_info'));
           this.contendLoaded = true;
         }
       },
@@ -205,8 +206,11 @@ export default {
                   if(response.data.data.user_type == 2) {
                     _this.getAuthorInfo(response.data.data.user_id);
                   }
-                  console.log("登陆成功");
-
+                  else {
+                    console.log("登陆成功");
+                    _this.$router.replace('/home');
+                    window.location.reload();
+                  }
                 }else {
                    console.log("登录失败");
                 }
