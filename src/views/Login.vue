@@ -51,6 +51,9 @@
     background-image: url(../assets/loginBack.jpeg);
     background-repeat:no-repeat;
     background-size:100% 100%;
+
+    width: 100vw;
+    height: 100vh;
   }
 
 
@@ -68,6 +71,8 @@
 
     width: 350px;
     height: 500px;
+
+
   }
 
 
@@ -154,7 +159,7 @@ export default {
       };
     },
     mounted() {
-      this.$gsap.set("#root", {height: document.documentElement.clientHeight})
+
     },
     watch: {
       searchState(newsearchState) {

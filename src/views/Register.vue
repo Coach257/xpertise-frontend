@@ -66,6 +66,9 @@
     background-image: url(../assets/RegisterBack.jpeg);
     background-repeat:no-repeat;
     background-size:100% 100%;
+    
+    width: 100vw;
+    height: 100vh;
   }
 
 
@@ -150,7 +153,7 @@ import axios from "axios"
       };
     },
     mounted() {
-      this.$gsap.set("#root", {height: document.documentElement.clientHeight})
+      
     },
     methods: {
       regist(){
