@@ -113,8 +113,9 @@
               <router-link
               class="affname"
                 :to="'/affiliation/' + org.id"
-                tag="div"
                 style="cursor: pointer"
+                tag="a"
+                target="_blank"
               >
                 {{ org.name }}
               </router-link>
