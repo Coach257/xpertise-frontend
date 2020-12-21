@@ -151,13 +151,13 @@
         <div v-if="type == 1">
           <router-link
             class="link"
-            v-for="(pub, index) in this.author.pubs"
+            v-for="(pub, index) in (this.author.pubs).slice((this.currentPage-1)*this.eachPage, this.currentPage*this.eachPage)"
             :key="pub.i"
             :to="'/detail/cs/' + pub.id"
             tag="a"
             target="_blank"
           >
-            <div class="paperindex">{{ index + 1 }}</div>
+            <div class="paperindex">{{ index+1+(currentPage-1)*eachPage }}</div>
             <div style="width: 700px">{{ pub.title }}</div>
             <div>第{{ pub.r }}作者</div>
             <div class="citation">被引xx次</div>
@@ -167,17 +167,29 @@
         <div v-if="type == 2">
           <router-link
             class="link"
-            v-for="(pub, index) in this.author.pubs"
+            v-for="(pub, index) in (this.author.pubs).slice((this.currentPage-1)*this.eachPage, this.currentPage*this.eachPage)"
             :key="pub.i"
             :to="'/detail/main/' + pub.id"
             tag="a"
             target="_blank"
           >
-            <div class="paperindex">{{ index + 1 }}</div>
+            <div class="paperindex">{{ index+1+(currentPage-1)*eachPage }}</div>
             <div style="width: 700px">{{ pub.i }}</div>
             <div>第{{ pub.r }}作者</div>
           </router-link>
         </div>
+
+        <center style="margin-top: 30px; margin-bottom: 30px">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total='total'
+            :page-size='eachPage'
+            @current-change='handleCurrentChange'
+            >
+          </el-pagination>
+        </center>
+
       </div>
 
       <div v-if="type == 2" id="authorLabel" class="dataWrapper">
@@ -264,6 +276,9 @@ export default {
         name: "",
         tags: [],
       },
+      currentPage: 1,
+      eachPage: 50,
+      total: 0,
       contendLoaded: false,
       relatedloaded: false,
       relateddata: [],
@@ -379,6 +394,10 @@ export default {
         },
       });
     },
+    //翻页
+    handleCurrentChange (currpage) {
+      this.currentPage = currpage
+    },
     // 赋值本作者信息
     getthisauthor() {
       var results = this.searchState.results[0];
@@ -415,6 +434,7 @@ export default {
           this.author.tags.push(JSON.parse(raw[i]));
       }
       this.contendLoaded = true;
+      this.total = this.author.pubs.length
     },
     // 获取合作作者数据
     getrelatedauthor() {
