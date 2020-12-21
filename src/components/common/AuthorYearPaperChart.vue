@@ -29,9 +29,9 @@ export default {
       option: {
         color: colors,
         tooltip: {
-          trigger: 'yAxis',
+          trigger: 'axis',
           axisPointer: {
-            type: 'shadow'
+            type: 'cross'
           }
         },
         legend: {
@@ -85,7 +85,7 @@ export default {
             type: 'bar',
             yAxisIndex: 1,
             data: [] //?
-          },
+          }
         ]
       }
     }
@@ -126,6 +126,13 @@ export default {
         }
       }).catch(err => {
         console.log(err)
+        this.$notify({
+          title: "Network Error",
+          message: h("div", {
+            class: 'el-icon-close',
+            style: 'color: red'
+          }, " Please Check Your Internet Connection"),
+        })
         this.requestError = true
 
         // DEBUG CODE (should be commented when release)

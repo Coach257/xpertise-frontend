@@ -6,6 +6,7 @@
     <organization-year-paper-chart :type="'Citation'"></organization-year-paper-chart>
     <organization-year-paper-chart :type="'Paper'"></organization-year-paper-chart>
     <author-year-paper-chart></author-year-paper-chart>
+    <author-compare-chart></author-compare-chart>
 
 
     <SelectTitle :buttons='buttons'/> -->
@@ -20,9 +21,12 @@ import OrganizationYearPaperChart from "@/components/common/OrganizationYearPape
 import AuthorYearPaperChart from "@/components/common/AuthorYearPaperChart";
 import SelectTitle from '../components/common/SelectTitle.vue'
 import AuthorRelationMap from '../components/common/AuthorRelationMap.vue'
+import AuthorCompareChart from "@/components/common/AuthorCompareChart";
+
 export default {
   name: 'Test',
   components: {
+    AuthorCompareChart,
     AuthorYearPaperChart,
     OrganizationYearPaperChart,
     RelationMap,
