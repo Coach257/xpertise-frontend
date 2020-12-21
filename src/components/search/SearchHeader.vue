@@ -96,6 +96,7 @@ export default {
   /* outline: #21ff06 dotted thick; */
   position: relative;
   top: -22px;
+  left: 80px;
 }
 .sui-layout-header {
   height: 15px;

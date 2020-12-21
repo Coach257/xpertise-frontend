@@ -87,7 +87,6 @@
               >隶属机构</span
             >
             <svg
-              id="affsvg"
               class="icon"
               width="21px"
               height="21px"
