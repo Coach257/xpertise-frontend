@@ -10,8 +10,8 @@
 
 
     <SelectTitle :buttons='buttons'/> -->
-    <author-relation-map></author-relation-map>
-
+    <!-- <author-relation-map></author-relation-map> -->
+    <reference-chart></reference-chart>
   </div>
 </template>
 
@@ -22,6 +22,7 @@ import AuthorYearPaperChart from "@/components/common/AuthorYearPaperChart";
 import SelectTitle from '../components/common/SelectTitle.vue'
 import AuthorRelationMap from '../components/common/AuthorRelationMap.vue'
 import AuthorCompareChart from "@/components/common/AuthorCompareChart";
+import ReferenceChart from "../components/common/ReferenceChart.vue";
 
 export default {
   name: 'Test',
@@ -32,6 +33,7 @@ export default {
     RelationMap,
     SelectTitle,
     AuthorRelationMap,
+    ReferenceChart,
   },
   data() {
     return {
