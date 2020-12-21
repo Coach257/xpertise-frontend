@@ -102,9 +102,10 @@
       <li
         v-for="(documentcopyinfo, index) in this.documentcopylist"
         :key="index"
+        style="display: flex; align-items: center; margin: 5px;"
       >
         {{ documentcopyinfo.name }} {{ documentcopyinfo.info }}
-        <el-button v-clipboard:copy="documentcopyinfo.info">copy</el-button>
+        <el-button v-clipboard:copy="documentcopyinfo.info" style="height: 10px; width: 40px; display: flex; align-items: center; justify-content: center; margin-left: 10px">复制</el-button>
       </li>
     </el-dialog>
   </div>
@@ -586,4 +587,3 @@ export default {
   justify-content: space-evenly;
 }
 </style>
-

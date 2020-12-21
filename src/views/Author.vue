@@ -107,7 +107,7 @@
             </span>
           </div>
 
-          <div v-if="type == 1" style="display: flex; flex-wrap: wrap; width: 400px;">
+          <div v-if="type == 1" style="display: flex; flex-wrap: wrap; justify-content: center; width: 400px;">
             <span v-for="(org, index) in this.author.orgs_cs" :key="index">
               <div
                 class="affname"
