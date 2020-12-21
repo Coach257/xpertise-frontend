@@ -38,13 +38,8 @@ export default{
   font-size: 30px;
 }
 #buttons {
-  border: 1px solid #f0f0f0;
-  border-radius: 30px;
-  box-shadow: 0px 0px 10px 2px rgb(127, 127, 127, 0.2);
-  padding: 1px 10px 0px 10px;
-
   color: #191919;
-  height: 45px;
+  height: 50px;
 
   display: flex;
   flex-wrap: nowrap;
