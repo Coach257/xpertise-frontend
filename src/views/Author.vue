@@ -110,15 +110,13 @@
 
           <div v-if="type == 1" style="display: flex; width: 400px;">
             <span v-for="(org, index) in this.author.orgs_cs" :key="index">
-              <router-link
+              <div
                 class="affname"
-                :to="'/affiliation/' + org.id"
-                tag="div"
-                target="_blank"
+                @click='affRouterPush(org.id)'
                 style="cursor: pointer"
               >
                 {{ org.name }}
-              </router-link>
+              </div>
             </span>
           </div>
         </div>
@@ -394,9 +392,14 @@ export default {
         },
       });
     },
-    //翻页
+    // 翻页
     handleCurrentChange (currpage) {
       this.currentPage = currpage
+    },
+    // 机构跳转
+    affRouterPush(id){
+      let routeData = this.$router.resolve('/affiliation/' + id);
+      window.open(routeData.href, '_blank');
     },
     // 赋值本作者信息
     getthisauthor() {
