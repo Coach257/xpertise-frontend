@@ -24,69 +24,81 @@
           </router-link>
         </div>
       </div>
-      <div class="result_detail_article_area">
-        <h3>摘要</h3>
-        <p>{{ this.article.abstract }}</p>
-        <h3>信息</h3>
-        <!-- <p v-for="item in article.other" :key="item.name1">item</p> -->
-        <p>{{ this.article.year }}</p>
-        <p>{{ this.article.keywords }}</p>
-        <p>{{ this.article.n_citation }}</p>
-        <p>{{ this.article.page_start }} {{ this.article.page_end }}</p>
-        <p>{{ this.article.lang }}</p>
-        <p>{{ this.article.issue }}</p>
-        <p>{{ this.article.venue }}</p>
-        <p>{{ this.article.conference }}</p>
-        <p>{{ this.article.issn }}</p>
-        <p>{{ this.article.doi }}</p>
-        <p>{{ this.article.url }}</p>
-      </div>
-      <div class="result_detail_side_area">
-        <div class="result_detail_side_container">
-          <h3>下载</h3>
-          <el-button type="primary" icon="el-icon-document" plain
-            >查看原文</el-button
-          >
-          <el-button icon="el-icon-download" plain>下载</el-button>
-          <h3>引用</h3>
-          <el-button icon="el-icon-document-copy" plain>复制引用信息</el-button>
-          <h3>操作</h3>
-          <el-button
-            type="warning"
-            icon="el-icon-star-off"
-            v-if="article.starred === false"
-            @click="addToFav"
-            plain
-            >收藏</el-button
-          >
-          <el-button
-            type="warning"
-            icon="el-icon-star-on"
-            v-else
-            @click="removeFromFav"
-            >已收藏</el-button
-          >
-          <h3>相关文章</h3>
-          <li v-for="result in this.related_papers.slice(1)" :key="result.id.raw">
-            <!-- <SearchResult :type="this.type" :option="this.option" :result="result" /> -->
-            {{result.title.raw}}
-          </li>
-          <div v-if="referenceloadfinish">
-            <h3>引用关系图谱</h3>
-            这里要加引用关系图谱
+      <div class="result_detail_main_area">
+        <div class="result_detail_article_area">
+          <h3>摘要</h3>
+          <p>{{ this.article.abstract }}</p>
+          <h3>信息</h3>
+          <!-- <p v-for="item in article.other" :key="item.name1">item</p> -->
+          <p>{{ this.article.year }}</p>
+          <p>{{ this.article.keywords }}</p>
+          <p>{{ this.article.n_citation }}</p>
+          <p>{{ this.article.page_start }} {{ this.article.page_end }}</p>
+          <p>{{ this.article.lang }}</p>
+          <p>{{ this.article.issue }}</p>
+          <p>{{ this.article.venue }}</p>
+          <p>{{ this.article.conference }}</p>
+          <p>{{ this.article.issn }}</p>
+          <p>{{ this.article.doi }}</p>
+          <p>{{ this.article.url }}</p>
+        </div>
+        <div class="result_detail_comment_area">
+          <el-tabs class="tabs_area" type="border-card">
+            <el-tab-pane label="评论"
+              ><CommentSection :comments="this.$data.comments"
+            /></el-tab-pane>
+            <el-tab-pane label="专家推荐"><RecommendSection :recommends="this.$data.recommends"/></el-tab-pane>
+          </el-tabs>
+        </div></div>
+        <div class="result_detail_side_area">
+          <div class="result_detail_side_container">
+            <h3>下载</h3>
+            <el-button type="primary" icon="el-icon-document" plain
+              >查看原文</el-button
+            >
+            <el-button icon="el-icon-download" plain>下载</el-button>
+            <h3>引用</h3>
+            <el-button icon="el-icon-document-copy" plain
+              >复制引用信息</el-button
+            >
+            <h3>操作</h3>
+            <el-button
+              type="warning"
+              icon="el-icon-star-off"
+              v-if="article.starred === false"
+              @click="addToFav"
+              plain
+              >收藏</el-button
+            >
+            <el-button
+              type="warning"
+              icon="el-icon-star-on"
+              v-else
+              @click="removeFromFav"
+              >已收藏</el-button
+            >
+            <h3>相关文章</h3>
+            <li
+              v-for="result in this.related_papers.slice(1)"
+              :key="result.id.raw"
+            >
+              <!-- <SearchResult :type="this.type" :option="this.option" :result="result" /> -->
+              {{ result.title.raw }}
+            </li>
+            <div v-if="referenceloadfinish">
+              <h3>引用关系图谱</h3>
+              这里要加引用关系图谱
+            </div>
           </div>
         </div>
-      </div>
+      
     </div>
-    <el-tabs type="border-card">
-      <el-tab-pane label="评论">评论</el-tab-pane>
-      <el-tab-pane label="专家推荐">专家推荐</el-tab-pane>
-    </el-tabs>
   </div>
 </template>
 <script>
 import { SearchDriver } from "@elastic/search-ui";
 import SearchResults from "../components/search/SearchResults";
+import CommentSection from "../components/comment/CommentSection";
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -95,13 +107,16 @@ import {
   csaffiliationconfig,
 } from "../searchConfig";
 import axios from "axios";
+import RecommendSection from '../components/recommendation/RecommendSection';
 var driver = null;
 
 export default {
   name: "Detail",
   props: [],
   components: {
-    SearchResults
+    CommentSection,
+    SearchResults,
+    RecommendSection,
   },
   mounted() {
     this.init_data();
@@ -164,7 +179,7 @@ export default {
     },
     relatedpaperloadfinish() {
       return this.relatedloaded;
-    }
+    },
   },
   methods: {
     // 初始化全局数据
@@ -283,50 +298,62 @@ export default {
       return this.searchState.totalResults && this.searchState.totalResults > 0;
     },
     // 赋值article
-    getthispaper(){
-      if(this.type=="cs") this.loadreference();
+    getthispaper() {
+      if (this.type == "cs") this.loadreference();
       var results = this.searchState.results[0];
       var raw;
       this.article.paper_id = results.id.raw;
       this.isFav();
-      if (results.title && results.title.raw) this.article.title = results.title.raw;
+      if (results.title && results.title.raw)
+        this.article.title = results.title.raw;
       if (results.authors && results.authors.raw) {
         raw = results.authors.raw;
         for (var i = 0; i < raw.length; i++) {
           this.article.authors.push(JSON.parse(raw[i]));
         }
       }
-      if (results.abstract && results.abstract.raw) this.article.abstract = results.abstract.raw;
-      if (results.year && results.year.raw) this.article.year = results.year.raw;
+      if (results.abstract && results.abstract.raw)
+        this.article.abstract = results.abstract.raw;
+      if (results.year && results.year.raw)
+        this.article.year = results.year.raw;
       if (results.keywords && results.keywords.raw) {
         raw = results.keywords.raw;
         for (var i = 0; i < raw.length; i++) {
           this.article.keywords.push(raw[i]);
         }
       }
-      if (results.n_citation && results.n_citation.raw) this.article.n_citation = results.n_citation.raw;
-      if (results.page_start && results.page_start.raw) this.article.page_start = results.page_start.raw;
-      if (results.page_end && results.page_end.raw) this.article.page_end = results.page_end.raw;
-      if (results.lang && results.lang.raw) this.article.lang = results.lang.raw;
-      if (results.issue && results.issue.raw) this.article.issue = results.issue.raw;
-      if (results.venue && results.venue.raw) this.article.venue = results.venue.raw;
-      if (results.conference && results.conference.raw) this.article.conference = results.conference.raw;
-      if (results.volume && results.volume.raw) this.article.volume = results.volume.raw;
-      if (results.issn && results.issn.raw) this.article.issn = results.issn.raw;
+      if (results.n_citation && results.n_citation.raw)
+        this.article.n_citation = results.n_citation.raw;
+      if (results.page_start && results.page_start.raw)
+        this.article.page_start = results.page_start.raw;
+      if (results.page_end && results.page_end.raw)
+        this.article.page_end = results.page_end.raw;
+      if (results.lang && results.lang.raw)
+        this.article.lang = results.lang.raw;
+      if (results.issue && results.issue.raw)
+        this.article.issue = results.issue.raw;
+      if (results.venue && results.venue.raw)
+        this.article.venue = results.venue.raw;
+      if (results.conference && results.conference.raw)
+        this.article.conference = results.conference.raw;
+      if (results.volume && results.volume.raw)
+        this.article.volume = results.volume.raw;
+      if (results.issn && results.issn.raw)
+        this.article.issn = results.issn.raw;
       if (results.doi && results.doi.raw) this.article.doi = results.doi.raw;
       if (results.url && results.url.raw) this.article.url = results.url.raw;
       this.articleloaded = true;
       this.loadrelatedpapers();
     },
     // 获取相关文章
-    loadrelatedpapers(){
-      this.driverlink = "related"
+    loadrelatedpapers() {
+      this.driverlink = "related";
       driver.reset();
       driver.setResultsPerPage(6);
       driver.getActions().setSearchTerm(this.article.title);
     },
     // 赋值相关文章
-    getrelatedpaper(){
+    getrelatedpaper() {
       this.related_papers = this.searchState.results;
       this.relatedloaded = true;
     },
@@ -393,14 +420,31 @@ export default {
   width: 85vw;
   padding: 0px 20px 20px;
 }
-.result_detail_article_area {
+
+.result_detail_main_area {
   width: 50vw;
+}
+.result_detail_comment_area {
+  /* width: 100%; */
+  margin-block-start: 30px;
+}
+.tabs_area{
+  border-width: 1px;
+  /* border-color: grey; */
+  /* border-style: solid; */
+  border-radius: 20px;
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1),
+    -2px -2px 20px rgba(255, 255, 255, 0.5);
+}
+
+.result_detail_article_area {
+  /* width: 100%; */
   border-width: 1px;
   border-color: grey;
   /* border-style: solid; */
   border-radius: 10px;
   margin-top: 20px;
-  padding: 0px 20px;
+  padding: 15px 20px;
   /* background-image: linear-gradient(to right bottom, #abb7b7 ,#dadfe1); */
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1),
     -2px -2px 20px rgba(255, 255, 255, 0.5);
@@ -421,6 +465,16 @@ export default {
   margin-top: -5px;
   margin-bottom: -5px;
   color: black;
+}
+.bottom_area {
+  padding: 0vw 10vw 10vw 10vw;
+  width: 80vw;
+  /* display: flex; */
+  position: relative;
+  /* flex-direction: row; */
+  /* align-items: flex-start; */
+  /* flex-wrap: nowrap; */
+  justify-content: space-evenly;
 }
 </style>
 
