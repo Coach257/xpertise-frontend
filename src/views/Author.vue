@@ -108,7 +108,7 @@
             </span>
           </div>
 
-          <div v-if="type == 1" style="display: flex; width: 400px;">
+          <div v-if="type == 1" style="display: flex; flex-wrap: wrap; width: 400px;">
             <span v-for="(org, index) in this.author.orgs_cs" :key="index">
               <div
                 class="affname"
@@ -123,7 +123,7 @@
       </div>
     </div>
 
-    <div style="height: 270px"></div>
+    <div style="height: 350px"></div>
 
     <div id="authorData">
       <div id="authorPapers" class="dataWrapper">
@@ -508,7 +508,7 @@ export default {
   backdrop-filter: blur(20px);
   background-color: rgba(255, 255, 255, 0.5);
   width: 500px;
-  height: 260px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   align-items: center;
