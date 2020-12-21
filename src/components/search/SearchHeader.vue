@@ -3,7 +3,7 @@
 
     <div class="sui-layout-header__inner">
 
-      <form @submit.prevent="$emit('submit', $event.target.value)">
+      <form @submit.prevent="$emit('submit', $event.target.value)" >
 
         <div class="sui-search-box">
 
@@ -19,9 +19,7 @@
            <i class="el-icon-search" @click="$emit('submit', $event.target.value)"></i>
            </input>
 
-
            <SelectBar attr='SelectBar' :buttons="buttons" />
-
 
         </div>
       </form>
@@ -96,7 +94,7 @@ export default {
   /* outline: #21ff06 dotted thick; */
   position: relative;
   top: -22px;
-  left: 80px;
+  right: -110px;
 }
 .sui-layout-header {
   height: 15px;
@@ -107,6 +105,7 @@ export default {
   display: flex;
   justify-content: center;
 }
+
 
 .sui-search-box__text-input {
   /* outline: #21ff06 dotted thick; */
