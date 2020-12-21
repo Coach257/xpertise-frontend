@@ -137,6 +137,13 @@
       :n_citation="this.author.n_citation"
       v-if="loadfinish"
     ></author-compare-chart>
+        <div id="authorRelationGraph" v-if="graphloaded">
+      <!-- <author-relation-map :data="this.mapdata"></author-relation-map> -->
+    </div>
+    <related-author-chart
+      :data="relateddata"
+      v-if="relatedloaded"
+    ></related-author-chart>
     <div id="authorData">
       <div id="authorPapers" class="dataWrapper">
         <div class="datatitle">
@@ -206,7 +213,7 @@
             :total='total'
             :page-size='eachPage'
             @current-change='handleCurrentChange'
-            hide-on-single-page=true
+            :hide-on-single-page="true"
             >
           </el-pagination>
         </center>
@@ -257,7 +264,7 @@
                 :page-size='eachPage1'
                 @current-change='handleCurrentChange1'
                 pager-count=5
-                hide-on-single-page=true
+                :hide-on-single-page="true"
                 >
               </el-pagination>
             </center>
@@ -267,13 +274,7 @@
       </div>
     </div>
 
-    <div id="authorRelationGraph" v-if="graphloaded">
-      <!-- <author-relation-map :data="this.mapdata"></author-relation-map> -->
-    </div>
-    <related-author-chart
-      :data="relateddata"
-      v-if="relatedloaded"
-    ></related-author-chart>
+
     <div id="authorColumn" v-if="issettled">这里是专栏</div>
 
     <div id="authorRecommend" v-if="issettled">这里是推荐</div>
@@ -450,10 +451,10 @@ export default {
     // 赋值本作者信息
     getthisauthor() {
       var results = this.searchState.results[0];
-      this.getrelatedauthor();
       var raw;
       if (results.name && results.name.raw) this.author.name = results.name.raw;
       if (this.type == 1) {
+        this.getrelatedauthor();
         // this.loadauthormap();
       }
       if (results.h_index && results.h_index.raw)
