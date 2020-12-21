@@ -3,7 +3,8 @@
     <el-card shadow="hover">
       <div slot="header" class="comment_header_area">
         <div class="comment_head">
-        <div class="comment_avatar"><i class="el-icon-user"/></div>
+        <div class="comment_avatar"><i class="el-icon-success" v-if=this.comment.on_top>置顶 </i>
+          <i class="el-icon-user"/></div>
         <div class="comment_username">  {{ this.comment.username }}</div><br/>
         <div class="comment_create_time">{{ this.comment.create_time }}</div></div>
         <div class="comment_actions">
@@ -72,7 +73,7 @@ export default {
         if (response) {
           console.log(response);
           if (response.data.success) {
-
+            window.location.reload();
           } else {
             console.log(response)
           }
