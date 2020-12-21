@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div id="chartContainer" style="width: 25vw; height: 25vw"></div>
+    <div id="LangAnalysis" style="width: 25vw; height: 25vw"></div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "RelatedPaperChart",
+  name: "LangAnalysis",
   props: ["data"],
   data() {
     return {
@@ -74,7 +74,7 @@ export default {
   },
   mounted() {
     this.loadoption();
-    let myChart = this.$echarts.init(document.getElementById("chartContainer"));
+    let myChart = this.$echarts.init(document.getElementById("LangAnalysis"));
     myChart.setOption(this.option);
   },
   methods: {

@@ -232,7 +232,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.result);
     if(this.$props.option == 'paper'){
       if(this.result.venue && this.result.venue.raw)this.paper.venue = JSON.parse(this.result.venue.raw).raw;
       if(this.result.title && this.result.title.raw) this.paper.title = this.result.title.raw;
