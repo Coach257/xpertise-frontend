@@ -44,9 +44,10 @@
         </div>
         <div class="result_detail_comment_area">
           <el-tabs class="tabs_area" type="border-card">
-            <el-tab-pane label="评论"
-              ><CommentSection :comments="this.$data.comments"
-            /></el-tab-pane>
+            <el-tab-pane label="评论">
+              <CommentSection :id=this.$route.params.docid
+              />
+            </el-tab-pane>
             <el-tab-pane label="专家推荐"><RecommendSection :recommends="this.$data.recommends"/></el-tab-pane>
           </el-tabs>
         </div>
@@ -91,7 +92,7 @@
             <RelationMap :data="this.referencedata" :type="'reference'" />
           </div>
         </div>
-        </div>      
+        </div>
     </div>
     <el-dialog
       title="复制引用信息"

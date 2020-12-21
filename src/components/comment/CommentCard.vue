@@ -10,7 +10,8 @@
         <el-button-group>
           <el-button icon="el-icon-top" @click="dislikeOrLikeComment(1)">顶</el-button>
           <el-button icon="el-icon-bottom" @click="dislikeOrLikeComment(2)">踩</el-button>
-          <el-button icon="el-icon-more">操作</el-button>
+          <el-button icon="el-icon-bottom" @click="operateComment(1)">置顶</el-button>
+          <el-button icon="el-icon-bottom" @click="operateComment(3)">删除</el-button>
         </el-button-group>
       </div></div>
       <div class="card_info">
@@ -24,6 +25,7 @@
 <script>
 import axios from 'axios'
 const testurl = "https://go-service-296709.df.r.appspot.com/api/v1/branch/comment/give_a_like_or_dislike"
+const opeurl = "https://go-service-296709.df.r.appspot.com/api/v1/branch/comment/operate"
 export default {
   name: "Drawer",
   props: {
@@ -34,6 +36,9 @@ export default {
     console.log(this.comment);
   },
   methods: {
+    handleClick2(method) {
+      console.log(method);
+    },
     dislikeOrLikeComment(method) {
       let that = this;
       let formData = new FormData();
@@ -42,6 +47,24 @@ export default {
       formData.append("method", method);
       let config = { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(testurl, formData, config).then((response) => {
+        if (response) {
+          console.log(response);
+          if (response.data.success) {
+
+          } else {
+            console.log(response)
+          }
+        }
+      });
+    },
+    operateComment(method) {
+      let that = this;
+      let formData = new FormData();
+      formData.append("comment_id", this.comment.comment_id);
+      //formData.append("user_id", localStorage.getItem("userid"));
+      formData.append("method", method);
+      let config = { headers: { "Content-Type": "multipart/form-data", }, };
+      axios.post(opeurl, formData, config).then((response) => {
         if (response) {
           console.log(response);
           if (response.data.success) {
@@ -93,7 +116,7 @@ export default {
   right:0;
   margin-left:auto; margin-right:0;
   vertical-align: middle;
-  
+
 }
 
 </style>

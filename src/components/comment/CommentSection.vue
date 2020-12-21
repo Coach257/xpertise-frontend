@@ -73,11 +73,11 @@ export default {
       let config = { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(commenturl, formData, config).then((response) => {
         if (response) {
-          console.log(response);
+          //console.log(response);
           if (response.data.success) {
-
+            //console.log("评论成功");
           } else {
-            console.log(response)
+            console.log(response);
           }
         }
       });
