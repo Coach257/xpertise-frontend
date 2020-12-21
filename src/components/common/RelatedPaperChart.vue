@@ -48,10 +48,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$props.data);
-    console.log(this.$props.type);
     this.loadoption();
-    console.log(this.option.legend.data)
     let myChart = this.$echarts.init(document.getElementById("chartContainer"));
     myChart.setOption(this.option);
     myChart.on("click", function (e) {
