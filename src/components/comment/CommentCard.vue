@@ -73,7 +73,7 @@ export default {
         if (response) {
           console.log(response);
           if (response.data.success) {
-
+            window.location.reload();
           } else {
             console.log(response)
           }
