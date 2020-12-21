@@ -36,19 +36,20 @@
               :title="pub"
             >
               <div>
-                <a
+                <router-link
 
             v-for="(paper,index) in colpapers"
             :key="index"
+            :to="'/detail/cs/' + paper.id"
             tag="a"
             >
 
 
               <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
-              <div style="width: 700px;"> {{ paper }} </div>
+              <div style="width: 700px;"> {{ paper.name }} </div>
 
 
-          </a>
+          </router-link>
                 <!-- <router-link
             class="link"
             v-for="(pub) in (this.column).slice((this.currentPage1-1)*this.eachPage, this.currentPage1*this.eachPage)"
@@ -173,7 +174,7 @@ export default {
               //console.log(_this.columnnum);
               //console.log(response.data.data);
               for (i = 0; i < response.data.data.length; i++) {
-                _this.colpapers.push(response.data.data[i].paper_title);
+                _this.colpapers.push({"name":response.data.data[i].paper_title,"id":response.data.data[i].paper_id});
               }
               console.log(_this.colpapers);
 
