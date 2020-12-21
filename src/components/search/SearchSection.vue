@@ -88,6 +88,7 @@
           <el-button
             icon="el-icon-document-copy"
             plain
+            v-if="configoption=='paper'"
             @click="documentcopyvisible = true"
             >搜索结果分析</el-button
           >
