@@ -25,53 +25,61 @@
           </router-link>
         </div>
       </div>
-      <div class="result_detail_article_area">
-        <h3>摘要</h3>
-        <p>{{ this.article.abstract }}</p>
-        <h3>信息</h3>
-        <!-- <p v-for="item in article.other" :key="item.name1">item</p> -->
-        <p>{{ this.article.year }}</p>
-        <p>{{ this.article.keywords }}</p>
-        <p>{{ this.article.n_citation }}</p>
-        <p>{{ this.article.page_start }} {{ this.article.page_end }}</p>
-        <p>{{ this.article.lang }}</p>
-        <p>{{ this.article.issue }}</p>
-        <p>{{ this.article.venue }}</p>
-        <p>{{ this.article.issn }}</p>
-        <p>{{ this.article.doi }}</p>
-        <p>{{ this.article.url }}</p>
+      <div class="result_detail_main_area">
+        <div class="result_detail_article_area">
+          <h3>摘要</h3>
+          <p>{{ this.article.abstract }}</p>
+          <h3>信息</h3>
+          <!-- <p v-for="item in article.other" :key="item.name1">item</p> -->
+          <p>{{ this.article.year }}</p>
+          <p>{{ this.article.keywords }}</p>
+          <p>{{ this.article.n_citation }}</p>
+          <p>{{ this.article.page_start }} {{ this.article.page_end }}</p>
+          <p>{{ this.article.lang }}</p>
+          <p>{{ this.article.issue }}</p>
+          <p>{{ this.article.venue }}</p>
+          <p>{{ this.article.issn }}</p>
+          <p>{{ this.article.doi }}</p>
+          <p>{{ this.article.url }}</p>
+        </div>
+        <div class="result_detail_comment_area">
+          <el-tabs class="tabs_area" type="border-card">
+            <el-tab-pane label="评论"
+              ><CommentSection :comments="this.$data.comments"
+            /></el-tab-pane>
+            <el-tab-pane label="专家推荐"><RecommendSection :recommends="this.$data.recommends"/></el-tab-pane>
+          </el-tabs>
+        </div>
       </div>
-      <div class="result_detail_side_area">
-        <div class="result_detail_side_container">
-          <h3>下载</h3>
-          <el-button type="primary" icon="el-icon-document" plain
-            >查看原文</el-button
-          >
-          <el-button icon="el-icon-download" plain>下载</el-button>
-          <h3>引用</h3>
-          <el-button
+        <div class="result_detail_side_area">
+          <div class="result_detail_side_container">
+            <h3>下载</h3>
+            <el-button type="primary" icon="el-icon-document" plain
+              >查看原文</el-button
+            >
+            <el-button icon="el-icon-download" plain>下载</el-button>
+            <h3>引用</h3>
+            <el-button
             icon="el-icon-document-copy"
             plain
             @click="documentcopyvisible = true"
-            >复制引用信息</el-button
-          >
-          <h3>操作</h3>
-          <el-button
-            type="warning"
-            icon="el-icon-star-off"
-            v-if="article.starred === false"
-            @click="addToFav"
-            plain
-            >收藏</el-button
-          >
-          <el-button
-            type="warning"
-            icon="el-icon-star-on"
-            v-else
-            @click="removeFromFav"
-            >已收藏</el-button
-          >
-          <el-button @click="debug">Debug</el-button>
+            >复制引用信息</el-button>
+            <h3>操作</h3>
+            <el-button
+              type="warning"
+              icon="el-icon-star-off"
+              v-if="article.starred === false"
+              @click="addToFav"
+              plain
+              >收藏</el-button>
+            <el-button
+              type="warning"
+              icon="el-icon-star-on"
+              v-else
+              @click="removeFromFav"
+              >已收藏</el-button>
+            <h3>相关文章</h3>
+            <el-button @click="debug">Debug</el-button>
           <h3>相关文章</h3>
           <related-paper-chart
             :data="this.related_papers.slice(1)"
@@ -83,14 +91,8 @@
             <RelationMap :data="this.referencedata" :type="'reference'" />
           </div>
         </div>
-      </div>
+        </div>      
     </div>
-    <el-tabs type="border-card">
-      <el-tab-pane label="评论">
-        <CommentCards :id="this.$route.params.docid"> </CommentCards>
-      </el-tab-pane>
-      <el-tab-pane label="专家推荐">专家推荐</el-tab-pane>
-    </el-tabs>
     <el-dialog
       title="复制引用信息"
       :visible.sync="documentcopyvisible"
@@ -109,9 +111,10 @@
 <script>
 import { SearchDriver } from "@elastic/search-ui";
 import SearchResults from "../components/search/SearchResults";
+import CommentSection from "../components/comment/CommentSection";
 import RelationMap from "../components/common/RelationMap.vue";
 import RelatedPaperChart from "../components/common/RelatedPaperChart.vue";
-import CommentCards from "@/components/comment/CommentCards";
+
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -120,13 +123,15 @@ import {
   csaffiliationconfig,
 } from "../searchConfig";
 import axios from "axios";
+import RecommendSection from "../components/recommendation/RecommendSection";
 var driver = null;
 
 export default {
   name: "Detail",
   props: [],
   components: {
-    CommentCards,
+    CommentSection,
+    RecommendSection,
     SearchResults,
     RelationMap,
     RelatedPaperChart,
@@ -382,7 +387,8 @@ export default {
           "Content-Type": "multipart/form-data",
         },
       };
-      axios.post(
+      axios
+        .post(
           "https://go-service-296709.df.r.appspot.com/api/v1/branch/graph/reference",
           formData,
           config
@@ -527,14 +533,31 @@ export default {
   width: 85vw;
   padding: 0px 20px 20px;
 }
-.result_detail_article_area {
+
+.result_detail_main_area {
   width: 50vw;
+}
+.result_detail_comment_area {
+  /* width: 100%; */
+  margin-block-start: 30px;
+}
+.tabs_area {
+  border-width: 1px;
+  /* border-color: grey; */
+  /* border-style: solid; */
+  border-radius: 20px;
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1),
+    -2px -2px 20px rgba(255, 255, 255, 0.5);
+}
+
+.result_detail_article_area {
+  /* width: 100%; */
   border-width: 1px;
   border-color: grey;
   /* border-style: solid; */
   border-radius: 10px;
   margin-top: 20px;
-  padding: 0px 20px;
+  padding: 15px 20px;
   /* background-image: linear-gradient(to right bottom, #abb7b7 ,#dadfe1); */
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1),
     -2px -2px 20px rgba(255, 255, 255, 0.5);
@@ -555,6 +578,16 @@ export default {
   margin-top: -5px;
   margin-bottom: -5px;
   color: black;
+}
+.bottom_area {
+  padding: 0vw 10vw 10vw 10vw;
+  width: 80vw;
+  /* display: flex; */
+  position: relative;
+  /* flex-direction: row; */
+  /* align-items: flex-start; */
+  /* flex-wrap: nowrap; */
+  justify-content: space-evenly;
 }
 </style>
 
