@@ -32,6 +32,11 @@
               :facet="searchState.facets.lang[0]"
               @change="handleFacetChange($event, 'lang')"
             />
+            <SearchFacet
+              :checked="venue"
+              :facet="searchState.facets.venue[0]"
+              @change="handleFacetChange($event, 'venue')"
+            />
           </div>
           <!-- 主文献 -->
           <!-- 计算机文献 -->
@@ -83,6 +88,7 @@
           <el-button
             icon="el-icon-document-copy"
             plain
+            v-if="configoption=='paper'"
             @click="documentcopyvisible = true"
             >搜索结果分析</el-button
           >

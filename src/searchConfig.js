@@ -39,7 +39,7 @@ const mainpaperconfig = {
   debug: true,
   apiConnector: mainpaperconnector,
   searchQuery: {
-    disjunctiveFacets: ["year", "lang"],
+    disjunctiveFacets: ["year", "lang","venue"],
     facets: {
       year: {
         type: "value"
@@ -47,6 +47,9 @@ const mainpaperconfig = {
       lang: {
         type: "value"
       },
+      venue:{
+        type:"value"
+      }
     }
   }
 };
