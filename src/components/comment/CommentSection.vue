@@ -3,11 +3,12 @@
   <div style="width:100%;">
     <el-input
       type="textarea"
-      :rows="2"
+      :rows="3"
       placeholder="请输入内容"
       v-model="textarea">
     </el-input>
-    <el-button type="primary" @click="submitComment">提交评论</el-button>
+    <el-button style="margin:10px" type="primary" @click="submitComment">提交评论</el-button>
+    <HR style="border:1 dashed silver" color=silver SIZE=1 />
     <CommentCard v-for="(comment,index) in commentList" :key="index" :comment="comment"
                   :index="index"></CommentCard>
   </div>
