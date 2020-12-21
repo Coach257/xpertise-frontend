@@ -2,15 +2,17 @@
   <div id="app">
     <NavBar/>
     <div class="app_container"><router-view/></div>
+    <WishlistDrawer/>
   </div>
 </template>
 
 <script>
 import NavBar from '../src/components/common/NavBar.vue'
+import WishlistDrawer from './components/wishlist/WishlistDrawer.vue'
  export default{
   name: 'App',
   props: [],
-  components:{NavBar},
+  components:{NavBar, WishlistDrawer},
   mounted() {
 
   },
