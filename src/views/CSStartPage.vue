@@ -31,7 +31,7 @@
 import SearchSection from "../components/search/SearchSection.vue";
 import StartPageInfo from "../components/common/StartPageInfo.vue";
 import RankingList from "../components/rankinglist/RankingList.vue"
-import PaperChart from "@/components/common/PaperChart";
+import PaperChart from "@/components/common/CSTotalPaperChart";
 
 export default {
   name: 'StartPage',
