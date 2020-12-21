@@ -9,11 +9,11 @@
 
       <div id='up'>
 
-        <div style="font-weight: bold;">
+        <div style="font-weight: bold; white-space: nowrap;" >
           {{this.info.title | cutLongTitle}}
         </div>
 
-        <div style="font-size: 10px; text-align: right; display: flex;">
+        <div style="font-size: 10px; text-align: right; display: flex; white-space: nowrap;">
           {{this.info.papers}} {{this.type}}
         </div>
 

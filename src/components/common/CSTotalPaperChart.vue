@@ -38,7 +38,16 @@ export default {
       option: {
         title: {
           text: '计算机会议文献统计表',
-          padding: [60, 400, 400, 400],
+          left: 'center',
+          top: 20,
+          padding: 10,
+          color: '#000',
+          borderRadius: 50,
+          backgroundColor: '#ffffff',
+          shadowBlur: 10,
+          shadowColor: '#b3b3b3',
+          shadowOffsetX: 0,
+          shadowOffsetY: 0,
         },
         tooltip: {},
         visualMap: {

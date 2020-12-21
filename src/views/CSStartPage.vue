@@ -22,7 +22,9 @@
       <RankingList title='Top Affiliation' type='cs'/>
     </div>
 
-    <c-s-total-paper-chart v-if="!show" style="position: relative;top: -150px;"></c-s-total-paper-chart>
+
+    <c-s-total-paper-chart v-if="!show" id = 'paper-chart'></c-s-total-paper-chart>
+
     <SearchSection :type="'cs'" :input='input' v-if='show'/>
   </div>
 </template>
@@ -143,5 +145,12 @@ export default {
 
   position: relative;
   top: -150px;
+}
+#paper-chart{
+  position: relative;top: -115px;
+  /* border: #cccccc solid thin; */
+  border-radius: 30px;
+  box-shadow:inset 0px 0px 10px 6px rgb(50,50,50,0.1);
+  padding: 20px 40px 20px 40px;
 }
 </style>
