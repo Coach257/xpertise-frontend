@@ -15,12 +15,12 @@
 
       <div style="display: flex;">
       <svg class="icon" width="21px" height="21px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M734.634667 72.448C717.824 55.978667 685.226667 42.666667 661.674667 42.666667H204.8C162.389333 42.666667 128 79.189333 128 124.330667v775.338666C128 944.768 162.474667 981.333333 204.8 981.333333h614.4c42.410667 0 76.8-36.693333 76.8-81.578666V273.493333c0-23.68-13.781333-56.405333-30.378667-72.661333l-130.986666-128.426667zM341.333333 298.666667h341.333334a42.666667 42.666667 0 0 1 0 85.333333H341.333333a42.666667 42.666667 0 1 1 0-85.333333z m0 170.666666h170.666667a42.666667 42.666667 0 0 1 0 85.333334H341.333333a42.666667 42.666667 0 0 1 0-85.333334z" fill="#666666"/></svg>
-      <div style="margin-left: 5px;">{{ this.affiliation.n_pubs }}篇</div>
+      <div style="margin-left: 5px; white-space: nowrap;">{{ this.affiliation.n_pubs }}篇</div>
       </div>
 
       <div style="display: flex;">
       <svg class="icon" width="21px" height="21px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M321.40024 143.1c22.4-17 53-19.9 78.4-7.4s40.9 38 39.8 65.4-18.8 51.6-45.1 62.1c-86.6 49.8-156 123.1-199.4 210.7h24.1c121 0 219.1 94.3 219.1 210.7s-98.1 210.7-219.1 210.7S0.00024 801 0.00024 684.6c-0.2-222 123.6-427.1 321.4-541.5z m584.3 0.7c22.4-17 53-19.9 78.4-7.4s40.9 38 39.8 65.4-18.8 51.6-45.1 62.1c-86.6 49.8-156 123.1-199.4 210.7h24.1c121 0 219.1 94.3 219.1 210.7S924.50024 896 803.50024 896s-219.1-94.3-219.1-210.7c0-221.7 123.8-427.2 321.3-541.5z" fill="#666666" /></svg>
-      <div style="margin-left: 5px;">{{ this.affiliation.n_citation }}次</div>
+      <div style="margin-left: 5px; white-space: nowrap;">{{ this.affiliation.n_citation }}次</div>
       </div>
 
       </div>
@@ -257,11 +257,12 @@ export default {
   text-align:center;
 }
 #affiliationInfo {
+  /* outline: #21ff06 dotted thick; */
   display: flex;
   justify-content: space-between;
   color: #666666;
   font-weight: 500;
-  width: 160px;
+  width: 180px;
   margin-top: 20px;
 }
 #affdata {

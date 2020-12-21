@@ -220,11 +220,23 @@
           >
             <div
               class="tagName"
-              v-for="(tag, index) in this.author.tags"
+              v-for="(tag, index) in (this.author.tags).slice((this.currentPage1-1)*this.eachPage, this.currentPage1*this.eachPage)"
               :key="index"
             >
               {{ tag.t }}
             </div>
+            
+            <center style="margin-top: 30px; margin-bottom: 30px">
+              <el-pagination
+                background
+                layout="prev, pager, next"
+                :total='total1'
+                :page-size='eachPage'
+                @current-change='handleCurrentChange1'
+                >
+              </el-pagination>
+            </center>
+            
           </div>
         </div>
       </div>
@@ -274,8 +286,10 @@ export default {
         tags: [],
       },
       currentPage: 1,
+      currentPage1: 1,
       eachPage: 50,
       total: 0,
+      total1: 0, 
       contendLoaded: false,
       relatedloaded: false,
       relateddata: [],
@@ -394,6 +408,9 @@ export default {
     // 翻页
     handleCurrentChange (currpage) {
       this.currentPage = currpage
+    },
+    handleCurrentChange1 (currpage) {
+      this.currentPage1 = currpage
     },
     // 机构跳转
     affRouterPush(id){
