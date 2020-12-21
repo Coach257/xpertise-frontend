@@ -459,6 +459,9 @@ export default {
       this.contendLoaded = true;
       this.total = this.author.pubs.length
       this.total1 = this.author.tags.length
+
+      //文献按照n_citation排序
+      this.author.pubs.sort(function(a, b){return b.n_citation - a.n_citation});
     },
     // 获取合作作者数据
     getrelatedauthor() {

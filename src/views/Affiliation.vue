@@ -97,8 +97,8 @@
 
             <div id='authorindex'>{{index+1+(currentPage2-1)*eachPage}}</div>
             <div style="width: 200px;"> {{ author.name }} </div>
-            <div>n_pubs:{{author.n_pubs}}</div>
-            <div>n_citation:{{author.n_citation}}</div>
+            <div class="citation">论文数:{{author.n_pubs}}</div>
+            <div class="citation">被引数:{{author.n_citation}}</div>
 
           </router-link>
         </div>
@@ -220,6 +220,11 @@ export default {
         this.contendLoaded = true;
         this.total1 = this.affiliation.pubs.length
         this.total2 = this.affiliation.authors.length
+
+        //文献按照n_citation排序
+        this.affiliation.pubs.sort(function(a, b){return b.n_citation - a.n_citation});
+        //作者按照n_pubs排序
+        this.affiliation.authors.sort(function(a, b){return b.n_pubs - a.n_pubs})
       }
     }
   },
