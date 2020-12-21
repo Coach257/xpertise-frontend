@@ -124,7 +124,7 @@ export default {
       searchState: {},
       currentPage1: 1,
       currentPage2: 1,
-      eachPage: 50,
+      eachPage: 5,
       total1: 0,
       total2: 0,
     };
@@ -176,7 +176,6 @@ export default {
               for (i = 0; i < response.data.data.length; i++) {
                 _this.colpapers.push({"name":response.data.data[i].paper_title,"id":response.data.data[i].paper_id});
               }
-              console.log(_this.colpapers);
 
               // console.log("开始11");
               // console.log(response.data.data[0].column_id);
@@ -232,6 +231,9 @@ export default {
                 _this.columnnum.push(response.data.data[i].column_id);
               }
               console.log(_this.columnnum);
+               _this.total1 = _this.columnnum.length
+              console.log(_this.total1);
+
               // console.log(_this.column);
 
               //_this.papersincol()

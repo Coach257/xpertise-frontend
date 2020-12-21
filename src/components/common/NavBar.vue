@@ -34,7 +34,7 @@
           </router-link>
           </div>
           <div class="nav_bar_action_link" v-else-if="issettled">
-          <router-link  tag="div"   class="nav_bar_action_link" :to="'/portal/'+this.user_info.user_id">
+          <router-link  tag="div"   class="nav_bar_action_link" :to="'/portal/'+author()">
             我的门户
           </router-link>
           </div>
@@ -96,6 +96,7 @@ export default {
           url: "/cs",
         },
       ],
+
       active_index: 0,
       logged_in: false,
       user_info: {
@@ -116,6 +117,7 @@ export default {
     }
   },
   methods: {
+    author(){ return localStorage.getItem("authorId")},
     onIndexChange(i) {
       console.log("change");
       this.active_index = i;
