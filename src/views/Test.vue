@@ -1,22 +1,29 @@
 <template>
   <div id="root">
-  <h1>Test Page</h1>
-	
-	<RelationMap/>
-	
+
+
+	<SelectTitle :buttons='buttons' />
+
   </div>
 </template>
 
 <script>
-import RelationMap from '../components/common/RelationMap.vue'
+import SelectTitle from '../components/common/SelectTitle.vue'
 
   export default {
     name: 'Test',
     components: {
-      RelationMap
+      SelectTitle
+    },
+    data () {
+      return {
+        buttons: ['语言分析数据', '时间分析数据' ,'来源分析数据']
+      }
     },
     methods: {
-      
+      selected(index) {
+        console.log(index)
+      }
     }
   }
 </script>

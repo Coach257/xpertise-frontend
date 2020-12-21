@@ -85,23 +85,28 @@
             <SearchSort v-model="sortBy" />
           </div>
           <!-- 机构 -->
-          <el-button
-            icon="el-icon-document-copy"
-            plain
-            v-if="configoption=='paper'"
-            @click="documentcopyvisible = true"
-            >搜索结果分析</el-button
-          >
+
+          <!-- 搜索结果分析 -->
+
+          <center>
+          <div class="wrapper2" v-if="configoption=='paper'" @click="documentcopyvisible = true" @mouseover="mouseOverWrapper2()"
+            @mouseleave="mouseLeaveWrapper2()">
+            <i class="el-icon-document-copy" style="margin-right: 5px;"></i> <span style="font-size: 14px; font-weight: bold;">搜索结果分析</span>
+          </div>
+          </center>
+
+
           <el-dialog
-            title="搜索结果分析"
             :visible.sync="documentcopyvisible"
-            width="80%"
           >
             <search-results-analysis
               :data="searchState.facets"
             ></search-results-analysis>
+
           </el-dialog>
         </div>
+
+        <!-- 搜索结果分析 -->
 
         <div class="sui-layout-main">
           <div class="sui-layout-main-header">
@@ -329,6 +334,18 @@ export default {
         boxShadow: "0px 0px 10px 2px rgb(127,127,127,0.2)",
       });
     },
+    mouseOverWrapper2() {
+      this.$gsap.to(".wrapper2", {
+        duration: 0.1,
+        boxShadow: "0px 0px 20px 5px rgb(127,127,127,0.3)",
+      });
+    },
+    mouseLeaveWrapper2() {
+      this.$gsap.to(".wrapper2", {
+        duration: 0.1,
+        boxShadow: "0px 0px 10px 2px rgb(127,127,127,0.2)",
+      });
+    },
 
     debug() {
       console.log(this.configoption);
@@ -346,12 +363,26 @@ export default {
 
 <style scoped>
 .wrapper {
-  /* border: #cccccc solid thin; */
   border: 1px solid #f0f0f0;
   border-radius: 30px;
   box-shadow: 0px 0px 10px 2px rgb(127, 127, 127, 0.2);
   padding: 15px;
 
   margin-top: 20px;
+}
+.wrapper2{
+
+
+  border: 1px solid #f0f0f0;
+  border-radius: 30px;
+  box-shadow: 0px 0px 10px 2px rgb(127, 127, 127, 0.2);
+  padding: 5px;
+
+  width: 150px;
+  margin-top: 20px;
+
+  text-align: center;
+
+  cursor: pointer;
 }
 </style>
