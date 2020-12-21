@@ -22,7 +22,9 @@
       <RankingList title='Top Affiliation' type='cs'/>
     </div>
 
-    <paper-chart v-if="!show" id = 'paper-chart'></paper-chart>
+
+    <c-s-total-paper-chart v-if="!show" id = 'paper-chart'></c-s-total-paper-chart>
+
     <SearchSection :type="'cs'" :input='input' v-if='show'/>
   </div>
 </template>
@@ -31,13 +33,13 @@
 import SearchSection from "../components/search/SearchSection.vue";
 import StartPageInfo from "../components/common/StartPageInfo.vue";
 import RankingList from "../components/rankinglist/RankingList.vue"
-import PaperChart from "@/components/common/CSTotalPaperChart";
+import CSTotalPaperChart from "@/components/common/CSTotalPaperChart";
 
 export default {
   name: 'StartPage',
   props: [],
   components: {
-    PaperChart,
+    CSTotalPaperChart,
     SearchSection,
     StartPageInfo,
     RankingList

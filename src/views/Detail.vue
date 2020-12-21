@@ -238,12 +238,7 @@ export default {
       };
       formData.append("paper_info", JSON.stringify(paperInfo));
       let config = { headers: { "Content-Type": "multipart/form-data" } };
-      axios
-        .post(
-          "https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/add",
-          formData,
-          config
-        )
+      axios.post("https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/add", formData, config)
         .then((response) => {
           if (response) {
             if (response.data.success) {

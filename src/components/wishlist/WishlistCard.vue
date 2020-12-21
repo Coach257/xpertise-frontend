@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <el-card shadow="hover">
-      <div slot="header" class="clearfix">
-        <span>{{ this.$props.item.title }}</span>
-        <el-button type="danger" icon="el-icon-delete" circle></el-button>
+  <div id="wishlist_card">
+    <el-card class="wishlist_card" shadow="hover">
+      <div slot="header">
+        <span>{{ this.$props.wish.title }}</span>
       </div>
-      <div class="card_info">
+      <div class="wishlist_card_info">
+        <el-divider content-position="left">摘要</el-divider>
         <span>
           {{ this.$data.short_abstract }}
         </span>
@@ -21,18 +21,16 @@
 </template>
 <script>
 export default {
-  name: "Drawer",
-  props: ["item"],
-  mounted(){
-    this.$data.short_abstract = this.$props.item.abstract.substring(0,40) + "...";
+  name: "WishlistCard",
+  props:["wish"],
+  mounted() {
+    this.$data.short_abstract = 
+         this.$props.wish.abstract.substring(0, 40) + "...";
   },
-  methods: {
-
-  },
+  methods: {},
   data() {
     return {
-      
-      short_abstract:"",
+      short_abstract: "",
       itemExample: {
         title: "title",
         abstract: "abstract",
@@ -43,3 +41,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.wishlist_card{
+  margin:20px
+}
+</style>
