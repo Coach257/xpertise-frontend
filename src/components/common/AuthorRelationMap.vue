@@ -19,7 +19,7 @@ export default {
             trigger:'item',
             formatter:function(params) {
                 if(params.data.source||params.data.target){
-                    return '合作数量:'+params.data.num
+                    return params.data.source + '与'+params.data.target+'</br>'+'合作文献数量:'+params.data.num
                 } else{
                     return params.data.name+"</br>"+"h_index: "+params.data.value
                 }
@@ -31,39 +31,9 @@ export default {
           {
             name: "作者合作关系图",
             type: "graph",
-            layout: "circular",
-            data: [{
-                name:'szl',
-                value:1,
-            },{
-                name:'zyh',
-                value:2,
-            },{
-                name:'hpf',
-                value:3,
-            },{
-                name:'zcy',
-                value:1000000
-            }
-            ],
-            links: [{
-                source:'szl',
-                target:'zyh',
-                num :65535
-            },{
-                source:'zyh',
-                target:'hpf'
-            },{
-                source:'hpf',
-                target:'szl'
-            },{
-                source:'szl',
-                target:'zcy',
-            },{
-                source:'zyh',
-                target:'zcy'
-            }
-            ],
+            layout: "force",
+            data: [],
+            links: [],
             roam: true,
             focusNodeAdjacency: true,
             itemStyle: {
@@ -92,6 +62,7 @@ export default {
     };
   },
   mounted() {
+    console.log(this.$props.data);
     // this.loadoption();
     let myChart = this.$echarts.init(document.getElementById("AuthorRelationMap"));
     myChart.setOption(this.option);

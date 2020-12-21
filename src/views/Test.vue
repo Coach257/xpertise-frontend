@@ -10,8 +10,8 @@
 
 
     <SelectTitle :buttons='buttons'/> -->
-    <!-- <author-relation-map></author-relation-map> -->
-    <reference-chart></reference-chart>
+    <author-relation-map></author-relation-map>
+    <!-- <reference-chart></reference-chart> -->
   </div>
 </template>
 

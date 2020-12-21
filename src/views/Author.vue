@@ -107,11 +107,19 @@
             </span>
           </div>
 
-          <div v-if="type == 1" style="display: flex; flex-wrap: wrap; justify-content: center; width: 400px;">
+          <div
+            v-if="type == 1"
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+              width: 400px;
+            "
+          >
             <span v-for="(org, index) in this.author.orgs_cs" :key="index">
               <div
                 class="affname"
-                @click='affRouterPush(org.id)'
+                @click="affRouterPush(org.id)"
                 style="cursor: pointer"
               >
                 {{ org.name }}
@@ -123,7 +131,12 @@
     </div>
 
     <div style="height: 350px"></div>
-
+    <author-compare-chart
+      :h_index="this.author.h_index"
+      :n_pubs="this.author.n_pubs"
+      :n_citation="this.author.n_citation"
+      v-if="loadfinish"
+    ></author-compare-chart>
     <div id="authorData">
       <div id="authorPapers" class="dataWrapper">
         <div class="datatitle">
@@ -148,31 +161,45 @@
         <div v-if="type == 1">
           <router-link
             class="link"
-            v-for="(pub, index) in (this.author.pubs).slice((this.currentPage-1)*this.eachPage, this.currentPage*this.eachPage)"
+            v-for="(pub, index) in this.author.pubs.slice(
+              (this.currentPage - 1) * this.eachPage,
+              this.currentPage * this.eachPage
+            )"
             :key="pub.i"
             :to="'/detail/cs/' + pub.id"
             tag="a"
             target="_blank"
           >
-            <div class="paperindex">{{ index+1+(currentPage-1)*eachPage }}</div>
+            <div class="paperindex">
+              {{ index + 1 + (currentPage - 1) * eachPage }}
+            </div>
             <div style="width: 700px">{{ pub.title }}</div>
-            <div style="font-size: 13px; margin-right: 10px; white-space: nowrap;">第{{ pub.r }}作者</div>
-            <div class="citation">被引{{pub.n_citation}}次</div>
+            <div
+              style="font-size: 13px; margin-right: 10px; white-space: nowrap"
+            >
+              第{{ pub.r }}作者
+            </div>
+            <div class="citation">被引{{ pub.n_citation }}次</div>
           </router-link>
         </div>
 
         <div v-if="type == 2">
           <router-link
             class="link"
-            v-for="(pub, index) in (this.author.pubs).slice((this.currentPage-1)*this.eachPage, this.currentPage*this.eachPage)"
+            v-for="(pub, index) in this.author.pubs.slice(
+              (this.currentPage - 1) * this.eachPage,
+              this.currentPage * this.eachPage
+            )"
             :key="pub.i"
             :to="'/detail/main/' + pub.id"
             tag="a"
             target="_blank"
           >
-            <div class="paperindex">{{ index+1+(currentPage-1)*eachPage }}</div>
+            <div class="paperindex">
+              {{ index + 1 + (currentPage - 1) * eachPage }}
+            </div>
             <div style="width: 700px">{{ pub.i }}</div>
-            <div class="citation">被引{{pub.r}}次</div>
+            <div class="citation">被引{{ pub.r }}次</div>
           </router-link>
         </div>
 
@@ -180,13 +207,12 @@
           <el-pagination
             background
             layout="prev, pager, next"
-            :total='total'
-            :page-size='eachPage'
-            @current-change='handleCurrentChange'
-            >
+            :total="total"
+            :page-size="eachPage"
+            @current-change="handleCurrentChange"
+          >
           </el-pagination>
         </center>
-
       </div>
 
       <div v-if="type == 2" id="authorLabel" class="dataWrapper">
@@ -220,32 +246,37 @@
           >
             <div
               class="tagName"
-              v-for="(tag, index) in (this.author.tags).slice((this.currentPage1-1)*this.eachPage, this.currentPage1*this.eachPage)"
+              v-for="(tag, index) in this.author.tags.slice(
+                (this.currentPage1 - 1) * this.eachPage,
+                this.currentPage1 * this.eachPage
+              )"
               :key="index"
             >
               {{ tag.t }}
             </div>
-            
+
             <center style="margin-top: 30px; margin-bottom: 30px">
               <el-pagination
                 background
                 layout="prev, pager, next"
-                :total='total1'
-                :page-size='eachPage'
-                @current-change='handleCurrentChange1'
-                >
+                :total="total1"
+                :page-size="eachPage"
+                @current-change="handleCurrentChange1"
+              >
               </el-pagination>
             </center>
-            
           </div>
         </div>
       </div>
     </div>
 
     <div id="authorRelationGraph" v-if="graphloaded">
-      <author-relation-map :data="this.mapdata"></author-relation-map>
+      <!-- <author-relation-map :data="this.mapdata"></author-relation-map> -->
     </div>
-    <related-author-chart :data="relateddata" v-if="relatedloaded"></related-author-chart>
+    <related-author-chart
+      :data="relateddata"
+      v-if="relatedloaded"
+    ></related-author-chart>
     <div id="authorColumn" v-if="issettled">这里是专栏</div>
 
     <div id="authorRecommend" v-if="issettled">这里是推荐</div>
@@ -256,6 +287,7 @@
 import { SearchDriver } from "@elastic/search-ui";
 import AuthorRelationMap from "../components/common/AuthorRelationMap.vue";
 import RelatedAuthorChart from "../components/common/RelatedAuthorChart.vue";
+import AuthorCompareChart from "../components/common/AuthorCompareChart.vue";
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -268,7 +300,7 @@ import axios from "axios";
 
 export default {
   name: "Author",
-  components: { AuthorRelationMap,RelatedAuthorChart },
+  components: { AuthorRelationMap, RelatedAuthorChart, AuthorCompareChart },
   props: [],
   data() {
     return {
@@ -289,7 +321,7 @@ export default {
       currentPage1: 1,
       eachPage: 50,
       total: 0,
-      total1: 0, 
+      total1: 0,
       contendLoaded: false,
       relatedloaded: false,
       relateddata: [],
@@ -406,16 +438,16 @@ export default {
       });
     },
     // 翻页
-    handleCurrentChange (currpage) {
-      this.currentPage = currpage
+    handleCurrentChange(currpage) {
+      this.currentPage = currpage;
     },
-    handleCurrentChange1 (currpage) {
-      this.currentPage1 = currpage
+    handleCurrentChange1(currpage) {
+      this.currentPage1 = currpage;
     },
     // 机构跳转
-    affRouterPush(id){
-      let routeData = this.$router.resolve('/affiliation/' + id);
-      window.open(routeData.href, '_blank');
+    affRouterPush(id) {
+      let routeData = this.$router.resolve("/affiliation/" + id);
+      window.open(routeData.href, "_blank");
     },
     // 赋值本作者信息
     getthisauthor() {
@@ -424,7 +456,7 @@ export default {
       var raw;
       if (results.name && results.name.raw) this.author.name = results.name.raw;
       if (this.type == 1) {
-        this.loadauthormap();
+        // this.loadauthormap();
       }
       if (results.h_index && results.h_index.raw)
         this.author.h_index = results.h_index.raw;
@@ -453,7 +485,7 @@ export default {
           this.author.tags.push(JSON.parse(raw[i]));
       }
       this.contendLoaded = true;
-      this.total = this.author.pubs.length
+      this.total = this.author.pubs.length;
     },
     // 获取合作作者数据
     getrelatedauthor() {
@@ -476,7 +508,8 @@ export default {
             _this.relateddata = response.data.message;
             _this.relatedloaded = true;
           } else {
-            console.log("注册失败");
+            console.log("请求失败");
+            console.log(response.data);
           }
         });
     },
@@ -492,7 +525,7 @@ export default {
       var _this = this;
       axios
         .post(
-          "https://go-service-296709.df.r.appspot.com/api/v1/portal/issettled",
+          "https://go-service-296709.df.r.appspot.com/api/v1/portal/is_settled",
           formData,
           config
         )
@@ -506,7 +539,29 @@ export default {
     },
     // 加载关系图数据
     loadauthormap() {
-      this.graphloaded = true;
+      let formData = new FormData();
+      formData.append("author_id", this.authorId);
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      var _this = this;
+      axios
+        .post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/portal/connection_graph",
+          formData,
+          config
+        )
+        .then(function (response) {
+          if (response.data.success) {
+            _this.mapdata = response.data.message;
+            _this.graphloaded = true;
+          } else {
+            console.log("请求失败");
+            console.log(response.data);
+          }
+        });
     },
   },
 };
