@@ -10,6 +10,7 @@ import axios from 'axios';
 import '@/assets/fonts/font.scss';
 import echarts from 'echarts'
 import 'echarts-gl'
+import VueClipboard from 'vue-clipboard2'
 
 
 
@@ -17,6 +18,7 @@ Vue.config.productionTip = false;
 Vue.config.devtools = true;
 
 Vue.use(ElementUI);
+Vue.use(VueClipboard);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;

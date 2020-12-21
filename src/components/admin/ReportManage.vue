@@ -20,18 +20,6 @@ export default {
     }
   },
   mounted() {
-    this.isScreenWide = window.innerWidth > 1300
-    $(".request-card").css("width", this.isScreenWide ? "30%" : "45%")
-    window.addEventListener('resize', () => {
-      if (!this.isScreenWide && window.innerWidth > 1300) {
-        this.isScreenWide = !this.isScreenWide
-        $(".request-card").css("width", "30%")
-      }
-      if (this.isScreenWide && window.innerWidth <= 1300) {
-        this.isScreenWide = !this.isScreenWide
-        $(".request-card").css("width", "45%")
-      }
-    }, false)
     // TODO: parsing report prop
     this.$axios.get(testUrl).then((res) => {
       let list = res['result']
@@ -54,6 +42,18 @@ export default {
         })
       }
     })
+    this.isScreenWide = window.innerWidth > 1300
+    $(".report-card").css("width", this.isScreenWide ? "30%" : "45%")
+    window.addEventListener('resize', () => {
+      if (!this.isScreenWide && window.innerWidth > 1300) {
+        this.isScreenWide = !this.isScreenWide
+        $(".report-card").css("width", "30%")
+      }
+      if (this.isScreenWide && window.innerWidth <= 1300) {
+        this.isScreenWide = !this.isScreenWide
+        $(".report-card").css("width", "45%")
+      }
+    }, false)
   }
 
 }

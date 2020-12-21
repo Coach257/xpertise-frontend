@@ -28,9 +28,14 @@
         </div>
         <div v-else>
 
-          <div class="nav_bar_action_link" v-if="issettled">
+          <div class="nav_bar_action_link" v-if="isnotsettled">
           <router-link  tag="div"   class="nav_bar_action_link" :to="'/settle'">
             入驻平台
+          </router-link>
+          </div>
+          <div class="nav_bar_action_link" v-else-if="issettled">
+          <router-link  tag="div"   class="nav_bar_action_link" :to="'/portal/'+this.user_info.user_id">
+            我的门户
           </router-link>
           </div>
           <router-link
@@ -70,6 +75,7 @@ export default {
     if(localStorage.getItem('userid')) {
       this.logged_in = true;
       this.user_info.user_type = localStorage.getItem('user_type');
+      this.user_info.user_id = localStorage.getItem('userid');
     }
     // var result = {
     //   logged_in: false,
@@ -94,6 +100,7 @@ export default {
       logged_in: false,
       user_info: {
         user_type:null,
+        user_id:null,
       },
     };
   },
@@ -101,9 +108,12 @@ export default {
     isadmin(){
       return this.user_info.user_type && this.user_info.user_type == 3
     },
-    issettled(){
-      return this.user_info.user_type && this.user_info.user_type != 2
+    isnotsettled(){
+      return this.user_info.user_type && this.user_info.user_type == 1
     },
+    issettled(){
+      return this.user_info.user_type && this.user_info.user_type == 2
+    }
   },
   methods: {
     onIndexChange(i) {

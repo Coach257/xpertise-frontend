@@ -7,7 +7,8 @@
         </div>
         <div class="result_detail_author_container">
           <router-link
-            tag="div"
+            tag="a"
+            target="_blank"
             :to="'/author/' + $route.params.type + '/' + author.id"
             class="result_detail_author"
             v-for="(author, index) in this.article.authors"
@@ -37,7 +38,6 @@
           <p>{{ this.article.lang }}</p>
           <p>{{ this.article.issue }}</p>
           <p>{{ this.article.venue }}</p>
-          <p>{{ this.article.conference }}</p>
           <p>{{ this.article.issn }}</p>
           <p>{{ this.article.doi }}</p>
           <p>{{ this.article.url }}</p>
@@ -58,9 +58,12 @@
             >
             <el-button icon="el-icon-download" plain>下载</el-button>
             <h3>引用</h3>
-            <el-button icon="el-icon-document-copy" plain
-              >复制引用信息</el-button
-            >
+            <el-button
+            icon="el-icon-document-copy"
+            plain
+            @click="documentcopyvisible = true"
+            >复制引用信息</el-button
+          >
             <h3>操作</h3>
             <el-button
               type="warning"
@@ -89,16 +92,94 @@
               <h3>引用关系图谱</h3>
               这里要加引用关系图谱
             </div>
+      <div class="result_detail_article_area">
+        <h3>摘要</h3>
+        <p>{{ this.article.abstract }}</p>
+        <h3>信息</h3>
+        <!-- <p v-for="item in article.other" :key="item.name1">item</p> -->
+        <p>{{ this.article.year }}</p>
+        <p>{{ this.article.keywords }}</p>
+        <p>{{ this.article.n_citation }}</p>
+        <p>{{ this.article.page_start }} {{ this.article.page_end }}</p>
+        <p>{{ this.article.lang }}</p>
+        <p>{{ this.article.issue }}</p>
+        <p>{{ this.article.venue }}</p>
+        <p>{{ this.article.issn }}</p>
+        <p>{{ this.article.doi }}</p>
+        <p>{{ this.article.url }}</p>
+      </div>
+      <div class="result_detail_side_area">
+        <div class="result_detail_side_container">
+          <h3>下载</h3>
+          <el-button type="primary" icon="el-icon-document" plain
+            >查看原文</el-button
+          >
+          <el-button icon="el-icon-download" plain>下载</el-button>
+          <h3>引用</h3>
+          <el-button
+            icon="el-icon-document-copy"
+            plain
+            @click="documentcopyvisible = true"
+            >复制引用信息</el-button
+          >
+          <h3>操作</h3>
+          <el-button
+            type="warning"
+            icon="el-icon-star-off"
+            v-if="article.starred === false"
+            @click="addToFav"
+            plain
+            >收藏</el-button
+          >
+          <el-button
+            type="warning"
+            icon="el-icon-star-on"
+            v-else
+            @click="removeFromFav"
+            >已收藏</el-button
+          >
+          <el-button @click="debug">Debug</el-button>
+          <h3>相关文章</h3>
+          <related-paper-chart
+            :data="this.related_papers.slice(1)"
+            :type="this.type"
+            v-if="this.relatedloaded"
+          ></related-paper-chart>
+          <div v-if="referenceloadfinish">
+            <h3>引用关系图谱</h3>
+            <RelationMap :data="this.referencedata" :type="'reference'" />
           </div>
         </div>
       
     </div>
+    <el-tabs type="border-card">
+      <el-tab-pane label="评论">
+        <CommentCards :id="this.$route.params.docid"> </CommentCards>
+      </el-tab-pane>
+      <el-tab-pane label="专家推荐">专家推荐</el-tab-pane>
+    </el-tabs>
+    <el-dialog
+      title="复制引用信息"
+      :visible.sync="documentcopyvisible"
+      width="60%"
+    >
+      <li
+        v-for="(documentcopyinfo, index) in this.documentcopylist"
+        :key="index"
+      >
+        {{ documentcopyinfo.name }} {{ documentcopyinfo.info }}
+        <el-button v-clipboard:copy="documentcopyinfo.info">copy</el-button>
+      </li>
+    </el-dialog>
   </div>
 </template>
 <script>
 import { SearchDriver } from "@elastic/search-ui";
 import SearchResults from "../components/search/SearchResults";
 import CommentSection from "../components/comment/CommentSection";
+import RelationMap from "../components/common/RelationMap.vue";
+import RelatedPaperChart from "../components/common/RelatedPaperChart.vue";
+import CommentCards from "@/components/comment/CommentCards";
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -115,12 +196,16 @@ export default {
   props: [],
   components: {
     CommentSection,
-    SearchResults,
     RecommendSection,
+    CommentCards,
+    SearchResults,
+    RelationMap,
+    RelatedPaperChart,
   },
   mounted() {
     this.init_data();
     this.init_driver();
+    this.isFav();
     this.loadcomment();
     this.loadrecommand();
   },
@@ -139,7 +224,6 @@ export default {
         lang: "",
         issue: "",
         venue: "",
-        conference: "",
         volume: "",
         issn: "",
         doi: "",
@@ -151,11 +235,14 @@ export default {
       type: "",
       option: "",
       related_papers: [],
+      referencedata: [],
       searchState: {},
       driverlink: "", // 控制es结果赋值
       referenceloaded: false, // 控制引用图谱显示
       articleloaded: false, // 控制整个页面显示
       relatedloaded: false, // 控制相关文章显示
+      documentcopyvisible: false,
+      documentcopylist: [],
     };
   },
   watch: {
@@ -299,13 +386,12 @@ export default {
     },
     // 赋值article
     getthispaper() {
-      if (this.type == "cs") this.loadreference();
       var results = this.searchState.results[0];
       var raw;
       this.article.paper_id = results.id.raw;
-      this.isFav();
       if (results.title && results.title.raw)
         this.article.title = results.title.raw;
+      if (this.type == "cs") this.loadreference();
       if (results.authors && results.authors.raw) {
         raw = results.authors.raw;
         for (var i = 0; i < raw.length; i++) {
@@ -333,9 +419,7 @@ export default {
       if (results.issue && results.issue.raw)
         this.article.issue = results.issue.raw;
       if (results.venue && results.venue.raw)
-        this.article.venue = results.venue.raw;
-      if (results.conference && results.conference.raw)
-        this.article.conference = results.conference.raw;
+        this.article.venue = JSON.parse(results.venue.raw).raw;
       if (results.volume && results.volume.raw)
         this.article.volume = results.volume.raw;
       if (results.issn && results.issn.raw)
@@ -344,6 +428,7 @@ export default {
       if (results.url && results.url.raw) this.article.url = results.url.raw;
       this.articleloaded = true;
       this.loadrelatedpapers();
+      this.loaddocumentcopyinfo();
     },
     // 获取相关文章
     loadrelatedpapers() {
@@ -357,16 +442,39 @@ export default {
       this.related_papers = this.searchState.results;
       this.relatedloaded = true;
     },
+    // 加载引用关系图数据
     loadreference() {
-      console.log("这个函数请求引用关系");
-      this.referenceloaded = true;
+      let that = this;
+      let formData = new FormData();
+      formData.append("paper_id", this.docid);
+      formData.append("paper_title", this.article.title);
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      axios.post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/branch/graph/reference",
+          formData,
+          config
+        )
+        .then((response) => {
+          if (response) {
+            if (response.data.success) {
+              this.referencedata = response.data.data;
+              this.referenceloaded = true;
+            } else {
+              console.log(response);
+            }
+          }
+        });
     },
     // 判断该文章是否被收藏
     isFav() {
       let that = this;
       let formData = new FormData();
       formData.append("user_id", localStorage.getItem("userid"));
-      formData.append("paper_id", this.article.id);
+      formData.append("paper_id", this.docid);
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -394,6 +502,76 @@ export default {
     loadcomment() {},
     // 加载推荐
     loadrecommand() {},
+    debug() {
+      console.log(this.referenceloaded);
+    },
+    loaddocumentcopyinfo() {
+      var info = "";
+      for (let i = 0; i < this.article.authors.length; i++) {
+        info += this.article.authors[i].name + ".,";
+      }
+      info +=
+        this.article.title +
+        "," +
+        this.article.venue +
+        "," +
+        this.article.year +
+        "," +
+        this.article.volume +
+        ".";
+      this.documentcopylist.push({
+        name: "GB/T 7714",
+        info: info,
+      });
+      info = "";
+      for (let i = 0; i < this.article.authors.length; i++) {
+        info += this.article.authors[i].name + ",";
+      }
+      info +=
+        '"' +
+        this.article.title +
+        '"' +
+        this.article.venue +
+        ".,vol." +
+        this.article.volume +
+        "," +
+        this.article.year +
+        ".";
+      this.documentcopylist.push({
+        name: "MLA",
+        info: info,
+      });
+      info = "";
+      for (let i = 0; i < this.article.authors.length; i++) {
+        info += this.article.authors[i].name + ".,";
+      }
+      info +=
+        "(" +
+        this.article.year +
+        ")." +
+        this.article.title +
+        "." +
+        this.article.venue +
+        "," +
+        this.article.volume +
+        ".";
+      this.documentcopylist.push({
+        name: "APA",
+        info: info,
+      });
+      info = "@inproceedings{Xpertise" + this.article.paper_id + ",\r";
+      info += 'title="' + this.article.title + '",\nauthor="';
+      for (let i = 0; i < this.article.authors.length; i++) {
+        info += this.article.authors[i].name + ",";
+      }
+      info += '",\njournal="';
+      info += this.article.venue + '",\nvolume="';
+      info += this.article.year + '",';
+      this.documentcopylist.push({
+        name: "BibTeX",
+        info: info,
+      });
+    },
   },
 };
 </script>

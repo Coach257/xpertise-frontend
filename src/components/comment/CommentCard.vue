@@ -4,31 +4,55 @@
       <div slot="header" class="comment_header_area">
         <div class="comment_head">
         <div class="comment_avatar"><i class="el-icon-user"/></div>
-        <div class="comment_username">  {{ this.$props.comment.username }}</div><br/>
-        <div class="comment_create_time">{{ this.$props.comment.create_time }}</div></div>
+        <div class="comment_username">  {{ this.comment.username }}</div><br/>
+        <div class="comment_create_time">{{ this.comment.create_time }}</div></div>
         <div class="comment_actions">
         <el-button-group>
-          <el-button icon="el-icon-top">顶</el-button>
-          <el-button icon="el-icon-bottom">踩</el-button>
+          <el-button icon="el-icon-top" @click="dislikeOrLikeComment(1)">顶</el-button>
+          <el-button icon="el-icon-bottom" @click="dislikeOrLikeComment(2)">踩</el-button>
           <el-button icon="el-icon-more">操作</el-button>
         </el-button-group>
       </div></div>
       <div class="card_info">
         <span>
-          {{ this.$props.comment.comment}}
+          {{ this.comment.content }}
         </span>
       </div>
     </el-card>
   </div>
 </template>
 <script>
+import axios from 'axios'
+const testurl = "https://go-service-296709.df.r.appspot.com/api/v1/branch/comment/give_a_like_or_dislike"
 export default {
   name: "Drawer",
-  props: ["comment"],
-  mounted() {
-    // this.$data.itemExample;
+  props: {
+    comment: Object,
   },
-  methods: {},
+  mounted() {
+    console.log("评论");
+    console.log(this.comment);
+  },
+  methods: {
+    dislikeOrLikeComment(method) {
+      let that = this;
+      let formData = new FormData();
+      formData.append("comment_id", this.comment.comment_id);
+      formData.append("user_id", localStorage.getItem("userid"));
+      formData.append("method", method);
+      let config = { headers: { "Content-Type": "multipart/form-data", }, };
+      axios.post(testurl, formData, config).then((response) => {
+        if (response) {
+          console.log(response);
+          if (response.data.success) {
+
+          } else {
+            console.log(response)
+          }
+        }
+      });
+    },
+  },
   data() {
     return {
       short_abstract: "",
