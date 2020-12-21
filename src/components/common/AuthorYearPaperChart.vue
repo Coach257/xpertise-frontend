@@ -29,9 +29,9 @@ export default {
       option: {
         color: colors,
         tooltip: {
-          trigger: 'yAxis',
+          trigger: 'axis',
           axisPointer: {
-            type: 'shadow'
+            type: 'cross'
           }
         },
         legend: {
@@ -85,7 +85,7 @@ export default {
             type: 'bar',
             yAxisIndex: 1,
             data: [] //?
-          },
+          }
         ]
       }
     }
