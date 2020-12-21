@@ -158,8 +158,8 @@
           >
             <div class="paperindex">{{ index + 1 }}</div>
             <div style="width: 700px">{{ pub.title }}</div>
-
-            <div class="citation">被引{{ pub.r }}次</div>
+            <div >第{{pub.r}}作者</div>
+            <div class="citation">被引xx次</div>
           </router-link>
         </div>
 
@@ -174,8 +174,7 @@
           >
             <div class="paperindex">{{ index + 1 }}</div>
             <div style="width: 700px">{{ pub.i }}</div>
-
-            <div class="citation">被引{{ pub.r }}次</div>
+            <div >第{{pub.r}}作者</div>
           </router-link>
         </div>
       </div>
@@ -254,7 +253,7 @@ export default {
       issettled: false,
       type: 0,
       author: {
-        h_index: -1,
+        h_index: 0,
         orgs_main: [],
         orgs_cs: [],
         pubs: [],
@@ -396,11 +395,10 @@ export default {
             if (this.type === 1)this.author.orgs_cs.push(JSON.parse(results.orgs.raw[i]))
             else this.author.orgs_main.push(results.orgs.raw[i])          
           } 
-          console.log(this.author.orgs_cs)
       }
 
-      if (results.n_citation) this.author.n_citation = results.n_citation.raw;
-      if (results.n_pubs) this.author.n_pubs = results.n_pubs.raw;
+      if (results.n_citation && results.n_citation.raw) this.author.n_citation = results.n_citation.raw;
+      if (results.n_pubs && results.n_pubs.raw) this.author.n_pubs = results.n_pubs.raw;
 
       if (results.pubs && results.pubs.raw) {
         raw = results.pubs.raw;
