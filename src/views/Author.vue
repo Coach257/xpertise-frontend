@@ -228,7 +228,7 @@
 
 <script>
 import { SearchDriver } from "@elastic/search-ui";
-import RelationMap from '../components/common/RelationMap.vue'
+import RelationMap from "../components/common/RelationMap.vue";
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -241,10 +241,11 @@ import axios from "axios";
 
 export default {
   name: "Author",
-  components: {RelationMap},
+  components: { RelationMap },
   props: [],
   data() {
     return {
+      authorId: "",
       issettled: false,
       type: 0,
       author: {
@@ -258,9 +259,10 @@ export default {
         tags: [],
       },
       contendLoaded: false,
-      graphloaded:false,
+      graphloaded: false,
       searchState: {},
-      mapdata:{},
+      mapdata: {},
+      driverlink: "",
     };
   },
   computed: {
@@ -272,29 +274,55 @@ export default {
     },
   },
   mounted() {
-    // console.log(this.$route.params.authorId);
-    if (this.$route.params.type == "cs") {
-      driver = new SearchDriver(csauthorconfig);
-      this.type = 1;
-    } else {
-      driver = new SearchDriver(mainauthorconfig);
-      this.type = 2;
+    this.initdata();
+    this.initdriver();
+    this.setissettled();
 
-      //设置#authorInfo的宽度
-      this.$gsap.set("#authorInfo", { width: "240px" });
-    }
-    // console.log(this.type);
-    driver.addFilter("id", this.$route.params.authorId, "any");
-    driver.subscribeToStateChanges((state) => {
-      this.searchState = state;
-    });
     this.setissettled(this.$route.params.authorId);
     this.initAnimation();
   },
+
+  watch: {
+    searchState(newsearchState) {
+      if (this.thereAreResults()) {
+        if (this.driverlink == "thisauthor") {
+          this.getthisauthor();
+        } else {
+          this.getrelatedauthor();
+        }
+      }
+    },
+  },
   methods: {
     thereAreResults() {
-      return this.searchState.totalResults > 0;
+      return this.searchState.totalResults && this.searchState.totalResults > 0;
     },
+    // 基本初始化
+    initdata() {
+      this.authorId = this.$route.params.authorId;
+      if (this.$route.params.type == "cs") {
+        this.type = 1;
+      } else {
+        this.type = 2;
+        this.$gsap.set("#authorInfo", { width: "240px" });
+      }
+    },
+    // 初始化driver
+    initdriver() {
+      this.driverlink = "thisauthor";
+      if (this.type == 1) {
+        driver = new SearchDriver(csauthorconfig);
+      } else {
+        driver = new SearchDriver(mainauthorconfig);
+      }
+      driver.reset();
+      driver.setResultsPerPage(1);
+      driver.addFilter("id", this.authorId, "any");
+      driver.subscribeToStateChanges((state) => {
+        this.searchState = state;
+      });
+    },
+    // 初始化动画
     initAnimation() {
       this.$gsap.to("#authorHeader", {
         duration: 1,
@@ -351,10 +379,41 @@ export default {
         },
       });
     },
+    getthisauthor() {
+      var results = this.searchState.results[0];
+      var raw;
+      if (results.name && results.name.raw) this.author.name = results.name.raw;
+      if (this.type == 1) {
+        this.loadauthormap();
+      }
+      if (results.h_index && results.h_index.raw) this.author.h_index = results.h_index.raw;
+      if (results.orgs && results.orgs.raw) {
+        this.author.orgs_main = results.orgs.raw[0];
+        if (this.type === 1)
+          this.author.orgs_cs = JSON.parse(results.orgs.raw[0]);
+      }
+
+      if (results.n_citation) this.author.n_citation = results.n_citation.raw;
+      if (results.n_pubs) this.author.n_pubs = results.n_pubs.raw;
+
+      if (results.pubs && results.pubs.raw) {
+        raw = results.pubs.raw;
+        for (let i = 0; i < raw.length; i++)
+          this.author.pubs.push(JSON.parse(raw[i]));
+      }
+
+      if (results.tags && results.tags.raw) {
+        raw = results.tags.raw;
+        for (let i = 0; i < raw.length; i++)
+          this.author.tags.push(JSON.parse(raw[i]));
+      }
+      this.contendLoaded = true;
+    },
+    getrelatedauthor() {},
     // 请求判断该作者是否入驻
-    setissettled(authorID) {
+    setissettled() {
       let formData = new FormData();
-      formData.append("author_id", authorID);
+      formData.append("author_id", this.authorId);
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -376,42 +435,7 @@ export default {
         });
     },
     // 加载关系图数据
-    loadauthormap(){
-
-    }
-  },
-  watch: {
-    searchState(newsearchState) {
-      if (this.thereAreResults()) {
-        // console.log(newsearchState);
-        var results = newsearchState.results[0];
-        var raw;
-        if (results.name) this.author.name = results.name.raw;
-        if(this.type == 1){this.loadauthormap()}
-        if (results.h_index) this.author.h_index = results.h_index.raw;
-        if (results.orgs && results.orgs.raw) {
-          this.author.orgs_main = results.orgs.raw[0];
-          if (this.type === 1)
-            this.author.orgs_cs = JSON.parse(results.orgs.raw[0]);
-        }
-
-        if (results.n_citation) this.author.n_citation = results.n_citation.raw;
-        if (results.n_pubs) this.author.n_pubs = results.n_pubs.raw;
-
-        if (results.pubs && results.pubs.raw) {
-          raw = results.pubs.raw;
-          for (let i = 0; i < raw.length; i++)
-            this.author.pubs.push(JSON.parse(raw[i]));
-        }
-
-        if (results.tags && results.tags.raw) {
-          raw = results.tags.raw;
-          for (let i = 0; i < raw.length; i++)
-            this.author.tags.push(JSON.parse(raw[i]));
-        }
-        this.contendLoaded = true;
-      }
-    },
+    loadauthormap() {},
   },
 };
 </script>
