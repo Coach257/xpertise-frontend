@@ -2,13 +2,14 @@
   <div id="root">
     <h1>Test Page</h1>
 
-    <RelationMap/>
+    <!-- <RelationMap/>
     <organization-year-paper-chart :type="'Citation'"></organization-year-paper-chart>
     <organization-year-paper-chart :type="'Paper'"></organization-year-paper-chart>
     <author-year-paper-chart></author-year-paper-chart>
 
 
-    <SelectTitle :buttons='buttons'/>
+    <SelectTitle :buttons='buttons'/> -->
+    <author-relation-map></author-relation-map>
 
   </div>
 </template>
@@ -18,14 +19,15 @@ import RelationMap from '../components/common/RelationMap.vue'
 import OrganizationYearPaperChart from "@/components/common/OrganizationYearPaperChart";
 import AuthorYearPaperChart from "@/components/common/AuthorYearPaperChart";
 import SelectTitle from '../components/common/SelectTitle.vue'
-
+import AuthorRelationMap from '../components/common/AuthorRelationMap.vue'
 export default {
   name: 'Test',
   components: {
     AuthorYearPaperChart,
     OrganizationYearPaperChart,
     RelationMap,
-    SelectTitle
+    SelectTitle,
+    AuthorRelationMap,
   },
   data() {
     return {

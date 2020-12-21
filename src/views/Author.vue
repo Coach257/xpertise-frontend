@@ -61,7 +61,7 @@
             <div style="margin-left: 5px">{{ this.author.n_citation }}次</div>
           </div>
 
-          <div style="display: flex" v-if="type == 2">
+          <div style="display: flex">
             <svg
               class="icon"
               width="21px"
@@ -157,7 +157,7 @@
             <div class="paperindex">{{ index+1+(currentPage-1)*eachPage }}</div>
             <div style="width: 700px">{{ pub.title }}</div>
             <div style="font-size: 13px; margin-right: 10px; white-space: nowrap;">第{{ pub.r }}作者</div>
-            <div class="citation">被引xx次</div>
+            <div class="citation">被引{{pub.n_citation}}次</div>
           </router-link>
         </div>
 
@@ -172,7 +172,7 @@
           >
             <div class="paperindex">{{ index+1+(currentPage-1)*eachPage }}</div>
             <div style="width: 700px">{{ pub.i }}</div>
-            <div style="font-size: 13px; margin-right: 10px; white-space: nowrap;">第{{ pub.r }}作者</div>
+            <div class="citation">被引{{pub.r}}次</div>
           </router-link>
         </div>
 
@@ -230,8 +230,8 @@
       </div>
     </div>
 
-    <div id="authorRelationGraph" v-if="iscspaper">
-      <!-- <RelationMap :data="mapdata" :type="'author_connection'"/> -->
+    <div id="authorRelationGraph" v-if="graphloaded">
+      <author-relation-map :data="this.mapdata"></author-relation-map>
     </div>
     <related-author-chart :data="relateddata" v-if="relatedloaded"></related-author-chart>
     <div id="authorColumn" v-if="issettled">这里是专栏</div>
@@ -242,7 +242,7 @@
 
 <script>
 import { SearchDriver } from "@elastic/search-ui";
-import RelationMap from "../components/common/RelationMap.vue";
+import AuthorRelationMap from "../components/common/AuthorRelationMap.vue";
 import RelatedAuthorChart from "../components/common/RelatedAuthorChart.vue";
 import {
   mainpaperconfig,
@@ -256,7 +256,7 @@ import axios from "axios";
 
 export default {
   name: "Author",
-  components: { RelationMap,RelatedAuthorChart },
+  components: { AuthorRelationMap,RelatedAuthorChart },
   props: [],
   data() {
     return {
@@ -488,7 +488,9 @@ export default {
         });
     },
     // 加载关系图数据
-    loadauthormap() {},
+    loadauthormap() {
+      this.graphloaded = true;
+    },
   },
 };
 </script>
@@ -547,7 +549,7 @@ export default {
   justify-content: space-between;
   color: #666666;
   font-weight: 500;
-  width: 160px;
+  width: 200px;
   margin-top: 20px;
 }
 #authorAff {
