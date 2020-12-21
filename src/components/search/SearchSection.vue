@@ -32,6 +32,11 @@
               :facet="searchState.facets.lang[0]"
               @change="handleFacetChange($event, 'lang')"
             />
+            <SearchFacet
+              :checked="venue"
+              :facet="searchState.facets.venue[0]"
+              @change="handleFacetChange($event, 'venue')"
+            />
           </div>
           <!-- 主文献 -->
           <!-- 计算机文献 -->
