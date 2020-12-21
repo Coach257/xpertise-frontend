@@ -156,7 +156,7 @@
           >
             <div class="paperindex">{{ index+1+(currentPage-1)*eachPage }}</div>
             <div style="width: 700px">{{ pub.title }}</div>
-            <div style="font-size: 13px; margin-right: 10px; white-space: nowrap;">第{{ pub.r }}作者</div>
+            <div class="citation2">第{{ pub.r }}作者</div>
             <div class="citation">被引{{pub.n_citation}}次</div>
           </router-link>
         </div>
@@ -692,6 +692,27 @@ export default {
 
   border-radius: 10px;
 
+  padding: 2px 8px 2px 8px;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  margin-top: 3px;
+}
+.citation2{
+  white-space: nowrap;
+  
+  position: relative;
+  right: 5px;
+  
+  text-align: center;
+  
+  font-size: 13px;
+  
+  background-color: #dace0a;
+  color: white;
+  
+  border-radius: 10px;
+  
   padding: 2px 8px 2px 8px;
   margin-left: 3px;
   margin-right: 3px;
