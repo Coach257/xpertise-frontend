@@ -75,9 +75,9 @@ export default {
         if (response) {
           console.log(response);
           if (response.data.success) {
-
+            console.log("评论成功");
           } else {
-            console.log(response)
+            console.log(response);
           }
         }
       });
