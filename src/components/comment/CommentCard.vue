@@ -10,8 +10,8 @@
         <el-button-group>
           <el-button icon="el-icon-top" @click="dislikeOrLikeComment(1)">顶</el-button>
           <el-button icon="el-icon-bottom" @click="dislikeOrLikeComment(2)">踩</el-button>
-          <el-button icon="el-icon-bottom" @click="operateComment(1)">置顶</el-button>
-          <el-button icon="el-icon-bottom" @click="operateComment(3)">删除</el-button>
+          <el-button icon="el-icon-bottom" @click="operateComment(1)" v-if="this.commentOperate">置顶</el-button>
+          <el-button icon="el-icon-bottom" @click="operateComment(3)" v-if=this.commentOperate>删除</el-button>
         </el-button-group>
       </div></div>
       <div class="card_info">
@@ -32,8 +32,12 @@ export default {
     comment: Object,
   },
   mounted() {
-    console.log("评论");
-    console.log(this.comment);
+    let list = JSON.parse(localStorage.getItem("paper_info"));
+    for(let i = 0; i < list.length; i++) {
+      let tmpt = JSON.parse(list[i]);
+      if(tmpt.id == this.comment.paper_id)
+        this.commentOperate = true;
+    }
   },
   methods: {
     handleClick2(method) {
@@ -86,6 +90,7 @@ export default {
         upvote:12,
         downvote:11,
       },
+      commentOperate: false,
     };
   },
 };
