@@ -67,6 +67,7 @@
           :total='total1'
           :page-size='eachPage'
           @current-change='handleCurrentChange1'
+          hide-on-single-page=true
           >
         </el-pagination>
         </center>
@@ -109,6 +110,8 @@
           :total='total2'
           :page-size='eachPage'
           @current-change='handleCurrentChange2'
+          pager-count=5
+          hide-on-single-page=true
           >
         </el-pagination>
         </center>

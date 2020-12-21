@@ -183,6 +183,7 @@
             :total='total'
             :page-size='eachPage'
             @current-change='handleCurrentChange'
+            hide-on-single-page=true
             >
           </el-pagination>
         </center>
@@ -212,7 +213,7 @@
 
           <div
             style="
-              width: 200px;
+              width: 330px;
               display: flex;
               flex-direction: column;
               align-items: flex-start;
@@ -220,23 +221,25 @@
           >
             <div
               class="tagName"
-              v-for="(tag, index) in (this.author.tags).slice((this.currentPage1-1)*this.eachPage, this.currentPage1*this.eachPage)"
+              v-for="(tag, index) in (this.author.tags).slice((this.currentPage1-1)*this.eachPage1, this.currentPage1*this.eachPage1)"
               :key="index"
             >
               {{ tag.t }}
             </div>
-            
+
             <center style="margin-top: 30px; margin-bottom: 30px">
               <el-pagination
                 background
                 layout="prev, pager, next"
                 :total='total1'
-                :page-size='eachPage'
+                :page-size='eachPage1'
                 @current-change='handleCurrentChange1'
+                pager-count=5
+                hide-on-single-page=true
                 >
               </el-pagination>
             </center>
-            
+
           </div>
         </div>
       </div>
@@ -288,8 +291,9 @@ export default {
       currentPage: 1,
       currentPage1: 1,
       eachPage: 50,
+      eachPage1: 50,
       total: 0,
-      total1: 0, 
+      total1: 0,
       contendLoaded: false,
       relatedloaded: false,
       relateddata: [],
@@ -454,6 +458,7 @@ export default {
       }
       this.contendLoaded = true;
       this.total = this.author.pubs.length
+      this.total1 = this.author.tags.length
     },
     // 获取合作作者数据
     getrelatedauthor() {
