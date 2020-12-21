@@ -1,38 +1,50 @@
 <template>
   <div id="root">
+    <h1>Test Page</h1>
+
+    <RelationMap/>
+    <organization-year-paper-chart :type="'Citation'"></organization-year-paper-chart>
+    <organization-year-paper-chart :type="'Paper'"></organization-year-paper-chart>
+    <author-year-paper-chart></author-year-paper-chart>
 
 
-	<SelectTitle :buttons='buttons' />
+    <SelectTitle :buttons='buttons'/>
 
   </div>
 </template>
 
 <script>
+import RelationMap from '../components/common/RelationMap.vue'
+import OrganizationYearPaperChart from "@/components/common/OrganizationYearPaperChart";
+import AuthorYearPaperChart from "@/components/common/AuthorYearPaperChart";
 import SelectTitle from '../components/common/SelectTitle.vue'
 
-  export default {
-    name: 'Test',
-    components: {
-      SelectTitle
-    },
-    data () {
-      return {
-        buttons: ['语言分析数据', '时间分析数据' ,'来源分析数据']
-      }
-    },
-    methods: {
-      selected(index) {
-        console.log(index)
-      }
+export default {
+  name: 'Test',
+  components: {
+    AuthorYearPaperChart,
+    OrganizationYearPaperChart,
+    RelationMap,
+    SelectTitle
+  },
+  data() {
+    return {
+      buttons: ['语言分析数据', '时间分析数据', '来源分析数据']
+    }
+  },
+  methods: {
+    selected(index) {
+      console.log(index)
     }
   }
+}
 </script>
 
 <style scoped>
-  #root {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 </style>

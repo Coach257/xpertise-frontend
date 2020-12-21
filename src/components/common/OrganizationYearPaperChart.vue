@@ -1,16 +1,26 @@
 <template>
-  <div>
-    <div id="organization-year-paper-chart-container" style="width: 600px;height: 400px"></div>
+  <div v-if="!requestError">
+    <div :id="'organization-year-'+this.type+'-chart-container'" style="width: 600px;height: 400px"></div>
   </div>
 </template>
 
 <script>
 /**
- *  data structure:
- *  {
- *    name: *author name*,
- *    value: *corresponding value*
- *  }
+ *  props:
+ *  @type ['Paper','Citation']
+ *  Response Data Structure:
+ *
+ *  success: *response status <boolean>*,
+ *  data:
+ *  [
+ *    {
+ *      name: *author name <string>*,
+ *      value: *corresponding value <int>*
+ *    },
+ *    {
+ *      ...
+ *    }
+ *  ]
  */
 export default {
   name: "OrganizationYearPaperChart",
@@ -19,7 +29,8 @@ export default {
   },
   data() {
     return {
-      chartData: [{}],
+      requestError: false,
+      chartData: [],
       option: {
         title: {
           text: 'Statistics',
@@ -53,10 +64,59 @@ export default {
     }
   },
   created() {
+    const config = {}
+    const data = {}
+    const h = this.$createElement
+    this.$axios.post('url', data, config).then(res => {
+      if (res.data.success) {
+        this.chartData = res.data.data
+      } else {
+        this.$notify({
+          title: "Warning",
+          message: h("div", {
+            class: 'el-icon-close',
+            style: 'color: red'
+          }, " Error When Getting Statistics")
+        })
+        this.requestError = true
+      }
+    }).catch(err => {
+      this.$notify({
+        title: "Network Error",
+        message: h("div", {
+          class: 'el-icon-close',
+          style: 'color: red'
+        }, " Please Check Your Internet Connection"),
+      })
+      this.requestError = true
+
+      // DEBUG CODE (should be commented when release)
+      this.requestError = false
+      this.chartData = [
+        {
+          name: 'alphar',
+          value: 23
+        },
+        {
+          name: 'szl',
+          value: 34
+        },
+        {
+          name: 'hahahaha',
+          value: 44
+        }
+      ]
+
+    }).finally(() => {
+        this.option.series[0].data = this.chartData
+        this.myChart.hideLoading()
+        this.myChart.setOption(this.option)
+      }
+    )
   },
   mounted() {
-    let myChart = this.$echarts.init(document.getElementById('organization-year-paper-chart-container'));
-    myChart.setOption(this.option)
+    this.myChart = this.$echarts.init(document.getElementById('organization-year-' + this.type + '-chart-container'));
+    this.myChart.showLoading()
   },
   methods: {}
 }

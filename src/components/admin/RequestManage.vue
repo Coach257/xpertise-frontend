@@ -25,6 +25,7 @@ export default {
   },
   mounted() {
     // TODO: request info parse
+    const h = this.$createElement
     this.$axios.get(testUrl).then((res) => {
       if (res.data.success) {
         let list = res.data.data

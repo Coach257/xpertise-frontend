@@ -35,6 +35,7 @@ export default {
   },
   methods: {
     readMessage() {
+      const h = this.$createElement
       this.$axios.post('url').then(res => {
         if (res.data.success) {
           this.isRead = true
