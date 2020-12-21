@@ -164,9 +164,17 @@ export default {
     watch: {
       searchState(newsearchState) {
         console.log(newsearchState);
-        if(newsearchState.results.length > 0)
+        if(newsearchState.results.length > 0) {
           localStorage.setItem("paper_info", newsearchState.results[0].pubs.raw);
+          this.contendLoaded = true;
+        }
       },
+      contendLoaded(newcontendLoaded) {
+        if(newcontendLoaded == true) {
+          this.$router.replace('/home');
+          window.location.reload();
+        }
+      }
     },
     methods: {
       checklogin(){
@@ -198,8 +206,6 @@ export default {
                     _this.getAuthorInfo(response.data.data.user_id);
                   }
                   console.log("登陆成功");
-                  _this.$router.replace('/home');
-                  window.location.reload();
 
                 }else {
                    console.log("登录失败");
@@ -233,7 +239,7 @@ export default {
         driver.subscribeToStateChanges((state) => {
           this.searchState = state;
         });
-        this.contendLoaded = true;
+
       },
        mouseOver () {
          this.$gsap.to("#LoginButton", {duration: 0.1, height: '85px', width: '85px', top: '52px',  boxShadow:'0px 0px 10px 10px rgba(128, 128, 128, 0.3)'})
