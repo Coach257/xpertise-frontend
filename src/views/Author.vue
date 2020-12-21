@@ -103,18 +103,23 @@
           </div>
 
           <div class="affname" v-if="type == 2">
-            {{ this.author.orgs_main }}
+            <span v-for="(org, index) in this.author.orgs_main" :key="index">
+              {{ org }}
+            </span>
           </div>
 
-          <router-link
-            class="affname"
-            v-if="type == 1"
-            :to="'/affiliation/' + this.author.orgs_cs.id"
-            tag="div"
-            style="cursor: pointer"
-          >
-            {{ this.author.orgs_cs.name }}
-          </router-link>
+          <div v-if="type == 1">
+            <span v-for="(org, index) in this.author.orgs_cs" :key="index">
+              <router-link
+              class="affname"
+                :to="'/affiliation/' + org.id"
+                tag="div"
+                style="cursor: pointer"
+              >
+                {{ org.name }}
+              </router-link>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -250,8 +255,8 @@ export default {
       type: 0,
       author: {
         h_index: -1,
-        orgs_main: "",
-        orgs_cs: {},
+        orgs_main: [],
+        orgs_cs: [],
         pubs: [],
         n_citation: 0,
         n_pubs: 0,
@@ -277,8 +282,6 @@ export default {
     this.initdata();
     this.initdriver();
     this.setissettled();
-
-    this.setissettled(this.$route.params.authorId);
     this.initAnimation();
   },
 
@@ -386,11 +389,14 @@ export default {
       if (this.type == 1) {
         this.loadauthormap();
       }
-      if (results.h_index && results.h_index.raw) this.author.h_index = results.h_index.raw;
+      if (results.h_index && results.h_index.raw)
+        this.author.h_index = results.h_index.raw;
       if (results.orgs && results.orgs.raw) {
-        this.author.orgs_main = results.orgs.raw[0];
-        if (this.type === 1)
-          this.author.orgs_cs = JSON.parse(results.orgs.raw[0]);
+          for (let i = 0; i<results.orgs.raw.length;i++){
+            if (this.type === 1)this.author.orgs_cs.push(JSON.parse(results.orgs.raw[i]))
+            else this.author.orgs_main.push(results.orgs.raw[i])          
+          } 
+          console.log(this.author.orgs_cs)
       }
 
       if (results.n_citation) this.author.n_citation = results.n_citation.raw;
