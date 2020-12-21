@@ -1,9 +1,7 @@
 <template>
-    <div >
-        <el-container>
-
-  <el-main>
-
+  <div >
+    <el-container>
+    <el-main>
   <div>
 <el-row :gutter="10">
   <el-col :span="3" :offset="7"><div class="grid-content "><el-avatar :size="100" :src="circleUrl"></el-avatar></div></el-col>
@@ -36,9 +34,6 @@
    <!-- <el-col :span="3"><div class="grid-content ">
          <el-link href="https://element.eleme.io" type="primary" icon="el-icon-tickets" target="_blank">添加文章</el-link>
       </div></el-col> -->
-
-
-
 
 </el-row>
  <el-row :gutter="5"> <el-col :span="20" :offset="2"><h1> </h1></el-col>  </el-row>
@@ -250,19 +245,12 @@ var driver = null;
 
     //    driver.subscribeToStateChanges((state) => {
     //   this.searchState = state;
-
     // });
-
                    // console.log(this.papersincoll[i].paper_id);
-
-
-
-
     },
 
-
     checkau(){
-      if(this.$route.params.authorId!=localStorage.getItem("userid"))
+      if(this.$route.params.authorId!=localStorage.getItem("authorId"))
         this.$router.push('/home')
       let formData = new FormData();
       formData.append("id", this.$route.params.authorId);
