@@ -55,7 +55,7 @@
 
               <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
               <div style="width: 700px;"> {{ pub.title }} </div>
-
+              <div class="citation">被引{{pub.n_citation}}次</div>
 
           </router-link>
         </div>
@@ -96,6 +96,8 @@
 
             <div id='authorindex'>{{index+1+(currentPage2-1)*eachPage}}</div>
             <div style="width: 200px;"> {{ author.name }} </div>
+            <div>n_pubs:{{author.n_pubs}}</div>
+            <div>n_citation:{{author.n_citation}}</div>
 
           </router-link>
         </div>
@@ -331,5 +333,26 @@ a:visited {
 a:hover {
   color:#1292fd;
   font-weight: bold;
+}
+.citation {
+  white-space: nowrap;
+
+  position: relative;
+  right: 5px;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  background-color: #808080;
+  color: white;
+
+  border-radius: 10px;
+
+  padding: 2px 8px 2px 8px;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  margin-top: 3px;
 }
 </style>
