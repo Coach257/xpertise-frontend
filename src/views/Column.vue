@@ -13,9 +13,10 @@
 
         <el-divider></el-divider>
 
-        <div><el-collapse  accordion>
+        <div ><el-collapse  accordion>
 
           <el-collapse-item
+          style="width: 700px;"
             class="linkp"
             v-for="(pub) in (this.column).slice((this.currentPage1-1)*this.eachPage, this.currentPage1*this.eachPage)"
             :key = pub.id
@@ -24,6 +25,19 @@
             :title="pub"
             >
             <div>
+              <!-- <a
+
+            v-for="(i) in this.columnnum"
+            :key="i"
+            tag="a"
+            >
+
+
+              <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
+              <div style="width: 700px;"> {{ pub.title }} </div>
+
+
+          </a> -->
           <!-- <router-link
             class="link"
             v-for="(pub) in (this.column).slice((this.currentPage1-1)*this.eachPage, this.currentPage1*this.eachPage)"
