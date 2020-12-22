@@ -50,7 +50,8 @@ export default {
           {
             type: 'log',
             name: 'Count / Index',
-            logBase: 10
+            logBase: 10,
+            max:1000000
           }
         ],
         series: [
