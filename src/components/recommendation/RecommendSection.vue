@@ -27,13 +27,14 @@ export default{
       let config = { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(testurl, formData, config).then((response) => {
         if (response) {
+          console.log(response);
           if (response.data.success) {
             let list = response.data.data;
             for(let i = 0; i < list.length; i++) {
               this.examplerecommends.push({
                 username: list[i].author_name,
                 recommend: list[i].reason,
-                create_time: list[i].create_time,
+                create_time: list[i].recommend_time,
               })
             }
           } else {
@@ -54,7 +55,6 @@ export default{
         downvote:11,
       },
       examplerecommends:[
-
       ]
     };
   },
