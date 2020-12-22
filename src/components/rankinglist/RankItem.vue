@@ -1,5 +1,5 @@
 <template>
-  <div id='itemroot'>
+  <div id='itemroot' v-if="loaded">
 
     <div class="numcoin" :id="['numcoin' + this.information.rank]">
        <div class="num" :id="['num' + this.information.rank]">{{this.info.rank}}</div>
@@ -10,7 +10,14 @@
       <div id='up'>
 
         <div style="font-weight: bold; white-space: nowrap;" >
+           <router-link
+            class="link"
+            :to="this.info.url"
+            tag="a"
+            target="_blank"
+          >
           {{this.info.title | cutLongTitle}}
+           </router-link>
         </div>
 
         <div style="font-size: 10px; text-align: right; display: flex; white-space: nowrap;">
@@ -37,7 +44,8 @@
           title: "",
           papers: 0,
           maximum: 0,
-        }
+        },
+        loaded:false,
       }
     },
     filters: {
@@ -58,6 +66,8 @@
       this.info.title = this.information.title;
       this.info.papers = this.information.papers;
       this.info.maximum= this.information.maximum;
+      this.info.url = this.information.url;
+      
 
       switch( this.info.rank )
       {
@@ -74,6 +84,7 @@
               this.$gsap.set('#numcoin'+this.info.rank, {backgroundColor: '#e6e6e6'})
               this.$gsap.set('#num'+this.info.rank, {color: 'grey'})
       }
+      this.loaded = true;
     }
   }
 </script>
@@ -107,5 +118,11 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+}
+.link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 </style>

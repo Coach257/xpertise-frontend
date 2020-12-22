@@ -15,6 +15,7 @@
       </div>
 
       <div v-if='!show' id='rankinglist'>
+        <RankingList title="Hot Paper" type="main"/>
         <RankingList title='Top Paper' type='main'/>
         <RankingList title='Top Author' type='main'/>
         <RankingList title='Top Affiliation' type='main'/>
