@@ -79,6 +79,7 @@
               v-else
               @click="removeFromFav"
               >已收藏</el-button>
+            <el-button type="primary" icon="el-icon-share" plain> 推荐 </el-button>
             <h3>相关文章</h3>
             <el-button @click="debug">Debug</el-button>
           <h3>相关文章</h3>
