@@ -142,6 +142,7 @@
     </div>
     <related-author-chart
       :data="relateddata"
+      :authorid="authorId"
       v-if="relatedloaded"
     ></related-author-chart>
     <div id="authorData">
