@@ -131,6 +131,7 @@
     </div>
 
     <div style="height: 350px"></div>
+    
     <author-compare-chart
       :h_index="this.author.h_index"
       :n_pubs="this.author.n_pubs"
@@ -142,7 +143,7 @@
       :year_citation="this.author.year_citation"
       :year_pubs="this.author.year_pubs"
     ></author-year-paper-chart>
-        <div id="authorRelationGraph" v-if="graphloaded">
+    <div id="authorRelationGraph" v-if="graphloaded">
        <author-relation-map :data="this.mapdata"></author-relation-map>
     </div>
     <related-author-chart
@@ -150,6 +151,9 @@
       :authorid="authorId"
       v-if="relatedloaded"
     ></related-author-chart>
+    
+    
+    
     <div id="authorData">
       <div id="authorPapers" class="dataWrapper">
         <div class="datatitle">
