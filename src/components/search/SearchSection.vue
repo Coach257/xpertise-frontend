@@ -1,6 +1,5 @@
 <template>
   <div class="sui-layout">
-    <el-button @click="debug()">DEBUG</el-button>
     <SearchHeader
       :type="type"
       v-model="searchInputValue"
@@ -345,10 +344,6 @@ export default {
         duration: 0.1,
         boxShadow: "0px 0px 10px 2px rgb(127,127,127,0.2)",
       });
-    },
-
-    debug() {
-      console.log(this.configoption);
     },
     ChangeOption: function (data) {
       if (this.configoption != data) {
