@@ -37,6 +37,7 @@
                style="width: 900px;font-size:90px"
             >
               <div>
+                <div v-if="blankcol"> <a>空</a></div>
                 <router-link
 
             v-for="(paper,index) in colpapers"
@@ -51,20 +52,6 @@
 
 
           </router-link>
-                <!-- <router-link
-            class="link"
-            v-for="(pub) in (this.column).slice((this.currentPage1-1)*this.eachPage, this.currentPage1*this.eachPage)"
-            :key = pub.id
-            :to="'/detail/cs/' + pub.id"
-            tag="a"
-            >
-
-
-              <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
-              <div style="width: 700px;"> {{ pub.title }} </div>
-
-
-          </router-link> -->
               </div>
             </el-collapse-item>
           </el-collapse>
@@ -128,6 +115,7 @@ export default {
       eachPage: 5,
       total1: 0,
       total2: 0,
+      blankcol:false,
       formLabelWidth: '120px',
       columnVisible: false,
       columnForm: {
@@ -182,12 +170,13 @@ export default {
               for (i = 0; i < response.data.data.length; i++) {
                 _this.colpapers.push({"name":response.data.data[i].paper_title,"id":response.data.data[i].paper_id});
               }
-
+              _this.blankcol=false;
               // console.log("开始11");
               // console.log(response.data.data[0].column_id);
               // console.log("开始22");
             } else {
               console.log("没有专栏?");
+              _this.blankcol=true;
             }
           } else {
             console.log("error2");
