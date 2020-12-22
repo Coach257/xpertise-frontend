@@ -130,7 +130,9 @@
 
     <el-tab-pane label="我的机构" name="third">
          <el-row class="block-col-2">
-
+           <div v-for="(org, index) in orgs" :key="index">
+             {{ JSON.parse(org).name }}
+           </div>
         </el-row>
     </el-tab-pane>
 
@@ -182,16 +184,14 @@ var driver = null;
       this.getpapers();
       this.getrelatedauthor();
       //this.searchcol()
-
+      this.orgs = JSON.parse(localStorage.getItem("organizations"));
       //  driver.subscribeToStateChanges(state => {
       //   this.searchState = state;
       //  });
       //  driver.clearFilters()
 
        //driver.getActions().setSearchTerm("")
-       console.log(1)
        //console.log(this.searchState)
-       console.log(2)
        //this.getInfo();
    },
    data(){
@@ -207,6 +207,7 @@ var driver = null;
         total3: 0,
          column:[],
          papers:[],
+         orgs:[],
          authorname:'',
         circleUrl: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
          tableDatainfo: [{
@@ -214,7 +215,7 @@ var driver = null;
         }, {
           info: '研究方向量子力学'
         }, {
-          info: '被引用量：777'
+          info: '被引用量：' + localStorage.getItem("n_citation"),
         }],
         tableDatapaper: [{
           papers: '量子力学概论  被引用数:77'
@@ -230,26 +231,26 @@ var driver = null;
           name:[]
         },
         article: {
-        paper_id: "",
-        title: "",
-        authors: [],
-        abstract:"",
-        year:"",
-        keywords: [],
-        n_citation:"",
-        page_start:"",
-        page_end:"",
-        lang:"",
-        issue:"",
-        venue:"",
-        conference:"",
-        volume:"",
-        issn:"",
-        doi:"",
-        url:"",
-        listed: false,
-        starred: false,
-      },
+          paper_id: "",
+          title: "",
+          authors: [],
+          abstract:"",
+          year:"",
+          keywords: [],
+          n_citation:"",
+          page_start:"",
+          page_end:"",
+          lang:"",
+          issue:"",
+          venue:"",
+          conference:"",
+          volume:"",
+          issn:"",
+          doi:"",
+          url:"",
+          listed: false,
+          starred: false,
+        },
       }
    },
   computed: {
