@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="AuthorRelationMap" style="width: 600px;height: 400px"></div>
+    <div id="AuthorRelationMap" style="width: 600px;height: 500px"></div>
   </div>
 </template>
 <script>
