@@ -79,7 +79,7 @@
               v-else
               @click="removeFromFav"
               >已收藏</el-button>
-            <el-button type="primary" icon="el-icon-share" plain> 推荐 </el-button>
+            <el-button type="primary" icon="el-icon-share" plain @click="recommendVisible = true"> 推荐 </el-button>
             <h3>相关文章</h3>
             <el-button @click="debug">Debug</el-button>
           <h3>相关文章</h3>
@@ -109,6 +109,25 @@
         <el-button v-clipboard:copy="documentcopyinfo.info" style="height: 10px; width: 40px; display: flex; align-items: center; justify-content: center; margin-left: 10px">复制</el-button>
       </li>
     </el-dialog>
+
+    <el-dialog title="收货地址" :visible.sync="recommendVisible">
+      <el-form :model="recommendForm">
+        <el-form-item label="推荐人ID" :label-width="formLabelWidth">
+          <el-input v-model="recommendForm.userid" :disabled="true"></el-input>
+        </el-form-item>
+        <el-form-item label="推荐人用户名" :label-width="formLabelWidth">
+          <el-input v-model="recommendForm.username" :disabled="true"></el-input>
+        </el-form-item>
+        <el-form-item label="推荐l理由" :label-width="formLabelWidth">
+          <el-input v-model="recommendForm.reason" :disabled="false"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="recommendVisible = false">取 消</el-button>
+        <el-button type="primary" @click="recommendPaper">确 定</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 <script>
@@ -117,6 +136,7 @@ import SearchResults from "../components/search/SearchResults";
 import CommentSection from "../components/comment/CommentSection";
 import RelationMap from "../components/common/RelationMap.vue";
 import RelatedPaperChart from "../components/common/RelatedPaperChart.vue";
+const testurl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/recommend/create"
 
 import {
   mainpaperconfig,
@@ -168,6 +188,11 @@ export default {
         listed: false,
         starred: false,
       },
+      recommendForm: {
+        username: "IAmParasite",
+        author_id: "1",
+        reason: "这是一首简单的小情歌~",
+      },
       docid: "",
       type: "",
       option: "",
@@ -179,6 +204,8 @@ export default {
       articleloaded: false, // 控制整个页面显示
       relatedloaded: false, // 控制相关文章显示
       documentcopyvisible: false,
+      recommendVisible: false,
+      formLabelWidth: '120px',
       documentcopylist: [],
     };
   },
@@ -211,6 +238,9 @@ export default {
       this.type = this.$route.params.type;
       this.option = "paper";
       this.docid = this.$route.params.docid;
+      this.recommendForm.username = localStorage.getItem("username");
+      this.recommendForm.author_id = localStorage.getItem("authorId");
+
     },
     // 配置es连接器
     init_driver() {
@@ -505,6 +535,36 @@ export default {
         info: info,
       });
     },
+    recommendPaper() {
+      this.recommendVisible = false;
+      let that = this;
+      let formData = new FormData();
+      formData.append("author_id", this.recommendForm.userid);
+      formData.append("author_name", this.recommendForm.userid);
+      formData.append("paper_id", this.recommendForm.userid);
+      formData.append("paper_title", this.recommendForm.userid);
+      formData.append("n_citation", this.recommendForm.userid);
+      formData.append("h_index", this.recommendForm.userid);
+      formData.append("reason", this.recommendForm.userid);
+      let config = { headers: { "Content-Type": "multipart/form-data", }, };
+      axios.post(testurl, formData, config).then((response) => {
+        if (response) {
+          console.log(response);
+          if (response.data.success) {
+            let list = response.data.data;
+            for(let i = 0; i < list.length; i++) {
+              this.examplerecommends.push({
+                username: list[i].author_name,
+                recommend: list[i].reason,
+                create_time: list[i].create_time,
+              })
+            }
+          } else {
+            console.log(response)
+          }
+        }
+      });
+    }
   },
 };
 </script>
