@@ -13,24 +13,24 @@
 
       <!-- 用户ID -->
       <div style="margin-top: 10px" class="input">
-          <div style="font-size: 14px; padding: 5px;">填写您的用户ID</div>
-          <el-input v-model="settleForm.userid" placeholder="User ID">
+          <div style="font-size: 14px; padding: 5px;">用户ID</div>
+          <el-input v-model="settleForm.userid" placeholder="User ID" :disabled="true">
               <i slot="prefix" class="el-input__icon el-icon-user" style="font-size: 17px;"></i>
           </el-input >
       </div>
 
       <!-- 用户名 -->
       <div style="margin-top: 10px" class="input">
-          <div style="font-size: 14px; padding: 5px;">填写您的用户名</div>
-          <el-input v-model="settleForm.username" placeholder="Username">
+          <div style="font-size: 14px; padding: 5px;">用户名</div>
+          <el-input v-model="settleForm.username" placeholder="Username" :disabled="true">
               <i slot="prefix" class="el-input__icon el-icon-user-solid" style="font-size: 17px;"></i>
           </el-input >
       </div>
 
       <!-- 邮箱 -->
       <div style="margin-top: 10px" class="input">
-          <div style="font-size: 14px; padding: 5px;">输入您的邮箱</div>
-          <el-input v-model="settleForm.email" placeholder="Email">
+          <div style="font-size: 14px; padding: 5px;">邮箱</div>
+          <el-input v-model="settleForm.email" placeholder="Email" :disabled="true">
               <i slot="prefix" class="el-input__icon el-icon-receiving" style="font-size: 17px;"></i>
           </el-input >
       </div>
