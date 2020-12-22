@@ -77,7 +77,7 @@
           @mouseleave="mouseLeaveWrapper()"
 
         >
-          <h3 style="margin:10px;text-align:center">添加专栏</h3>
+          <h3 style="margin:10px;text-align:center" @click="columnVisible = true">添加专栏</h3>
 
         </div>
 
@@ -93,20 +93,25 @@
           </el-pagination>
         </center>
       </div>
+
+      <el-dialog title="添加专栏" :visible.sync="columnVisible">
+        <el-form :model="columnForm">
+          <el-form-item label="专栏名称" :label-width="formLabelWidth">
+            <el-input v-model="columnForm.name" :disabled="false"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="columnVisible = false"> 取 消</el-button>
+          <el-button type="primary" @click="addColumn"> 确 定 </el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import { SearchDriver } from "@elastic/search-ui";
-import {
-  mainpaperconfig,
-  mainauthorconfig,
-  cspaperconfig,
-  csauthorconfig,
-  csaffiliationconfig,
-} from "../searchConfig";
+const addColumnUrl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/column/create_column"
 export default {
   props: ["type", "id"],
   name: "Column",
@@ -123,6 +128,11 @@ export default {
       eachPage: 5,
       total1: 0,
       total2: 0,
+      formLabelWidth: '120px',
+      columnVisible: false,
+      columnForm: {
+        name: "",
+      }
     };
   },
   mounted() {
@@ -254,6 +264,25 @@ export default {
     },
     handleCurrentChange2(currpage) {
       this.currentPage2 = currpage;
+    },
+    addColumn() {
+      this.columnVisible = false;
+      let that = this;
+      let formData = new FormData();
+      formData.append("author_id", localStorage.getItem("authorId"));
+      formData.append("column_name", this.columnForm.name);
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      axios.post(addColumnUrl, formData, config).then((response) => {
+          if (response) {
+            if (response.data.success) {
+              console.log("创建成功")
+            } else {
+             console.log("创建失败");
+            }
+          } else {
+            console.log("创建失败")
+          }
+        });
     },
   },
   computed: {

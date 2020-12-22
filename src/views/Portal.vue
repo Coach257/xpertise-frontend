@@ -312,7 +312,7 @@ console.log("jiazaiwancheng");
      getpapers(){
        console.log("aa")
        var a =[]
-  console.log(JSON.parse(localStorage.getItem("paper_info")))
+      console.log(JSON.parse(localStorage.getItem("paper_info")))
       //  for(var i=0;i< localStorage.getItem("paper_info").length;i++){
       //    console.log(localStorage.getItem("paper_info"))
       //    //this.papers.push(JSON.parse(localStorage.getItem("paper_info")[i]))

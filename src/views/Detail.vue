@@ -112,7 +112,7 @@
       </li>
     </el-dialog>
 
-    <el-dialog title="收货地址" :visible.sync="recommendVisible">
+    <el-dialog title="推荐表单" :visible.sync="recommendVisible">
       <el-form :model="recommendForm">
         <el-form-item label="推荐人ID" :label-width="formLabelWidth">
           <el-input v-model="recommendForm.author_id" :disabled="true"></el-input>
@@ -159,13 +159,16 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              type="primary"
+              @click="handleDelete(scope.row.column_id)">加入专栏</el-button>
           </template>
         </el-table-column>
       </el-table>
+      <div>
+        <el-input v-model="columnForm.name" :disabled="false" style="width: 120px; margin-right: 30px"></el-input>
+        <el-button type="success" @click="addNewColumn">创建新的专栏并加入专栏中</el-button>
+      </div>
     </el-dialog>
-
   </div>
 </template>
 <script>
@@ -178,6 +181,7 @@ import PaperCitation from "../components/common/PaperCitation.vue";
 const testurl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/recommend/create"
 const columnUrl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/column/searchcol"
 const addUrl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/column/add_to_column"
+const addColumnUrl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/column/create_column"
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -234,6 +238,9 @@ export default {
         username: "IAmParasite",
         author_id: "1",
         reason: "这是一首简单的小情歌~",
+      },
+      columnForm: {
+        name: "",
       },
       docid: "",
       type: "",
@@ -632,12 +639,11 @@ export default {
         }
       });
     },
-    handleDelete(index, row) {
+    handleDelete(id) {
       console.log("删除");
-      console.log(row);
       let that = this;
       let formData = new FormData();
-      formData.append("column_id", row.column_id);
+      formData.append("column_id", id);
       formData.append("paper_id", this.article.paper_id);
       formData.append("paper_title", this.article.title);
       let config = { headers: { "Content-Type": "multipart/form-data", }, };
@@ -650,6 +656,25 @@ export default {
           else {
             console.log(response)
           }
+        }
+      });
+    },
+    addNewColumn() {
+      let that = this;
+      let formData = new FormData();
+      formData.append("author_id", localStorage.getItem("authorId"));
+      formData.append("column_name", this.columnForm.name);
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      axios.post(addColumnUrl, formData, config).then((response) => {
+        if (response) {
+          if (response.data.success) {
+            console.log("创建专栏成功");
+            this.handleDelete(response.data.column_id);
+          } else {
+            console.log("创建失败");
+          }
+        } else {
+          console.log("创建失败")
         }
       });
     }
