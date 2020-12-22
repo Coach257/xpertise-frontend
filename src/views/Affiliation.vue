@@ -28,11 +28,23 @@
     </div>
 
 
-    <div style="height: 200px;"></div>
-    <author-year-paper-chart :year_citation="this.affiliation.year_citation" :year_pubs="this.affiliation.year_pubs" v-if="contendLoaded"></author-year-paper-chart>
-    <organization-year-paper-chart :author="this.affiliation.authors" :type="'Paper'" v-if="contendLoaded"></organization-year-paper-chart>
-    <organization-year-paper-chart :author="this.affiliation.authors" :type="'Citation'" v-if="contendLoaded"></organization-year-paper-chart>
-    <organization-total-paper-chart :pubs="this.affiliation.pubs" v-if="contendLoaded"></organization-total-paper-chart>
+    <div style="height: 220px;"></div>
+
+    <div id='charts'>
+
+      <div class="datatitle" style="width: 1250px;">
+      <h2>数据统计</h2>
+      <svg class="icon" width="27px" height="27px" style="right: 10px;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M1024.25175 0l-209.92 23.04L883.45175 92.16 655.61175 370.688 419.06775 152.064c-15.872-14.848-40.96-14.848-57.344-0.512L14.07575 465.408C-3.33225 481.28-4.86825 508.416 11.00375 525.824c8.192 9.216 19.968 13.824 31.744 13.824 10.24 0 20.48-3.584 28.672-10.752l318.464-287.744 241.152 222.72c8.704 8.192 20.48 11.776 31.744 11.264 11.776-1.024 22.528-6.656 30.208-15.36l250.88-306.688 57.344 57.344L1024.25175 0z m0 0M133.37175 1024H30.97175c-16.896 0-30.72-13.824-30.72-30.72v-348.16c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v348.16c0 16.896-13.824 30.72-30.72 30.72z" fill="#666666" /><path d="M420.09175 1024H317.69175c-16.896 0-30.72-13.824-30.72-30.72V440.32c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v552.96c0 16.896-13.824 30.72-30.72 30.72zM706.81175 1024h-102.4c-16.896 0-30.72-13.824-30.72-30.72v-399.36c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v399.36c0 16.896-13.824 30.72-30.72 30.72zM993.53175 1024h-102.4c-16.896 0-30.72-13.824-30.72-30.72V337.92c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v655.36c0 16.896-13.824 30.72-30.72 30.72z"  fill="#666666"/></svg>
+      </div>
+
+      <el-divider></el-divider>
+
+      <author-year-paper-chart class="chart" :year_citation="this.affiliation.year_citation" :year_pubs="this.affiliation.year_pubs" v-if="contendLoaded"></author-year-paper-chart>
+      <organization-year-paper-chart class="chart" :author="this.affiliation.authors" :type="'Paper'" v-if="contendLoaded"></organization-year-paper-chart>
+      <organization-year-paper-chart class="chart" :author="this.affiliation.authors" :type="'Citation'" v-if="contendLoaded"></organization-year-paper-chart>
+      <organization-total-paper-chart class="chart" :pubs="this.affiliation.pubs" v-if="contendLoaded"></organization-total-paper-chart>
+    </div>
+
     <div id='affdata'>
 
       <div id='affpapers' class="datawrapper">
@@ -164,7 +176,8 @@ export default {
       currentPage2: 1,
       eachPage: 50,
       total1: 0,
-      total2: 0
+      total2: 0,
+      showCharts: true
     };
   },
   mounted() {
@@ -205,7 +218,7 @@ export default {
     },
     handleCurrentChange2 (currpage) {
       this.currentPage2 = currpage
-    }
+    },
   },
   watch: {
     searchState(newsearchState) {
@@ -376,5 +389,37 @@ a:hover {
   margin-right: 3px;
   margin-bottom: 3px;
   margin-top: 3px;
+}
+#charts {
+  /* outline: #21ff06 dotted thick; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+  width: 1290px;
+
+  border: #e6e6e6 solid thin;
+  border-radius: 30px;
+  box-shadow: 0px 0px 50px 10px rgba(127,127,127,0.2);
+  padding: 20px;
+  margin: 20px;
+
+  position: relative;
+
+  overflow: hidden;
+}
+.chart {
+  /* outline: #21ff06 dotted thick; */
+
+  box-shadow:inset 0px 0px 10px 6px rgb(50,50,50,0.1);
+  border-radius: 30px;
+
+  width: 600px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+
+  margin: 10px;
 }
 </style>
