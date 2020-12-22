@@ -6,17 +6,43 @@
 
 <script>
 import RecommendCard from "./RecommendCard";
+import axios from 'axios';
+const testurl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/recommend/recommends_from_one_paper"
 export default{
   components: { RecommendCard },
   name: "RecommendSection",
   props: ['recommends'],
   mounted() {
-      this.examplerecommends.push(this.recommendExample)
+      //this.examplerecommends.push(this.recommendExample);
+      this.getRecommendation();
     //   this.examplerecommends.push(this.recommendExample),
     //   this.examplerecommends.push(this.recommendExample)
     // this.$data.itemExample;
   },
-  methods: {},
+  methods: {
+    getRecommendation(){
+      let that = this;
+      let formData = new FormData();
+      formData.append("paper_id", this.$route.params.docid);
+      let config = { headers: { "Content-Type": "multipart/form-data", }, };
+      axios.post(testurl, formData, config).then((response) => {
+        if (response) {
+          if (response.data.success) {
+            let list = response.data.data;
+            for(let i = 0; i < list.length; i++) {
+              this.examplerecommends.push({
+                username: list[i].author_name,
+                recommend: list[i].reason,
+                create_time: list[i].create_time,
+              })
+            }
+          } else {
+            console.log(response)
+          }
+        }
+      });
+    },
+  },
   data() {
     return {
       short_abstract: "",
@@ -28,7 +54,7 @@ export default{
         downvote:11,
       },
       examplerecommends:[
-         
+
       ]
     };
   },

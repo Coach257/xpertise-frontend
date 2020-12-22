@@ -13,7 +13,7 @@ export default {
         title: {
           text: "作者合作关系图",
           top: "top",
-          left: "right",
+          left: "center",
         },
         tooltip: {
             trigger:'item',
@@ -63,18 +63,14 @@ export default {
   },
   mounted() {
     console.log(this.$props.data);
-    // this.loadoption();
+    this.loadoption();
     let myChart = this.$echarts.init(document.getElementById("AuthorRelationMap"));
     myChart.setOption(this.option);
   },
   methods: {
     loadoption() {
-      var data = this.$props.data[0].data;
-      var list = new Array();
-      for (let i = 0; i < data.length; i++) {
-        this.option.xAxis[0].data.push(JSON.parse(data[i].value).raw);
-        this.option.series[0].data.push(data[i].count);
-      }
+      this.option.series[0].data = this.$props.data.data;
+      this.option.series[0].links = this.$props.data.links;
     },
   },
 };

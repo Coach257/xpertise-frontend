@@ -1,7 +1,8 @@
 <template>
-  <div v-if="!requestError">
-    <div id="author-year-paper-chart-container" style="width: 600px;height: 500px"></div>
-  </div>
+  <div
+    id="author-year-paper-chart-container"
+    style="width: 600px; height: 500px"
+  ></div>
 </template>
 
 <script>
@@ -20,135 +21,124 @@
  */
 export default {
   name: "AuthorYearPaperChart",
+  props: ["year_citation", "year_pubs"],
   data() {
-    const colors = ['#5793f3', '#d14a61'];
+    const colors = ["#5793f3", "#d14a61"];
 
     return {
-      requestError: false,
       chartData: [],
       option: {
         color: colors,
         tooltip: {
-          trigger: 'axis',
+          trigger: "axis",
           axisPointer: {
-            type: 'cross'
-          }
+            type: "cross",
+          },
         },
         legend: {
-          data: ['Published', 'Citations']
+          data: ["Published", "Citations"],
         },
         xAxis: [
           {
-            type: 'category',
-            data:  []//?
-          }
+            type: "category",
+            data: [], //?
+          },
         ],
         yAxis: [
           {
-            type: 'value',
-            name: 'Published',
+            type: "value",
+            name: "Published",
             min: 0,
-            position: 'right',
+            position: "right",
             axisLine: {
               lineStyle: {
-                color: colors[0]
-              }
+                color: colors[0],
+              },
             },
             axisLabel: {
-              formatter: '{value} 篇'
-            }
+              formatter: "{value} 篇",
+            },
           },
           {
-            type: 'value',
-            name: 'Citations',
+            type: "value",
+            name: "Citations",
             min: 0,
-            position: 'left',
+            position: "left",
             offset: 0,
             axisLine: {
               lineStyle: {
-                color: colors[1]
-              }
+                color: colors[1],
+              },
             },
             axisLabel: {
-              formatter: '{value} 篇次'
-            }
-          }
+              formatter: "{value} 篇次",
+            },
+          },
         ],
         series: [
           {
-            name: 'Published',
-            type: 'bar',
-            data: [] //?
+            name: "Published",
+            type: "bar",
+            data: [], //?
           },
           {
-            name: 'Citations',
-            type: 'bar',
+            name: "Citations",
+            type: "bar",
             yAxisIndex: 1,
-            data: [] //?
-          }
-        ]
-      }
-    }
+            data: [], //?
+          },
+        ],
+      },
+    };
   },
   mounted() {
-    this.myChart = this.$echarts.init(document.getElementById('author-year-paper-chart-container'));
-    this.myChart.showLoading()
-    this.getData()
+    this.myChart = this.$echarts.init(
+      document.getElementById("author-year-paper-chart-container")
+    );
+    this.myChart.showLoading();
+    this.getData();
   },
   methods: {
+    getMinYear(a, b) {
+      var res = 2020;
+      for (var key in a) {
+        if (parseInt(key) < res) res = key;
+      }
+      for (var key in b) {
+        if (parseInt(key) < res) res = key;
+      }
+      return res;
+    },
+    getMaxYear(a, b) {
+      var res = 0;
+      for (var key in a) {
+        if (parseInt(key) > res) res = key;
+      }
+      for (var key in b) {
+        if (parseInt(key) > res) res = key;
+      }
+      return res;
+    },
     getData() {
-      const data = {}
-      const config = {}
-      const h = this.$createElement
-      this.$axios.post('url', data, config).then(res => {
-        if (res.data.success) {
-          const chartData = res.data.data
-          this.option.xAxis[0].data = chartData.map(item => {
-            return item.year.toString()
-          })
-          this.option.series[0].data = chartData.map(item => {
-            return item.published
-          })
-          this.option.series[1].data = chartData.map(item => {
-            return item.citation
-          })
-          this.option.yAxis[0].max = Math.ceil(Math.max(...this.option.series[0].data) / 10) * 10
-          this.option.yAxis[1].max = Math.ceil(Math.max(...this.option.series[1].data) / 100) * 100
-        } else {
-          this.$notify({
-            title: "Warning",
-            message: h("div", {
-              class: 'el-icon-close',
-              style: 'color: red'
-            }, " Error When Getting Statistics"),
-          })
-          this.requestError = true
-        }
-      }).catch(err => {
-        console.log(err)
-        this.$notify({
-          title: "Network Error",
-          message: h("div", {
-            class: 'el-icon-close',
-            style: 'color: red'
-          }, " Please Check Your Internet Connection"),
-        })
-        this.requestError = true
+      var year_citation = this.$props.year_citation;
+      var year_pubs = this.$props.year_pubs;
+      var min_year = this.getMinYear(year_citation, year_pubs);
+      var max_year = this.getMaxYear(year_citation, year_pubs);
+      for(let i=min_year;i<=max_year;i++){
+        this.option.xAxis[0].data.push(i.toString());
+        if(year_citation[i])this.option.series[0].data.push(year_citation[i])
+        else this.option.series[0].data.push(0)
+        if(year_pubs[i])this.option.series[1].data.push(year_pubs[i])
+        else this.option.series[1].data.push(0)
+      }
+      this.option.yAxis[0].max =
+        Math.ceil(Math.max(...this.option.series[0].data) / 10) * 10;
+      this.option.yAxis[1].max =
+        Math.ceil(Math.max(...this.option.series[1].data) / 100) * 100;
 
-        // DEBUG CODE (should be commented when release)
-        this.requestError = false
-        this.option.xAxis[0].data = ['2011', '2012', '2013', '2014', '2015',
-          '2016', '2017', '2018', '2019', '2020']
-        this.option.series[0].data = [3, 2, 7, 3, 12, 6, 5, 2, 2, 1]
-        this.option.series[1].data = [20, 53, 90, 24, 27, 70, 175, 182, 48, 18]
-        this.option.yAxis[0].max = Math.ceil(Math.max(...this.option.series[0].data) / 10) * 10
-        this.option.yAxis[1].max = Math.ceil(Math.max(...this.option.series[1].data) / 100) * 100
-
-      }).finally(() => {
-        this.myChart.hideLoading()
-        this.myChart.setOption(this.option)
-      })
-    }
-  }
-}
+      this.myChart.hideLoading();
+      this.myChart.setOption(this.option);
+    },
+  },
+};
 </script>

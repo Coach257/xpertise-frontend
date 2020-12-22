@@ -86,7 +86,6 @@ export default {
   },
   methods: {
     getData() {
-      console.log(this.$props)
       var h_index = this.$props.h_index;
       var n_pubs = this.$props.n_pubs;
       var n_citation = this.$props.n_citation;

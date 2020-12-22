@@ -137,8 +137,13 @@
       :n_citation="this.author.n_citation"
       v-if="loadfinish"
     ></author-compare-chart>
+    <author-year-paper-chart
+      v-if="loadfinish"
+      :year_citation="this.author.year_citation"
+      :year_pubs="this.author.year_pubs"
+    ></author-year-paper-chart>
         <div id="authorRelationGraph" v-if="graphloaded">
-      <!-- <author-relation-map :data="this.mapdata"></author-relation-map> -->
+       <author-relation-map :data="this.mapdata"></author-relation-map>
     </div>
     <related-author-chart
       :data="relateddata"
@@ -287,6 +292,7 @@ import { SearchDriver } from "@elastic/search-ui";
 import AuthorRelationMap from "../components/common/AuthorRelationMap.vue";
 import RelatedAuthorChart from "../components/common/RelatedAuthorChart.vue";
 import AuthorCompareChart from "../components/common/AuthorCompareChart.vue";
+import AuthorYearPaperChart from "../components/common/AuthorYearPaperChart.vue";
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -299,7 +305,7 @@ import axios from "axios";
 
 export default {
   name: "Author",
-  components: { AuthorRelationMap, RelatedAuthorChart, AuthorCompareChart },
+  components: { AuthorRelationMap, RelatedAuthorChart, AuthorCompareChart,AuthorYearPaperChart },
   props: [],
   data() {
     return {
@@ -315,6 +321,8 @@ export default {
         n_pubs: 0,
         name: "",
         tags: [],
+        year_citation:{},
+        year_pubs:{},
       },
       currentPage: 1,
       currentPage1: 1,
@@ -456,7 +464,9 @@ export default {
       if (results.name && results.name.raw) this.author.name = results.name.raw;
       if (this.type == 1) {
         this.getrelatedauthor();
-        // this.loadauthormap();
+        this.loadauthormap();
+        this.author.year_citation = JSON.parse(results.year_citation.raw);
+        this.author.year_pubs = JSON.parse(results.year_pubs.raw);
       }
       if (results.h_index && results.h_index.raw)
         this.author.h_index = results.h_index.raw;
@@ -545,6 +555,7 @@ export default {
     loadauthormap() {
       let formData = new FormData();
       formData.append("author_id", this.authorId);
+      formData.append("total",200);
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
