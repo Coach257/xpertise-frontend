@@ -103,8 +103,8 @@
 
 
               <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
-              <div style="width: 700px;"> {{ paper.title }}      </div>
-              <div style="width: 70px;">  引用数: {{paper.r}}</div>
+              <div style="width: 1100px;"> {{ paper.title }}      </div>
+              <div style="width: 70px;margin-right:0">  引用数: {{paper.r}}</div>
 
 
           </router-link>
