@@ -39,10 +39,10 @@
 
       <el-divider></el-divider>
 
-      <author-year-paper-chart class="chart" :year_citation="this.affiliation.year_citation" :year_pubs="this.affiliation.year_pubs" v-if="contendLoaded"></author-year-paper-chart>
-      <organization-year-paper-chart class="chart" :author="this.affiliation.authors" :type="'Paper'" v-if="contendLoaded"></organization-year-paper-chart>
-      <organization-year-paper-chart class="chart" :author="this.affiliation.authors" :type="'Citation'" v-if="contendLoaded"></organization-year-paper-chart>
-      <organization-total-paper-chart class="chart" :pubs="this.affiliation.pubs" v-if="contendLoaded"></organization-total-paper-chart>
+      <author-year-paper-chart class="chart" ref="chart1" :year_citation="this.affiliation.year_citation" :year_pubs="this.affiliation.year_pubs" v-if="contendLoaded"></author-year-paper-chart>
+      <organization-year-paper-chart class="chart" ref="chart2" :author="this.affiliation.authors" :type="'Paper'" v-if="contendLoaded"></organization-year-paper-chart>
+      <organization-year-paper-chart class="chart" ref="chart3" :author="this.affiliation.authors" :type="'Citation'" v-if="contendLoaded"></organization-year-paper-chart>
+      <organization-total-paper-chart class="chart" ref="chart4" :pubs="this.affiliation.pubs" v-if="contendLoaded"></organization-total-paper-chart>
     </div>
 
     <div id='affdata'>
@@ -170,7 +170,8 @@ export default {
         year_citation:{},
         year_pubs:{}
       },
-      contendLoaded: false,
+      //contendLoaded: false,
+      contendLoaded: true,
       searchState: {},
       currentPage1: 1,
       currentPage2: 1,
@@ -244,7 +245,12 @@ export default {
           for(let i = 0; i < raw.length; i++)
             this.affiliation.pubs.push(JSON.parse(raw[i]));
         }
-        this.contendLoaded = true;
+        // this.contendLoaded = true;
+        this.$refs.chart1.display()
+        this.$refs.chart2.display()
+        this.$refs.chart3.display()
+        this.$refs.chart4.display()
+
         this.total1 = this.affiliation.pubs.length
         this.total2 = this.affiliation.authors.length
 
@@ -412,7 +418,7 @@ a:hover {
 .chart {
   /* outline: #21ff06 dotted thick; */
 
-  box-shadow:inset 0px 0px 10px 6px rgb(50,50,50,0.1);
+  box-shadow:inset 0px 0px 10px 6px rgba(50,50,50,0.1);
   border-radius: 30px;
 
   width: 600px;

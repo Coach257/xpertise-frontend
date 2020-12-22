@@ -66,16 +66,18 @@ export default {
       },
     };
   },
-  created() {},
+  created() {
+  },
   mounted() {
     this.loadOption();
-    let myChart = this.$echarts.init(
+    this.myChart = this.$echarts.init(
       document.getElementById(
         "organization-year-" + this.type + "-chart-container"
       )
     );
-    myChart.setOption(this.option);
-    myChart.on("click", function (e) {
+    this.myChart.showLoading()
+    this.myChart.setOption(this.option);
+    this.myChart.on("click", function (e) {
       if (e.data.url) {
         window.open(e.data.url);
       }
@@ -83,59 +85,63 @@ export default {
   },
   methods: {
     loadOption() {
-      if(this.type == 'Paper'){
-        this.author.sort(function(a,b){
-          return b.n_pubs-a.n_pubs;
+      if (this.type === 'Paper') {
+        this.author.sort(function (a, b) {
+          return b.n_pubs - a.n_pubs;
         })
-        let len = this.author.length<30?this.author.length:30
-        for(let i = 0;i<len;i++){
+        let len = this.author.length < 30 ? this.author.length : 30
+
+        for (let i = 0; i < len; i++) {
           var author = this.author[i];
           this.chartData.push({
-            name:author.name,
-            value:author.n_pubs,
-            url:'/author/cs/'+author.id,
+            name: author.name,
+            value: author.n_pubs,
+            url: '/author/cs/' + author.id,
           })
         }
-        var num = 0 ;
-        if(this.author.length>30){
-          for(let i =30;i<this.author.length;i++){
-            num+=this.author[i].n_pubs;
+        var num = 0;
+        if (this.author.length > 30) {
+          for (let i = 30; i < this.author.length; i++) {
+            num += this.author[i].n_pubs;
           }
         }
-        if(num!=0){
+        if (num != 0) {
           this.chartData.push({
-            name:"其他",
-            value:num,
+            name: "其他",
+            value: num,
           })
         }
       } else {
-        this.author.sort(function(a,b){
-          return b.n_citation-a.n_citation;
+        this.author.sort(function (a, b) {
+          return b.n_citation - a.n_citation;
         })
-        let len = this.author.length<30?this.author.length:30
-        for(let i = 0;i<len;i++){
+        let len = this.author.length < 30 ? this.author.length : 30
+        for (let i = 0; i < len; i++) {
           var author = this.author[i];
           this.chartData.push({
-            name:author.name,
-            value:author.n_citation,
-            url:'/author/cs/'+author.id,
+            name: author.name,
+            value: author.n_citation,
+            url: '/author/cs/' + author.id,
           })
         }
-        var num = 0 ;
-        if(this.author.length>30){
-          for(let i =30;i<this.author.length;i++){
-            num+=this.author[i].n_citation;
+        var num = 0;
+        if (this.author.length > 30) {
+          for (let i = 30; i < this.author.length; i++) {
+            num += this.author[i].n_citation;
           }
         }
-        if(num!=0){
+        if (num != 0) {
           this.chartData.push({
-            name:"其他",
-            value:num,
+            name: "其他",
+            value: num,
           })
         }
       }
       this.option.series[0].data = this.chartData;
     },
+    display() {
+      this.myChart.hideLoading()
+    }
   },
 };
 </script>

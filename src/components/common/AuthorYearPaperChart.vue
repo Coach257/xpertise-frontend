@@ -125,11 +125,11 @@ export default {
       var year_pubs = this.$props.year_pubs;
       var min_year = this.getMinYear(year_citation, year_pubs);
       var max_year = this.getMaxYear(year_citation, year_pubs);
-      for(let i=min_year;i<=max_year;i++){
+      for (let i = min_year; i <= max_year; i++) {
         this.option.xAxis[0].data.push(i.toString());
-        if(year_citation[i])this.option.series[0].data.push(year_citation[i])
+        if (year_citation[i]) this.option.series[0].data.push(year_citation[i])
         else this.option.series[0].data.push(0)
-        if(year_pubs[i])this.option.series[1].data.push(year_pubs[i])
+        if (year_pubs[i]) this.option.series[1].data.push(year_pubs[i])
         else this.option.series[1].data.push(0)
       }
       this.option.yAxis[0].max =

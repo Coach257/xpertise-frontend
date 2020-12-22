@@ -10,7 +10,7 @@
 <script>
 export default {
   name: "OrganizationTotalPaperChart",
-  props:['pubs'],
+  props: ['pubs'],
   data() {
     return {
       chartData: [],
@@ -47,14 +47,16 @@ export default {
       },
     };
   },
-  created() {},
+  created() {
+  },
   mounted() {
     this.loadOption();
-    let myChart = this.$echarts.init(
+    this.myChart = this.$echarts.init(
       document.getElementById("organization-total-paper-chart-container")
     );
-    myChart.setOption(this.option);
-    myChart.on("click", function (e) {
+    this.myChart.showLoading()
+    this.myChart.setOption(this.option);
+    this.myChart.on("click", function (e) {
       if (e.data.url) {
         window.open(e.data.url);
       }
@@ -90,5 +92,8 @@ export default {
       this.option.series[0].data = this.chartData;
     },
   },
+  display() {
+    this.myChart.hideLoading()
+  }
 };
 </script>
