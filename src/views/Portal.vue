@@ -107,7 +107,7 @@
             >
               <div id='paperindex'>{{index+1+(currentPage3-1)*eachPage}}</div>
               <div style="width: 1100px;"> {{ (rela.author1_name== authorname)?rela.author2_name:rela.author1_name}}      </div>
-              <div class="citation">h_index:{{(rela.author1_name== authorname)?rela.author2_h_index:rela.author1__h_index}}次</div>
+              <div class="citation">h_index:{{(rela.author1_name== authorname)?rela.author2_h_index:rela.author1_h_index}}次</div>
           </router-link>
         </div>
 
