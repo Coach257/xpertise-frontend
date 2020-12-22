@@ -564,7 +564,7 @@ export default {
       var _this = this;
       axios
         .post(
-          "https://go-service-296709.df.r.appspot.com/api/v1/portal/connection_graph",
+          "https://go-service-296709.df.r.appspot.com/api/v1/portal/author_connection_graph",
           formData,
           config
         )

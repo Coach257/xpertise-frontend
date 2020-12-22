@@ -90,10 +90,11 @@
           ></related-paper-chart>
           <div v-if="referenceloadfinish">
             <h3>引用关系图谱</h3>
-            <RelationMap :data="this.referencedata" :type="'reference'" />
+            <!-- <RelationMap :data="this.referencedata" :type="'reference'" /> -->
           </div>
         </div>
         </div>
+        <paper-citation :year_citation="this.article.citation_by_year" :v-if="articleloadfinish"></paper-citation>
     </div>
     <el-dialog
       title="复制引用信息"
@@ -136,6 +137,7 @@ import SearchResults from "../components/search/SearchResults";
 import CommentSection from "../components/comment/CommentSection";
 import RelationMap from "../components/common/RelationMap.vue";
 import RelatedPaperChart from "../components/common/RelatedPaperChart.vue";
+import PaperCitation from "../components/common/PaperCitation.vue";
 const testurl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/recommend/create"
 
 import {
@@ -158,6 +160,7 @@ export default {
     SearchResults,
     RelationMap,
     RelatedPaperChart,
+    PaperCitation,
   },
   mounted() {
     this.init_data();
@@ -187,6 +190,7 @@ export default {
         url: "",
         listed: false,
         starred: false,
+        citation_by_year:{},
       },
       recommendForm: {
         username: "IAmParasite",
@@ -353,7 +357,10 @@ export default {
       this.article.paper_id = results.id.raw;
       if (results.title && results.title.raw)
         this.article.title = results.title.raw;
-      if (this.type == "cs") this.loadreference();
+      if (this.type == "cs") {
+        this.article.citation_by_year = JSON.parse(results.citation_by_year.raw);
+        this.loadreference();
+      }
       if (results.authors && results.authors.raw) {
         raw = results.authors.raw;
         for (var i = 0; i < raw.length; i++) {
@@ -468,6 +475,7 @@ export default {
     debug() {
       console.log(this.referenceloaded);
     },
+    // 复制引用信息
     loaddocumentcopyinfo() {
       var info = "";
       for (let i = 0; i < this.article.authors.length; i++) {
