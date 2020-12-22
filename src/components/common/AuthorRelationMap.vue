@@ -20,7 +20,7 @@ export default {
             trigger:'item',
             formatter:function(params) {
                 if(params.data.source||params.data.target){
-                    return params.data.source + '与'+params.data.target+'</br>'+'合作文献数量:'+params.data.value
+                    return params.data.source_name + '与'+params.data.target_name+'</br>'+'合作文献数量:'+params.data.value
                 } else{
                     return params.data.name+"</br>"+"h_index: "+params.data.value
                 }
