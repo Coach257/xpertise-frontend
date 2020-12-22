@@ -24,8 +24,8 @@
         <div>
           <el-collapse accordion>
             <el-collapse-item
-              style="width: 700px"
-              class="linkp"
+
+              class="linkk"
               v-for="pub in this.column.slice(
                 (this.currentPage1 - 1) * this.eachPage,
                 this.currentPage1 * this.eachPage
@@ -34,6 +34,7 @@
               tag="a"
               @click.native="papersincol(nowcol(pub))"
               :title="pub"
+               style="width: 900px;font-size:90px"
             >
               <div>
                 <router-link
@@ -46,7 +47,7 @@
 
 
               <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
-              <div style="width: 700px;"> {{ paper.name }} </div>
+              <div style="width: 900px;"> {{ paper.name }} </div>
 
 
           </router-link>
@@ -334,6 +335,11 @@ export default {
   display: flex;
   align-items: center;
   cursor: pointer;
+}
+.linkk {
+  font-size:30px;
+  cursor: pointer;
+  align-items: center;
 }
 a:link {
   color: #000000;
