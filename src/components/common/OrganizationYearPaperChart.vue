@@ -1,6 +1,9 @@
 <template>
-  <div v-if="!requestError">
-    <div :id="'organization-year-'+this.type+'-chart-container'" style="width: 600px;height: 400px"></div>
+  <div>
+    <div
+      :id="'organization-year-' + this.type + '-chart-container'"
+      style="width: 600px; height: 400px"
+    ></div>
   </div>
 </template>
 
@@ -25,99 +28,114 @@
 export default {
   name: "OrganizationYearPaperChart",
   props: {
-    type: String
+    type: String,
+    author: Array,
   },
   data() {
     return {
-      requestError: false,
       chartData: [],
       option: {
         title: {
-          text: 'Statistics',
-          subtext: 'Author Total ' + this.type + 's',
-          left: 'center'
+          text: "Statistics",
+          subtext: "Author Total " + this.type + "s",
+          left: "center",
         },
         tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ' + this.type + 's ({d}%)'
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} " + this.type + "s ({d}%)",
         },
         series: [
           {
-            name: 'Author',
-            type: 'pie',
-            radius: ['40%', '60%'],
-            center: ['50%', '50%'],
+            name: "Author",
+            type: "pie",
+            radius: ["40%", "60%"],
+            center: ["50%", "50%"],
             data: this.chartData,
             label: {
-              alignTo: 'labelLine'
+              alignTo: "labelLine",
             },
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
-      }
-    }
+                shadowColor: "rgba(0, 0, 0, 0.5)",
+              },
+            },
+          },
+        ],
+      },
+    };
   },
-  created() {
-    const config = {}
-    const data = {}
-    const h = this.$createElement
-    this.$axios.post('url', data, config).then(res => {
-      if (res.data.success) {
-        this.chartData = res.data.data
-      } else {
-        this.$notify({
-          title: "Warning",
-          message: h("div", {
-            class: 'el-icon-close',
-            style: 'color: red'
-          }, " Error When Getting Statistics")
-        })
-        this.requestError = true
-      }
-    }).catch(err => {
-      this.$notify({
-        title: "Network Error",
-        message: h("div", {
-          class: 'el-icon-close',
-          style: 'color: red'
-        }, " Please Check Your Internet Connection"),
-      })
-      this.requestError = true
-
-      // DEBUG CODE (should be commented when release)
-      this.requestError = false
-      this.chartData = [
-        {
-          name: 'alphar',
-          value: 23
-        },
-        {
-          name: 'szl',
-          value: 34
-        },
-        {
-          name: 'hahahaha',
-          value: 44
-        }
-      ]
-
-    }).finally(() => {
-        this.option.series[0].data = this.chartData
-        this.myChart.hideLoading()
-        this.myChart.setOption(this.option)
-      }
-    )
-  },
+  created() {},
   mounted() {
-    this.myChart = this.$echarts.init(document.getElementById('organization-year-' + this.type + '-chart-container'));
-    this.myChart.showLoading()
+    this.loadOption();
+    let myChart = this.$echarts.init(
+      document.getElementById(
+        "organization-year-" + this.type + "-chart-container"
+      )
+    );
+    myChart.setOption(this.option);
+    myChart.on("click", function (e) {
+      if (e.data.url) {
+        window.open(e.data.url);
+      }
+    });
   },
-  methods: {}
-}
+  methods: {
+    loadOption() {
+      if(this.type == 'Paper'){
+        this.author.sort(function(a,b){
+          return b.n_pubs-a.n_pubs;
+        })
+        let len = this.author.length<30?this.author.length:30
+        for(let i = 0;i<len;i++){
+          var author = this.author[i];
+          this.chartData.push({
+            name:author.name,
+            value:author.n_pubs,
+            url:'/author/cs/'+author.id,
+          })
+        }
+        var num = 0 ;
+        if(this.author.length>30){
+          for(let i =30;i<this.author.length;i++){
+            num+=this.author[i].n_pubs;
+          }
+        }
+        if(num!=0){
+          this.chartData.push({
+            name:"其他",
+            value:num,
+          })
+        }
+      } else {
+        this.author.sort(function(a,b){
+          return b.n_citation-a.n_citation;
+        })
+        let len = this.author.length<30?this.author.length:30
+        for(let i = 0;i<len;i++){
+          var author = this.author[i];
+          this.chartData.push({
+            name:author.name,
+            value:author.n_citation,
+            url:'/author/cs/'+author.id,
+          })
+        }
+        var num = 0 ;
+        if(this.author.length>30){
+          for(let i =30;i<this.author.length;i++){
+            num+=this.author[i].n_citation;
+          }
+        }
+        if(num!=0){
+          this.chartData.push({
+            name:"其他",
+            value:num,
+          })
+        }
+      }
+      this.option.series[0].data = this.chartData;
+    },
+  },
+};
 </script>

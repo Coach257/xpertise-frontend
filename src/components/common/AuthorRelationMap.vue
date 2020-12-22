@@ -9,6 +9,7 @@ export default {
   props: ["data"],
   data() {
     return {
+      url:[],
       option: {
         title: {
           text: "作者合作关系图",
@@ -19,7 +20,7 @@ export default {
             trigger:'item',
             formatter:function(params) {
                 if(params.data.source||params.data.target){
-                    return params.data.source + '与'+params.data.target+'</br>'+'合作文献数量:'+params.data.num
+                    return params.data.source + '与'+params.data.target+'</br>'+'合作文献数量:'+params.data.value
                 } else{
                     return params.data.name+"</br>"+"h_index: "+params.data.value
                 }
@@ -62,13 +63,27 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$props.data);
     this.loadoption();
     let myChart = this.$echarts.init(document.getElementById("AuthorRelationMap"));
     myChart.setOption(this.option);
+    myChart.on("click", function (e) {
+      if (e.data.id) {
+        window.open('/author/cs/'+e.data.id);
+      }
+    });
   },
   methods: {
     loadoption() {
+      // var len = this.$props.data.data.length;
+      // for (let i=0;i<len;i++){
+      //   this.url.push({
+      //     name:this.$props.data.data[i].name,
+      //     id:this.$props.data.data[i].id,
+      //   })
+      //   delete this.$props.data.data[i]['id'];
+      // }
+      // console.log(this.url)
+      // console.log(this.$props.data.data)
       this.option.series[0].data = this.$props.data.data;
       this.option.series[0].links = this.$props.data.links;
     },
