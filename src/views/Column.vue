@@ -267,7 +267,7 @@ export default {
     },
     addColumn() {
       this.columnVisible = false;
-      let that = this;
+      let _this = this;
       let formData = new FormData();
       formData.append("author_id", localStorage.getItem("authorId"));
       formData.append("column_name", this.columnForm.name);
@@ -275,6 +275,7 @@ export default {
       axios.post(addColumnUrl, formData, config).then((response) => {
           if (response) {
             if (response.data.success) {
+              _this.$router.go(0);
               console.log("创建成功")
             } else {
              console.log("创建失败");
