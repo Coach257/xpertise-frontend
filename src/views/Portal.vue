@@ -104,7 +104,8 @@
 
               <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
               <div style="width: 1100px;"> {{ paper.title }}      </div>
-              <div style="width: 70px;margin-right:0">  引用数: {{paper.r}}</div>
+              <div class="citation">被引{{paper.r}}次</div>
+
 
 
           </router-link>
@@ -290,6 +291,7 @@ var driver = null;
       this.papers.push(JSON.parse(one[kkey]))
       }
       this.total1=this.papers.length
+       this.papers.sort(function(a1, b1){return b1.r - a1.r});
       console.log("taaaaaaaaa")
       console.log(this.total1)
       //this.papers.push(JSON.parse(one[0][i]))
@@ -512,5 +514,26 @@ a:visited {
 a:hover {
   color:#1292fd;
   font-weight: bold;
+}
+.citation {
+  white-space: nowrap;
+
+  position: relative;
+  right: 5px;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  background-color: #808080;
+  color: white;
+
+  border-radius: 10px;
+
+  padding: 2px 8px 2px 8px;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  margin-top: 3px;
 }
 </style>

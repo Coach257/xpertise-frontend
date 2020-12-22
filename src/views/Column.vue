@@ -308,7 +308,7 @@ export default {
   color: white;
   width: 30px;
   height: 30px;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -331,7 +331,7 @@ export default {
   margin-right: 10px;
 }
 .link {
-  text-decoration: none;
+
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -341,6 +341,7 @@ export default {
   cursor: pointer;
   align-items: center;
 }
+
 a:link {
   color: #000000;
 }
