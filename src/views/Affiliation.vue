@@ -29,8 +29,10 @@
 
 
     <div style="height: 200px;"></div>
-
-
+    <author-year-paper-chart :year_citation="this.affiliation.year_citation" :year_pubs="this.affiliation.year_pubs" v-if="contendLoaded"></author-year-paper-chart>
+    <organization-year-paper-chart :author="this.affiliation.authors" :type="'Paper'" v-if="contendLoaded"></organization-year-paper-chart>
+    <organization-year-paper-chart :author="this.affiliation.authors" :type="'Citation'" v-if="contendLoaded"></organization-year-paper-chart>
+    <organization-total-paper-chart :pubs="this.affiliation.pubs" v-if="contendLoaded"></organization-total-paper-chart>
     <div id='affdata'>
 
       <div id='affpapers' class="datawrapper">
@@ -67,7 +69,7 @@
           :total='total1'
           :page-size='eachPage'
           @current-change='handleCurrentChange1'
-          hide-on-single-page=true
+          :hide-on-single-page="true"
           >
         </el-pagination>
         </center>
@@ -110,8 +112,8 @@
           :total='total2'
           :page-size='eachPage'
           @current-change='handleCurrentChange2'
-          pager-count=5
-          hide-on-single-page=true
+          :pager-count=5
+          :hide-on-single-page="true"
           >
         </el-pagination>
         </center>
@@ -127,6 +129,9 @@
 
 <script>
 import { SearchDriver } from "@elastic/search-ui"
+import AuthorYearPaperChart from "../components/common/AuthorYearPaperChart.vue";
+import OrganizationYearPaperChart from "../components/common/OrganizationYearPaperChart.vue";
+import OrganizationTotalPaperChart from "../components/common/OrganizationTotalPaperChart.vue"
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -137,6 +142,11 @@ import {
 var driver = null;
 export default {
   name: "Affiliation",
+  components:{
+    AuthorYearPaperChart,
+    OrganizationYearPaperChart,
+    OrganizationTotalPaperChart,
+  },
   data() {
     return {
       affiliation: {
@@ -144,7 +154,9 @@ export default {
         pubs: [],
         n_citation: 1,
         n_pubs: 1,
-        name: "NUS",
+        name: "",
+        year_citation:{},
+        year_pubs:{}
       },
       contendLoaded: false,
       searchState: {},
@@ -201,6 +213,8 @@ export default {
         // console.log(newsearchState);
         var results = newsearchState.results[0];
         var raw;
+        this.affiliation.year_citation = JSON.parse(results.year_citation.raw);
+        this.affiliation.year_pubs = JSON.parse(results.year_pubs.raw);
         if(results.name)
           this.affiliation.name = results.name.raw;
         if(results.authors) {

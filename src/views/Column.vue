@@ -24,8 +24,8 @@
         <div>
           <el-collapse accordion>
             <el-collapse-item
-              style="width: 700px"
-              class="linkp"
+
+              class="linkk"
               v-for="pub in this.column.slice(
                 (this.currentPage1 - 1) * this.eachPage,
                 this.currentPage1 * this.eachPage
@@ -34,6 +34,7 @@
               tag="a"
               @click.native="papersincol(nowcol(pub))"
               :title="pub"
+               style="width: 900px;font-size:90px"
             >
               <div>
                 <router-link
@@ -46,7 +47,7 @@
 
 
               <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
-              <div style="width: 700px;"> {{ paper.name }} </div>
+              <div style="width: 900px;"> {{ paper.name }} </div>
 
 
           </router-link>
@@ -68,23 +69,18 @@
             </el-collapse-item>
           </el-collapse>
         </div>
+
         <div
           v-if="isportalauthor"
-          class="wrapper"
+          class="data1wrapper"
           @mouseover="mouseOverWrapper()"
           @mouseleave="mouseLeaveWrapper()"
-          style="
-            width: 80px;
-            height: 30px;
-            align-items: center;
-            background-color: #26beb8;
-            color: white;
-            border-radius: 10px;
-            margin-right: 1px;
-          "
+
         >
-          <h3 color="#26BEB8;">添加专栏</h3>
+          <h3 style="margin:10px;text-align:center">添加专栏</h3>
+
         </div>
+
 
         <center style="margin-top: 30px; margin-bottom: 30px">
           <el-pagination
@@ -192,13 +188,13 @@ export default {
         });
     },
     mouseOverWrapper() {
-      this.$gsap.to(".wrapper", {
+      this.$gsap.to(".data1wrapper", {
         duration: 0.1,
         boxShadow: "0px 0px 35px 13px rgb(127,127,127,0.3)",
       });
     },
     mouseLeaveWrapper() {
-      this.$gsap.to(".wrapper", {
+      this.$gsap.to(".data1wrapper", {
         duration: 0.1,
         boxShadow: "0px 0px 10px 2px rgb(127,127,127,0.2)",
       });
@@ -291,6 +287,16 @@ export default {
   padding: 20px;
   margin: 40px;
 }
+.data1wrapper {
+  width: 110px;
+  height: 40px;
+  background-color: #26beb8;
+  color: white;
+
+  border-radius: 10px;
+  box-shadow: 0px 0px 50px 10px rgba(127, 127, 127, 0.2);
+  margin: 0 auto;
+}
 .datatitle {
   /* outline: #21ff06 dotted thick; */
   height: 40px;
@@ -307,7 +313,7 @@ export default {
   color: white;
   width: 30px;
   height: 30px;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -330,11 +336,17 @@ export default {
   margin-right: 10px;
 }
 .link {
-  text-decoration: none;
+
   display: flex;
   align-items: center;
   cursor: pointer;
 }
+.linkk {
+  font-size:30px;
+  cursor: pointer;
+  align-items: center;
+}
+
 a:link {
   color: #000000;
 }

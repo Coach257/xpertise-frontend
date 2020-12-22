@@ -9,17 +9,18 @@ export default {
   props: ["data"],
   data() {
     return {
+      url:[],
       option: {
         title: {
           text: "作者合作关系图",
           top: "top",
-          left: "right",
+          left: "center",
         },
         tooltip: {
             trigger:'item',
             formatter:function(params) {
                 if(params.data.source||params.data.target){
-                    return '合作数量:'+params.data.num
+                    return params.data.source_name + '与'+params.data.target_name+'</br>'+'合作文献数量:'+params.data.value
                 } else{
                     return params.data.name+"</br>"+"h_index: "+params.data.value
                 }
@@ -31,39 +32,9 @@ export default {
           {
             name: "作者合作关系图",
             type: "graph",
-            layout: "circular",
-            data: [{
-                name:'szl',
-                value:1,
-            },{
-                name:'zyh',
-                value:2,
-            },{
-                name:'hpf',
-                value:3,
-            },{
-                name:'zcy',
-                value:1000000
-            }
-            ],
-            links: [{
-                source:'szl',
-                target:'zyh',
-                num :65535
-            },{
-                source:'zyh',
-                target:'hpf'
-            },{
-                source:'hpf',
-                target:'szl'
-            },{
-                source:'szl',
-                target:'zcy',
-            },{
-                source:'zyh',
-                target:'zcy'
-            }
-            ],
+            layout: "force",
+            data: [],
+            links: [],
             roam: true,
             focusNodeAdjacency: true,
             itemStyle: {
@@ -92,18 +63,29 @@ export default {
     };
   },
   mounted() {
-    // this.loadoption();
+    this.loadoption();
     let myChart = this.$echarts.init(document.getElementById("AuthorRelationMap"));
     myChart.setOption(this.option);
+    myChart.on("click", function (e) {
+      if (e.data.id) {
+        window.open('/author/cs/'+e.data.id);
+      }
+    });
   },
   methods: {
     loadoption() {
-      var data = this.$props.data[0].data;
-      var list = new Array();
-      for (let i = 0; i < data.length; i++) {
-        this.option.xAxis[0].data.push(JSON.parse(data[i].value).raw);
-        this.option.series[0].data.push(data[i].count);
-      }
+      // var len = this.$props.data.data.length;
+      // for (let i=0;i<len;i++){
+      //   this.url.push({
+      //     name:this.$props.data.data[i].name,
+      //     id:this.$props.data.data[i].id,
+      //   })
+      //   delete this.$props.data.data[i]['id'];
+      // }
+      // console.log(this.url)
+      // console.log(this.$props.data.data)
+      this.option.series[0].data = this.$props.data.data;
+      this.option.series[0].links = this.$props.data.links;
     },
   },
 };
