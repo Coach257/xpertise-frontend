@@ -43,44 +43,6 @@
     <el-tab-pane label="我的文献" name="first">
 
         <el-row class="block-col-2">
-            <el-col :span="2">
-                <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    所有时间<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>最近五年</el-dropdown-item>
-                    <el-dropdown-item>最近一年</el-dropdown-item>
-                    <el-dropdown-item>最近一月</el-dropdown-item>
-                </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
-            <el-col :span="2">
-                <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    全部作者<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>仅合作作者</el-dropdown-item>
-                    <el-dropdown-item>其他作者</el-dropdown-item>
-
-                </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
-            <el-col :span="3">
-                <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    按时间排序<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>倒序</el-dropdown-item>
-                    <el-dropdown-item>顺序</el-dropdown-item>
-
-                </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
-        </el-row>
-        <el-row class="block-col-2">
                <div id='affpapers' class="datawrapper">
 
         <div class="datatitle">
@@ -100,14 +62,9 @@
             :to="'/detail/cs/' + paper.id"
             tag="a"
             >
-
-
               <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
               <div style="width: 1100px;"> {{ paper.title }}      </div>
               <div class="citation">被引{{paper.r}}次</div>
-
-
-
           </router-link>
         </div>
 
@@ -125,9 +82,47 @@
       </div>
         </el-row>
     </el-tab-pane>
-    <el-tab-pane label="我的合作伙伴" name="second">
+    <el-tab-pane label="我的合作伙伴" name="second" >
          <el-row class="block-col-2">
+    <div id='affpapers' class="datawrapper">
 
+        <div class="datatitle">
+        <h2>合作伙伴</h2>
+        <svg class="icon" width="27px" height="27px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path
+            d="M272.128 538.752l207.36 409.472H204.736c-31.488-1.152-57.728-12.224-78.72-33.28s-32.064-47.232-33.28-78.72v-185.472c1.152-31.488 12.224-57.728 33.28-78.72s47.232-32.064 78.72-33.28h67.392z m88.768-414.784c38.784-39.104 87.616-59.52 146.56-61.248 58.944 1.728 107.776 22.144 146.56 61.248 38.784 39.104 59.072 87.808 60.8 146.112-0.576 37.952-9.92 72.64-28.032 104.128s-43.456 56.576-76.096 75.264c-32.704 18.688-67.072 28.032-103.232 28.032-36.16 0-70.592-9.344-103.232-28.032-32.704-18.688-58.048-43.776-76.096-75.264-18.112-31.488-27.456-66.176-28.032-104.128 1.728-58.304 22.016-107.008 60.8-146.112z m241.984 532.928l-95.36 201.28-95.36-201.28 95.36-83.968 95.36 83.968z m286.976-84.928c21.568 20.992 34.112 47.232 37.632 78.72v185.472c-0.576 31.488-11.52 57.728-32.832 78.72-21.312 20.992-47.68 32.064-79.168 33.28H540.736l202.112-409.472h67.392c31.488 1.216 58.048 12.288 79.616 33.28z"
+            fill="#666666"
+          /></svg></div>
+
+        <el-divider></el-divider>
+
+        <div>
+           <router-link
+            class="link"
+            v-for="(rela,index) in relateddata.slice(
+                (this.currentPage3 - 1) * this.eachPage,
+                this.currentPage3 * this.eachPage)"
+            :key="index"
+            :to="'/author/cs/' + rela.author1_id"
+            tag="a"
+            >
+              <div id='paperindex'>{{index+1+(currentPage3-1)*eachPage}}</div>
+              <div style="width: 1100px;"> {{ (rela.author1_name== authorname)?rela.author2_name:rela.author1_name}}      </div>
+              <div class="citation">h_index:{{(rela.author1_name== authorname)?rela.author2_h_index:rela.author1__h_index}}次</div>
+          </router-link>
+        </div>
+
+        <center style="margin-top: 30px; margin-bottom: 30px">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total='total3'
+          :page-size='eachPage'
+          @current-change='handleCurrentChange3'
+          >
+        </el-pagination>
+        </center>
+
+      </div>
 
 
         </el-row>
@@ -185,6 +180,7 @@ var driver = null;
    mounted() {
       this.checkau()
       this.getpapers();
+      this.getrelatedauthor();
       //this.searchcol()
 
       //  driver.subscribeToStateChanges(state => {
@@ -201,10 +197,14 @@ var driver = null;
    data(){
        return {
          my:"portal",
+         relateddata: [],
          currentPage1: 1,
-        currentPage2: 1,
+        currentPage3: 1,
+        currentPage11: 1,
+        currentPage22: 1,
         eachPage: 10,
         total1: 0,
+        total3: 0,
          column:[],
          papers:[],
          authorname:'',
@@ -264,7 +264,11 @@ var driver = null;
    methods: {
      handleCurrentChange1(currpage) {
       this.currentPage1 = currpage;
-    },    mouseOverWrapper() {
+    },
+    handleCurrentChange3(currpage) {
+      this.currentPage3 = currpage;
+    },
+     mouseOverWrapper() {
       this.$gsap.to(".wrapper", {
         duration: 0.1,
         boxShadow: "0px 0px 35px 13px rgb(127,127,127,0.3)",
@@ -275,6 +279,35 @@ var driver = null;
         duration: 0.1,
         boxShadow: "0px 0px 10px 2px rgb(127,127,127,0.2)",
       });
+    },
+    getrelatedauthor() {
+      console.log("jiazai");
+      let formData = new FormData();
+      formData.append("author_id", localStorage.getItem("authorId"));
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      var _this = this;
+      axios
+        .post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/portal/direct_connection/list",
+          formData,
+          config
+        )
+        .then(function (response) {
+          if (response.data.success) {
+            _this.relateddata = response.data.message;
+            _this.total3 = response.data.message.length;
+            console.log(_this.relateddata);
+console.log("jiazaiwancheng");
+            _this.relatedloaded = true;
+          } else {
+            console.log("请求失败");
+            console.log(response.data);
+          }
+        });
     },
      getpapers(){
        console.log("aa")
@@ -480,7 +513,7 @@ var driver = null;
   border-radius: 50px;
   background-color: #26BEB8;
   color: white;
-  width: 30px;
+  width: 45px;
   height: 30px;
   font-size: 15px;
   font-weight: bold;

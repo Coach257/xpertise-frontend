@@ -69,23 +69,18 @@
             </el-collapse-item>
           </el-collapse>
         </div>
+
         <div
           v-if="isportalauthor"
-          class="wrapper"
+          class="data1wrapper"
           @mouseover="mouseOverWrapper()"
           @mouseleave="mouseLeaveWrapper()"
-          style="
-            width: 80px;
-            height: 30px;
-            align-items: center;
-            background-color: #26beb8;
-            color: white;
-            border-radius: 10px;
-            margin-right: 1px;
-          "
+
         >
-          <h3 color="#26BEB8;">添加专栏</h3>
+          <h3 style="margin:10px;text-align:center">添加专栏</h3>
+
         </div>
+
 
         <center style="margin-top: 30px; margin-bottom: 30px">
           <el-pagination
@@ -193,13 +188,13 @@ export default {
         });
     },
     mouseOverWrapper() {
-      this.$gsap.to(".wrapper", {
+      this.$gsap.to(".data1wrapper", {
         duration: 0.1,
         boxShadow: "0px 0px 35px 13px rgb(127,127,127,0.3)",
       });
     },
     mouseLeaveWrapper() {
-      this.$gsap.to(".wrapper", {
+      this.$gsap.to(".data1wrapper", {
         duration: 0.1,
         boxShadow: "0px 0px 10px 2px rgb(127,127,127,0.2)",
       });
@@ -291,6 +286,16 @@ export default {
   box-shadow: 0px 0px 50px 10px rgba(127, 127, 127, 0.2);
   padding: 20px;
   margin: 40px;
+}
+.data1wrapper {
+  width: 110px;
+  height: 40px;
+  background-color: #26beb8;
+  color: white;
+
+  border-radius: 10px;
+  box-shadow: 0px 0px 50px 10px rgba(127, 127, 127, 0.2);
+  margin: 0 auto;
 }
 .datatitle {
   /* outline: #21ff06 dotted thick; */
