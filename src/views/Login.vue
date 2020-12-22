@@ -163,10 +163,11 @@ export default {
     },
     watch: {
       searchState(newsearchState) {
+        console.log(newsearchState);
         if(newsearchState.results.length > 0) {
           let list = this.searchState.results[0].pubs.raw;
           localStorage.setItem("paper_info", JSON.stringify(list));
-          list = JSON.parse(localStorage.getItem('paper_info'));
+          localStorage.setItem("h_index", this.searchState.results[0].h_index.raw);
           this.contendLoaded = true;
         }
       },

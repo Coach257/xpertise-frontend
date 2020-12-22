@@ -107,7 +107,7 @@
             >
               <div id='paperindex'>{{index+1+(currentPage3-1)*eachPage}}</div>
               <div style="width: 1100px;"> {{ (rela.author1_name== authorname)?rela.author2_name:rela.author1_name}}      </div>
-              <div class="citation">h_index:{{(rela.author1_name== authorname)?rela.author2_h_index:rela.author1__h_index}}次</div>
+              <div class="citation">h_index:{{(rela.author1_name== authorname)?rela.author2_h_index:rela.author1_h_index}}次</div>
           </router-link>
         </div>
 
@@ -312,7 +312,7 @@ console.log("jiazaiwancheng");
      getpapers(){
        console.log("aa")
        var a =[]
-  console.log(JSON.parse(localStorage.getItem("paper_info")))
+      console.log(JSON.parse(localStorage.getItem("paper_info")))
       //  for(var i=0;i< localStorage.getItem("paper_info").length;i++){
       //    console.log(localStorage.getItem("paper_info"))
       //    //this.papers.push(JSON.parse(localStorage.getItem("paper_info")[i]))

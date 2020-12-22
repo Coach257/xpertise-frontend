@@ -37,6 +37,7 @@
                style="width: 900px;font-size:90px"
             >
               <div>
+                <div v-if="blankcol"> <a>空</a></div>
                 <router-link
 
             v-for="(paper,index) in colpapers"
@@ -51,20 +52,6 @@
 
 
           </router-link>
-                <!-- <router-link
-            class="link"
-            v-for="(pub) in (this.column).slice((this.currentPage1-1)*this.eachPage, this.currentPage1*this.eachPage)"
-            :key = pub.id
-            :to="'/detail/cs/' + pub.id"
-            tag="a"
-            >
-
-
-              <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
-              <div style="width: 700px;"> {{ pub.title }} </div>
-
-
-          </router-link> -->
               </div>
             </el-collapse-item>
           </el-collapse>
@@ -77,7 +64,7 @@
           @mouseleave="mouseLeaveWrapper()"
 
         >
-          <h3 style="margin:10px;text-align:center">添加专栏</h3>
+          <h3 style="margin:10px;text-align:center" @click="columnVisible = true">添加专栏</h3>
 
         </div>
 
@@ -93,20 +80,25 @@
           </el-pagination>
         </center>
       </div>
+
+      <el-dialog title="添加专栏" :visible.sync="columnVisible">
+        <el-form :model="columnForm">
+          <el-form-item label="专栏名称" :label-width="formLabelWidth">
+            <el-input v-model="columnForm.name" :disabled="false"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="columnVisible = false"> 取 消</el-button>
+          <el-button type="primary" @click="addColumn"> 确 定 </el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import { SearchDriver } from "@elastic/search-ui";
-import {
-  mainpaperconfig,
-  mainauthorconfig,
-  cspaperconfig,
-  csauthorconfig,
-  csaffiliationconfig,
-} from "../searchConfig";
+const addColumnUrl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/column/create_column"
 export default {
   props: ["type", "id"],
   name: "Column",
@@ -123,6 +115,12 @@ export default {
       eachPage: 5,
       total1: 0,
       total2: 0,
+      blankcol:false,
+      formLabelWidth: '120px',
+      columnVisible: false,
+      columnForm: {
+        name: "",
+      }
     };
   },
   mounted() {
@@ -172,12 +170,13 @@ export default {
               for (i = 0; i < response.data.data.length; i++) {
                 _this.colpapers.push({"name":response.data.data[i].paper_title,"id":response.data.data[i].paper_id});
               }
-
+              _this.blankcol=false;
               // console.log("开始11");
               // console.log(response.data.data[0].column_id);
               // console.log("开始22");
             } else {
               console.log("没有专栏?");
+              _this.blankcol=true;
             }
           } else {
             console.log("error2");
@@ -254,6 +253,26 @@ export default {
     },
     handleCurrentChange2(currpage) {
       this.currentPage2 = currpage;
+    },
+    addColumn() {
+      this.columnVisible = false;
+      let _this = this;
+      let formData = new FormData();
+      formData.append("author_id", localStorage.getItem("authorId"));
+      formData.append("column_name", this.columnForm.name);
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      axios.post(addColumnUrl, formData, config).then((response) => {
+          if (response) {
+            if (response.data.success) {
+              _this.$router.go(0);
+              console.log("创建成功")
+            } else {
+             console.log("创建失败");
+            }
+          } else {
+            console.log("创建失败")
+          }
+        });
     },
   },
   computed: {

@@ -41,7 +41,7 @@
                 fill="#666666"
               />
             </svg>
-            <div style="margin-left: 5px">{{ this.author.n_pubs }}篇</div>
+            <div style="margin-left: 5px; white-space: nowrap;">{{ this.author.n_pubs }}篇</div>
           </div>
 
           <div style="display: flex">
@@ -58,7 +58,7 @@
                 fill="#666666"
               />
             </svg>
-            <div style="margin-left: 5px">{{ this.author.n_citation }}次</div>
+            <div style="margin-left: 5px; white-space: nowrap;">{{ this.author.n_citation }}次</div>
           </div>
 
           <div style="display: flex">
@@ -75,7 +75,7 @@
                 fill="#666666"
               />
             </svg>
-            <div style="margin-left: 5px">{{ this.author.h_index }}次</div>
+            <div style="margin-left: 5px; white-space: nowrap;">{{ this.author.h_index }}次</div>
           </div>
         </div>
 
@@ -371,7 +371,6 @@ export default {
         this.type = 1;
       } else {
         this.type = 2;
-        this.$gsap.set("#authorInfo", { width: "240px" });
       }
     },
     // 初始化driver
@@ -636,7 +635,7 @@ export default {
   justify-content: space-between;
   color: #666666;
   font-weight: 500;
-  width: 200px;
+  width: 260px;
   margin-top: 20px;
 }
 #authorAff {
@@ -762,19 +761,19 @@ export default {
 }
 .citation2{
   white-space: nowrap;
-  
+
   position: relative;
   right: 5px;
-  
+
   text-align: center;
-  
+
   font-size: 13px;
-  
+
   background-color: #dace0a;
   color: white;
-  
+
   border-radius: 10px;
-  
+
   padding: 2px 8px 2px 8px;
   margin-left: 3px;
   margin-right: 3px;
