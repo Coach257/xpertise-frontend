@@ -60,7 +60,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$props.year_citation)
     this.myChart = this.$echarts.init(
       document.getElementById("paper-citation")
     );

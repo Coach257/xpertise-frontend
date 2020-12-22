@@ -90,11 +90,12 @@
           ></related-paper-chart>
           <div v-if="referenceloadfinish">
             <h3>引用关系图谱</h3>
-            <!-- <RelationMap :data="this.referencedata" :type="'reference'" /> -->
+            
           </div>
         </div>
         </div>
         <paper-citation :year_citation="this.article.citation_by_year" :v-if="articleloadfinish"></paper-citation>
+        <reference-chart :data="this.referencedata" v-if="referenceloaded"></reference-chart>
     </div>
     <el-dialog
       title="复制引用信息"
@@ -135,9 +136,9 @@
 import { SearchDriver } from "@elastic/search-ui";
 import SearchResults from "../components/search/SearchResults";
 import CommentSection from "../components/comment/CommentSection";
-import RelationMap from "../components/common/RelationMap.vue";
 import RelatedPaperChart from "../components/common/RelatedPaperChart.vue";
 import PaperCitation from "../components/common/PaperCitation.vue";
+import ReferenceChart from "../components/common/ReferenceChart.vue";
 const testurl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/recommend/create"
 
 import {
@@ -158,9 +159,9 @@ export default {
     CommentSection,
     RecommendSection,
     SearchResults,
-    RelationMap,
     RelatedPaperChart,
     PaperCitation,
+    ReferenceChart,
   },
   mounted() {
     this.init_data();
@@ -424,7 +425,7 @@ export default {
       };
       axios
         .post(
-          "https://go-service-296709.df.r.appspot.com/api/v1/branch/graph/reference",
+          "https://go-service-296709.df.r.appspot.com/api/v1/branch/reference_connection_graph",
           formData,
           config
         )

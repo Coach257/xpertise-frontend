@@ -3,15 +3,15 @@
     <h1>Test Page</h1>
 
     <!-- <RelationMap/> -->
-    <organization-year-paper-chart :type="'Citation'"></organization-year-paper-chart>
-    <organization-year-paper-chart :type="'Paper'"></organization-year-paper-chart>
+    <!-- <organization-year-paper-chart :type="'Citation'"></organization-year-paper-chart>
+    <organization-year-paper-chart :type="'Paper'"></organization-year-paper-chart> -->
     <!-- <author-year-paper-chart></author-year-paper-chart> -->
     <!-- <author-compare-chart></author-compare-chart>
 
 
     <SelectTitle :buttons='buttons'/> -->
     <!-- <author-relation-map></author-relation-map> -->
-    <!-- <reference-chart></reference-chart> -->
+    <reference-chart></reference-chart>
   </div>
 </template>
 

@@ -1,159 +1,38 @@
 <template>
   <div>
-    <div id="ReferenceChart" style="width: 1000px;height: 1000px"></div>
+    <div id="ReferenceChart" style="width:1200px; height: 1000px"></div>
   </div>
 </template>
 <script>
-var data = {
-  name: "flare",
-  children: [
-    {
-      name: "data",
-      children: [
-        {
-          name: "converters",
-          children: [
-            { name: "Converters", value: 721 },
-            { name: "DelimitedTextConverter", value: 4294 },
-          ],
-        },
-        {
-          name: "DataUtil",
-          value: 3322,
-        },
-      ],
-    },
-    {
-      name: "display",
-      children: [
-        { name: "DirtySprite", value: 8833 },
-        { name: "LineSprite", value: 1732 },
-        { name: "RectSprite", value: 3623 },
-      ],
-    },
-    {
-      name: "flex",
-      children: [{ name: "FlareVis", value: 4116 }],
-    },
-    {
-      name: "query",
-      children: [
-        { name: "AggregateExpression", value: 1616 },
-        { name: "And", value: 1027 },
-        { name: "Arithmetic", value: 3891 },
-        { name: "Average", value: 891 },
-        { name: "BinaryExpression", value: 2893 },
-        { name: "Comparison", value: 5103 },
-        { name: "CompositeExpression", value: 3677 },
-        { name: "Count", value: 781 },
-        { name: "DateUtil", value: 4141 },
-        { name: "Distinct", value: 933 },
-        { name: "Expression", value: 5130 },
-        { name: "ExpressionIterator", value: 3617 },
-        { name: "Fn", value: 3240 },
-        { name: "If", value: 2732 },
-        { name: "IsA", value: 2039 },
-        { name: "Literal", value: 1214 },
-        { name: "Match", value: 3748 },
-        { name: "Maximum", value: 843 },
-        {
-          name: "methods",
-          children: [
-            { name: "add", value: 593 },
-            { name: "and", value: 330 },
-            { name: "average", value: 287 },
-            { name: "count", value: 277 },
-            { name: "distinct", value: 292 },
-            { name: "div", value: 595 },
-            { name: "eq", value: 594 },
-            { name: "fn", value: 460 },
-            { name: "gt", value: 603 },
-            { name: "gte", value: 625 },
-            { name: "iff", value: 748 },
-            { name: "isa", value: 461 },
-            { name: "lt", value: 597 },
-            { name: "lte", value: 619 },
-            { name: "max", value: 283 },
-            { name: "min", value: 283 },
-            { name: "mod", value: 591 },
-            { name: "mul", value: 603 },
-            { name: "neq", value: 599 },
-            { name: "not", value: 386 },
-            { name: "or", value: 323 },
-            { name: "orderby", value: 307 },
-            { name: "range", value: 772 },
-            { name: "select", value: 296 },
-            { name: "stddev", value: 363 },
-            { name: "sub", value: 600 },
-            { name: "sum", value: 280 },
-            { name: "update", value: 307 },
-            { name: "variance", value: 335 },
-            { name: "where", value: 299 },
-            { name: "xor", value: 354 },
-            { name: "x_x", value: 264 },
-          ],
-        },
-        { name: "Minimum", value: 843 },
-        { name: "Not", value: 1554 },
-        { name: "Or", value: 970 },
-        { name: "Query", value: 13896 },
-        { name: "Range", value: 1594 },
-        { name: "StringUtil", value: 4130 },
-        { name: "Sum", value: 791 },
-        { name: "Variable", value: 1124 },
-        { name: "Variance", value: 1876 },
-        { name: "Xor", value: 1101 },
-      ],
-    },
-    {
-      name: "scale",
-      children: [
-        { name: "IScaleMap", value: 2105 },
-        { name: "LinearScale", value: 1316 },
-        { name: "LogScale", value: 3151 },
-        { name: "OrdinalScale", value: 3770 },
-        { name: "QuantileScale", value: 2435 },
-        { name: "QuantitativeScale", value: 4839 },
-        { name: "RootScale", value: 1756 },
-        { name: "Scale", value: 4268 },
-        { name: "ScaleType", value: 1821 },
-        { name: "TimeScale", value: 5833 },
-      ],
-    },
-  ],
-};
 export default {
   name: "ReferenceChart",
   props: ["data"],
   data() {
     return {
       option: {
-        title: {
-          text: "文献引用关系图",
-          top: "top",
-          left: "center",
+        title:{
+          text:"文献引用关系图",
+          left:"center",
+          top:"top"
         },
         tooltip: {
           trigger: "item",
           triggerOn: "mousemove",
         },
+        
         series: [
           {
             type: "tree",
             id: 0,
-            name: "tree1",
-            data: [data],
-
+            data: [],
+            roam: true,
             top: "10%",
-            left: "8%",
+            left: "400px",
             bottom: "22%",
             right: "20%",
 
-            symbolSize: 7,
+            symbolSize: 10,
 
-            edgeShape: "polyline",
-            edgeForkPosition: "63%",
-            initialTreeDepth: 3,
 
             lineStyle: {
               width: 2,
@@ -161,7 +40,7 @@ export default {
 
             label: {
               backgroundColor: "#fff",
-              position: "left",
+              position: "top",
               verticalAlign: "middle",
               align: "right",
             },
@@ -170,7 +49,7 @@ export default {
               label: {
                 position: "right",
                 verticalAlign: "middle",
-                align: "left",
+                align: "top",
               },
             },
 
@@ -183,20 +62,23 @@ export default {
     };
   },
   mounted() {
-    // this.loadoption();
-    let myChart = this.$echarts.init(
-      document.getElementById("ReferenceChart")
-    );
-    myChart.setOption(this.option);
+    //this.loadoption();
+    this.myChart = this.$echarts.init(document.getElementById("ReferenceChart"));
+    this.myChart.showLoading();
+    this.loadoption();
+    this.myChart.on("click", function (e) {
+      if (e.data.id) {
+        window.open('/detail/cs/'+e.data.id);
+      }
+    });
   },
   methods: {
     loadoption() {
-      var data = this.$props.data[0].data;
-      var list = new Array();
-      for (let i = 0; i < data.length; i++) {
-        this.option.xAxis[0].data.push(JSON.parse(data[i].value).raw);
-        this.option.series[0].data.push(data[i].count);
-      }
+      console.log(this.$props.data);
+      this.option.series[0].data.push(this.$props.data);
+      console.log(this.option.series[0].data);
+      this.myChart.setOption(this.option);
+      this.myChart.hideLoading();
     },
   },
 };
