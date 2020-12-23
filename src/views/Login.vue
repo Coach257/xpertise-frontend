@@ -166,12 +166,17 @@ export default {
         if(newsearchState.results.length > 0) {
           console.log(newsearchState.results[0]);
           let list = this.searchState.results[0].pubs.raw;
-          localStorage.setItem("organizations", JSON.stringify(this.searchState.results[0].orgs.raw));
+
           localStorage.setItem("n_pubs", this.searchState.results[0].n_pubs.raw);
           localStorage.setItem("n_citation", this.searchState.results[0].n_citation.raw);
+          localStorage.setItem("name", this.searchState.results[0].name.raw);
           if(localStorage.getItem("authorId").toString().length < 10) {
             localStorage.setItem("year_citation", this.searchState.results[0].year_citation.raw);
             localStorage.setItem("year_pubs", this.searchState.results[0].year_citation.raw);
+            localStorage.setItem("organizations", this.searchState.results[0].orgs.raw);
+          }
+          else {
+            localStorage.setItem("organizations", JSON.stringify(this.searchState.results[0].orgs.raw));
           }
           localStorage.setItem("paper_info", JSON.stringify(list));
           localStorage.setItem("h_index", this.searchState.results[0].h_index.raw);
