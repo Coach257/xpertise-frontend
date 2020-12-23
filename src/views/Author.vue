@@ -41,7 +41,9 @@
                 fill="#666666"
               />
             </svg>
-            <div style="margin-left: 5px; white-space: nowrap;">{{ this.author.n_pubs }}篇</div>
+            <div style="margin-left: 5px; white-space: nowrap">
+              {{ this.author.n_pubs }}篇
+            </div>
           </div>
 
           <div style="display: flex">
@@ -58,7 +60,9 @@
                 fill="#666666"
               />
             </svg>
-            <div style="margin-left: 5px; white-space: nowrap;">{{ this.author.n_citation }}次</div>
+            <div style="margin-left: 5px; white-space: nowrap">
+              {{ this.author.n_citation }}次
+            </div>
           </div>
 
           <div style="display: flex">
@@ -75,7 +79,9 @@
                 fill="#666666"
               />
             </svg>
-            <div style="margin-left: 5px; white-space: nowrap;">{{ this.author.h_index }}次</div>
+            <div style="margin-left: 5px; white-space: nowrap">
+              {{ this.author.h_index }}次
+            </div>
           </div>
         </div>
 
@@ -132,11 +138,27 @@
 
     <div style="height: 350px"></div>
 
-    <div id='charts'>
-
-      <div class="datatitle" style="width: 1250px;">
-      <h2>数据统计</h2>
-      <svg class="icon" width="27px" height="27px" style="right: 10px;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M1024.25175 0l-209.92 23.04L883.45175 92.16 655.61175 370.688 419.06775 152.064c-15.872-14.848-40.96-14.848-57.344-0.512L14.07575 465.408C-3.33225 481.28-4.86825 508.416 11.00375 525.824c8.192 9.216 19.968 13.824 31.744 13.824 10.24 0 20.48-3.584 28.672-10.752l318.464-287.744 241.152 222.72c8.704 8.192 20.48 11.776 31.744 11.264 11.776-1.024 22.528-6.656 30.208-15.36l250.88-306.688 57.344 57.344L1024.25175 0z m0 0M133.37175 1024H30.97175c-16.896 0-30.72-13.824-30.72-30.72v-348.16c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v348.16c0 16.896-13.824 30.72-30.72 30.72z" fill="#666666" /><path d="M420.09175 1024H317.69175c-16.896 0-30.72-13.824-30.72-30.72V440.32c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v552.96c0 16.896-13.824 30.72-30.72 30.72zM706.81175 1024h-102.4c-16.896 0-30.72-13.824-30.72-30.72v-399.36c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v399.36c0 16.896-13.824 30.72-30.72 30.72zM993.53175 1024h-102.4c-16.896 0-30.72-13.824-30.72-30.72V337.92c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v655.36c0 16.896-13.824 30.72-30.72 30.72z"  fill="#666666"/></svg>
+    <div id="charts">
+      <div class="datatitle" style="width: 1250px">
+        <h2>数据统计</h2>
+        <svg
+          class="icon"
+          width="27px"
+          height="27px"
+          style="right: 10px"
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1024.25175 0l-209.92 23.04L883.45175 92.16 655.61175 370.688 419.06775 152.064c-15.872-14.848-40.96-14.848-57.344-0.512L14.07575 465.408C-3.33225 481.28-4.86825 508.416 11.00375 525.824c8.192 9.216 19.968 13.824 31.744 13.824 10.24 0 20.48-3.584 28.672-10.752l318.464-287.744 241.152 222.72c8.704 8.192 20.48 11.776 31.744 11.264 11.776-1.024 22.528-6.656 30.208-15.36l250.88-306.688 57.344 57.344L1024.25175 0z m0 0M133.37175 1024H30.97175c-16.896 0-30.72-13.824-30.72-30.72v-348.16c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v348.16c0 16.896-13.824 30.72-30.72 30.72z"
+            fill="#666666"
+          />
+          <path
+            d="M420.09175 1024H317.69175c-16.896 0-30.72-13.824-30.72-30.72V440.32c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v552.96c0 16.896-13.824 30.72-30.72 30.72zM706.81175 1024h-102.4c-16.896 0-30.72-13.824-30.72-30.72v-399.36c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v399.36c0 16.896-13.824 30.72-30.72 30.72zM993.53175 1024h-102.4c-16.896 0-30.72-13.824-30.72-30.72V337.92c0-16.896 13.824-30.72 30.72-30.72h102.4c16.896 0 30.72 13.824 30.72 30.72v655.36c0 16.896-13.824 30.72-30.72 30.72z"
+            fill="#666666"
+          />
+        </svg>
       </div>
 
       <el-divider></el-divider>
@@ -154,17 +176,18 @@
         :year_citation="this.author.year_citation"
         :year_pubs="this.author.year_pubs"
       ></author-year-paper-chart>
-      <author-relation-map class="chart" :data="this.mapdata"></author-relation-map>
+      <author-relation-map
+        class="chart"
+        :data="this.mapdata"
+        v-if="graphloaded"
+      ></author-relation-map>
       <related-author-chart
         class="chart"
         :data="relateddata"
         :authorid="authorId"
         v-if="relatedloaded"
       ></related-author-chart>
-
     </div>
-
-
 
     <div id="authorData">
       <div id="authorPapers" class="dataWrapper">
@@ -204,7 +227,7 @@
             </div>
             <div style="width: 700px">{{ pub.title }}</div>
             <div class="citation2">第{{ pub.r }}作者</div>
-            <div class="citation">被引{{pub.n_citation}}次</div>
+            <div class="citation">被引{{ pub.n_citation }}次</div>
           </router-link>
         </div>
 
@@ -232,11 +255,11 @@
           <el-pagination
             background
             layout="prev, pager, next"
-            :total='total'
-            :page-size='eachPage'
-            @current-change='handleCurrentChange'
+            :total="total"
+            :page-size="eachPage"
+            @current-change="handleCurrentChange"
             :hide-on-single-page="true"
-            >
+          >
           </el-pagination>
         </center>
       </div>
@@ -272,7 +295,10 @@
           >
             <div
               class="tagName"
-              v-for="(tag, index) in (this.author.tags).slice((this.currentPage1-1)*this.eachPage1, this.currentPage1*this.eachPage1)"
+              v-for="(tag, index) in this.author.tags.slice(
+                (this.currentPage1 - 1) * this.eachPage1,
+                this.currentPage1 * this.eachPage1
+              )"
               :key="index"
             >
               {{ tag.t }}
@@ -282,20 +308,18 @@
               <el-pagination
                 background
                 layout="prev, pager, next"
-                :total='total1'
-                :page-size='eachPage1'
-                @current-change='handleCurrentChange1'
-                pager-count=5
+                :total="total1"
+                :page-size="eachPage1"
+                @current-change="handleCurrentChange1"
+                pager-count="5"
                 :hide-on-single-page="true"
-                >
+              >
               </el-pagination>
             </center>
-
           </div>
         </div>
       </div>
     </div>
-
 
     <div id="authorColumn" v-if="issettled">这里是专栏</div>
 
@@ -321,7 +345,12 @@ import axios from "axios";
 
 export default {
   name: "Author",
-  components: { AuthorRelationMap, RelatedAuthorChart, AuthorCompareChart,AuthorYearPaperChart },
+  components: {
+    AuthorRelationMap,
+    RelatedAuthorChart,
+    AuthorCompareChart,
+    AuthorYearPaperChart,
+  },
   props: [],
   data() {
     return {
@@ -337,8 +366,8 @@ export default {
         n_pubs: 0,
         name: "",
         tags: [],
-        year_citation:{},
-        year_pubs:{},
+        year_citation: {},
+        year_pubs: {},
       },
       currentPage: 1,
       currentPage1: 1,
@@ -511,11 +540,13 @@ export default {
           this.author.tags.push(JSON.parse(raw[i]));
       }
       this.contendLoaded = true;
-      this.total = this.author.pubs.length
-      this.total1 = this.author.tags.length
+      this.total = this.author.pubs.length;
+      this.total1 = this.author.tags.length;
 
       //文献按照n_citation排序
-      this.author.pubs.sort(function(a, b){return b.n_citation - a.n_citation});
+      this.author.pubs.sort(function (a, b) {
+        return b.n_citation - a.n_citation;
+      });
     },
     // 获取合作作者数据
     getrelatedauthor() {
@@ -527,7 +558,12 @@ export default {
         },
       };
       var _this = this;
-      axios.post("https://go-service-296709.df.r.appspot.com/api/v1/portal/direct_connection/list", formData, config)
+      axios
+        .post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/portal/direct_connection/list",
+          formData,
+          config
+        )
         .then(function (response) {
           if (response.data.success) {
             _this.relateddata = response.data.message;
@@ -566,7 +602,7 @@ export default {
     loadauthormap() {
       let formData = new FormData();
       formData.append("author_id", this.authorId);
-      formData.append("total",200);
+      formData.append("total", 200);
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -757,7 +793,7 @@ export default {
   margin-bottom: 3px;
   margin-top: 3px;
 }
-.citation2{
+.citation2 {
   white-space: nowrap;
 
   position: relative;
@@ -823,7 +859,7 @@ a:hover {
 
   border: #e6e6e6 solid thin;
   border-radius: 30px;
-  box-shadow: 0px 0px 50px 10px rgba(127,127,127,0.2);
+  box-shadow: 0px 0px 50px 10px rgba(127, 127, 127, 0.2);
   padding: 20px;
   margin: 20px;
 
@@ -834,7 +870,7 @@ a:hover {
 .chart {
   /* outline: #21ff06 dotted thick; */
 
-  box-shadow:inset 0px 0px 10px 6px rgb(50,50,50,0.1);
+  box-shadow: inset 0px 0px 10px 6px rgb(50, 50, 50, 0.1);
   border-radius: 30px;
 
   width: 600px;

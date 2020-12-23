@@ -49,14 +49,9 @@
             class="detail_keywords"
           >
             <h3>关键字</h3>
-            <p>
-              {{
-                this.article.keywords.substring(
-                  1,
-                  this.article.keywords.length - 1
-                )
-              }}
-            </p>
+            <span v-for="(keyword, index) in this.article.keywords" :key="index">
+             {{ keyword }},
+            </span>
           </div>
           <div
             v-if="
@@ -65,7 +60,7 @@
             class="detail_page_start"
           >
             <h3>页面起止</h3>
-            <p>{{ this.article.page_start }} {{ this.article.page_end }}</p>
+            <p>{{ this.article.page_start }}-{{ this.article.page_end }}</p>
           </div>
           <div
             v-if="this.article.lang != null && this.article.lang != ''"
@@ -114,9 +109,7 @@
           </div>
           <div v-if="showreference">
             <h3>引用关系图谱</h3>
-            <reference-chart
-              :data="this.referencedata"
-            ></reference-chart>
+            <reference-chart :data="this.referencedata"></reference-chart>
           </div>
         </div>
         <div class="result_detail_comment_area">
@@ -141,40 +134,43 @@
           >
           <h3>操作</h3>
           <el-button-group>
-          <el-button type="primary" icon="el-icon-document" plain
-            @click="seeOriginal"
-            >查看原文</el-button
-          >
-          <el-button
-            type="warning"
-            icon="el-icon-star-off"
-            v-if="article.starred === false"
-            @click="addToFav"
-            plain
-            >收藏</el-button
-          >
-          <el-button
-            type="warning"
-            icon="el-icon-star-on"
-            v-else
-            @click="removeFromFav"
-            >已收藏</el-button
-          >
-          <el-button
-            type="success"
-            icon="el-icon-document-add"
-            v-if="article.listed === false"
-            @click="addToWishlist"
-            plain
-            >加入清单</el-button
-          >
-          <el-button
-            type="success"
-            icon="el-icon-document-delete"
-            v-else
-            @click="removeFromWishlist"
-            >移出清单</el-button
-          >
+            <el-button
+              type="primary"
+              icon="el-icon-document"
+              plain
+              @click="seeOriginal"
+              >查看原文</el-button
+            >
+            <el-button
+              type="warning"
+              icon="el-icon-star-off"
+              v-if="article.starred === false"
+              @click="addToFav"
+              plain
+              >收藏</el-button
+            >
+            <el-button
+              type="warning"
+              icon="el-icon-star-on"
+              v-else
+              @click="removeFromFav"
+              >已收藏</el-button
+            >
+            <el-button
+              type="success"
+              icon="el-icon-document-add"
+              v-if="article.listed === false"
+              @click="addToWishlist"
+              plain
+              >加入清单</el-button
+            >
+            <el-button
+              type="success"
+              icon="el-icon-document-delete"
+              v-else
+              @click="removeFromWishlist"
+              >移出清单</el-button
+            >
           </el-button-group>
           <br/>
           <el-button-group style="padding-top:10px">
@@ -220,7 +216,7 @@
           {{ documentcopyinfo.name }}
         </div>
         <div style="margin: 50px; width: 70%">
-         {{ documentcopyinfo.info }}
+          {{ documentcopyinfo.info }}
         </div>
         <el-button
           v-clipboard:copy="documentcopyinfo.info"
@@ -261,15 +257,15 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="放入专栏" :visible.sync="columnsVisible">
-      <el-table :data="columnList" style="width: 100%">
-        <el-table-column label="ID" width="180">
+    <el-dialog title="放入专栏" :visible.sync="columnsVisible" >
+      <el-table :data="columnList" style="width: 120%;align:center" >
+        <!-- <el-table-column label="ID" width="180">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>
             <span style="margin-left: 10px">{{ scope.row.column_id }}</span>
           </template>
-        </el-table-column>
-        <el-table-column label="姓名" width="180">
+        </el-table-column> -->
+        <el-table-column label="专栏名" width="350" align='center'>
           <template slot-scope="scope">
             <el-popover trigger="hover" placement="top">
               <p>专栏ID: {{ scope.row.column_id }}</p>
@@ -280,7 +276,7 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="450" align='center'>
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -295,7 +291,7 @@
         <el-input
           v-model="columnForm.name"
           :disabled="false"
-          style="width: 120px; margin-right: 30px"
+          style="width: 200px; margin-left: 80px; margin-right:200px;margin-top:15px"
         ></el-input>
         <el-button type="success" @click="addNewColumn"
           >创建新的专栏并加入专栏中</el-button
@@ -390,7 +386,7 @@ export default {
       referenceloaded: false, // 控制引用图谱显示
       articleloaded: false, // 控制整个页面显示
       relatedloaded: false, // 控制相关文章显示
-      yearcitationloaded:false,
+      yearcitationloaded: false,
       documentcopyvisible: false,
       recommendVisible: false,
       columnsVisible: false,
@@ -411,20 +407,20 @@ export default {
     },
   },
   computed: {
-    showreference(){
+    showreference() {
       return this.referenceloaded;
     },
-    showarticle(){
+    showarticle() {
       return this.articleloaded;
     },
-    showrelated(){
+    showrelated() {
       return this.relatedloaded;
     },
-    showyearcitation(){
+    showyearcitation() {
       return this.yearcitationloaded;
     },
     isExpert() {
-      if (localStorage.getItem('user_type') == 2) return true;
+      if (localStorage.getItem("user_type") == 2) return true;
       else return false;
     },
   },
@@ -653,7 +649,7 @@ export default {
         this.article.citation_by_year = JSON.parse(
           results.citation_by_year.raw
         );
-        this.yearcitationloaded =true;
+        this.yearcitationloaded = true;
         this.loadreference();
       }
       if (results.authors && results.authors.raw) {
@@ -671,6 +667,8 @@ export default {
         for (var i = 0; i < raw.length; i++) {
           this.article.keywords.push(raw[i]);
         }
+        console.log("keywords");
+        console.log(this.article.keywords);
       }
       if (results.n_citation && results.n_citation.raw)
         this.article.n_citation = results.n_citation.raw;
@@ -690,7 +688,7 @@ export default {
         this.article.issn = results.issn.raw;
       if (results.doi && results.doi.raw) this.article.doi = results.doi.raw;
       if (results.url && results.url.raw) this.article.url = results.url.raw[0];
-      console.log(this.article.url)
+      console.log(this.article.url);
       this.articleloaded = true;
       this.loadrelatedpapers();
       this.loaddocumentcopyinfo();
@@ -937,12 +935,26 @@ export default {
       let formData = new FormData();
       formData.append("author_id", localStorage.getItem("authorId"));
       formData.append("column_name", this.columnForm.name);
+      if(this.columnForm.name==""){this.$notify({
+          title: "提示",
+          message: ("div", {class: 'el-icon-close', style: 'color: red'}, " 专栏名不能为空！"),
+        });return;}
       let config = { headers: { "Content-Type": "multipart/form-data" } };
       axios.post(addColumnUrl, formData, config).then((response) => {
         if (response) {
           if (response.data.success) {
             console.log("创建专栏成功");
             this.handleDelete(response.data.column_id);
+
+            this.$notify({
+          title: "提示",
+          message: ("div", {class: 'el-icon-check', style: 'color: green'}, " 创建并添加到专栏成功！"),
+        });
+        setTimeout(() => {
+        //代码
+        this.$router.go(0);
+     }, 500);
+
           } else {
             console.log("创建失败");
           }
