@@ -49,14 +49,9 @@
             class="detail_keywords"
           >
             <h3>关键字</h3>
-            <p>
-              {{
-                this.article.keywords.substring(
-                  1,
-                  this.article.keywords.length - 1
-                )
-              }}
-            </p>
+            <span v-for="(keyword, index) in this.article.keywords" :key="index">
+             {{ keyword }},
+            </span>
           </div>
           <div
             v-if="
@@ -65,7 +60,7 @@
             class="detail_page_start"
           >
             <h3>页面起止</h3>
-            <p>{{ this.article.page_start }} {{ this.article.page_end }}</p>
+            <p>{{ this.article.page_start }}-{{ this.article.page_end }}</p>
           </div>
           <div
             v-if="this.article.lang != null && this.article.lang != ''"
@@ -114,9 +109,7 @@
           </div>
           <div v-if="showreference">
             <h3>引用关系图谱</h3>
-            <reference-chart
-              :data="this.referencedata"
-            ></reference-chart>
+            <reference-chart :data="this.referencedata"></reference-chart>
           </div>
         </div>
         <div class="result_detail_comment_area">
@@ -141,59 +134,62 @@
           >
           <h3>操作</h3>
           <el-button-group>
-          <el-button type="primary" icon="el-icon-document" plain
-            @click="seeOriginal"
-            >查看原文</el-button
-          >
-          <el-button
-            type="warning"
-            icon="el-icon-star-off"
-            v-if="article.starred === false"
-            @click="addToFav"
-            plain
-            >收藏</el-button
-          >
-          <el-button
-            type="warning"
-            icon="el-icon-star-on"
-            v-else
-            @click="removeFromFav"
-            >已收藏</el-button
-          >
-          <el-button
-            type="success"
-            icon="el-icon-document-add"
-            v-if="article.listed === false"
-            @click="addToWishlist"
-            plain
-            >加入清单</el-button
-          >
-          <el-button
-            type="success"
-            icon="el-icon-document-delete"
-            v-else
-            @click="removeFromWishlist"
-            >移出清单</el-button
-          >
+            <el-button
+              type="primary"
+              icon="el-icon-document"
+              plain
+              @click="seeOriginal"
+              >查看原文</el-button
+            >
+            <el-button
+              type="warning"
+              icon="el-icon-star-off"
+              v-if="article.starred === false"
+              @click="addToFav"
+              plain
+              >收藏</el-button
+            >
+            <el-button
+              type="warning"
+              icon="el-icon-star-on"
+              v-else
+              @click="removeFromFav"
+              >已收藏</el-button
+            >
+            <el-button
+              type="success"
+              icon="el-icon-document-add"
+              v-if="article.listed === false"
+              @click="addToWishlist"
+              plain
+              >加入清单</el-button
+            >
+            <el-button
+              type="success"
+              icon="el-icon-document-delete"
+              v-else
+              @click="removeFromWishlist"
+              >移出清单</el-button
+            >
           </el-button-group>
-          <el-button-group style="padding-top:10px">
-          <el-button
-            type="primary"
-            icon="el-icon-share"
-            v-if="isExpert"
-            @click="recommendVisible = true"
-          >
-            推荐
-          </el-button>
-          <el-button
-            type="primary"
-            icon="el-icon-share"
-            v-if="isExpert"
-            @click="openColumnList"
-          >
-            放入专栏
-          </el-button>
-        </el-button-group>
+          <el-button-group style="padding-top: 10px">
+            <el-button
+              type="primary"
+              icon="el-icon-share"
+              v-if="isExpert"
+              @click="recommendVisible = true"
+            >
+              推荐
+            </el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-share"
+              v-if="isExpert"
+              @click="openColumnList"
+            >
+              放入专栏
+            </el-button>
+          </el-button-group>
           <div class="statistics_citation">
             <h3>相关文章</h3>
             <related-paper-chart
@@ -219,7 +215,7 @@
           {{ documentcopyinfo.name }}
         </div>
         <div style="margin: 50px; width: 70%">
-         {{ documentcopyinfo.info }}
+          {{ documentcopyinfo.info }}
         </div>
         <el-button
           v-clipboard:copy="documentcopyinfo.info"
@@ -389,7 +385,7 @@ export default {
       referenceloaded: false, // 控制引用图谱显示
       articleloaded: false, // 控制整个页面显示
       relatedloaded: false, // 控制相关文章显示
-      yearcitationloaded:false,
+      yearcitationloaded: false,
       documentcopyvisible: false,
       recommendVisible: false,
       columnsVisible: false,
@@ -410,20 +406,20 @@ export default {
     },
   },
   computed: {
-    showreference(){
+    showreference() {
       return this.referenceloaded;
     },
-    showarticle(){
+    showarticle() {
       return this.articleloaded;
     },
-    showrelated(){
+    showrelated() {
       return this.relatedloaded;
     },
-    showyearcitation(){
+    showyearcitation() {
       return this.yearcitationloaded;
     },
     isExpert() {
-      if (localStorage.getItem('user_type') == 2) return true;
+      if (localStorage.getItem("user_type") == 2) return true;
       else return false;
     },
   },
@@ -652,7 +648,7 @@ export default {
         this.article.citation_by_year = JSON.parse(
           results.citation_by_year.raw
         );
-        this.yearcitationloaded =true;
+        this.yearcitationloaded = true;
         this.loadreference();
       }
       if (results.authors && results.authors.raw) {
@@ -670,6 +666,8 @@ export default {
         for (var i = 0; i < raw.length; i++) {
           this.article.keywords.push(raw[i]);
         }
+        console.log("keywords");
+        console.log(this.article.keywords);
       }
       if (results.n_citation && results.n_citation.raw)
         this.article.n_citation = results.n_citation.raw;
@@ -689,7 +687,7 @@ export default {
         this.article.issn = results.issn.raw;
       if (results.doi && results.doi.raw) this.article.doi = results.doi.raw;
       if (results.url && results.url.raw) this.article.url = results.url.raw[0];
-      console.log(this.article.url)
+      console.log(this.article.url);
       this.articleloaded = true;
       this.loadrelatedpapers();
       this.loaddocumentcopyinfo();
