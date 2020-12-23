@@ -360,7 +360,6 @@ export default {
         this.orgs2[i] = tmpt[i];
         this.orgs.push({id : i, name: tmpt[i]});
       }
-      console.log(this.orgs);
     }
 
     this.author.authorId = localStorage.getItem("authorId");
