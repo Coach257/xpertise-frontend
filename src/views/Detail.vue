@@ -42,6 +42,22 @@
           <p>{{ this.article.doi }}</p>
           <p>{{ this.article.url }}</p>
         </div>
+        <div class="result_detail_statistics_area">
+          <div class="citation_stat">
+            <h3>引用信息统计</h3>
+            <paper-citation
+              :year_citation="this.article.citation_by_year"
+              :v-if="articleloadfinish"
+            ></paper-citation>
+          </div>
+          <div v-if="referenceloadfinish">
+            <h3>引用关系图谱</h3>
+            <reference-chart
+              :data="this.referencedata"
+              v-if="referenceloaded"
+            ></reference-chart>
+          </div>
+        </div>
         <div class="result_detail_comment_area">
           <el-tabs class="tabs_area" type="border-card">
             <el-tab-pane label="评论">
@@ -116,27 +132,16 @@
           >
             放入专栏
           </el-button>
-          <h3>相关文章</h3>
-          <el-button @click="debug">Debug</el-button>
-          <h3>相关文章</h3>
-          <related-paper-chart
-            :data="this.related_papers.slice(1)"
-            :type="this.type"
-            v-if="this.relatedloaded"
-          ></related-paper-chart>
-          <div v-if="referenceloadfinish">
-            <h3>引用关系图谱</h3>
+          <div class="statistics_citation">
+            <h3>相关文章</h3>
+            <related-paper-chart
+              :data="this.related_papers.slice(1)"
+              :type="this.type"
+              v-if="this.relatedloaded"
+            ></related-paper-chart>
           </div>
         </div>
       </div>
-      <paper-citation
-        :year_citation="this.article.citation_by_year"
-        :v-if="articleloadfinish"
-      ></paper-citation>
-      <reference-chart
-        :data="this.referencedata"
-        v-if="referenceloaded"
-      ></reference-chart>
     </div>
     <el-dialog
       title="复制引用信息"
@@ -417,13 +422,13 @@ export default {
       let config = { headers: { "Content-Type": "multipart/form-data" } };
       axios
         .post(
-          "https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/add",
+          "https://go-service-296709.df.r.appspot.com/api/v1/user/wish/add",
           formData,
           config
         )
         .then((response) => {
           if (response) {
-            if (response.data.success) {
+            if (response.data.success === true) {
               that.$data.article.listed = true;
             } else {
               console.log("添加失败" + response.data);
@@ -433,6 +438,9 @@ export default {
             console.log("添加失败" + response.data);
             alert("添加失败，请检查网络");
           }
+        })
+        .catch(function (e) {
+          console.log(e);
         });
     },
     // 移出清单
@@ -479,7 +487,10 @@ export default {
                         console.log("收藏失败", response.data);
                         alert("删除失败，请检查网络");
                       }
-                    }).catch(function(e){console.log(e)});
+                    })
+                    .catch(function (e) {
+                      console.log(e);
+                    });
                 }
               }
             } else {
@@ -673,8 +684,8 @@ export default {
         });
       return;
     },
-    isExpert(){
-      if(localStorage.type === 2)return true;
+    isExpert() {
+      if (localStorage.type === 2) return true;
       else return false;
     },
     isFav() {
@@ -930,6 +941,20 @@ export default {
 }
 .result_detail_side_container {
   width: 100%;
+}
+.result_detail_statistics_area {
+  margin-block-start: 30px;
+  border-width: 1px;
+  padding: 20px;
+  /* border-color: grey; */
+  /* border-style: solid; */
+  border-radius: 20px;
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1),
+    -2px -2px 20px rgba(255, 255, 255, 0.5);
+}
+.citation_stat {
+  margin: auto;
+  vertical-align: middle;
 }
 .result_detail_title {
   font-weight: bold;

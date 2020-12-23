@@ -26,8 +26,8 @@ export default {
   components: { WishlistCard },
   methods: {
     openDrawer() {
-      this.$data.drawer = true;
       this.refreshData()
+      this.$data.drawer = true;
     },
     beforeCloseDrawer(done) {
       done();

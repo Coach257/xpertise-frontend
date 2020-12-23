@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="ReferenceChart" style="width:1200px; height: 1000px"></div>
+    <div id="ReferenceChart" style="width: 100%; height: 600px"></div>
   </div>
 </template>
 <script>
@@ -10,29 +10,25 @@ export default {
   data() {
     return {
       option: {
-        title:{
-          text:"文献引用关系图",
-          left:"center",
-          top:"top"
-        },
         tooltip: {
           trigger: "item",
           triggerOn: "mousemove",
         },
-        
+        // legends: {
+        //   width: "100%",
+        // },
         series: [
           {
             type: "tree",
             id: 0,
             data: [],
             roam: true,
-            top: "10%",
-            left: "400px",
-            bottom: "22%",
-            right: "20%",
+            top: "1%",
+            left: "100px",
+            bottom: "1%",
+            right: "1%",
 
             symbolSize: 10,
-
 
             lineStyle: {
               width: 2,
@@ -63,12 +59,14 @@ export default {
   },
   mounted() {
     //this.loadoption();
-    this.myChart = this.$echarts.init(document.getElementById("ReferenceChart"));
+    this.myChart = this.$echarts.init(
+      document.getElementById("ReferenceChart")
+    );
     this.myChart.showLoading();
     this.loadoption();
     this.myChart.on("click", function (e) {
       if (e.data.id) {
-        window.open('/detail/cs/'+e.data.id);
+        window.open("/detail/cs/" + e.data.id);
       }
     });
   },
@@ -83,3 +81,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#ReferenceChart{
+  -webkit-box-shadow: inset 2px 2px 29px -7px rgba(153,153,153,0.49);
+  -moz-box-shadow: inset 2px 2px 29px -7px rgba(153,153,153,0.49);
+  box-shadow: inset 2px 2px 29px -7px rgba(153,153,153,0.49);
+  border-radius: 20px;
+}
+</style>

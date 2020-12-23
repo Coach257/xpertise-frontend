@@ -1,7 +1,7 @@
 <template>
   <div
     id="paper-citation"
-    style="width: 600px; height: 500px"
+    style="width: 30vw; height: 30vh;"
   ></div>
 </template>
 
@@ -24,6 +24,8 @@ export default {
         },
         legend: {
           data: [ "Citations"],
+          width:"100%",
+          height:"100%"
         },
         xAxis: [
           {
