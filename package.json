@@ -19,7 +19,6 @@
     "element-ui": "^2.14.1",
     "gsap": "^3.5.1",
     "jquery": "^3.5.1",
-    "moment": "^2.29.1",
     "relation-graph": "^1.1.0",
     "vue": "^2.6.11",
     "vue-clipboard2": "^0.3.1",

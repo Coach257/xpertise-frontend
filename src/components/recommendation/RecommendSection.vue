@@ -14,7 +14,7 @@ export default{
   name: "RecommendSection",
   props: ['recommends'],
   mounted() {
-      this.examplerecommends.push(this.recommendExample);
+      // this.examplerecommends.push(this.recommendExample);
       this.getRecommendation();
     //   this.examplerecommends.push(this.recommendExample),
     //   this.examplerecommends.push(this.recommendExample)
@@ -48,6 +48,7 @@ export default{
   data() {
     return {
       short_abstract: "",
+      /*
       recommendExample: {
         username:"专家名称",
         create_time:"2020-12-18 20:23:23",
@@ -55,6 +56,7 @@ export default{
         upvote:12,
         downvote:11,
       },
+      */
       examplerecommends:[
       ]
     };
