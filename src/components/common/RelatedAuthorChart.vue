@@ -16,7 +16,7 @@ export default {
           left: "center",
         },
         tooltip: {
-          trigger: "item",
+          trigger: "item",//todo
           formatter: "{b} <br/>合作篇数 : {c} ({d}%)",
         },
         legend: {

@@ -12,7 +12,7 @@ export default {
     return {
       option: {
         tooltip: {
-          trigger: "item",
+          trigger: "item",//todo
           formatter: "{b} <br/>相关性: {c} ({d}%)",
         },
         legend: {

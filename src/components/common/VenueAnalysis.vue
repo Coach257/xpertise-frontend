@@ -60,7 +60,7 @@ export default {
     loadoption() {
       var data = this.$props.data[0].data;
       var list = new Array();
-      for (let i = 0; i < data.length; i++) {
+      for (let i = 0; i < data.length; i++) {//todo
           this.option.xAxis[0].data.push(JSON.parse(data[i].value).raw);
         this.option.series[0].data.push(data[i].count);
       }
