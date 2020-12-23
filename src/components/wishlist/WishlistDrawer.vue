@@ -4,13 +4,14 @@
       class="wishlist_button"
       icon="el-icon-shopping-cart-full"
       type="success"
-      @click="openDrawer()"
+      @click="openDrawer"
       circle
     ></el-button>
     <el-drawer
       title="个人清单"
       :visible.sync="drawer"
       :before-close="beforeCloseDrawer"
+      v-if="userid"
       :with-header="true"
     >
       <el-divider content-position="left">我的清单</el-divider>
@@ -26,13 +27,19 @@ export default {
   components: { WishlistCard },
   methods: {
     openDrawer() {
-      this.refreshData()
-      this.$data.drawer = true;
+      if(this.userid){
+        this.refreshData()
+        this.drawer = true;
+      } else {
+        alert("请先登录")
+      }
     },
     beforeCloseDrawer(done) {
+      this.drawer = false;
       done();
     },
     refreshData() {
+      console.log("refreshData")
       var _this = this;
       let formData = new FormData();
       formData.append("user_id", this.userid);
@@ -63,22 +70,23 @@ export default {
   },
   mounted() {
     this.userid = localStorage.getItem("userid");
-    this.refreshData();
-    console.log("wtd？");
+    if(this.userid !=null){
+      this.refreshData();
+    }
   },
   data() {
     return {
       drawer: false,
       items: [
-        {
-          wish_id: 1,
-          user_id:2,
-          title:"title",
-          paper_id:"id",
-          n_citation:0,
-          paper_publish_year:"",
-          url:"url",
-        },
+        // {
+        //   wish_id: 1,
+        //   user_id:2,
+        //   title:"title",
+        //   paper_id:"id",
+        //   n_citation:0,
+        //   paper_publish_year:"",
+        //   url:"url",
+        // },
       ],
       userid: null,
     };

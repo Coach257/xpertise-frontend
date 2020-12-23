@@ -47,14 +47,6 @@ export default {
     RankingList
   },
   mounted() {
-
-    if (sessionStorage.getItem('CurrentSearchBool')) {
-      console.log("看看就看看")
-      //this.show = true
-      //this.input = sessionStorage.getItem('CurrentSearchInput')
-      sessionStorage.setItem('CurrentSearchBool', false)
-    }
-    // this.$gsap.set("#root", {height: document.documentElement.clientHeight})
     if (this.$route.params.type == "cs") {
       this.$gsap.set("backpic", {"background-image": "url(../assets/csBack.png)"})
     }
