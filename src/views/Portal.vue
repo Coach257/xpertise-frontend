@@ -283,9 +283,9 @@ var driver = null;
          authorname:'',
         circleUrl: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
          tableDatainfo: [{
-          info: '毕业于北京航空航天大学'
+          info: 'h指数: ' + localStorage.getItem("h_index"),
         }, {
-          info: '研究方向量子力学'
+          info: '发表论文数量: ' + localStorage.getItem("n_pubs"),
         }, {
           info: '被引用量：' + localStorage.getItem("n_citation"),
         }],

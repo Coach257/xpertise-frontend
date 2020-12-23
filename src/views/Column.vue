@@ -71,6 +71,7 @@
 
         <center style="margin-top: 30px; margin-bottom: 30px">
           <el-pagination
+          v-if="onepage"
             background
             layout="prev, pager, next"
             :total="total1"
@@ -106,6 +107,7 @@ export default {
     return {
       activeName: "1",
       column: [],
+      onepage:false,
       columnnum: [],
       colpapers: [],
       contendLoaded: false,
@@ -227,6 +229,8 @@ export default {
               }
               console.log(_this.columnnum);
                _this.total1 = _this.columnnum.length
+               if(_this.total1<=5)_this.onepage =false;
+               else _this.onepage=true;
               console.log(_this.total1);
 
               // console.log(_this.column);
