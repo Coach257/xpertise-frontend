@@ -172,24 +172,25 @@
               >移出清单</el-button
             >
           </el-button-group>
-          <el-button-group style="padding-top: 10px">
-            <el-button
-              type="primary"
-              icon="el-icon-share"
-              v-if="isExpert"
-              @click="recommendVisible = true"
-            >
-              推荐
-            </el-button>
-            <el-button
-              type="primary"
-              icon="el-icon-share"
-              v-if="isExpert"
-              @click="openColumnList"
-            >
-              放入专栏
-            </el-button>
-          </el-button-group>
+          <br/>
+          <el-button-group style="padding-top:10px">
+          <el-button
+            type="primary"
+            icon="el-icon-share"
+            v-if="isExpert"
+            @click="recommendVisible = true"
+          >
+            推荐
+          </el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-share"
+            v-if="isExpert"
+            @click="openColumnList"
+          >
+            放入专栏
+          </el-button>
+        </el-button-group>
           <div class="statistics_citation">
             <h3>相关文章</h3>
             <related-paper-chart

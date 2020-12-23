@@ -5,16 +5,18 @@
     <router-view v-wechat-title='$route.meta.title'></router-view>
     </div>
     <!-- <WishlistDrawer/> -->
+    <Footer/>
   </div>
 </template>
 
 <script>
 import NavBar from '../src/components/common/NavBar.vue'
 import WishlistDrawer from './components/wishlist/WishlistDrawer.vue'
+import Footer from './components/common/Footer.vue'
  export default{
   name: 'App',
   props: [],
-  components:{NavBar, WishlistDrawer},
+  components:{NavBar, WishlistDrawer,Footer},
   mounted() {
 
   },
