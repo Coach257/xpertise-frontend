@@ -131,6 +131,7 @@ export default {
       this.user_info.user_type = null;
       this.logged_in = false;
       this.$router.push('/login')
+      window.location.reload();
     }
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <div id="result_detail_page" v-if="articleloadfinish">
+  <div id="result_detail_page" v-if="showarticle">
     <div class="result_detail_page_container">
       <div class="result_detail_title_area">
         <div class="result_detail_title">
@@ -105,19 +105,17 @@
             <p>{{ this.article.doi }}</p>
           </div>
         </div>
-        <div class="result_detail_statistics_area">
-          <div class="citation_stat">
+        <div class="result_detail_statistics_area" v-if="this.type === 'cs'">
+          <div class="citation_stat" v-if="showyearcitation">
             <h3>引用信息统计</h3>
             <paper-citation
               :year_citation="this.article.citation_by_year"
-              :v-if="articleloadfinish"
             ></paper-citation>
           </div>
-          <div v-if="referenceloadfinish">
+          <div v-if="showreference">
             <h3>引用关系图谱</h3>
             <reference-chart
               :data="this.referencedata"
-              v-if="referenceloaded"
             ></reference-chart>
           </div>
         </div>
@@ -182,7 +180,7 @@
           <el-button
             type="primary"
             icon="el-icon-share"
-            v-if="isExpert() === true"
+            v-if="isExpert"
             @click="recommendVisible = true"
           >
             推荐
@@ -190,8 +188,7 @@
           <el-button
             type="primary"
             icon="el-icon-share"
-            v-if="isExpert() === true"
-            
+            v-if="isExpert"
             @click="openColumnList"
           >
             放入专栏
@@ -202,7 +199,7 @@
             <related-paper-chart
               :data="this.related_papers.slice(1)"
               :type="this.type"
-              v-if="this.relatedloaded"
+              v-if="showrelated"
             ></related-paper-chart>
           </div>
         </div>
@@ -218,7 +215,12 @@
         :key="index"
         style="display: flex; align-items: center; margin: 5px"
       >
-        {{ documentcopyinfo.name }} {{ documentcopyinfo.info }}
+        <div style="width: 10%">
+          {{ documentcopyinfo.name }}
+        </div>
+        <div style="margin: 50px; width: 70%">
+         {{ documentcopyinfo.info }}
+        </div>
         <el-button
           v-clipboard:copy="documentcopyinfo.info"
           style="
@@ -387,6 +389,7 @@ export default {
       referenceloaded: false, // 控制引用图谱显示
       articleloaded: false, // 控制整个页面显示
       relatedloaded: false, // 控制相关文章显示
+      yearcitationloaded:false,
       documentcopyvisible: false,
       recommendVisible: false,
       columnsVisible: false,
@@ -407,15 +410,21 @@ export default {
     },
   },
   computed: {
-    //computed最高优先级，只有当loadfinish为true时,才开始页面加载
-    articleloadfinish() {
-      return this.articleloaded;
-    },
-    referenceloadfinish() {
+    showreference(){
       return this.referenceloaded;
     },
-    relatedpaperloadfinish() {
+    showarticle(){
+      return this.articleloaded;
+    },
+    showrelated(){
       return this.relatedloaded;
+    },
+    showyearcitation(){
+      return this.yearcitationloaded;
+    },
+    isExpert() {
+      if (localStorage.getItem('user_type') == 2) return true;
+      else return false;
     },
   },
   methods: {
@@ -643,6 +652,7 @@ export default {
         this.article.citation_by_year = JSON.parse(
           results.citation_by_year.raw
         );
+        this.yearcitationloaded =true;
         this.loadreference();
       }
       if (results.authors && results.authors.raw) {
@@ -678,7 +688,8 @@ export default {
       if (results.issn && results.issn.raw)
         this.article.issn = results.issn.raw;
       if (results.doi && results.doi.raw) this.article.doi = results.doi.raw;
-      if (results.url && results.url.raw) this.article.url = results.url.raw;
+      if (results.url && results.url.raw) this.article.url = results.url.raw[0];
+      console.log(this.article.url)
       this.articleloaded = true;
       this.loadrelatedpapers();
       this.loaddocumentcopyinfo();
@@ -752,10 +763,7 @@ export default {
         });
       return;
     },
-    isExpert() {
-      if (localStorage.type === 2) return true;
-      else return false;
-    },
+
     isFav() {
       let that = this;
       let formData = new FormData();
@@ -788,9 +796,6 @@ export default {
     loadcomment() {},
     // 加载推荐
     loadrecommand() {},
-    debug() {
-      console.log(this.referenceloaded);
-    },
     // 复制引用信息
     loaddocumentcopyinfo() {
       var info = "";
