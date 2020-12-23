@@ -27,12 +27,14 @@ const routes = [
   {
     path:'/home',
     name:'HomePage',
-    component:StartPage
+    component:StartPage,
+    meta: {title: "首页"}
   },
   {
     path:'/cs',
     name:'CSHomePage',
-    component:CSStartPage
+    component:CSStartPage,
+    meta: {title: "计算机科学"}
   },
   {
     path: '/test',
@@ -42,13 +44,14 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {title: "登录"}
   },
   {
     path: '/register',
     name: 'Register',
     component: Register,
-    meta: {title: "登录"}
+    meta: {title: "注册"}
   },
   {
     path: '/admin',
@@ -77,11 +80,13 @@ const routes = [
     path: '/article/:articleid',
     name: 'ResultDetailPage',
     component: ResultDetailPage,
+    meta: {title: "文章"}
   },
   {
     path: '/detail/:type/:docid',
     name: 'Detail',
     component: Detail,
+    meta: {title: "文章详情"},
   },
   {
     path: '/userinfo',
@@ -115,12 +120,14 @@ const routes = [
   {
     path: '/portal/:authorId',
     name: 'Portal',
-    component: Portal
+    component: Portal,
+    meta: {title: "作者主页"}
   },
   {
     path: '/author/:type/:authorId',
     name: 'Author',
     component: Author,
+    meta: {title: "作者主页"}
   },
   {
     path: '/settle',

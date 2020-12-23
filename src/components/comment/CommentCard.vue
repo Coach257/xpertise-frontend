@@ -9,8 +9,8 @@
         <div class="comment_create_time">{{ this.comment.create_time }}</div></div>
         <div class="comment_actions">
         <el-button-group>
-          <el-button icon="el-icon-top" @click="dislikeOrLikeComment(1)">顶</el-button>
-          <el-button icon="el-icon-bottom" @click="dislikeOrLikeComment(2)">踩</el-button>
+          <el-button icon="el-icon-top" :type="getLikeType()" @click="dislikeOrLikeComment(1)">顶</el-button>
+          <el-button icon="el-icon-bottom" :type="getDislikeType()" @click="dislikeOrLikeComment(2)">踩</el-button>
           <el-button icon="el-icon-bottom" @click="operateComment(1)" v-if="this.commentOperate">置顶</el-button>
           <el-button icon="el-icon-bottom" @click="operateComment(3)" v-if=this.commentOperate>删除</el-button>
         </el-button-group>
@@ -34,6 +34,7 @@ export default {
   },
   mounted() {
     let list = JSON.parse(localStorage.getItem("paper_info"));
+    if(list === null) return
     for(let i = 0; i < list.length; i++) {
       let tmpt = JSON.parse(list[i]);
       if(tmpt.id == this.comment.paper_id)
@@ -41,6 +42,14 @@ export default {
     }
   },
   methods: {
+    getLikeType(){
+      if(this.vote === 1)return "success";
+      else return "plain";
+    },
+    getDislikeType(){
+      if(this.vote === 2)return "success";
+      else return "plain";
+    },
     handleClick2(method) {
       console.log(method);
     },
@@ -49,13 +58,14 @@ export default {
       let formData = new FormData();
       formData.append("comment_id", this.comment.comment_id);
       formData.append("user_id", localStorage.getItem("userid"));
+      if(method === this.vote) method = 0;
       formData.append("method", method);
       let config = { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(testurl, formData, config).then((response) => {
         if (response) {
           console.log(response);
           if (response.data.success) {
-
+            this.vote = method;
           } else {
             console.log(response)
           }
@@ -68,7 +78,7 @@ export default {
       formData.append("comment_id", this.comment.comment_id);
       //formData.append("user_id", localStorage.getItem("userid"));
       formData.append("method", method);
-      let config = { headers: { "Content-Type": "multipart/form-data", }, };
+      let config= { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(opeurl, formData, config).then((response) => {
         if (response) {
           console.log(response);
@@ -88,9 +98,8 @@ export default {
         username:"usernmae",
         create_time:"2020-12-18 20:23:23",
         comment:"this is an example comment",
-        upvote:12,
-        downvote:11,
       },
+      vote:0,
       commentOperate: false,
     };
   },
