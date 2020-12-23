@@ -106,7 +106,6 @@
           </div>
         </div>
         <div class="result_detail_statistics_area" v-if="this.type === 'cs'">
-          <el-button @click="debug">debug</el-button>
           <div class="citation_stat" v-if="showyearcitation">
             <h3>引用信息统计</h3>
             <paper-citation
@@ -949,9 +948,6 @@ export default {
         }
       });
     },
-    debug(){
-      console.log(this.yearcitationloaded)
-    }
   },
 };
 </script>
