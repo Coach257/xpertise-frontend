@@ -24,6 +24,7 @@
     "vue": "^2.6.11",
     "vue-clipboard2": "^0.3.1",
     "vue-router": "^3.2.0",
+    "vue-wechat-title": "^2.0.7",
     "vuejs-paginate": "^2.1.0",
     "vuex": "^3.4.0"
   },
