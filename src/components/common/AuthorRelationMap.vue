@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="AuthorRelationMap" style="width: 600px;height: 500px"></div>
+    <div id="AuthorRelationMap" style="width: 600px; height: 500px"></div>
   </div>
 </template>
 <script>
@@ -9,7 +9,7 @@ export default {
   props: ["data"],
   data() {
     return {
-      url:[],
+      url: [],
       option: {
         title: {
           text: "作者合作关系图",
@@ -17,14 +17,23 @@ export default {
           left: "center",
         },
         tooltip: {
-            trigger:'item',
-            formatter:function(params) {
-                if(params.data.source||params.data.target){
-                    return params.data.source_name + '与'+params.data.target_name+'</br>'+'合作文献数量:'+params.data.value
-                } else{
-                    return params.data.name+"</br>"+"h_index: "+params.data.value
-                }
+          trigger: "item",
+          formatter: function (params) {
+            if (params.data.source || params.data.target) {
+              return (
+                params.data.source_name +
+                "与" +
+                params.data.target_name +
+                "</br>" +
+                "合作文献数量:" +
+                params.data.value
+              );
+            } else {
+              return (
+                params.data.name + "</br>" + "h_index: " + params.data.value
+              );
             }
+          },
         },
         animationDuration: 1500,
         animationEasingUpdate: "quinticInOut",
@@ -37,6 +46,10 @@ export default {
             links: [],
             roam: true,
             focusNodeAdjacency: true,
+            symbolSize: (value, params) => {
+              return value;
+            },
+
             itemStyle: {
               borderColor: "#fff",
               borderWidth: 1,
@@ -44,7 +57,7 @@ export default {
               shadowColor: "rgba(0, 0, 0, 0.3)",
             },
             label: {
-                show:false,
+              show: false,
               position: "right",
               formatter: "",
             },
@@ -64,11 +77,13 @@ export default {
   },
   mounted() {
     this.loadoption();
-    let myChart = this.$echarts.init(document.getElementById("AuthorRelationMap"));
+    let myChart = this.$echarts.init(
+      document.getElementById("AuthorRelationMap")
+    );
     myChart.setOption(this.option);
     myChart.on("click", function (e) {
       if (e.data.id) {
-        window.open('/author/cs/'+e.data.id);
+        window.open("/author/cs/" + e.data.id);
       }
     });
   },
