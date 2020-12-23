@@ -170,7 +170,7 @@ export default {
         year_citation:{},
         year_pubs:{}
       },
-      //contendLoaded: false,
+      // contendLoaded: false,
       contendLoaded: true,
       searchState: {},
       currentPage1: 1,
@@ -245,11 +245,11 @@ export default {
           for(let i = 0; i < raw.length; i++)
             this.affiliation.pubs.push(JSON.parse(raw[i]));
         }
-        // this.contendLoaded = true;
-        this.$refs.chart1.display()
-        this.$refs.chart2.display()
-        this.$refs.chart3.display()
-        this.$refs.chart4.display()
+
+        this.$refs.chart1.displayChart()
+        this.$refs.chart2.displayChart()
+        this.$refs.chart3.displayChart()
+        this.$refs.chart4.displayChart()
 
         this.total1 = this.affiliation.pubs.length
         this.total2 = this.affiliation.authors.length

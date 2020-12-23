@@ -50,17 +50,10 @@ export default {
   created() {
   },
   mounted() {
-    this.loadOption();
     this.myChart = this.$echarts.init(
       document.getElementById("organization-total-paper-chart-container")
     );
     this.myChart.showLoading()
-    this.myChart.setOption(this.option);
-    this.myChart.on("click", function (e) {
-      if (e.data.url) {
-        window.open(e.data.url);
-      }
-    });
   },
   methods: {
     loadOption() {
@@ -91,9 +84,17 @@ export default {
       }
       this.option.series[0].data = this.chartData;
     },
+    displayChart() {
+      this.loadOption();
+      this.myChart.setOption(this.option);
+      this.myChart.on("click", function (e) {
+        if (e.data.url) {
+          window.open(e.data.url);
+        }
+      });
+      this.myChart.hideLoading()
+    }
   },
-  display() {
-    this.myChart.hideLoading()
-  }
+
 };
 </script>
