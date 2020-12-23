@@ -47,6 +47,7 @@ export default {
             label: {
               show: false,
             },
+            roam: true,
             emphasis: {
               label: {
                 show: true,
