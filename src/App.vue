@@ -5,7 +5,9 @@
     <router-view v-wechat-title='$route.meta.title'></router-view>
     </div>
     <!-- <WishlistDrawer/> -->
+    <!-- <el-button @click="debug">debug</el-button> -->
     <Footer/>
+    
   </div>
 </template>
 
@@ -13,12 +15,13 @@
 import NavBar from '../src/components/common/NavBar.vue'
 import WishlistDrawer from './components/wishlist/WishlistDrawer.vue'
 import Footer from './components/common/Footer.vue'
+import commonApi from './commonApi'
+
  export default{
   name: 'App',
   props: [],
   components:{NavBar, WishlistDrawer,Footer},
   mounted() {
-
   },
   data () {
     return {
@@ -26,6 +29,10 @@ import Footer from './components/common/Footer.vue'
     }
   },
   methods: {
+    debug(){
+       console.log(":")
+       console.log(this.commonApi.titleCase("TOTEM AND TABOO:"))
+    }
   }
  }
 
