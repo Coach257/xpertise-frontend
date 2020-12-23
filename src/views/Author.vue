@@ -527,12 +527,7 @@ export default {
         },
       };
       var _this = this;
-      axios
-        .post(
-          "https://go-service-296709.df.r.appspot.com/api/v1/portal/direct_connection/list",
-          formData,
-          config
-        )
+      axios.post("https://go-service-296709.df.r.appspot.com/api/v1/portal/direct_connection/list", formData, config)
         .then(function (response) {
           if (response.data.success) {
             _this.relateddata = response.data.message;
