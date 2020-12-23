@@ -7,7 +7,7 @@
       In Computer Science
     </div>
 
-    <div id="rank" v-if="contendLoaded">
+    <div id="rank" v-if="this.contendLoaded">
       <RankingItem
         v-for="(item, i) in itemList"
         :information="item"
@@ -54,11 +54,11 @@ export default {
       driver = new SearchDriver(csaffiliationconfig);
     } else if (this.title == "Hot Paper" && this.type == "cs") {
       this.itemType = "Hot";
-      //this.getCSHotPaper();
+      this.getCSHotPaper();
       return;
     } else if (this.title == "Hot Paper" && this.type == "main") {
       this.itemType = "Hot";
-      //this.getMainHotPaper();
+      this.getMainHotPaper();
       return;
     }
     driver.setSearchTerm("");
@@ -73,7 +73,6 @@ export default {
     searchState(newsearchState) {
       if (this.thereAreResults()) {
         var results = newsearchState.results;
-        var raw;
         let Maximum;
         if (this.title == "Top Paper") {
           Maximum = results[0].n_citation.raw;
@@ -113,7 +112,6 @@ export default {
 
           if (this.title != "Hot Paper") {
             this.itemList.push(item);
-           
           }
         }
          this.contendLoaded = true;
@@ -128,16 +126,61 @@ export default {
       let formData = new FormData();
       let config = { headers: { "Content-Type": "multipart/form-data" } };
       var _this = this;
-      axios
-        .get(
-          "https://go-service-296709.df.r.appspot.com/api/v1/portal/recommand/cs/top",
-          formData,
-          config
-        )
+      axios.get("https://go-service-296709.df.r.appspot.com/api/v1/portal/recommend/cs/top")
         .then(function (response) {
           if (response.data.success) {
+            let list = response.data.data;
+            let Maximum;
+            Maximum = list[0].value;
+            console.log(list[0].paper_title);
+            for(let i = 0; i < Math.min(list.length, 7); i++) {
+              let item = {
+                rank: 0,
+                title: "",
+                papers: 0,
+                url: "",
+                maximum: Maximum,
+              };
+              item.rank = i + 1;
+              item.papers = list[i].value;
+              item.title = list[i].paper_title;
+              item.url = "/author/cs/" + list[i].paper_id;
+              _this.itemList.push(item);
+            }
+            console.log(_this.itemList);
+            _this.contendLoaded = true;
+          } else {
             console.log(response);
-            this.contendLoaded = true;
+          }
+        });
+    },
+    getMainHotPaper() {
+      let formData = new FormData();
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      var _this = this;
+      axios.get("https://go-service-296709.df.r.appspot.com/api/v1/portal/recommend/main/top")
+        .then(function (response) {
+          if (response.data.success) {
+            let list = response.data.data;
+            let Maximum;
+            Maximum = list[0].value;
+            console.log(list[0].paper_title);
+            for(let i = 0; i < Math.min(list.length, 7); i++) {
+              let item = {
+                rank: 0,
+                title: "",
+                papers: 0,
+                url: "",
+                maximum: Maximum,
+              };
+              item.rank = i + 1;
+              item.papers = list[i].value;
+              item.title = list[i].paper_title;
+              item.url = "/author/cs/" + list[i].paper_id;
+              _this.itemList.push(item);
+            }
+            console.log(_this.itemList);
+            _this.contendLoaded = true;
           } else {
             console.log(response);
           }
