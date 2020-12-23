@@ -215,7 +215,7 @@ export default {
                   else {
                     console.log("登陆成功");
                     _this.$router.replace('/home');
-                    window.location.reload();
+                    //window.location.reload();
                   }
                 }else {
                    console.log("登录失败");
