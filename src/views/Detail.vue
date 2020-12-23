@@ -260,15 +260,15 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="放入专栏" :visible.sync="columnsVisible">
-      <el-table :data="columnList" style="width: 100%">
-        <el-table-column label="ID" width="180">
+    <el-dialog title="放入专栏" :visible.sync="columnsVisible" >
+      <el-table :data="columnList" style="width: 120%;align:center" >
+        <!-- <el-table-column label="ID" width="180">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>
             <span style="margin-left: 10px">{{ scope.row.column_id }}</span>
           </template>
-        </el-table-column>
-        <el-table-column label="姓名" width="180">
+        </el-table-column> -->
+        <el-table-column label="专栏名" width="350" align='center'>
           <template slot-scope="scope">
             <el-popover trigger="hover" placement="top">
               <p>专栏ID: {{ scope.row.column_id }}</p>
@@ -279,7 +279,7 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="450" align='center'>
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -294,7 +294,7 @@
         <el-input
           v-model="columnForm.name"
           :disabled="false"
-          style="width: 120px; margin-right: 30px"
+          style="width: 200px; margin-left: 80px; margin-right:200px"
         ></el-input>
         <el-button type="success" @click="addNewColumn"
           >创建新的专栏并加入专栏中</el-button
@@ -936,12 +936,26 @@ export default {
       let formData = new FormData();
       formData.append("author_id", localStorage.getItem("authorId"));
       formData.append("column_name", this.columnForm.name);
+      if(this.columnForm.name==""){this.$notify({
+          title: "提示",
+          message: ("div", {class: 'el-icon-close', style: 'color: red'}, " 专栏名不能为空！"),
+        });return;}
       let config = { headers: { "Content-Type": "multipart/form-data" } };
       axios.post(addColumnUrl, formData, config).then((response) => {
         if (response) {
           if (response.data.success) {
             console.log("创建专栏成功");
             this.handleDelete(response.data.column_id);
+
+            this.$notify({
+          title: "提示",
+          message: ("div", {class: 'el-icon-check', style: 'color: green'}, " 创建并添加到专栏成功！"),
+        });
+        setTimeout(() => {
+        //代码
+        this.$router.go(0);
+     }, 500);
+
           } else {
             console.log("创建失败");
           }
