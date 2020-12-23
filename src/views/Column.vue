@@ -229,7 +229,7 @@ export default {
               }
               console.log(_this.columnnum);
                _this.total1 = _this.columnnum.length
-               if(_this.total1<10)_this.onepage =false;
+               if(_this.total1<=5)_this.onepage =false;
                else _this.onepage=true;
               console.log(_this.total1);
 
