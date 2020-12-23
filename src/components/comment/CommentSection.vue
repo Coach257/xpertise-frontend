@@ -8,7 +8,7 @@
       v-model="textarea">
     </el-input>
     <el-button style="margin:10px" type="primary" @click="submitComment">提交评论</el-button>
-    <el-divider v-if="commentList.length<1" content-position="left">暂无评论</el-divider>
+    <el-divider v-if="commentList!=null&&commentList.length<1" content-position="left">暂无评论</el-divider>
     <el-divider v-else content-position="left">评论列表</el-divider>
     <CommentCard v-for="(comment,index) in commentList" :key="index" :comment="comment"
                   :index="index"></CommentCard>
@@ -80,8 +80,8 @@ export default {
           } else {
             console.log(response);
           }
-        }
-      });
+        }x
+      }).catch(function(e){console.log(e)});
     },
   },
 
