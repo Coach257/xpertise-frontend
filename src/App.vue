@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <NavBar/>
-    <div class="app_container"><router-view/></div>
+    <div class="app_container">
+    <router-view v-wechat-title='$route.meta.title'></router-view>
+    </div>
     <!-- <WishlistDrawer/> -->
   </div>
 </template>
