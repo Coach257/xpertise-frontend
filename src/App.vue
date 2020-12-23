@@ -2,7 +2,7 @@
   <div id="app">
     <NavBar/>
     <div class="app_container"><router-view/></div>
-    <WishlistDrawer/>
+    <!-- <WishlistDrawer/> -->
   </div>
 </template>
 
