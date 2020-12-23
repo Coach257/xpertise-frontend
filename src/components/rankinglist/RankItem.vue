@@ -16,7 +16,7 @@
             tag="a"
             target="_blank"
           >
-          {{this.information.title | cutLongTitle}}
+          {{this.convert(this.information.title) |cutLongTitle}}
            </router-link>
         </div>
 
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import commonApi from '../../commonApi'
   export default {
     name: 'RankingItem',
     props: ['information','type'],
@@ -80,6 +81,11 @@
               this.$gsap.set('#num'+this.information.rank, {color: 'grey'})
       }
 
+    },
+    methods:{
+      convert(e){
+        return this.commonApi.titleCase(e);
+      }
     }
   }
 </script>

@@ -12,12 +12,12 @@ import echarts from 'echarts'
 import 'echarts-gl'
 import VueClipboard from 'vue-clipboard2'
 import VueWechatTitle from 'vue-wechat-title'
-
+import commonApi from './commonApi'
 
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
-
+Vue.prototype.commonApi=commonApi
 Vue.use(ElementUI);
 Vue.use(VueClipboard);
 Vue.use(VueWechatTitle);
