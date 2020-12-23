@@ -294,7 +294,7 @@
         <el-input
           v-model="columnForm.name"
           :disabled="false"
-          style="width: 200px; margin-left: 80px; margin-right:200px"
+          style="width: 200px; margin-left: 80px; margin-right:200px;margin-top:15px"
         ></el-input>
         <el-button type="success" @click="addNewColumn"
           >创建新的专栏并加入专栏中</el-button
