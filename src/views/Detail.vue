@@ -215,7 +215,12 @@
         :key="index"
         style="display: flex; align-items: center; margin: 5px"
       >
-        {{ documentcopyinfo.name }} {{ documentcopyinfo.info }}
+        <div style="width: 10%">
+          {{ documentcopyinfo.name }}
+        </div>
+        <div style="margin: 50px; width: 70%">
+         {{ documentcopyinfo.info }}
+        </div>
         <el-button
           v-clipboard:copy="documentcopyinfo.info"
           style="
