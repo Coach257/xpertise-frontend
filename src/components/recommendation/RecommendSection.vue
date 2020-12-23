@@ -14,7 +14,7 @@ export default{
   name: "RecommendSection",
   props: ['recommends'],
   mounted() {
-      this.examplerecommends.push(this.recommendExample);
+      // this.examplerecommends.push(this.recommendExample);
       this.getRecommendation();
     //   this.examplerecommends.push(this.recommendExample),
     //   this.examplerecommends.push(this.recommendExample)
