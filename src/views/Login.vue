@@ -169,8 +169,10 @@ export default {
           localStorage.setItem("organizations", JSON.stringify(this.searchState.results[0].orgs.raw));
           localStorage.setItem("n_pubs", this.searchState.results[0].n_pubs.raw);
           localStorage.setItem("n_citation", this.searchState.results[0].n_citation.raw);
-          localStorage.setItem("year_citation", this.searchState.results[0].year_citation.raw);
-          localStorage.setItem("year_pubs", this.searchState.results[0].year_citation.raw);
+          if(localStorage.getItem("authorId").toString().length < 10) {
+            localStorage.setItem("year_citation", this.searchState.results[0].year_citation.raw);
+            localStorage.setItem("year_pubs", this.searchState.results[0].year_citation.raw);
+          }
           localStorage.setItem("paper_info", JSON.stringify(list));
           localStorage.setItem("h_index", this.searchState.results[0].h_index.raw);
           this.contendLoaded = true;
@@ -240,10 +242,10 @@ export default {
         });
       },
       getPaperInfo(authorId) {
-        //if(authorId.toString().length < 10)
+        if(authorId.toString().length < 10)
           driver = new SearchDriver(csauthorconfig);
-        // else
-        //   driver = new SearchDriver(mainauthorconfig);
+        else
+          driver = new SearchDriver(mainauthorconfig);
         driver.reset();
         driver.addFilter("id", authorId, "any");
         driver.subscribeToStateChanges((state) => {
