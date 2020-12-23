@@ -1,5 +1,6 @@
 <template>
     <div id="recommend_section">
+        <el-divider v-if="examplerecommends.length<1" content-position="left">暂无评论</el-divider>
         <RecommendCard v-for="(item) in examplerecommends" :key="item" :recommend="item"/>
     </div>
 </template>
@@ -13,7 +14,7 @@ export default{
   name: "RecommendSection",
   props: ['recommends'],
   mounted() {
-      //this.examplerecommends.push(this.recommendExample);
+      this.examplerecommends.push(this.recommendExample);
       this.getRecommendation();
     //   this.examplerecommends.push(this.recommendExample),
     //   this.examplerecommends.push(this.recommendExample)
@@ -48,7 +49,7 @@ export default{
     return {
       short_abstract: "",
       recommendExample: {
-        username:"usernmae",
+        username:"专家名称",
         create_time:"2020-12-18 20:23:23",
         recommend:"this is an example recommend",
         upvote:12,

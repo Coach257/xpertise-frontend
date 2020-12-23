@@ -27,20 +27,83 @@
       </div>
       <div class="result_detail_main_area">
         <div class="result_detail_article_area">
-          <h3>摘要</h3>
-          <p>{{ this.article.abstract }}</p>
-          <h3>信息</h3>
-          <!-- <p v-for="item in article.other" :key="item.name1">item</p> -->
-          <p>{{ this.article.year }}</p>
-          <p>{{ this.article.keywords }}</p>
-          <p>{{ this.article.n_citation }}</p>
-          <p>{{ this.article.page_start }} {{ this.article.page_end }}</p>
-          <p>{{ this.article.lang }}</p>
-          <p>{{ this.article.issue }}</p>
-          <p>{{ this.article.venue }}</p>
-          <p>{{ this.article.issn }}</p>
-          <p>{{ this.article.doi }}</p>
-          <p>{{ this.article.url }}</p>
+          <div
+            v-if="this.article.abstract != null && this.article.abstract != ''"
+            class="detail_abstract"
+          >
+            <h3>摘要</h3>
+            <p>{{ this.article.abstract }}</p>
+          </div>
+          <div v-if="this.article.year != null" class="detail_year">
+            <h3>年份</h3>
+            <p>{{ this.article.year }}</p>
+          </div>
+          <div v-if="this.article.n_citation != null" class="detail_n_citation">
+            <h3>引用次数</h3>
+            <p>{{ this.article.n_citation }}</p>
+          </div>
+          <div
+            v-if="
+              this.article.keywords != null && this.article.keywords.length > 0
+            "
+            class="detail_keywords"
+          >
+            <h3>关键字</h3>
+            <p>
+              {{
+                this.article.keywords.substring(
+                  1,
+                  this.article.keywords.length - 1
+                )
+              }}
+            </p>
+          </div>
+          <div
+            v-if="
+              this.article.page_start != null && this.article.page_start != ''
+            "
+            class="detail_page_start"
+          >
+            <h3>页面起止</h3>
+            <p>{{ this.article.page_start }} {{ this.article.page_end }}</p>
+          </div>
+          <div
+            v-if="this.article.lang != null && this.article.lang != ''"
+            class="detail_abstract"
+          >
+            <h3>语言</h3>
+            <p v-if="this.article.lang === 'en'">英文</p>
+            <p v-else-if="this.article.lang === 'zh'">中文</p>
+            <p v-else>其他</p>
+          </div>
+          <div
+            v-if="this.article.issue != null && this.article.issue != ''"
+            class="detail_abstract"
+          >
+            <h3>刊号</h3>
+            <p>{{ this.article.issue }}</p>
+          </div>
+          <div
+            v-if="this.article.venue != null && this.article.venue != ''"
+            class="detail_abstract"
+          >
+            <h3>期刊/会议</h3>
+            <p>{{ this.article.venue }}</p>
+          </div>
+          <div
+            v-if="this.article.issn != null && this.article.issn != ''"
+            class="detail_abstract"
+          >
+            <h3>ISSN</h3>
+            <p>{{ this.article.issn }}</p>
+          </div>
+          <div
+            v-if="this.article.doi != null && this.article.doi != ''"
+            class="detail_abstract"
+          >
+            <h3>DOI</h3>
+            <p>{{ this.article.doi }}</p>
+          </div>
         </div>
         <div class="result_detail_statistics_area">
           <div class="citation_stat">
@@ -71,11 +134,6 @@
       </div>
       <div class="result_detail_side_area">
         <div class="result_detail_side_container">
-          <h3>下载</h3>
-          <el-button type="primary" icon="el-icon-document" plain
-            >查看原文</el-button
-          >
-          <el-button icon="el-icon-download" plain>下载</el-button>
           <h3>引用</h3>
           <el-button
             icon="el-icon-document-copy"
@@ -84,6 +142,10 @@
             >复制引用信息</el-button
           >
           <h3>操作</h3>
+          <el-button type="primary" icon="el-icon-document" plain
+            @click="seeOriginal"
+            >查看原文</el-button
+          >
           <el-button
             type="warning"
             icon="el-icon-star-off"
@@ -354,6 +416,9 @@ export default {
     },
   },
   methods: {
+    seeOriginal(){
+      window.open(this.article.url);
+    },
     // 初始化全局数据
     init_data() {
       this.type = this.$route.params.type;
