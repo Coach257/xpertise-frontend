@@ -3,9 +3,8 @@
     <el-card>
       <div class="message-card-content">
         <!--          TODO: display message info-->
-        <div class="message-card-content-left"> {{ this.type }}</div>
-        <div class="message-card-content-main"> {{ this.detail }}</div>
-        <div class="message-card-content-right"> {{ this.time }}</div>
+        <div class="message-card-content-left"> {{ this.mes }}</div>
+        <div class="message-card-content-main"> {{ this.time }}</div>
         <el-button type="my_success" size="small" class="el-icon-check" @click="readMessage()" circle></el-button>
       </div>
     </el-card>
@@ -13,8 +12,11 @@
 </template>
 
 <script>
-const testUrl = ""
+const testUrl = "https://go-service-296709.df.r.appspot.com/api/v1/user/authorize/read"
 const deployUrl = ""
+import axios from 'axios';
+import moment from 'moment';
+
 export default {
   name: "MessageCard",
   props: {
@@ -22,21 +24,29 @@ export default {
   },
   data() {
     return {
-      type: "消息类型",
-      time: "xxxx-xx-xx xx:xx:xx",
-      detail: "xxxxxxxxdetailxxxxxxxxxx",
-
+      mes: "",
+      time: "",
       isRead: false,
     }
   },
   mounted() {
     this.time = this.message.time
-    this.detail = this.message.detail
+    this.detail = this.message.detail;
+    if(this.message.status == "Accepted")
+      this.mes = "您已成功入驻"
+    else
+      this.mes = "您的入驻正在审核中"
+    this.time = moment(this.message.request_time).fromNow();
   },
   methods: {
     readMessage() {
+      var _this = this;
+      let formData = new FormData();
+      formData.append("user_id", localStorage.getItem("user_id"));
+      formData.append("authreq_id", this.message.authreq_id);
+      let config = { headers: { 'Content-Type': 'multipart/form-data' } };
       const h = this.$createElement
-      this.$axios.post('url').then(res => {
+      axios.post(testUrl, formData, config).then(res => {
         if (res.data.success) {
           this.isRead = true
         } else {

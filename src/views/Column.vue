@@ -264,6 +264,7 @@ export default {
       let formData = new FormData();
       formData.append("author_id", localStorage.getItem("authorId"));
       formData.append("column_name", this.columnForm.name);
+      if(this.columnForm.name==""){alert("名字不能为空");return;}
       let config = { headers: { "Content-Type": "multipart/form-data" } };
       axios.post(addColumnUrl, formData, config).then((response) => {
           if (response) {
