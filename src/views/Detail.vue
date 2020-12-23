@@ -675,7 +675,8 @@ export default {
       if (results.issn && results.issn.raw)
         this.article.issn = results.issn.raw;
       if (results.doi && results.doi.raw) this.article.doi = results.doi.raw;
-      if (results.url && results.url.raw) this.article.url = results.url.raw;
+      if (results.url && results.url.raw) this.article.url = results.url.raw[0];
+      console.log(this.article.url)
       this.articleloaded = true;
       this.loadrelatedpapers();
       this.loaddocumentcopyinfo();

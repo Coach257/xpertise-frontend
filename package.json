@@ -15,7 +15,7 @@
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "echarts": "^4.9.0",
-    "echarts-gl": "^1.1.1",
+    "echarts-gl": "^1.1.2",
     "element-ui": "^2.14.1",
     "gsap": "^3.5.1",
     "jquery": "^3.5.1",
