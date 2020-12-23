@@ -164,7 +164,6 @@ export default {
     watch: {
       searchState(newsearchState) {
         if(newsearchState.results.length > 0) {
-          console.log(newsearchState.results[0]);
           let list = this.searchState.results[0].pubs.raw;
 
           localStorage.setItem("n_pubs", this.searchState.results[0].n_pubs.raw);
@@ -173,7 +172,7 @@ export default {
           if(localStorage.getItem("authorId").toString().length < 10) {
             localStorage.setItem("year_citation", this.searchState.results[0].year_citation.raw);
             localStorage.setItem("year_pubs", this.searchState.results[0].year_citation.raw);
-            localStorage.setItem("organizations", this.searchState.results[0].orgs.raw);
+            localStorage.setItem("organizations", JSON.stringify(this.searchState.results[0].orgs.raw));
           }
           else {
             localStorage.setItem("organizations", JSON.stringify(this.searchState.results[0].orgs.raw));
@@ -236,7 +235,6 @@ export default {
         let config = { headers: { "Content-Type": "multipart/form-data", }, };
         axios.post(testurl, formData, config).then((response) => {
           if (response) {
-            console.log(response.data.message.author_id);
             if (response.data.success) {
               localStorage.setItem('authorId', response.data.message.author_id);
               that.getPaperInfo(response.data.message.author_id);
