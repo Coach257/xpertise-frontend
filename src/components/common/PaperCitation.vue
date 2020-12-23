@@ -83,16 +83,17 @@ export default {
       return res;
     },
     getData() {
-      var min_year = this.getMinYear(this.year_citation);
-      var max_year = this.getMaxYear(this.year_citation);
+      var year_citation = this.$props.year_citation;
+      var min_year = this.getMinYear(year_citation);
+      var max_year = this.getMaxYear(year_citation);
       for(let i=min_year;i<=max_year;i++){
         this.option.xAxis[0].data.push(i.toString());
-        if(this.year_citation[i])this.option.series[0].data.push(this.year_citation[i])
+        if(year_citation[i])this.option.series[0].data.push(year_citation[i])
         else this.option.series[0].data.push(0)
       }
       this.option.yAxis[0].max =
         Math.ceil(Math.max(...this.option.series[0].data) / 10) * 10;
-      
+
       this.myChart.hideLoading();
       this.myChart.setOption(this.option);
     },

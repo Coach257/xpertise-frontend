@@ -1,5 +1,5 @@
 <template>
-   
+
     <div>
       <h1>欢迎来到 {{ this.$route.params.userid }} 的个人信息页面 </h1>
         <div>
@@ -40,18 +40,13 @@ export default {
                 basic_info: '',
             },
         };
-        
+
     },
     methods: {
         getInfo() {
             let formData = new FormData();
-            //console.log(this.$route.params.userid);
             formData.append('user_id', localStorage.getItem('userid'));
-            let config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            };
+            let config = { headers: { 'Content-Type': 'multipart/form-data' } };
             var _this = this;
             axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/info', formData, config).then(response => {
                 if(response) {

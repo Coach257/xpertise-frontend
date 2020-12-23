@@ -1,5 +1,5 @@
 <template>
-  <div id="result_detail_page" v-if="showarticle">
+  <div id="result_detail_page" v-if="articleloadfinish">
     <div class="result_detail_page_container">
       <div class="result_detail_title_area">
         <div class="result_detail_title">
@@ -105,17 +105,19 @@
             <p>{{ this.article.doi }}</p>
           </div>
         </div>
-        <div class="result_detail_statistics_area" v-if="this.type === 'cs'">
-          <div class="citation_stat" v-if="showyearcitation">
+        <div class="result_detail_statistics_area">
+          <div class="citation_stat">
             <h3>引用信息统计</h3>
             <paper-citation
               :year_citation="this.article.citation_by_year"
+              :v-if="articleloadfinish"
             ></paper-citation>
           </div>
-          <div v-if="showreference">
+          <div v-if="referenceloadfinish">
             <h3>引用关系图谱</h3>
             <reference-chart
               :data="this.referencedata"
+              v-if="referenceloaded"
             ></reference-chart>
           </div>
         </div>
@@ -140,7 +142,6 @@
             >复制引用信息</el-button
           >
           <h3>操作</h3>
-          <el-button-group>
           <el-button type="primary" icon="el-icon-document" plain
             @click="seeOriginal"
             >查看原文</el-button
@@ -175,12 +176,11 @@
             @click="removeFromWishlist"
             >移出清单</el-button
           >
-          </el-button-group>
-          <el-button-group style="padding-top:10px">
           <el-button
             type="primary"
             icon="el-icon-share"
-            v-if="isExpert"
+            plain
+            v-if="isExpert() === true"
             @click="recommendVisible = true"
           >
             推荐
@@ -188,18 +188,18 @@
           <el-button
             type="primary"
             icon="el-icon-share"
-            v-if="isExpert"
+            v-if="isExpert() === true"
+            plain
             @click="openColumnList"
           >
             放入专栏
           </el-button>
-        </el-button-group>
           <div class="statistics_citation">
             <h3>相关文章</h3>
             <related-paper-chart
               :data="this.related_papers.slice(1)"
               :type="this.type"
-              v-if="showrelated"
+              v-if="this.relatedloaded"
             ></related-paper-chart>
           </div>
         </div>
@@ -389,7 +389,6 @@ export default {
       referenceloaded: false, // 控制引用图谱显示
       articleloaded: false, // 控制整个页面显示
       relatedloaded: false, // 控制相关文章显示
-      yearcitationloaded:false,
       documentcopyvisible: false,
       recommendVisible: false,
       columnsVisible: false,
@@ -410,25 +409,19 @@ export default {
     },
   },
   computed: {
-    showreference(){
-      return this.referenceloaded;
-    },
-    showarticle(){
+    //computed最高优先级，只有当loadfinish为true时,才开始页面加载
+    articleloadfinish() {
       return this.articleloaded;
     },
-    showrelated(){
+    referenceloadfinish() {
+      return this.referenceloaded;
+    },
+    relatedpaperloadfinish() {
       return this.relatedloaded;
-    },
-    showyearcitation(){
-      return this.yearcitationloaded;
-    },
-    isExpert() {
-      if (localStorage.getItem('user_type') == 2) return true;
-      else return false;
     },
   },
   methods: {
-    seeOriginal() {
+    seeOriginal(){
       window.open(this.article.url);
     },
     // 初始化全局数据
@@ -652,7 +645,6 @@ export default {
         this.article.citation_by_year = JSON.parse(
           results.citation_by_year.raw
         );
-        this.yearcitationloaded =true;
         this.loadreference();
       }
       if (results.authors && results.authors.raw) {
@@ -763,7 +755,10 @@ export default {
         });
       return;
     },
-
+    isExpert() {
+      if (localStorage.type === 2) return true;
+      else return false;
+    },
     isFav() {
       let that = this;
       let formData = new FormData();
@@ -796,6 +791,9 @@ export default {
     loadcomment() {},
     // 加载推荐
     loadrecommand() {},
+    debug() {
+      console.log(this.referenceloaded);
+    },
     // 复制引用信息
     loaddocumentcopyinfo() {
       var info = "";

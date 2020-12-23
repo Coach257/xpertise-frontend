@@ -72,7 +72,9 @@ export default {
   },
   methods: {
     loadoption() {
+      console.log(this.$props.data);
       this.option.series[0].data.push(this.$props.data);
+      console.log(this.option.series[0].data);
       this.myChart.setOption(this.option);
       this.myChart.hideLoading();
     },

@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     loadoption() {
+      console.log(this.$props.data);
       var data = this.$props.data;
       for (let i = 0; i < data.length; i++) {
         data[i].title.raw =

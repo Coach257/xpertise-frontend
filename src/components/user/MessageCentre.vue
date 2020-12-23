@@ -19,7 +19,6 @@ export default {
     var _this = this;
     let formData = new FormData();
     formData.append('user_id', localStorage.getItem("userid"));
-    console.log(localStorage.getItem("userid"));
     let config = {headers: {'Content-Type': 'multipart/form-data'}};
     this.$axios.post(testUrl, formData, config).then(response => {
       if (response) {
@@ -29,11 +28,12 @@ export default {
           let list = response.data.data;
           for (let i = 0; i < list.length; i++) {
             this.resultList.push({
-              requestId: list[i]['authreq_id'],
-              userId: list[i]['user_id'],
+              authreq_id: list[i]['authreq_id'],
+              user_id: list[i]['user_id'],
               citizen_id: list[i]['citizen_id'],
-              requestTime: list[i]['request_time'],
-              organization: list[i]['organization']
+              request_time: list[i]['request_time'],
+              organization: list[i]['organization'],
+              status: list[i]['status'],
             })
           }
         } else {
