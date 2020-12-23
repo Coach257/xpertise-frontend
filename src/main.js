@@ -11,6 +11,7 @@ import '@/assets/fonts/font.scss';
 import echarts from 'echarts'
 import 'echarts-gl'
 import VueClipboard from 'vue-clipboard2'
+import VueWechatTitle from 'vue-wechat-title'
 
 
 
@@ -19,6 +20,7 @@ Vue.config.devtools = true;
 
 Vue.use(ElementUI);
 Vue.use(VueClipboard);
+Vue.use(VueWechatTitle);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
@@ -29,6 +31,7 @@ Vue.prototype.$gsap = gsap
 Vue.prototype.$axios = axios;
 Vue.prototype.$echarts = echarts
 
+
 gsap.registerPlugin(ScrollTrigger)
 
 new Vue({
@@ -36,3 +39,11 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+
+router.beforeEach((to, from, next) => {
+  /* 路由发生变化修改页面title */
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  next()
+})
