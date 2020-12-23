@@ -21,9 +21,18 @@ export default {
           subtext: "Paper Total Citations",
           left: "center",
         },
+        legend: {
+          orient:'vertical',
+          width: 30,
+          right: 50,
+          data:['其他'],
+          selected: {
+            '其他': false
+          }
+        },
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} " + "Citation" + "s ({d}%)",
+          formatter: "{a} <br/>{b} <br/> Total {c} " + "Citation" + "s ({d}%)",
         },
         series: [
           {
@@ -32,6 +41,7 @@ export default {
             radius: ["40%", "60%"],
             center: ["50%", "50%"],
             data: [],
+            minShowLabelAngle:5,
             label: {
               alignTo: "labelLine",
             },

@@ -42,7 +42,16 @@ export default {
         },
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} " + this.type + "s ({d}%)",
+          formatter: "{a} <br/>{b} <br/> Total {c} " + "Citation" + "s ({d}%)",
+        },
+        legend: {
+          orient:'vertical',
+          width: 30,
+          right: 50,
+          data:['其他'],
+          selected: {
+            '其他': false
+          }
         },
         series: [
           {
@@ -51,6 +60,7 @@ export default {
             radius: ["40%", "60%"],
             center: ["50%", "50%"],
             data: this.chartData,
+            minShowLabelAngle:5,
             label: {
               alignTo: "labelLine",
             },
