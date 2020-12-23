@@ -214,7 +214,12 @@
         :key="index"
         style="display: flex; align-items: center; margin: 5px"
       >
-        {{ documentcopyinfo.name }} {{ documentcopyinfo.info }}
+        <div style="width: 10%">
+          {{ documentcopyinfo.name }}
+        </div>
+        <div style="margin: 50px; width: 70%">
+         {{ documentcopyinfo.info }}
+        </div>
         <el-button
           v-clipboard:copy="documentcopyinfo.info"
           style="
@@ -682,7 +687,8 @@ export default {
       if (results.issn && results.issn.raw)
         this.article.issn = results.issn.raw;
       if (results.doi && results.doi.raw) this.article.doi = results.doi.raw;
-      if (results.url && results.url.raw) this.article.url = results.url.raw;
+      if (results.url && results.url.raw) this.article.url = results.url.raw[0];
+      console.log(this.article.url)
       this.articleloaded = true;
       this.loadrelatedpapers();
       this.loaddocumentcopyinfo();
