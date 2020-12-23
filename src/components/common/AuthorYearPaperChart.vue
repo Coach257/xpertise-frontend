@@ -96,7 +96,9 @@ export default {
     this.myChart = this.$echarts.init(
       document.getElementById("author-year-paper-chart-container")
     );
-    this.myChart.showLoading();
+    this.getData()
+    this.myChart.setOption(this.option)
+    // this.myChart.showLoading();
   },
   methods: {
     getMinYear(a, b) {
@@ -136,7 +138,7 @@ export default {
       this.option.yAxis[1].max =
         Math.ceil(Math.max(...this.option.series[1].data) / 100) * 100;
 
-      this.myChart.hideLoading();
+      // this.myChart.hideLoading();
 
     },
     displayChart() {

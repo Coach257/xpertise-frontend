@@ -84,7 +84,14 @@ export default {
         "organization-year-" + this.type + "-chart-container"
       )
     );
-    this.myChart.showLoading()
+    this.loadOption();
+    this.myChart.setOption(this.option);
+    this.myChart.on("click", function (e) {
+      if (e.data.url) {
+        window.open(e.data.url);
+      }
+    });
+    // this.myChart.showLoading()
   },
   methods: {
     loadOption() {
