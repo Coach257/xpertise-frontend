@@ -143,7 +143,7 @@
 }
 #rankinglist {
   /* outline: #21ff06 dotted thick; */
-  width: 1200px;
+  width: 1500px;
 
   display: flex;
   align-items: flex-start;

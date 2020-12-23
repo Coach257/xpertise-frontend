@@ -21,7 +21,7 @@
       <RankingList title='Top Paper' type='cs'/>
       <RankingList title='Top Author' type='cs'/>
       <RankingList title='Top Affiliation' type='cs'/>
-      
+
     </div>
 
 
@@ -139,7 +139,7 @@ export default {
 
 #rankinglist {
   /* outline: #21ff06 dotted thick; */
-  width: 1200px;
+  width: 1500px;
 
   display: flex;
   align-items: flex-start;
