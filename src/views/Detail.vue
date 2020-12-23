@@ -45,44 +45,79 @@
         <div class="result_detail_comment_area">
           <el-tabs class="tabs_area" type="border-card">
             <el-tab-pane label="评论">
-              <CommentSection :id=this.$route.params.docid
-              />
+              <CommentSection :id="this.$route.params.docid" />
             </el-tab-pane>
-            <el-tab-pane label="专家推荐"><RecommendSection :recommends="this.$data.recommends"/></el-tab-pane>
+            <el-tab-pane label="专家推荐"
+              ><RecommendSection :recommends="this.$data.recommends"
+            /></el-tab-pane>
           </el-tabs>
         </div>
       </div>
-        <div class="result_detail_side_area">
-          <div class="result_detail_side_container">
-            <h3>下载</h3>
-            <el-button type="primary" icon="el-icon-document" plain
-              >查看原文</el-button
-            >
-            <el-button icon="el-icon-download" plain>下载</el-button>
-            <h3>引用</h3>
-            <el-button
+      <div class="result_detail_side_area">
+        <div class="result_detail_side_container">
+          <h3>下载</h3>
+          <el-button type="primary" icon="el-icon-document" plain
+            >查看原文</el-button
+          >
+          <el-button icon="el-icon-download" plain>下载</el-button>
+          <h3>引用</h3>
+          <el-button
             icon="el-icon-document-copy"
             plain
             @click="documentcopyvisible = true"
-            >复制引用信息</el-button>
-            <h3>操作</h3>
-            <el-button
-              type="warning"
-              icon="el-icon-star-off"
-              v-if="article.starred === false"
-              @click="addToFav"
-              plain
-              >收藏</el-button>
-            <el-button
-              type="warning"
-              icon="el-icon-star-on"
-              v-else
-              @click="removeFromFav"
-              >已收藏</el-button>
-            <el-button type="primary" icon="el-icon-share" plain @click="recommendVisible = true"> 推荐 </el-button>
-            <el-button type="primary" icon="el-icon-share" plain @click="openColumnList"> 放入专栏 </el-button>
-            <h3>相关文章</h3>
-            <el-button @click="debug">Debug</el-button>
+            >复制引用信息</el-button
+          >
+          <h3>操作</h3>
+          <el-button
+            type="warning"
+            icon="el-icon-star-off"
+            v-if="article.starred === false"
+            @click="addToFav"
+            plain
+            >收藏</el-button
+          >
+          <el-button
+            type="warning"
+            icon="el-icon-star-on"
+            v-else
+            @click="removeFromFav"
+            >已收藏</el-button
+          >
+          <el-button
+            type="success"
+            icon="el-icon-document-add"
+            v-if="article.listed === false"
+            @click="addToWishlist"
+            plain
+            >加入清单</el-button
+          >
+          <el-button
+            type="success"
+            icon="el-icon-document-delete"
+            v-else
+            @click="removeFromWishlist"
+            >移出清单</el-button
+          >
+          <el-button
+            type="primary"
+            icon="el-icon-share"
+            plain
+            v-if="isExpert() === true"
+            @click="recommendVisible = true"
+          >
+            推荐
+          </el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-share"
+            v-if="isExpert() === true"
+            plain
+            @click="openColumnList"
+          >
+            放入专栏
+          </el-button>
+          <h3>相关文章</h3>
+          <el-button @click="debug">Debug</el-button>
           <h3>相关文章</h3>
           <related-paper-chart
             :data="this.related_papers.slice(1)"
@@ -91,12 +126,17 @@
           ></related-paper-chart>
           <div v-if="referenceloadfinish">
             <h3>引用关系图谱</h3>
-            
           </div>
         </div>
-        </div>
-        <paper-citation :year_citation="this.article.citation_by_year" :v-if="articleloadfinish"></paper-citation>
-        <reference-chart :data="this.referencedata" v-if="referenceloaded"></reference-chart>
+      </div>
+      <paper-citation
+        :year_citation="this.article.citation_by_year"
+        :v-if="articleloadfinish"
+      ></paper-citation>
+      <reference-chart
+        :data="this.referencedata"
+        v-if="referenceloaded"
+      ></reference-chart>
     </div>
     <el-dialog
       title="复制引用信息"
@@ -106,20 +146,37 @@
       <li
         v-for="(documentcopyinfo, index) in this.documentcopylist"
         :key="index"
-        style="display: flex; align-items: center; margin: 5px;"
+        style="display: flex; align-items: center; margin: 5px"
       >
         {{ documentcopyinfo.name }} {{ documentcopyinfo.info }}
-        <el-button v-clipboard:copy="documentcopyinfo.info" style="height: 10px; width: 40px; display: flex; align-items: center; justify-content: center; margin-left: 10px">复制</el-button>
+        <el-button
+          v-clipboard:copy="documentcopyinfo.info"
+          style="
+            height: 10px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+          "
+          >复制</el-button
+        >
       </li>
     </el-dialog>
 
     <el-dialog title="推荐表单" :visible.sync="recommendVisible">
       <el-form :model="recommendForm">
         <el-form-item label="推荐人ID" :label-width="formLabelWidth">
-          <el-input v-model="recommendForm.author_id" :disabled="true"></el-input>
+          <el-input
+            v-model="recommendForm.author_id"
+            :disabled="true"
+          ></el-input>
         </el-form-item>
         <el-form-item label="推荐人用户名" :label-width="formLabelWidth">
-          <el-input v-model="recommendForm.username" :disabled="true"></el-input>
+          <el-input
+            v-model="recommendForm.username"
+            :disabled="true"
+          ></el-input>
         </el-form-item>
         <el-form-item label="推荐理由" :label-width="formLabelWidth">
           <el-input v-model="recommendForm.reason" :disabled="false"></el-input>
@@ -132,20 +189,14 @@
     </el-dialog>
 
     <el-dialog title="放入专栏" :visible.sync="columnsVisible">
-      <el-table
-        :data="columnList"
-        style="width: 100%">
-        <el-table-column
-          label="ID"
-          width="180">
+      <el-table :data="columnList" style="width: 100%">
+        <el-table-column label="ID" width="180">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>
             <span style="margin-left: 10px">{{ scope.row.column_id }}</span>
           </template>
         </el-table-column>
-        <el-table-column
-          label="姓名"
-          width="180">
+        <el-table-column label="姓名" width="180">
           <template slot-scope="scope">
             <el-popover trigger="hover" placement="top">
               <p>专栏ID: {{ scope.row.column_id }}</p>
@@ -161,13 +212,21 @@
             <el-button
               size="mini"
               type="primary"
-              @click="handleDelete(scope.row.column_id)">加入专栏</el-button>
+              @click="handleDelete(scope.row.column_id)"
+              >加入专栏</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
       <div>
-        <el-input v-model="columnForm.name" :disabled="false" style="width: 120px; margin-right: 30px"></el-input>
-        <el-button type="success" @click="addNewColumn">创建新的专栏并加入专栏中</el-button>
+        <el-input
+          v-model="columnForm.name"
+          :disabled="false"
+          style="width: 120px; margin-right: 30px"
+        ></el-input>
+        <el-button type="success" @click="addNewColumn"
+          >创建新的专栏并加入专栏中</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -179,10 +238,14 @@ import CommentSection from "../components/comment/CommentSection";
 import RelatedPaperChart from "../components/common/RelatedPaperChart.vue";
 import PaperCitation from "../components/common/PaperCitation.vue";
 import ReferenceChart from "../components/common/ReferenceChart.vue";
-const testurl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/recommend/create"
-const columnUrl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/column/searchcol"
-const addUrl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/column/add_to_column"
-const addColumnUrl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/column/create_column"
+const testurl =
+  "https://go-service-296709.df.r.appspot.com/api/v1/portal/recommend/create";
+const columnUrl =
+  "https://go-service-296709.df.r.appspot.com/api/v1/portal/column/searchcol";
+const addUrl =
+  "https://go-service-296709.df.r.appspot.com/api/v1/portal/column/add_to_column";
+const addColumnUrl =
+  "https://go-service-296709.df.r.appspot.com/api/v1/portal/column/create_column";
 import {
   mainpaperconfig,
   mainauthorconfig,
@@ -233,7 +296,7 @@ export default {
         url: "",
         listed: false,
         starred: false,
-        citation_by_year:{},
+        citation_by_year: {},
       },
       recommendForm: {
         username: "IAmParasite",
@@ -257,7 +320,7 @@ export default {
       documentcopyvisible: false,
       recommendVisible: false,
       columnsVisible: false,
-      formLabelWidth: '120px',
+      formLabelWidth: "120px",
       documentcopylist: [],
     };
   },
@@ -293,7 +356,6 @@ export default {
       this.docid = this.$route.params.docid;
       this.recommendForm.username = localStorage.getItem("username");
       this.recommendForm.author_id = localStorage.getItem("authorId");
-
     },
     // 配置es连接器
     init_driver() {
@@ -323,7 +385,12 @@ export default {
       };
       formData.append("paper_info", JSON.stringify(paperInfo));
       let config = { headers: { "Content-Type": "multipart/form-data" } };
-      axios.post("https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/add", formData, config)
+      axios
+        .post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/add",
+          formData,
+          config
+        )
         .then((response) => {
           if (response) {
             if (response.data.success) {
@@ -335,6 +402,93 @@ export default {
           } else {
             console.log("收藏失败" + response.data);
             alert("收藏文献失败，请检查网络");
+          }
+        });
+    },
+    addToWishlist() {
+      let that = this;
+      let formData = new FormData();
+      formData.append("user_id", localStorage.getItem("userid"));
+      formData.append("paper_id", this.article.paper_id);
+      formData.append("title", this.article.title);
+      formData.append("type", this.type);
+      formData.append("n_citation", this.article.n_citation);
+      formData.append("year", this.article.year);
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      axios
+        .post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/add",
+          formData,
+          config
+        )
+        .then((response) => {
+          if (response) {
+            if (response.data.success) {
+              that.$data.article.listed = true;
+            } else {
+              console.log("添加失败" + response.data);
+              alert("添加失败，请检查网络");
+            }
+          } else {
+            console.log("添加失败" + response.data);
+            alert("添加失败，请检查网络");
+          }
+        });
+    },
+    // 移出清单
+    removeFromWishlist() {
+      let that = this;
+      let formData = new FormData();
+      formData.append("user_id", localStorage.getItem("userid"));
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      axios
+        .post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/user/wish/list",
+          formData,
+          config
+        )
+        .then((response) => {
+          if (response) {
+            if (response.data.success) {
+              let favorArray = response.data.data;
+              console.log(favorArray);
+              for (let i = 0, len = favorArray.length; i < len; i++) {
+                if (favorArray[i].paper_id == this.article.paper_id) {
+                  formData = new FormData();
+                  formData.append("wish_id", favorArray[i].wish_id);
+                  axios
+                    .post(
+                      "https://go-service-296709.df.r.appspot.com/api/v1/user/wish/remove",
+                      formData,
+                      config
+                    )
+                    .then((response) => {
+                      if (response) {
+                        if (response.data.success) {
+                          console.log("删除成功", response.data);
+                          that.$data.article.listed = false;
+                        } else {
+                          console.log("删除失败", response.data);
+                          alert("删除失败，请检查网络");
+                        }
+                      } else {
+                        console.log("收藏失败", response.data);
+                        alert("删除失败，请检查网络");
+                      }
+                    }).catch(function(e){console.log(e)});
+                }
+              }
+            } else {
+              console.log("获取失败 " + response.data);
+              alert("列表获取失败，请检查网络");
+            }
+          } else {
+            console.log("获取失败 " + response.data);
+            alert("列表获取失败，请检查网络");
           }
         });
     },
@@ -407,7 +561,9 @@ export default {
       if (results.title && results.title.raw)
         this.article.title = results.title.raw;
       if (this.type == "cs") {
-        this.article.citation_by_year = JSON.parse(results.citation_by_year.raw);
+        this.article.citation_by_year = JSON.parse(
+          results.citation_by_year.raw
+        );
         this.loadreference();
       }
       if (results.authors && results.authors.raw) {
@@ -517,6 +673,38 @@ export default {
         });
       return;
     },
+    isExpert(){
+      if(localStorage.type === 2)return true;
+      else return false;
+    },
+    isFav() {
+      let that = this;
+      let formData = new FormData();
+      formData.append("user_id", localStorage.getItem("userid"));
+      formData.append("paper_id", this.docid);
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      axios
+        .post(
+          "https://go-service-296709.df.r.appspot.com/api/v1/user/wish/paper_in_wish",
+          formData,
+          config
+        )
+        .then((response) => {
+          if (response) {
+            console.log(response.data);
+            if (response.data.message == "已在用户的心愿清单中") {
+              that.article.listed = true;
+            } else {
+              that.article.listed = false;
+            }
+          }
+        });
+      return;
+    },
     // 加载评论
     loadcomment() {},
     // 加载推荐
@@ -603,14 +791,14 @@ export default {
       formData.append("n_citation", this.article.n_citation);
       formData.append("hindex", localStorage.getItem("h_index"));
       formData.append("reason", this.recommendForm.reason);
-      let config = { headers: { "Content-Type": "multipart/form-data", }, };
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
       axios.post(testurl, formData, config).then((response) => {
         if (response) {
           console.log(response);
           if (response.data.success) {
             console.log("推荐成功");
           } else {
-            console.log(response)
+            console.log(response);
           }
         }
       });
@@ -620,7 +808,7 @@ export default {
       let that = this;
       let formData = new FormData();
       formData.append("author_id", this.recommendForm.author_id);
-      let config = { headers: { "Content-Type": "multipart/form-data", }, };
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
       axios.post(columnUrl, formData, config).then((response) => {
         if (response) {
           console.log(response);
@@ -632,10 +820,10 @@ export default {
               this.columnList.push({
                 column_id: list[i].column_id,
                 column_name: list[i].column_name,
-              })
+              });
             }
-          }else {
-            console.log(response)
+          } else {
+            console.log(response);
           }
         }
       });
@@ -647,15 +835,14 @@ export default {
       formData.append("column_id", id);
       formData.append("paper_id", this.article.paper_id);
       formData.append("paper_title", this.article.title);
-      let config = { headers: { "Content-Type": "multipart/form-data", }, };
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
       axios.post(addUrl, formData, config).then((response) => {
         if (response) {
           console.log(response);
           if (response.data.success) {
             console.log("放入专栏成功");
-          }
-          else {
-            console.log(response)
+          } else {
+            console.log(response);
           }
         }
       });
@@ -675,10 +862,10 @@ export default {
             console.log("创建失败");
           }
         } else {
-          console.log("创建失败")
+          console.log("创建失败");
         }
       });
-    }
+    },
   },
 };
 </script>
