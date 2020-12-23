@@ -116,7 +116,7 @@
 
                       <el-divider></el-divider>
 
-                      <div>
+                      <div v-if="author_type">
                         <router-link
                           class="link"
                           v-for="(paper, index) in papers.slice(
@@ -131,6 +131,25 @@
                             {{ index + 1 + (currentPage1 - 1) * eachPage }}
                           </div>
                           <div style="width: 1100px">{{ paper.title }}</div>
+                          <div class="citation">被引{{ paper.r }}次</div>
+                        </router-link>
+                      </div>
+
+                      <div v-else>
+                        <router-link
+                          class="link"
+                          v-for="(paper, index) in papers.slice(
+                            (this.currentPage1 - 1) * this.eachPage,
+                            this.currentPage1 * this.eachPage
+                          )"
+                          :key="index"
+                          :to="'/detail/cs/' + paper.i"
+                          tag="a"
+                        >
+                          <div id="paperindex">
+                            {{ index + 1 + (currentPage1 - 1) * eachPage }}
+                          </div>
+                          <div style="width: 1100px">{{ paper.i }}</div>
                           <div class="citation">被引{{ paper.r }}次</div>
                         </router-link>
                       </div>
@@ -237,7 +256,7 @@
 
                       <el-divider></el-divider>
 
-                      <div>
+                      <div v-if="author_type">
                         <router-link
                           class="link"
                           v-for="(org, index) in orgs"
@@ -248,6 +267,21 @@
                           <div id="paperindex">{{ index + 1 }}</div>
                           <div style="width: 1100px">
                             {{ JSON.parse(org).name }}
+                          </div>
+                        </router-link>
+                      </div>
+
+                      <div v-else>
+                        <router-link
+                          class="link"
+                          v-for="(org, index) in orgs2"
+                          :key="index"
+                          :to="'/affiliation/' + org.id"
+                          tag="a"
+                        >
+                          <div id="paperindex">{{ index + 1 }}</div>
+                          <div style="width: 1100px">
+                            {{ org }}
                           </div>
                         </router-link>
                       </div>
@@ -317,7 +351,18 @@ export default {
     this.getrelatedauthor();
     this.loadauthormap();
     //this.searchcol()
-    this.orgs = JSON.parse(localStorage.getItem("organizations"));
+    if(this.author_type) {
+      this.orgs = JSON.parse(localStorage.getItem("organizations"));
+    }
+    else {
+      let tmpt = localStorage.getItem("organizations").toString().substr(2).split(",");
+      for(let i = 0; i < tmpt.length - 1; i++) {
+        this.orgs2[i] = tmpt[i];
+        this.orgs.push({id : i, name: tmpt[i]});
+      }
+      console.log(this.orgs);
+    }
+
     this.author.authorId = localStorage.getItem("authorId");
     //  driver.subscribeToStateChanges(state => {
     //   this.searchState = state;
@@ -351,7 +396,9 @@ export default {
       column: [],
       papers: [],
       orgs: [],
+      orgs2: {},
       authorname: "",
+      author_type: localStorage.getItem("authorId").toString().length < 10,
       circleUrl:
         "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
       tableDatainfo: [
@@ -485,10 +532,6 @@ export default {
     },
     showcolpapers() {
       driver = new SearchDriver(mainpaperconfig);
-
-      console.log("开始11");
-      console.log(this.papersincoll);
-      console.log("开始22");
       // for ( var i=0;i< this.papersincoll.length;i++){
       //driver.addFilter("id",this.papersincoll[i].paper_id,"any")
       // driver.addFilter("id","53e99e99b7602d970275f7a6","any")
@@ -502,40 +545,7 @@ export default {
     checkau() {
       if (this.$route.params.authorId != localStorage.getItem("authorId"))
         this.$router.push("/home");
-      let formData = new FormData();
-      formData.append("id", this.$route.params.authorId);
-      console.log("aa");
-      console.log(this.$route.params);
-      console.log("ab");
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      var _this = this;
-      axios
-        .post(
-          "https://go-service-296709.df.r.appspot.com/api/v1/portal/author",
-          formData,
-          config
-        )
-        .then(function (response) {
-          if (response) {
-            if (response.data.success) {
-              _this.authorname = response.data.data.author_name;
-            } else {
-              console.log("没有这个作者或者当前登陆用户不是这个作者");
-
-              _this.$router.push("/home");
-            }
-          } else {
-            console.log("error2");
-            _this.$route.go(-1);
-          }
-        })
-        .catch(function () {
-          console.log("error");
-        });
+      this.authorname = localStorage.getItem("name");
     },
     loadauthormap() {
       let formData = new FormData();
