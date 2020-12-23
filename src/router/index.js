@@ -80,6 +80,7 @@ const routes = [
     path: '/article/:articleid',
     name: 'ResultDetailPage',
     component: ResultDetailPage,
+    meta: {title: "文章"}
   },
   {
     path: '/detail/:type/:docid',
@@ -119,12 +120,14 @@ const routes = [
   {
     path: '/portal/:authorId',
     name: 'Portal',
-    component: Portal
+    component: Portal,
+    meta: {title: "作者主页"}
   },
   {
     path: '/author/:type/:authorId',
     name: 'Author',
     component: Author,
+    meta: {title: "作者主页"}
   },
   {
     path: '/settle',
