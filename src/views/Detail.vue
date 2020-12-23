@@ -106,7 +106,6 @@
           </div>
         </div>
         <div class="result_detail_statistics_area" v-if="this.type === 'cs'">
-          <el-button @click="debug">debug</el-button>
           <div class="citation_stat" v-if="showyearcitation">
             <h3>引用信息统计</h3>
             <paper-citation
@@ -141,6 +140,7 @@
             >复制引用信息</el-button
           >
           <h3>操作</h3>
+          <el-button-group>
           <el-button type="primary" icon="el-icon-document" plain
             @click="seeOriginal"
             >查看原文</el-button
@@ -175,10 +175,11 @@
             @click="removeFromWishlist"
             >移出清单</el-button
           >
+          </el-button-group>
+          <el-button-group style="padding-top:10px">
           <el-button
             type="primary"
             icon="el-icon-share"
-            plain
             v-if="isExpert"
             @click="recommendVisible = true"
           >
@@ -188,11 +189,11 @@
             type="primary"
             icon="el-icon-share"
             v-if="isExpert"
-            plain
             @click="openColumnList"
           >
             放入专栏
           </el-button>
+        </el-button-group>
           <div class="statistics_citation">
             <h3>相关文章</h3>
             <related-paper-chart
@@ -427,7 +428,7 @@ export default {
     },
   },
   methods: {
-    seeOriginal(){
+    seeOriginal() {
       window.open(this.article.url);
     },
     // 初始化全局数据
@@ -949,9 +950,6 @@ export default {
         }
       });
     },
-    debug(){
-      console.log(this.yearcitationloaded)
-    }
   },
 };
 </script>
