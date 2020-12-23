@@ -48,7 +48,7 @@ export default {
       const h = this.$createElement
       axios.post(testUrl, formData, config).then(res => {
         if (res.data.success) {
-          this.isRead = true
+          _this.isRead = true
         } else {
           this.$notify({
             title: "提示",
