@@ -28,13 +28,13 @@ const routes = [
     path:'/home',
     name:'HomePage',
     component:StartPage,
-    meta: {title: "首页"}
+    meta: {title: "XpertiseScholar 首页"}
   },
   {
     path:'/cs',
     name:'CSHomePage',
     component:CSStartPage,
-    meta: {title: "计算机科学"}
+    meta: {title: "XpertiseScholar 计算机科学"}
   },
   {
     path: '/test',
@@ -45,20 +45,20 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
-    meta: {title: "登录"}
+    meta: {title: "XpertiseScholar 登录"}
   },
   {
     path: '/register',
     name: 'Register',
     component: Register,
-    meta: {title: "注册"}
+    meta: {title: "XpertiseScholar 注册"}
   },
   {
     path: '/admin',
     redirect: '/admin/request-manage',
     name: 'AdminManage',
     component: AdminManage,
-    meta: {title: "管理"},
+    meta: {title: "XpertiseScholar 管理"},
     children: [
       {
         name: 'ReportManage',
@@ -80,19 +80,19 @@ const routes = [
     path: '/article/:articleid',
     name: 'ResultDetailPage',
     component: ResultDetailPage,
-    meta: {title: "文章"}
+    meta: {title: "XpertiseScholar 文章"}
   },
   {
     path: '/detail/:type/:docid',
     name: 'Detail',
     component: Detail,
-    meta: {title: "文章详情"},
+    meta: {title: "XpertiseScholar 文章详情"},
   },
   {
     path: '/userinfo',
     name: 'userInfo',
     component: UserInfo,
-    meta: {title: "个人信息"},
+    meta: {title: "XpertiseScholar 个人信息"},
     children: [
       {
         name: 'MessageModify',
@@ -115,31 +115,31 @@ const routes = [
     path: '/userpage/:userid',
     name: 'UserPage',
     component: UserPage,
-    meta: {title: "个人主页"}
+    meta: {title: "XpertiseScholar 个人主页"}
   },
   {
     path: '/portal/:authorId',
     name: 'Portal',
     component: Portal,
-    meta: {title: "作者主页"}
+    meta: {title: "XpertiseScholar 作者主页"}
   },
   {
     path: '/author/:type/:authorId',
     name: 'Author',
     component: Author,
-    meta: {title: "作者主页"}
+    meta: {title: "XpertiseScholar 作者主页"}
   },
   {
     path: '/settle',
     name: 'SettlePage',
     component: SettlePage,
-    meta: {title: "申请入驻"}
+    meta: {title: "XpertiseScholar 申请入驻"}
   },
   {
     path: '/affiliation/:affId',
     name: Affiliation,
     component: Affiliation,
-    meta: {title: "机构详情页"}
+    meta: {title: "XpertiseScholar 机构详情页"}
   }
 ]
 

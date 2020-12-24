@@ -5,7 +5,9 @@
         <div class="comment_head">
         <div class="comment_avatar"><i class="el-icon-success" v-if=this.comment.on_top>置顶 </i>
           <i class="el-icon-user"/></div>
-        <div class="comment_username">  {{ this.comment.username }}</div><br/>
+          <div class="comment_username" v-if="judgeSettle">  {{ this.comment.author_name.toUpperCase() }} (作者本人)</div>
+          <div class="comment_username" v-else>  {{ this.comment.username }}</div>
+          <br/>
         <div class="comment_create_time">{{ this.comment.create_time }}</div></div>
         <div class="comment_actions">
         <el-button-group>
@@ -40,6 +42,7 @@ export default {
       if(tmpt.id == this.comment.paper_id)
         this.commentOperate = true;
     }
+    this.judgeSettle = this.comment.author_name.length > 0;
   },
   methods: {
     getLikeCount(){return this.comment.like + (this.vote === 1?1:0);},
@@ -96,12 +99,13 @@ export default {
     return {
       short_abstract: "",
       itemExample: {
-        username:"usernmae",
+        username: "",
         create_time:"2020-12-18 20:23:23",
         comment:"this is an example comment",
       },
       vote:0,
       commentOperate: false,
+      judgeSettle: false,
     };
   },
 };
