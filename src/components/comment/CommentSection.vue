@@ -24,7 +24,8 @@ const commenturl = "https://go-service-296709.df.r.appspot.com/api/v1/branch/com
 export default {
   name: "CommentCards",
   props: {
-    id: String
+    id: String,
+    paper: Object,
   },
   components: {
     CommentCard
@@ -37,6 +38,8 @@ export default {
   },
   mounted () {
     this.getCommentList();
+    console.log("传入的paper");
+    console.log(this.paper);
   },
   methods: {
     getCommentList() {
@@ -86,10 +89,16 @@ export default {
     submitComment() {
       let that = this;
       let formData = new FormData();
+      let list = this.paper.authors;
+      var addition = "";
+      for(let i = 0; i < list.length; i++) {
+        if(list[i].name == localStorage.getItem("name"))
+          addition = "(作者本人)";
+      }
       formData.append("paper_id", this.id);
       formData.append("content", this.textarea);
       formData.append("user_id", localStorage.getItem("userid"));
-      formData.append("author_name", localStorage.getItem("name"));
+      formData.append("author_name", localStorage.getItem("name") + addition);
       let config = { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(commenturl, formData, config).then((response) => {
         if (response) {
