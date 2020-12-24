@@ -662,6 +662,12 @@ export default {
         for (var i = 0; i < raw.length; i++) {
           this.article.authors.push(JSON.parse(raw[i]));
         }
+        // var len=this.article.authors
+        // console.log(this.article.authors)
+        // for(let i=0;i<len;i++){
+        //   this.article.authors[i]=this.commonApi.titleCase(this.article.authors[i])
+        //   console.log(this.article.authors[i])
+        // }
       }
       if (results.abstract && results.abstract.raw)
         this.article.abstract = results.abstract.raw;
