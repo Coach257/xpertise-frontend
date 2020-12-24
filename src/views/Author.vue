@@ -163,12 +163,22 @@
 
       <el-divider></el-divider>
 
+      <div v-if="this.type==2" style="margin-left:0px">
       <author-compare-chart
         class="chart"
         :h_index="this.author.h_index"
         :n_pubs="this.author.n_pubs"
         :n_citation="this.author.n_citation"
         v-if="loadfinish"
+      ></author-compare-chart>
+      </div>
+      <author-compare-chart
+        class="chart"
+        :h_index="this.author.h_index"
+        :n_pubs="this.author.n_pubs"
+        :n_citation="this.author.n_citation"
+        v-if="loadfinish"
+        v-show="this.type==1"
       ></author-compare-chart>
       <author-year-paper-chart
         class="chart"
@@ -867,7 +877,7 @@ a:hover {
 #charts {
   /* outline: #21ff06 dotted thick; */
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
 
