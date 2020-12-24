@@ -44,6 +44,8 @@
           <el-row :gutter="5">
             <el-col :span="20" :offset="2"><h1></h1></el-col>
           </el-row>
+          
+          <center>
           <div id="charts">
             <div class="datatitle" style="width: 1250px">
               <h2>数据统计</h2>
@@ -91,6 +93,8 @@
               v-if="this.relatedloaded"
             ></related-author-chart>
           </div>
+          </center>
+          
           <el-row :gutter="10">
             <el-col :span="20" :offset="2">
               <el-tabs v-model="activeName" @tab-click="handleClick">
