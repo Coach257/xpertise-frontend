@@ -16,15 +16,9 @@
         <div v-if="show[2]">
         <LangAnalysis v-if="langanalysis" :data="this.facets.lang"></LangAnalysis>
         </div>
-
         <div v-if="show[3]">
-          <h1>机构排行</h1>
+          <author-analysis v-if="authoranalysis" :data="this.facets.authors"></author-analysis>
         </div>
-
-        <div v-if="show[4]">
-          <h1>作者排行</h1>
-        </div>
-
       </div>
 
 
@@ -36,6 +30,7 @@ import LangAnalysis from '../common/LangAnalysis.vue'
 import YearAnalysis from '../common/YearAnalysis.vue'
 import VenueAnalysis from '../common/VenueAnalysis.vue'
 import SelectTitle from '../common/SelectTitle.vue'
+import AuthorAnalysis from '../common/AuthorAnalysis.vue'
 
 export default {
   props:['data'],
@@ -43,7 +38,8 @@ export default {
       LangAnalysis,
       YearAnalysis,
       VenueAnalysis,
-      SelectTitle
+      SelectTitle,
+      AuthorAnalysis,
   },
   data(){
       return{
@@ -52,32 +48,31 @@ export default {
           langanalysis:false,
           yearanalysis:false,
           venueanalysis:false,
+          authoranalysis:false,
           show: {0:true, 1:false, 2:false, 3:false, 4:false},
           disable: {0:true, 1:true, 2:true, 3:true, 4:true},
       }
   },
   methods: {
     selected (index) {
-
+       let count = 5
        let i
-       let tem = -1;//记录现在是第几个有效的
 
-       for (i=0; i<5; i++) {
-
-        if (this.disable[i]==false){
-          tem++;
-          if (tem == index) {
-            this.show[i] = true;
-          }
-          else this.show[i]=false;
-
-        } else {
-          continue;
-        }
-
+       for (i=0; i<5 ;i++) {
+         if (this.disable[i]==true)count--
        }
-    }
 
+
+       let tem = 0;//记录前面有几个失效
+       for (i=0; i<count ;i++) {
+         if (this.disable[i]==true)tem++
+
+         if (i!=index)this.show[i+tem] = false
+         else {
+            this.show[index+tem] = true
+         }
+       }
+    },
   },
   mounted(){
       this.facets = this.$props.data;
@@ -96,13 +91,10 @@ export default {
           this.buttons.push('语言分析')
           this.disable[2] = false;
       }
-      if(true){
-          this.buttons.push('机构排行')
-          this.disable[3] = false;
-      }
-      if(true){
+      if(this.facets.authors){
+          this.authoranalysis = true;
           this.buttons.push('作者排行')
-          this.disable[4] = false;
+          this.disable[3] = false;
       }
 
   }

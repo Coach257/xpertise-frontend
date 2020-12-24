@@ -39,7 +39,7 @@ const mainpaperconfig = {
   debug: true,
   apiConnector: mainpaperconnector,
   searchQuery: {
-    disjunctiveFacets: ["year", "lang","venue"],
+    disjunctiveFacets: ["year", "lang","venue","authors"],
     facets: {
       year: {
         type: "value"
@@ -48,6 +48,9 @@ const mainpaperconfig = {
         type: "value"
       },
       venue:{
+        type:"value"
+      },
+      authors:{
         type:"value"
       }
     }
@@ -68,7 +71,7 @@ const cspaperconfig = {
   debug: false,
   apiConnector: cspaperconnector,
   searchQuery: {
-    disjunctiveFacets: ["year", "venue"],
+    disjunctiveFacets: ["year", "venue","authors"],
     facets: {
       year: {
         type: "value"
@@ -76,6 +79,9 @@ const cspaperconfig = {
       venue: {
         type: "value"
       },
+      authors:{
+        type:"value"
+      }
     }
   }
 };
