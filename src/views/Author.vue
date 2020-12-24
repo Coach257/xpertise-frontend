@@ -236,7 +236,7 @@
             <div class="paperindex">
               {{ index + 1 + (currentPage - 1) * eachPage }}
             </div>
-            <div style="width: 700px">{{ pub.title }}</div>
+            <div style="width: 700px">{{ commonApi.titleCase(pub.title) }}</div>
             <div class="citation2">第{{ pub.r }}作者</div>
             <div class="citation">被引{{ pub.n_citation }}次</div>
           </router-link>
