@@ -34,10 +34,10 @@
               tag="a"
               @click.native="papersincol(nowcol(pub))"
               :title="pub"
-               style="width: 900px;font-size:90px"
+              style="width: 900px;font-size:90px"
             >
               <div>
-                <div v-if="blankcol"> <a>空</a></div>
+                <div v-if="blankcol"><a>空</a></div>
 
                 <router-link
                   class="link"
@@ -45,10 +45,10 @@
                   :key="index"
                   :to="'/detail/cs/' + paper.id"
                   tag="a"
-                  >
+                >
 
-                  <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
-                  <div style="width: 900px;"> {{ paper.name }} </div>
+                  <div id='paperindex'>{{ index + 1 + (currentPage1 - 1) * eachPage }}</div>
+                  <div style="width: 900px;"> {{ paper.name }}</div>
 
                 </router-link>
 
@@ -71,7 +71,7 @@
 
         <center style="margin-top: 30px; margin-bottom: 30px">
           <el-pagination
-          v-if="onepage"
+            v-if="onepage"
             background
             layout="prev, pager, next"
             :total="total1"
@@ -90,7 +90,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="columnVisible = false"> 取 消</el-button>
-          <el-button type="primary" @click="addColumn"> 确 定 </el-button>
+          <el-button type="primary" @click="addColumn"> 确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -99,6 +99,7 @@
 
 <script>
 import axios from "axios";
+
 const addColumnUrl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/column/create_column"
 export default {
   props: ["type", "id"],
@@ -107,7 +108,7 @@ export default {
     return {
       activeName: "1",
       column: [],
-      onepage:false,
+      onepage: false,
       columnnum: [],
       colpapers: [],
       contendLoaded: false,
@@ -117,7 +118,7 @@ export default {
       eachPage: 5,
       total1: 0,
       total2: 0,
-      blankcol:false,
+      blankcol: false,
       formLabelWidth: '120px',
       columnVisible: false,
       columnForm: {
@@ -170,15 +171,16 @@ export default {
               //console.log(_this.columnnum);
               //console.log(response.data.data);
               for (i = 0; i < response.data.data.length; i++) {
-                _this.colpapers.push({"name":response.data.data[i].paper_title,"id":response.data.data[i].paper_id});
+                _this.colpapers.push({"name": response.data.data[i].paper_title, "id": response.data.data[i].paper_id});
               }
-              _this.blankcol=false;
+              _this.blankcol = false;
               // console.log("开始11");
               // console.log(response.data.data[0].column_id);
               // console.log("开始22");
             } else {
-              console.log("没有专栏?");
-              _this.blankcol=true;
+              // console.log("没有专栏?");
+              _this.fail('似乎没有专栏?')
+              _this.blankcol = true;
             }
           } else {
             console.log("error2");
@@ -187,6 +189,9 @@ export default {
         .catch(function () {
           console.log("error");
         });
+    },
+    fail(msg) {
+      this.$message.error(msg)
     },
     mouseOverWrapper() {
       this.$gsap.to(".data1wrapper", {
@@ -228,9 +233,9 @@ export default {
                 _this.columnnum.push(response.data.data[i].column_id);
               }
               console.log(_this.columnnum);
-               _this.total1 = _this.columnnum.length
-               if(_this.total1<=5)_this.onepage =false;
-               else _this.onepage=true;
+              _this.total1 = _this.columnnum.length
+              if (_this.total1 <= 5) _this.onepage = false;
+              else _this.onepage = true;
               console.log(_this.total1);
 
               // console.log(_this.column);
@@ -238,7 +243,7 @@ export default {
               //_this.papersincol()
               console.log("上面");
             } else {
-              console.log("没有专栏");
+              _this.fail("没有专栏")
             }
           } else {
             console.log("error2");
@@ -264,21 +269,31 @@ export default {
       let formData = new FormData();
       formData.append("author_id", localStorage.getItem("authorId"));
       formData.append("column_name", this.columnForm.name);
-      if(this.columnForm.name==""){alert("名字不能为空");return;}
-      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      if (this.columnForm.name == "") {
+        alert("名字不能为空");
+        return;
+      }
+      let config = {headers: {"Content-Type": "multipart/form-data"}};
       axios.post(addColumnUrl, formData, config).then((response) => {
-          if (response) {
-            if (response.data.success) {
-              _this.$router.go(0);
-              console.log("创建成功")
-            } else {
-             console.log("创建失败");
-            }
+        if (response) {
+          if (response.data.success) {
+            _this.$router.go(0);
+            // console.log("创建成功")
+            _this.success("创建成功")
           } else {
-            console.log("创建失败")
+            _this.fail("创建失败");
           }
-        });
+        } else {
+          _this.fail("创建失败")
+        }
+      });
     },
+    success(msg) {
+      this.$message({
+        message: msg,
+        type: 'success'
+      })
+    }
   },
   computed: {
     isportalauthor() {
@@ -304,6 +319,7 @@ export default {
   justify-content: center;
   width: 1900px;
 }
+
 .datawrapper {
   border: #e6e6e6 solid thin;
   border-radius: 30px;
@@ -311,6 +327,7 @@ export default {
   padding: 20px;
   margin: 40px;
 }
+
 .data1wrapper {
   width: 110px;
   height: 40px;
@@ -321,6 +338,7 @@ export default {
   box-shadow: 0px 0px 50px 10px rgba(127, 127, 127, 0.2);
   margin: 0 auto;
 }
+
 .datatitle {
   /* outline: #21ff06 dotted thick; */
   height: 40px;
@@ -330,6 +348,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
 #paperindex {
   /* outline: #21ff06 dotted thick; */
   border-radius: 50px;
@@ -345,6 +364,7 @@ export default {
   margin: 4px;
   margin-right: 10px;
 }
+
 #authorindex {
   border-radius: 50px;
   background-color: #dace0a;
@@ -359,14 +379,16 @@ export default {
   margin: 4px;
   margin-right: 10px;
 }
+
 .link {
   text-decoration: none;
   display: flex;
   align-items: center;
   cursor: pointer;
 }
+
 .linkk {
-  font-size:30px;
+  font-size: 30px;
   cursor: pointer;
   align-items: center;
 }
@@ -375,9 +397,11 @@ export default {
 a:link {
   color: #000000;
 }
+
 a:visited {
   color: #666666;
 }
+
 a:hover {
   color: #1292fd;
   font-weight: bold;
