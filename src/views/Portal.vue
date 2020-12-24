@@ -12,7 +12,7 @@
             ></el-col>
             <el-col :span="6"
               ><div class="name">
-                {{ this.authorname }}
+                {{ this.commonApi.titleCase(this.authorname) }}
               </div></el-col
             >
           </el-row>
