@@ -1,8 +1,9 @@
 <template>
     <div id="recommend_section" v-if="examplerecommends.length<1">
-        <el-divider v-if="examplerecommends.length<1" content-position="left">暂无专家推荐</el-divider>
-        <RecommendCard v-for="(item) in examplerecommends" :key="item" :recommend="item"/>
-
+        <el-divider  content-position="left">暂无专家推荐</el-divider>
+    </div>
+    <div v-else>
+      <RecommendCard v-for="(item, index) in examplerecommends" :key="index" :recommend="item"/>
     </div>
 </template>
 

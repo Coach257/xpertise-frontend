@@ -39,7 +39,6 @@ export default {
       done();
     },
     refreshData() {
-      console.log("refreshData")
       var _this = this;
       let formData = new FormData();
       formData.append("user_id", this.userid);
@@ -57,7 +56,6 @@ export default {
         .then(function (response) {
           if (response && response.data.success === true) {
             _this.items = response.data.data;
-            console.log(_this.items);
           }
           else {
             alert("更新失败");
