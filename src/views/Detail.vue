@@ -103,13 +103,13 @@
         </div>
         <div class="result_detail_statistics_area" v-if="this.type === 'cs'">
           <div class="citation_stat" v-if="showyearcitation">
-            <h3>引用信息统计</h3>
+            <h3>Year Citation</h3>
             <paper-citation
               :year_citation="this.article.citation_by_year"
             ></paper-citation>
           </div>
           <div v-if="showreference">
-            <h3>引用关系图谱</h3>
+            <h3>Reference Graph</h3>
             <reference-chart :data="this.referencedata"></reference-chart>
           </div>
         </div>

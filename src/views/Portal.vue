@@ -136,7 +136,8 @@
                             {{ index + 1 + (currentPage1 - 1) * eachPage }}
                           </div>
                           <div style="width: 1100px">{{ paper.title }}</div>
-                          <div class="citation">被引{{ paper.r }}次</div>
+                          <div class="citation2">第{{paper.r}}作者</div>
+                          <div class="citation">被引{{ paper.n_citation }}次</div>
                         </router-link>
                       </div>
 
@@ -407,7 +408,7 @@ export default {
         "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
       tableDatainfo: [
         {
-          info: "h指数: " + localStorage.getItem("h_index"),
+          info: "H指数: " + localStorage.getItem("h_index"),
         },
         {
           info: "发表论文数量: " + localStorage.getItem("n_pubs"),
@@ -500,11 +501,8 @@ export default {
         this.papers.push(JSON.parse(one[kkey]));
       this.total1 = this.papers.length;
       this.papers.sort(function (a1, b1) {
-        return b1.r - a1.r;
+        return b1.n_citation - a1.n_citation;
       });
-      console.log("taaaaaaaaa");
-      console.log(this.total1);
-      //this.papers.push(JSON.parse(one[0][i]))
     },
     routerPush() {
       this.$router.push("/detail/" + "main" + "/" + "53e99e99b7602d970275f7a6");
@@ -747,5 +745,26 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.citation2 {
+  white-space: nowrap;
+
+  position: relative;
+  right: 5px;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  background-color: #dace0a;
+  color: white;
+
+  border-radius: 10px;
+
+  padding: 2px 8px 2px 8px;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  margin-top: 3px;
 }
 </style>
