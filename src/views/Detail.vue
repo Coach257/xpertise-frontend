@@ -854,7 +854,7 @@ export default {
       formData.append("paper_id", this.article.paper_id);
       formData.append("paper_title", this.article.title);
       formData.append("n_citation", this.article.n_citation);
-      formData.append("hindex", localStorage.getItem("h_index"));
+      formData.append("h_index", localStorage.getItem("h_index"));
       formData.append("reason", this.recommendForm.reason);
       let config = { headers: { "Content-Type": "multipart/form-data" } };
       axios.post(testurl, formData, config).then((response) => {
