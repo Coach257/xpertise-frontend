@@ -171,15 +171,15 @@ export default {
             axios.post('https://go-service-296709.df.r.appspot.com/api/v1/admin/authorize/request', formData,config)
                 .then(function (response) {
                     if (response){
-                        alert("申请成功")
+                        _this.success();
                         _this.$router.replace("/home")
                     }
                     else {
-                        console.log("error2");
+                        _this.fail();
                     }
                 })
                 .catch(function () {
-                    console.log("error");
+                    _this.fail();
                 });
         },
         mouseOver () {
@@ -187,7 +187,16 @@ export default {
         },
         mouseLeave () {
           this.$gsap.to("#RegisterButton", {duration: 0.1, height: '70px', width: '70px', top: '60px',  boxShadow:'0px 0px 10px 0px #b3b3b3'})
-        }
+        },
+        success() {
+          this.$message({
+            message: '申请成功',
+            type: 'success'
+          });
+        },
+        fail() {
+          this.$message.error('申请失败');
+        },
     },
     mounted() {
         this.settleForm.username = localStorage.getItem('username')
