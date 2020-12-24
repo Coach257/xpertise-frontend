@@ -57,7 +57,7 @@ export default {
         .then(function (response) {
           if (response && response.data.success === true) {
             _this.items = response.data.data;
-            console.log("success");
+            console.log(_this.items);
           }
           else {
             alert("更新失败");
