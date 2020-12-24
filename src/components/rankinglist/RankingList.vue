@@ -165,7 +165,6 @@ export default {
             let list = response.data.data;
             let Maximum;
             Maximum = list[0].value;
-            console.log(list[0].paper_title);
             for(let i = 0; i < Math.min(list.length, 7); i++) {
               let item = {
                 rank: 0,
@@ -180,7 +179,6 @@ export default {
               item.url = "/author/cs/" + list[i].paper_id;
               _this.itemList.push(item);
             }
-            console.log(_this.itemList);
             _this.contendLoaded = true;
           } else {
             console.log(response);

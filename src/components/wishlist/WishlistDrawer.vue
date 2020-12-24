@@ -14,6 +14,7 @@
       v-if="userid"
       :with-header="true"
     >
+    <el-button @click="readall">批量阅读</el-button>
       <el-divider content-position="left">我的清单</el-divider>
       <WishlistCard v-for="(wish,index) in items" :key="index" :wish="wish" :delete_call_back="refreshData" />
     </el-drawer>
@@ -26,6 +27,9 @@ export default {
   name: "WishlistDrawer",
   components: { WishlistCard },
   methods: {
+    readall(){
+
+    },
     openDrawer() {
       if(this.userid){
         this.refreshData()
@@ -57,7 +61,7 @@ export default {
         .then(function (response) {
           if (response && response.data.success === true) {
             _this.items = response.data.data;
-            console.log(_this.items);
+            console.log("success");
           }
           else {
             alert("更新失败");

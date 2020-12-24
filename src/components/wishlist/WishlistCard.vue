@@ -13,7 +13,7 @@
         ></el-button>
       </div>
       <div class="wishlist_card_info">
-        <!-- <el-divider content-position="left">操作</el-divider> -->
+        <el-divider content-position="left">操作</el-divider>
 
         <el-button
           slot="reference"
@@ -28,7 +28,7 @@
         <el-button
           style="height: 50; margin-left: 10px"
           type="primary"
-          @click="onShare"
+          v-clipboard:copy="copylink"
           icon="el-icon-share"
           >分享链接</el-button
         >
@@ -45,46 +45,25 @@ export default {
     DetailPreview,
   },
   props: {
-    wish: {},
+    wish: {
+    },
     click_call_back: {
       //定义一个外来方法
       type: Function,
     },
+    url:"",
   },
-  mounted() {},
+  computed: {
+    copylink(){
+      return window.location.href.split('/')[2]+ '/detail/' + this.$props.wish.type + '/' + this.$props.wish.paper_id;
+    } 
+  },
   methods: {
     getid() {
       return this.$props.wish.paper_id;
     },
     onSee() {
-      window.open(
-        "/detail/" +
-          this.$props.wish.paper_type +
-          "/" +
-          this.$props.wish.paper_id
-      );
-    },
-    onShare() {
-        const input = document.createElement("input");
-        input.setAttribute("readonly", "readonly");
-        input.setAttribute(
-          "value",
-          window.location.host.toString() +
-            "/detail/" +
-            this.$props.wish.paper_type +
-            "/" +
-            this.$props.wish.paper_id
-        );
-        document.body.appendChild(input);
-        input.select();
-        if (document.execCommand("copy")) {
-          document.execCommand("copy");
-          this.$message({
-            message: "链接已复制成功",
-            type: "success",
-          });
-        }
-        document.body.removeChild(input);
+      window.open('/detail/' + this.$props.wish.type + '/' + this.$props.wish.paper_id);
     },
     onDelete() {
       let that = this;
