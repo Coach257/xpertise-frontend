@@ -89,7 +89,6 @@ export default {
       let config = { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(commenturl, formData, config).then((response) => {
         if (response) {
-          //console.log(response);
           if (response.data.success) {
             that.getCommentList();
           } else {

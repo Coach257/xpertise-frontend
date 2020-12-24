@@ -206,20 +206,10 @@ export default {
                    localStorage.setItem('user_type',response.data.data.user_type)
                    localStorage.setItem('ban',response.data.data.ban)
                    localStorage.setItem('basic_info',response.data.data.basic_info)
-                   //
-                   // sessionStorage.clear()
-                   // sessionStorage.setItem('userid',response.data.data.user_id)
-                   // sessionStorage.setItem('username',response.data.data.username)
-                   // sessionStorage.setItem('email',response.data.data.email)
-                   // sessionStorage.setItem('user_type',response.data.data.user_type)
-                   // sessionStorage.setItem('ban',response.data.data.ban)
-                   // sessionStorage.setItem('basic_info',response.data.data.basic_info)
-
                   if(response.data.data.user_type == 2) {
                     _this.getAuthorInfo(response.data.data.user_id);
                   }
                   else {
-                    console.log("登陆成功");
                     _this.$router.replace('/home');
                     window.location.reload();
                   }

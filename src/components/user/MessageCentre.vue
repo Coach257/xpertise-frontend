@@ -19,7 +19,6 @@ export default {
     var _this = this;
     let formData = new FormData();
     formData.append('user_id', localStorage.getItem("userid"));
-    console.log(localStorage.getItem("userid"));
     let config = {headers: {'Content-Type': 'multipart/form-data'}};
     this.$axios.post(testUrl, formData, config).then(response => {
       if (response) {
@@ -45,7 +44,6 @@ export default {
               organization: "DEBUG XXX XX CN XXXX"
             })
           }
-          console.log(response.data)
         }
       } else {
         console.log("error");

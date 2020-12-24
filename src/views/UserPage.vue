@@ -1,5 +1,5 @@
 <template>
-   
+
     <div>
       <h1>欢迎来到 {{ this.$route.params.userid }} 的个人信息页面 </h1>
         <div>
@@ -40,7 +40,7 @@ export default {
                 basic_info: '',
             },
         };
-        
+
     },
     methods: {
         getInfo() {
@@ -54,50 +54,24 @@ export default {
             };
             var _this = this;
             axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/info', formData, config).then(response => {
-                if(response) {
-                     if(response) {
-                        if(response.data.success) {
-                            console.log(response)
-                            _this.userinfo.username = response.data.data.username
-                            _this.userinfo.email = response.data.data.email
-                            _this.userinfo.basic_info = response.data.data.basic_info
-                            _this.userinfo.password = response.data.data.password
-                        }
-                        else {
-                            console.log(response.data)
-                            console.log("获取失败 " + response.data)
-                        }
+                 if(response) {
+                    if(response.data.success) {
+                      _this.userinfo.username = response.data.data.username
+                      _this.userinfo.email = response.data.data.email
+                      _this.userinfo.basic_info = response.data.data.basic_info
+                      _this.userinfo.password = response.data.data.password
                     }
+                    else
+                      console.log("获取失败 " + response.data)
                 }
                 else {
                     console.log("error");
                 }
             })
-            // var _this = this;
-            // axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/return/account_info/:userid', formData, config)
-            // .then(function(response) {
-                // if(response) {
-                //     if(response.data.success) {
-                //         console.log(response)
-                //         _this.userinfo.username = response.data.data.username
-                //         _this.userinfo.email = response.data.data.email
-                //         _this.userinfo.basic_info = response.data.data.basic_info
-                //         _this.userinfo.password = response.data.data.password
-                //     }
-                //     else {
-                //         console.log(userid)
-                //         console.log(response.data)
-                //         console.log("获取失败 " + response.data)
-                //     }
-                //     //_this.username = response.data.
-                // }
-            // }).catch(error=> {
-            //     console.log('error', error);
-            // })
         }
     },
     mounted() {
         this.getInfo();
-  }
+    }
 }
 </script>

@@ -16,11 +16,7 @@ export default{
   name: "RecommendSection",
   props: ['recommends'],
   mounted() {
-      // this.examplerecommends.push(this.recommendExample);
       this.getRecommendation();
-    //   this.examplerecommends.push(this.recommendExample),
-    //   this.examplerecommends.push(this.recommendExample)
-    // this.$data.itemExample;
   },
   methods: {
     getRecommendation(){
@@ -31,7 +27,6 @@ export default{
       let config = { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(testurl, formData, config).then((response) => {
         if (response) {
-          console.log(response);
           if (response.data.success) {
             let list = response.data.data;
             for(let i = 0; i < list.length; i++) {

@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     getLikeCount(){return this.comment.like + (this.vote === 1?1:0);},
-    getDislikeCount(){return this.comment.dislike + (this.vote === 2?1:0);},  
+    getDislikeCount(){return this.comment.dislike + (this.vote === 2?1:0);},
     getLikeType(){
       if(this.vote === 1)return "success";
       else return "plain";
@@ -65,7 +65,6 @@ export default {
       let config = { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(testurl, formData, config).then((response) => {
         if (response) {
-          console.log(response);
           if (response.data.success) {
             this.vote = method;
           } else {
@@ -83,7 +82,6 @@ export default {
       let config= { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(opeurl, formData, config).then((response) => {
         if (response) {
-          console.log(response);
           if (response.data.success) {
             window.location.reload();
           } else {
