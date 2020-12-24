@@ -44,6 +44,7 @@ export default {
       let that = this;
       let formData = new FormData();
       formData.append("paper_id", this.id);
+      formData.append("user_id",localStorage.getItem("userid"))
       let config = { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(testurl, formData, config).then((response) => {
         if (response) {
@@ -61,6 +62,8 @@ export default {
                 on_top: list[i]['on_top'],
                 paper_id: list[i]['paper_id'],
                 user_id: list[i]['user_id'],
+                author_name: list[i]['author_name'],
+                status:list[i]['status'],
               })
             }
           } else {
@@ -86,6 +89,7 @@ export default {
       formData.append("paper_id", this.id);
       formData.append("content", this.textarea);
       formData.append("user_id", localStorage.getItem("userid"));
+      formData.append("author_name", localStorage.getItem("name"));
       let config = { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(commenturl, formData, config).then((response) => {
         if (response) {

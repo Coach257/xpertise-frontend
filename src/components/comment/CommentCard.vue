@@ -5,12 +5,15 @@
         <div class="comment_head">
         <div class="comment_avatar"><i class="el-icon-success" v-if=this.comment.on_top>置顶 </i>
           <i class="el-icon-user"/></div>
-        <div class="comment_username">  {{ this.comment.username }}</div><br/>
+          <div class="comment_username" v-if="judgeSettle">  {{ this.comment.author_name.toUpperCase() }} </div>
+          <div class="comment_username" v-else-if="commentOperate">  (作者本人) </div>
+          <div class="comment_username" v-else>  {{ this.comment.username }}</div>
+          <br/>
         <div class="comment_create_time">{{ this.comment.create_time }}</div></div>
         <div class="comment_actions">
         <el-button-group>
-          <el-button icon="el-icon-top" :type="getLikeType()" @click="dislikeOrLikeComment(1)">顶 {{this.getLikeCount()}}</el-button>
-          <el-button icon="el-icon-bottom" :type="getDislikeType()" @click="dislikeOrLikeComment(2)">踩 {{this.getDislikeCount()}}</el-button>
+          <el-button icon="el-icon-top" :type="getLikeType()" @click="dislikeOrLikeComment(1)" :disabled="cannotlike()">顶 {{this.getLikeCount()}}</el-button>
+          <el-button icon="el-icon-bottom" :type="getDislikeType()" @click="dislikeOrLikeComment(2)" :disabled="cannotdislike()">踩 {{this.getDislikeCount()}}</el-button>
           <el-button icon="el-icon-bottom" @click="operateComment(1)" v-if="this.commentOperate">置顶</el-button>
           <el-button icon="el-icon-bottom" @click="operateComment(3)" v-if=this.commentOperate>删除</el-button>
         </el-button-group>
@@ -33,6 +36,7 @@ export default {
     comment: Object,
   },
   mounted() {
+    console.log(this.comment)
     let list = JSON.parse(localStorage.getItem("paper_info"));
     if(list === null) return
     for(let i = 0; i < list.length; i++) {
@@ -40,17 +44,26 @@ export default {
       if(tmpt.id == this.comment.paper_id)
         this.commentOperate = true;
     }
+    this.judgeSettle = this.comment.author_name.length > 0;
   },
   methods: {
     getLikeCount(){return this.comment.like + (this.vote === 1?1:0);},
     getDislikeCount(){return this.comment.dislike + (this.vote === 2?1:0);},
     getLikeType(){
-      if(this.vote === 1)return "success";
+      if(this.cannotlike())return "success";
       else return "plain";
     },
     getDislikeType(){
-      if(this.vote === 2)return "success";
+      if(this.cannotdislike())return "success";
       else return "plain";
+    },
+    cannotlike(){
+      if(this.comment.status =='该条评论该用户已点赞')return true;
+      else return false;
+    },
+    cannotdislike(){
+      if(this.comment.status == '该条评论该用户已点踩')return true;
+      else return false;
     },
     handleClick2(method) {
       console.log(method);
@@ -96,12 +109,14 @@ export default {
     return {
       short_abstract: "",
       itemExample: {
-        username:"usernmae",
+        username: "",
         create_time:"2020-12-18 20:23:23",
         comment:"this is an example comment",
       },
       vote:0,
       commentOperate: false,
+      judgeSettle: false,
+      judgeSettle2: false,
     };
   },
 };
