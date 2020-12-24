@@ -119,8 +119,10 @@
               <CommentSection :id="this.$route.params.docid" :paper="this.article" ref="comment_child"/>
             </el-tab-pane>
             <el-tab-pane label="专家推荐"
-              ><RecommendSection :recommends="this.$data.recommends" ref="child"
-            /></el-tab-pane>
+            >
+              <RecommendSection :recommends="this.$data.recommends" ref="child"
+              />
+            </el-tab-pane>
           </el-tabs>
         </div>
       </div>
@@ -133,7 +135,8 @@
             icon="el-icon-document-copy"
             plain
             @click="documentcopyvisible = true"
-            >复制引用信息</el-button
+          >复制引用信息
+          </el-button
           >
           <br/>
           <br/>
@@ -145,7 +148,8 @@
               icon="el-icon-document"
               plain
               @click="seeOriginal"
-              >查看原文</el-button
+            >查看原文
+            </el-button
             >
             <el-button
               type="warning"
@@ -153,14 +157,16 @@
               v-if="article.starred === false"
               @click="addToFav"
               plain
-              >收藏</el-button
+            >收藏
+            </el-button
             >
             <el-button
               type="warning"
               icon="el-icon-star-on"
               v-else
               @click="removeFromFav"
-              >已收藏</el-button
+            >已收藏
+            </el-button
             >
             <el-button
               type="success"
@@ -168,36 +174,38 @@
               v-if="article.listed === false"
               @click="addToWishlist"
               plain
-              >加入清单</el-button
+            >加入清单
+            </el-button
             >
             <el-button
               type="success"
               icon="el-icon-document-delete"
               v-else
               @click="removeFromWishlist"
-              >移出清单</el-button
+            >移出清单
+            </el-button
             >
           </el-button-group>
           <br/>
           <el-button-group style="padding-top:10px">
-          <el-button
-            type="primary"
-            icon="el-icon-share"
-            v-if="isExpert"
-            @click="recommendVisible = true"
-          >
-            推荐
-          </el-button>
-          <el-button
-            type="primary"
-            icon="el-icon-share"
-            v-if="isExpert"
-            @click="openColumnList"
-          >
-            放入专栏
-          </el-button>
-        </el-button-group>
-        <br/><br/>
+            <el-button
+              type="primary"
+              icon="el-icon-share"
+              v-if="isExpert"
+              @click="recommendVisible = true"
+            >
+              推荐
+            </el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-share"
+              v-if="isExpert"
+              @click="openColumnList"
+            >
+              放入专栏
+            </el-button>
+          </el-button-group>
+          <br/><br/>
           <div class="statistics_citation">
             <h3>相关文章</h3>
             <br/>
@@ -236,7 +244,8 @@
             justify-content: center;
             margin-left: 10px;
           "
-          >复制</el-button
+        >复制
+        </el-button
         >
       </li>
     </el-dialog>
@@ -261,12 +270,12 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="recommendVisible = false"> 取 消</el-button>
-        <el-button type="primary" @click="recommendPaper"> 确 定 </el-button>
+        <el-button type="primary" @click="recommendPaper"> 确 定</el-button>
       </div>
     </el-dialog>
 
-    <el-dialog title="放入专栏" :visible.sync="columnsVisible" >
-      <el-table :data="columnList" style="width: 120%;align:center" >
+    <el-dialog title="放入专栏" :visible.sync="columnsVisible">
+      <el-table :data="columnList" style="width: 120%;align:center">
         <!-- <el-table-column label="ID" width="180">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>
@@ -290,7 +299,8 @@
               size="mini"
               type="primary"
               @click="handleDelete(scope.row.column_id)"
-              >加入专栏</el-button
+            >加入专栏
+            </el-button
             >
           </template>
         </el-table-column>
@@ -302,19 +312,21 @@
           style="width: 200px; margin-left: 80px; margin-right:200px;margin-top:15px"
         ></el-input>
         <el-button type="success" @click="addNewColumn"
-          >创建新的专栏并加入专栏中</el-button
+        >创建新的专栏并加入专栏中
+        </el-button
         >
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import { SearchDriver } from "@elastic/search-ui";
+import {SearchDriver} from "@elastic/search-ui";
 import SearchResults from "../components/search/SearchResults";
 import CommentSection from "../components/comment/CommentSection";
 import RelatedPaperChart from "../components/common/RelatedPaperChart.vue";
 import PaperCitation from "../components/common/PaperCitation.vue";
 import ReferenceChart from "../components/common/ReferenceChart.vue";
+
 const testurl =
   "https://go-service-296709.df.r.appspot.com/api/v1/portal/recommend/create";
 const columnUrl =
@@ -333,6 +345,7 @@ import {
 import axios from "axios";
 import commonApi from '../commonApi'
 import RecommendSection from "../components/recommendation/RecommendSection";
+
 var driver = null;
 
 export default {
@@ -461,6 +474,15 @@ export default {
         this.searchState = state;
       });
     },
+    success(msg) {
+      this.$message({
+        message: msg,
+        type: 'success'
+      })
+    },
+    fail(msg) {
+      this.$message.error(msg)
+    },
     // 添加收藏
     addToFav() {
       let that = this;
@@ -473,7 +495,7 @@ export default {
         authors: JSON.parse(JSON.stringify(this.article.authors)),
       };
       formData.append("paper_info", JSON.stringify(paperInfo));
-      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      let config = {headers: {"Content-Type": "multipart/form-data"}};
       axios
         .post(
           "https://go-service-296709.df.r.appspot.com/api/v1/user/favorite/add",
@@ -485,12 +507,14 @@ export default {
             if (response.data.success) {
               that.$data.article.starred = true;
             } else {
-              console.log("收藏失败" + response.data);
-              alert("收藏文献失败，请检查网络");
+              // console.log("收藏失败" + response.data);
+              // alert("收藏文献失败，请检查网络");
+              that.fail("收藏文献失败，请检查网络")
             }
           } else {
-            console.log("收藏失败" + response.data);
-            alert("收藏文献失败，请检查网络");
+            // console.log("收藏失败" + response.data);
+            // alert("收藏文献失败，请检查网络");
+            that.fail("收藏文献失败，请检查网络")
           }
         });
     },
@@ -503,7 +527,7 @@ export default {
       formData.append("type", this.type);
       formData.append("n_citation", this.article.n_citation);
       formData.append("year", this.article.year);
-      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      let config = {headers: {"Content-Type": "multipart/form-data"}};
       axios
         .post(
           "https://go-service-296709.df.r.appspot.com/api/v1/user/wish/add",
@@ -515,10 +539,12 @@ export default {
             if (response.data.success === true) {
               that.$data.article.listed = true;
             } else {
-              alert("添加失败，请检查网络");
+              // alert("添加失败，请检查网络");
+              that.fail("添加失败，请检查网络")
             }
           } else {
-            alert("添加失败，请检查网络");
+            // alert("添加失败，请检查网络");
+            that.fail("添加失败，请检查网络");
           }
         })
         .catch(function (e) {
@@ -562,11 +588,11 @@ export default {
                           that.$data.article.listed = false;
                         } else {
                           console.log("删除失败", response.data);
-                          alert("删除失败，请检查网络");
+                          that.fail("删除失败，请检查网络");
                         }
                       } else {
                         console.log("收藏失败", response.data);
-                        alert("删除失败，请检查网络");
+                        that.fail("删除失败，请检查网络");
                       }
                     })
                     .catch(function (e) {
@@ -576,11 +602,11 @@ export default {
               }
             } else {
               console.log("获取失败 " + response.data);
-              alert("列表获取失败，请检查网络");
+              that.fail("列表获取失败，请检查网络");
             }
           } else {
             console.log("获取失败 " + response.data);
-            alert("列表获取失败，请检查网络");
+            that.fail("列表获取失败，请检查网络");
           }
         });
     },
@@ -622,22 +648,22 @@ export default {
                           that.$data.article.starred = false;
                         } else {
                           console.log("删除失败", response.data);
-                          alert("取消收藏失败，请检查网络");
+                          that.fail("取消收藏失败，请检查网络");
                         }
                       } else {
                         console.log("收藏失败", response.data);
-                        alert("取消收藏失败，请检查网络");
+                        that.fail("取消收藏失败，请检查网络");
                       }
                     });
                 }
               }
             } else {
               console.log("获取失败 " + response.data);
-              alert("收藏列表获取失败，请检查网络");
+              that.fail("收藏列表获取失败，请检查网络");
             }
           } else {
             console.log("获取失败 " + response.data);
-            alert("收藏列表获取失败，请检查网络");
+            that.fail("收藏列表获取失败，请检查网络");
           }
         });
     },
@@ -773,9 +799,11 @@ export default {
     },
 
     // 加载评论
-    loadcomment() {},
+    loadcomment() {
+    },
     // 加载推荐
-    loadrecommand() {},
+    loadrecommand() {
+    },
     // 复制引用信息
     loaddocumentcopyinfo() {
       var info = "";
@@ -856,7 +884,7 @@ export default {
       formData.append("n_citation", this.article.n_citation);
       formData.append("h_index", localStorage.getItem("h_index"));
       formData.append("reason", this.recommendForm.reason);
-      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      let config = {headers: {"Content-Type": "multipart/form-data"}};
       axios.post(testurl, formData, config).then((response) => {
         if (response) {
           if (response.data.success) {
@@ -873,7 +901,7 @@ export default {
       let that = this;
       let formData = new FormData();
       formData.append("author_id", this.recommendForm.author_id);
-      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      let config = {headers: {"Content-Type": "multipart/form-data"}};
       axios.post(columnUrl, formData, config).then((response) => {
         if (response) {
           if (response.data.success) {
@@ -898,11 +926,11 @@ export default {
       formData.append("column_id", id);
       formData.append("paper_id", this.article.paper_id);
       formData.append("paper_title", this.article.title);
-      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      let config = {headers: {"Content-Type": "multipart/form-data"}};
       axios.post(addUrl, formData, config).then((response) => {
         if (response) {
           if (response.data.success) {
-            alert("添加成功")
+            that.success("添加成功")
           } else {
             console.log(response);
           }
@@ -914,11 +942,14 @@ export default {
       let formData = new FormData();
       formData.append("author_id", localStorage.getItem("authorId"));
       formData.append("column_name", this.columnForm.name);
-      if(this.columnForm.name==""){this.$notify({
+      if (this.columnForm.name == "") {
+        this.$notify({
           title: "提示",
           message: ("div", {class: 'el-icon-close', style: 'color: red'}, " 专栏名不能为空！"),
-        });return;}
-      let config = { headers: { "Content-Type": "multipart/form-data" } };
+        });
+        return;
+      }
+      let config = {headers: {"Content-Type": "multipart/form-data"}};
       axios.post(addColumnUrl, formData, config).then((response) => {
         if (response) {
           if (response.data.success) {
@@ -926,13 +957,13 @@ export default {
             this.handleDelete(response.data.column_id);
 
             this.$notify({
-          title: "提示",
-          message: ("div", {class: 'el-icon-check', style: 'color: green'}, " 创建并添加到专栏成功！"),
-        });
-        setTimeout(() => {
-        //代码
-        this.$router.go(0);
-     }, 500);
+              title: "提示",
+              message: ("div", {class: 'el-icon-check', style: 'color: green'}, " 创建并添加到专栏成功！"),
+            });
+            setTimeout(() => {
+              //代码
+              this.$router.go(0);
+            }, 500);
 
           } else {
             console.log("创建失败");
@@ -951,12 +982,14 @@ export default {
 
   font-size: 13px;
 }
+
 .result_detail_author {
   display: inline;
 
   font-size: 13px;
   color: royalblue;
 }
+
 .result_detail_page_container {
   display: flex;
   flex-direction: row;
@@ -964,6 +997,7 @@ export default {
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
+
 .result_detail_title_area {
   width: 85vw;
   padding: 0px 20px 20px;
@@ -972,17 +1006,19 @@ export default {
 .result_detail_main_area {
   width: 50vw;
 }
+
 .result_detail_comment_area {
   /* width: 100%; */
   margin-block-start: 30px;
 }
+
 .tabs_area {
   border-width: 1px;
   /* border-color: grey; */
   /* border-style: solid; */
   border-radius: 20px;
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1),
-    -2px -2px 20px rgba(255, 255, 255, 0.5);
+  -2px -2px 20px rgba(255, 255, 255, 0.5);
 }
 
 .result_detail_article_area {
@@ -995,18 +1031,21 @@ export default {
   padding: 15px 20px;
   /* background-image: linear-gradient(to right bottom, #abb7b7 ,#dadfe1); */
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1),
-    -2px -2px 20px rgba(255, 255, 255, 0.5);
+  -2px -2px 20px rgba(255, 255, 255, 0.5);
 }
+
 .result_detail_side_area {
   width: 30vw;
   padding: 0px 20px 20px;
   margin-top: 20px;
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1),
-    -2px -2px 20px rgba(255, 255, 255, 0.5);
+  -2px -2px 20px rgba(255, 255, 255, 0.5);
 }
+
 .result_detail_side_container {
   width: 100%;
 }
+
 .result_detail_statistics_area {
   margin-block-start: 30px;
   border-width: 1px;
@@ -1015,12 +1054,14 @@ export default {
   /* border-style: solid; */
   border-radius: 20px;
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1),
-    -2px -2px 20px rgba(255, 255, 255, 0.5);
+  -2px -2px 20px rgba(255, 255, 255, 0.5);
 }
+
 .citation_stat {
   margin: auto;
   vertical-align: middle;
 }
+
 .result_detail_title {
   font-weight: bold;
   font-size: 40px;
@@ -1028,6 +1069,7 @@ export default {
   margin-bottom: -5px;
   color: black;
 }
+
 .bottom_area {
   padding: 0vw 10vw 10vw 10vw;
   width: 80vw;
