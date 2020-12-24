@@ -55,23 +55,18 @@ export default {
   },
   methods: {
     selected (index) {
-       let count = 5
        let i
-
-       for (i=0; i<5 ;i++) {
-         if (this.disable[i]==true)count--
-       }
-
-
-       let tem = 0;//记录前面有几个失效
-       for (i=0; i<count ;i++) {
-         if (this.disable[i]==true)tem++
-
-         if (i!=index)this.show[i+tem] = false
-         else {
-            this.show[index+tem] = true
-         }
-       }
+       let tem = -1;//记录现在是第几个有效的
+       for (i=0; i<5; i++) {
+        if (this.disable[i]==false){
+          tem++;
+          if (tem == index) {
+            this.show[i] = true;
+          }
+          else this.show[i]=false;
+        } else {
+          continue;
+        }}
     },
   },
   mounted(){

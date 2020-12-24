@@ -30,8 +30,11 @@ export default {
             type: "category",
             data: [],
             axisTick: {
-              alignWithLabel: true,
+              alignWithLabel: false,
             },
+            axisLabel:{
+              show:false,
+            }
           },
         ],
         yAxis: [
@@ -45,6 +48,11 @@ export default {
             type: "bar",
             barWidth: "60%",
             data: [],
+            label:{
+              show:true,
+              rotate:90,
+              formatter:'{b}'
+            }
           },
         ],
       },

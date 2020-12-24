@@ -36,7 +36,7 @@ const csaffiliationconnector = new AppSearchAPIConnector({
 
 
 const mainpaperconfig = {
-  debug: true,
+  debug: false,
   apiConnector: mainpaperconnector,
   searchQuery: {
     disjunctiveFacets: ["year", "lang","venue","authors"],
@@ -58,7 +58,7 @@ const mainpaperconfig = {
 };
 
 const mainauthorconfig = {
-  debug: true,
+  debug: false,
   apiConnector: mainauthorconnector,
   searchQuery: {
     disjunctiveFacets: [],

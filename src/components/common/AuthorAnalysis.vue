@@ -33,6 +33,15 @@ export default {
             axisTick: {
               alignWithLabel: true,
             },
+            axisLabel: {
+              interval: 0,
+              rotate: 45, //倾斜度 -90 至 90 默认为0
+              margin: 6,
+              textStyle: {
+                fontWeight: "bolder",
+                color: "#000000",
+              },
+            },
           },
         ],
         yAxis: [
