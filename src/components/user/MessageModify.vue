@@ -1,24 +1,37 @@
 <template>
   <div>
-    <h1>欢迎来到 {{ userinfo.username }} 的个人信息修改页面</h1>
-    <el-form :label-position="labelPosition" label-width="80px" :model="userinfo">
-      <el-form-item label="用户名">
-        <el-input v-model="userinfo.username"></el-input>
+
+		<h1>欢迎来到 {{ userinfo.username }} 的个人信息修改页面</h1>
+
+		<div class="wrapper">
+		<el-form :label-position="labelPosition" label-width="80px" :model="userinfo">
+		  <el-form-item label="用户名">
+			<el-input v-model="userinfo.username"></el-input>
+		  </el-form-item>
+      <!-- TODO：基本信息 -->
+      <el-form-item label="基本信息">
+      <el-input></el-input>
       </el-form-item>
-      <el-form-item label="描述">
-        <el-input v-model="userinfo.basic_info"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱">
-        <el-input v-model="userinfo.email"></el-input>
-      </el-form-item>
-      <el-form-item label="原密码">
-        <el-input v-model="userinfo.password1"></el-input>
-      </el-form-item>
-      <el-form-item label= "新密码">
-        <el-input v-model="userinfo.password2"></el-input>
-      </el-form-item>
-      <el-button type="primary" icon="el-icon-check" @click="saveChange('userinfo')">保存</el-button>
-    </el-form>
+		  <el-form-item label="描述">
+			<el-input v-model="userinfo.basic_info"></el-input>
+		  </el-form-item>
+		  <el-form-item label="邮箱">
+			<el-input v-model="userinfo.email"></el-input>
+		  </el-form-item>
+		  <el-form-item label="原密码">
+			<el-input v-model="userinfo.password1"></el-input>
+		  </el-form-item>
+		  <el-form-item label= "新密码">
+			<el-input v-model="userinfo.password2"></el-input>
+		  </el-form-item>
+
+      <center>
+		  <el-button type="primary" icon="el-icon-check" @click="saveChange('userinfo')">保存</el-button>
+      </center>
+		</el-form>
+		</div>
+
+
   </div>
 </template>
 
@@ -137,5 +150,13 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  border: #e6e6e6 solid thin;
+  border-radius: 30px;
+  box-shadow: 0px 0px 50px 10px rgba(127, 127, 127, 0.2);
+  padding: 20px;
+  margin: 40px;
+  width: 1000px;
 
+}
 </style>
