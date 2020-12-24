@@ -186,6 +186,7 @@ export default {
         if(newcontendLoaded == true) {
           this.$router.replace('/home');
           window.location.reload();
+          _this.success();
         }
       }
     },
@@ -212,9 +213,12 @@ export default {
                   else {
                     _this.$router.replace('/home');
                     window.location.reload();
+                    _this.success();
                   }
+
                 }else {
-                   console.log("登录失败");
+                   _this.fail();
+                   // console.log("登录失败");
                 }
             })
       },
@@ -228,6 +232,7 @@ export default {
             if (response.data.success) {
               localStorage.setItem('authorId', response.data.message.author_id);
               that.getPaperInfo(response.data.message.author_id);
+              that.success();
             } else {
               console.log(response);
             }
@@ -244,14 +249,22 @@ export default {
         driver.subscribeToStateChanges((state) => {
           this.searchState = state;
         });
-
       },
        mouseOver () {
          this.$gsap.to("#LoginButton", {duration: 0.1, height: '85px', width: '85px', top: '52px',  boxShadow:'0px 0px 10px 10px rgba(128, 128, 128, 0.3)'})
        },
        mouseLeave () {
          this.$gsap.to("#LoginButton", {duration: 0.1, height: '70px', width: '70px', top: '60px',  boxShadow:'0px 0px 10px 0px #b3b3b3'})
-       }
+       },
+       success() {
+         this.$message({
+           message: '登录成功',
+           type: 'success'
+         });
+       },
+       fail() {
+         this.$message.error('登录失败');
+       },
     }
   }
 </script>
