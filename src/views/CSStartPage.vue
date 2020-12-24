@@ -17,10 +17,10 @@
     </div>
 
     <div v-if='!show' id='rankinglist'>
-      <RankingList title="Hot Paper" type="cs"/>
-      <RankingList title='Top Paper' type='cs'/>
-      <RankingList title='Top Author' type='cs'/>
-      <RankingList title='Top Affiliation' type='cs'/>
+      <RankingList class='list' title="Hot Paper" type="cs"/>
+      <RankingList class='list' title='Top Paper' type='cs'/>
+      <RankingList class='list' title='Top Author' type='cs'/>
+      <RankingList class='list' title='Top Affiliation' type='cs'/>
 
     </div>
 
@@ -131,7 +131,7 @@ export default {
 
 #rankinglist {
   /* outline: #21ff06 dotted thick; */
-  width: 1500px;
+  /* width: 1500px; */
 
   display: flex;
   align-items: flex-start;
@@ -139,6 +139,9 @@ export default {
 
   position: relative;
   top: -150px;
+}
+.list{
+  margin: 25px;
 }
 #paper-chart{
   position: relative;top: -115px;
