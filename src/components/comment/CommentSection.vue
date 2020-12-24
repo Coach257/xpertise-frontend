@@ -44,6 +44,7 @@ export default {
       let that = this;
       let formData = new FormData();
       formData.append("paper_id", this.id);
+      formData.append("user_id",localStorage.getItem("userid"))
       let config = { headers: { "Content-Type": "multipart/form-data", }, };
       axios.post(testurl, formData, config).then((response) => {
         if (response) {
@@ -62,6 +63,7 @@ export default {
                 paper_id: list[i]['paper_id'],
                 user_id: list[i]['user_id'],
                 author_name: list[i]['author_name'],
+                status:list[i]['status'],
               })
             }
           } else {
