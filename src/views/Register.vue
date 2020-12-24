@@ -66,7 +66,7 @@
     background-image: url(../assets/RegisterBack.jpeg);
     background-repeat:no-repeat;
     background-size:100% 100%;
-    
+
     width: 100vw;
     height: 100vh;
   }
@@ -153,7 +153,7 @@ import axios from "axios"
       };
     },
     mounted() {
-      
+
     },
     methods: {
       regist(){
@@ -173,11 +173,10 @@ import axios from "axios"
             .then(function (response)  {
                 console.log(response)
                 if (response.data.success) {
-                   console.log("注册成功");
+                   _this.success();
                    _this.$router.replace('/login');
                 }else {
-                   console.log("注册失败");
-                   _this.$router.replace('/login');
+                   _this.fail();
                 }
             })
      },
@@ -192,7 +191,16 @@ import axios from "axios"
      },
      mouseLeave () {
        this.$gsap.to("#RegisterButton", {duration: 0.1, height: '70px', width: '70px', top: '60px',  boxShadow:'0px 0px 10px 0px #b3b3b3'})
-     }
+     },
+      success() {
+        this.$message({
+          message: '注册成功',
+          type: 'success'
+        });
+      },
+      fail() {
+        this.$message.error('注册失败');
+      },
     }
   }
 </script>
