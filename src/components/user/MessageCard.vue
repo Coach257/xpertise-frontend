@@ -50,20 +50,24 @@ export default {
       const h = this.$createElement
       axios.post(testUrl, formData, config).then(res => {
         if (res.data.success) {
+          _this.success();
           _this.isRead = true
-        } else {
-          this.$notify({
-            title: "提示",
-            message: h("div", {class: 'el-icon-close', style: 'color: red'}, " 系统出现异常！"),
-          })
         }
+        else
+          _this.fail();
       }).catch(err => {
-        this.$notify({
-          title: "提示",
-          message: h("div", {class: 'el-icon-close', style: 'color: red'}, " 网络出现异常！"),
-        })
+        _this.fail();
       })
-    }
+    },
+    success() {
+      this.$message({
+        message: '已读成功',
+        type: 'success'
+      });
+    },
+    fail() {
+      this.$message.error('已读失败');
+    },
   }
 
 }
