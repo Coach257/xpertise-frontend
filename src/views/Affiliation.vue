@@ -284,8 +284,12 @@ export default {
           this.affiliation.name = results.name.raw;
         if (results.authors) {
           raw = results.authors.raw;
-          for (let i = 0; i < raw.length; i++)
+          for (let i = 0; i < raw.length; i++){
             this.affiliation.authors.push(JSON.parse(raw[i]));
+          }
+          for(var i=0;i<this.affiliation.authors.length;i++){
+            this.affiliation.authors[i].name=this.commonApi.titleCase(this.affiliation.authors[i].name)
+          }
         }
         if (results.n_citation)
           this.affiliation.n_citation = results.n_citation.raw;
@@ -293,12 +297,18 @@ export default {
           this.affiliation.n_pubs = results.n_pubs.raw;
         if (results.pubs) {
           raw = results.pubs.raw;
-          for (let i = 0; i < raw.length; i++)
+          //console.log(raw)y
+          for (var i = 0; i < raw.length; i++){
+            //console.log(JSON.parse(raw[i]).name)
             this.affiliation.pubs.push(JSON.parse(raw[i]));
+            this.affiliation.pubs[i].title=this.commonApi.titleCase(this.affiliation.pubs[i].title)
+          }
+            
         }
 
+
         this.contendLoaded = true
-        // this.$refs.chart1.displayChart()
+        // this.$refs.chart1.displaChart()
         // this.$refs.chart2.displayChart()
         // this.$refs.chart3.displayChart()
         // this.$refs.chart4.displayChart()

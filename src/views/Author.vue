@@ -520,9 +520,14 @@ export default {
         this.author.h_index = results.h_index.raw;
       if (results.orgs && results.orgs.raw) {
         for (let i = 0; i < results.orgs.raw.length; i++) {
-          if (this.type === 1)
+          if (this.type === 1){
             this.author.orgs_cs.push(JSON.parse(results.orgs.raw[i]));
-          else this.author.orgs_main.push(results.orgs.raw[i]);
+            this.author.orgs_cs[i].name=this.commonApi.titleCase(this.author.orgs_cs[i].name)
+          }
+          else{
+            this.author.orgs_main.push(results.orgs.raw[i]);
+            this.author.orgs_main[i].name=this.commonApi.titleCase(this.author.orgs_main[i].name)
+          }
         }
       }
 
@@ -533,8 +538,10 @@ export default {
 
       if (results.pubs && results.pubs.raw) {
         raw = results.pubs.raw;
-        for (let i = 0; i < raw.length; i++)
+        for (let i = 0; i < raw.length; i++){
           this.author.pubs.push(JSON.parse(raw[i]));
+          this.author.pubs[i].title=this.commonApi.titleCase(this.author.pubs[i].title)
+        }
       }
 
       if (results.tags && results.tags.raw) {
