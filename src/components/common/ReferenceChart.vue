@@ -28,7 +28,7 @@ export default {
             bottom: "1%",
             right: "1%",
 
-            symbolSize: 10,
+            symbolSize: 2,
 
             lineStyle: {
               width: 2,
