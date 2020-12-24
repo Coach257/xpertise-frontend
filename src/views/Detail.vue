@@ -893,7 +893,6 @@ export default {
       });
     },
     handleDelete(id) {
-      console.log("删除");
       let that = this;
       let formData = new FormData();
       formData.append("column_id", id);
@@ -903,7 +902,7 @@ export default {
       axios.post(addUrl, formData, config).then((response) => {
         if (response) {
           if (response.data.success) {
-            console.log("放入专栏成功");
+            alert("添加成功")
           } else {
             console.log(response);
           }
