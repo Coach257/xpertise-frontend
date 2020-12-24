@@ -556,13 +556,11 @@ export default {
   background-color: #26beb8;
   color: white;
   text-align: center;
-  font-size: 32px;
+  font-size: 50px;
   font-weight: 500;
-
   padding: 2px 8px 2px 8px;
-  margin-top: 10px;
-
-  max-width: 300px;
+  margin-top: 20px;
+  max-width: 600px;
 }
 .info {
   border-radius: 10px;
