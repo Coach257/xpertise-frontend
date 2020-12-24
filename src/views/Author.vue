@@ -240,7 +240,7 @@
               this.currentPage * this.eachPage
             )"
             :key="pub.i"
-            :to="'/detail/main/' + pub.id"
+            :to="'/detail/main/' + pub.i"
             tag="a"
             target="_blank"
           >
