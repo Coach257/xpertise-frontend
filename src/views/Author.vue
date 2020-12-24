@@ -19,11 +19,11 @@
         </svg>
 
         <div id="authorName">
-          <div>{{ this.author.name }}</div>
+          <div>{{ this.commonApi.titleCase(this.author.name) }}</div>
         </div>
 
         <div id="authorNameFake">
-          <div>{{ this.author.name }}</div>
+          <div>{{ this.commonApi.titleCase(this.author.name) }}</div>
         </div>
 
         <div id="authorInfo">
@@ -136,7 +136,7 @@
       </div>
     </div>
 
-    <div style="height: 350px"></div>
+    <div style="height: 390px"></div>
 
     <div id="charts">
       <div class="datatitle" style="width: 1250px">
@@ -328,6 +328,7 @@
 </template>
 
 <script>
+import commonApi from "../commonApi"
 import { SearchDriver } from "@elastic/search-ui";
 import AuthorRelationMap from "../components/common/AuthorRelationMap.vue";
 import RelatedAuthorChart from "../components/common/RelatedAuthorChart.vue";

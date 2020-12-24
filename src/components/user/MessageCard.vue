@@ -1,13 +1,15 @@
 <template>
   <div class="message-card" v-if="!isRead">
-    <el-card>
+
       <div class="message-card-content">
         <!--          TODO: display message info-->
-        <div class="message-card-content-left"> {{ this.mes }}</div>
-        <div class="message-card-content-main"> {{ this.time }}</div>
+        <div id = 'leftinfo'>
+          <div id = 'mes' style="font-weight: bold;"> {{ this.mes }}</div>
+          <div id = 'mestime' style="margin-top: 10px; color: #666666"> {{ this.time }}</div>
+        </div>
         <el-button type="my_success" size="small" class="el-icon-check" @click="readMessage()" circle></el-button>
       </div>
-    </el-card>
+
   </div>
 </template>
 
@@ -68,51 +70,28 @@ export default {
 </script>
 
 <style scoped>
-
-.message-card-content-main {
-  display: inline-block;
-  width: 50%;
-  margin: 5px 0;
-}
-
-.message-card-content-right {
-  display: inline-block;
-  width: 30%;
-  margin: 5px 0;
-}
-
-.message-card-content-left {
-  display: inline-block;
-  width: 12%;
-  margin: 15px 0;
-}
-
-
-.message-card-header {
-  font-size: 20px;
-  /*font-family: ;*/
-}
-
-.message-card-content {
-  width: 100%;
-  height: 50px;
-  font-size: 15px;
-}
-
 .message-card {
   display: block;
   float: left;
-  width: 100%;
-  max-width: 700px;
-  height: 50%;
-  margin: 10px;
-}
+  width: 300px;
+  margin: 15px;
+  padding: 10px;
 
-.message-card-header {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  border: 1px solid #e8e6e9;
+  border-radius: 10px;
+  box-shadow: 0px 0px 8px 4px rgb(127,127,127,0.1);
+}
+.message-card-content {
+  /* outline:#00ff00 dotted thick; */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+}
+#leftinfo {
+  display: flex;
+  flex-direction: column;
 }
 
 .el-button--my_success.is-active,

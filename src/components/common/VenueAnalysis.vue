@@ -51,7 +51,7 @@ export default {
     };
   },
   mounted() {
-      console.log(this.$props.data)
+    // console.log(this.$props.data)
     this.loadoption();
     let myChart = this.$echarts.init(document.getElementById("VenueAnalysis"));
     myChart.setOption(this.option);

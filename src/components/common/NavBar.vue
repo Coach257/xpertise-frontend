@@ -2,7 +2,7 @@
   <div id="nav_bar">
     <div class="nav_bar_frame">
       <div class="nav_bar_icon">
-        <div class="nav_bar_icon_title_bold">Xpertise</div>
+        <div class="nav_bar_icon_title_bold" @click="backtostartpage">Xpertise</div>
         <div class="nav_bar_icon_title">Scholar</div>
       </div>
       <div class="nav_bar_item_outer_frame">
@@ -118,6 +118,10 @@ export default {
   },
   methods: {
     author(){ return localStorage.getItem("authorId")},
+    backtostartpage(){
+      this.$router.push('/home')
+      window.location.reload();
+    },
     onIndexChange(i) {
       console.log("change");
       this.active_index = i;

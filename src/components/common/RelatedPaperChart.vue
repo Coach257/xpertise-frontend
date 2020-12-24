@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import commonApi from '../../commonApi'
 export default {
   name: "RelatedPaperChart",
   props: ["data", "type"],
@@ -12,7 +13,7 @@ export default {
     return {
       option: {
         tooltip: {
-          trigger: "item",//todo
+          trigger: "item",
           formatter: "{b} <br/>相关性: {c} ({d}%)",
         },
         legend: {
@@ -59,7 +60,9 @@ export default {
   methods: {
     loadoption() {
       var data = this.$props.data;
+      console.log(data)
       for (let i = 0; i < data.length; i++) {
+        data[i].title.raw=this.commonApi.titleCase(data[i].title.raw)
         data[i].title.raw =
           data[i].title.raw.length < (this.funcChina(data[i].title.raw)?15:35)
             ? data[i].title.raw

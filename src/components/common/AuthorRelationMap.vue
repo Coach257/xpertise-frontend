@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import commonApi from '../../commonApi'
 export default {
   name: "AuthorRelationMap",
   props: ["data"],
@@ -22,15 +23,15 @@ export default {
             if (params.data.source || params.data.target) {
               return (
                 params.data.source_name +
-                "与" +//todo
+                "与" +
                 params.data.target_name +
-                "</br>" +//todo
-                "合作文献数量:" +
+                "</br>" +
+                "合作文献数量: " +
                 params.data.value
               );
             } else {
-              return (//todo
-                params.data.name + "</br>" + "h_index: " + params.data.value
+              return (
+                params.data.name + "</br>" + "h-index: " + params.data.value
               );
             }
           },
@@ -99,6 +100,17 @@ export default {
       // }
       // console.log(this.url)
       // console.log(this.$props.data.data)
+      var len = this.$props.data.data.length
+      for (let i=0;i<len;i++){
+        // console.log(this.commonApi.titleCase(this.$props.data.data[i].name))
+        this.$props.data.data[i].name=this.commonApi.titleCase(this.$props.data.data[i].name)
+      }
+      len=this.$props.data.links.length
+      for (let i=0;i<len;i++){
+        // console.log(this.$props.data.links[i])
+        this.$props.data.links[i].source_name=this.commonApi.titleCase(this.$props.data.links[i].source_name)
+        this.$props.data.links[i].target_name=this.commonApi.titleCase(this.$props.data.links[i].target_name)
+      }
       this.option.series[0].data = this.$props.data.data;
       this.option.series[0].links = this.$props.data.links;
     },

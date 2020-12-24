@@ -1,6 +1,7 @@
 <template>
   <div id="root">
     <h1>Test Page</h1>
+    <static-relation-map></static-relation-map>
 
     <!-- <RelationMap/> -->
     <!-- <organization-year-paper-chart :type="'Citation'"></organization-year-paper-chart>
@@ -11,7 +12,7 @@
 
     <SelectTitle :buttons='buttons'/> -->
     <!-- <author-relation-map></author-relation-map> -->
-    <reference-chart></reference-chart>
+<!--    <reference-chart></reference-chart>-->
   </div>
 </template>
 
@@ -23,10 +24,12 @@ import SelectTitle from '../components/common/SelectTitle.vue'
 import AuthorRelationMap from '../components/common/AuthorRelationMap.vue'
 import AuthorCompareChart from "@/components/common/AuthorCompareChart";
 import ReferenceChart from "../components/common/ReferenceChart.vue";
+import StaticRelationMap from "@/components/common/StaticRelationMap";
 
 export default {
   name: 'Test',
   components: {
+    StaticRelationMap,
     AuthorCompareChart,
     AuthorYearPaperChart,
     OrganizationYearPaperChart,

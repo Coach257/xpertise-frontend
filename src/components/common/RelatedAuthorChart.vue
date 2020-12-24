@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import commonApi from '../../commonApi'
 export default {
   name: "RelatedPaperChart",
   props: ["data", "authorid"],
@@ -16,7 +17,7 @@ export default {
           left: "center",
         },
         tooltip: {
-          trigger: "item",//todo
+          trigger: "item",
           formatter: "{b} <br/>合作篇数 : {c} ({d}%)",
         },
         legend: {
@@ -77,6 +78,7 @@ export default {
       var i = 0;
       for (i; i < len; i++) {
         if (id == data[i].author2_id) {
+          data[i].author1_name=this.commonApi.titleCase(data[i].author1_name)
           this.option.legend.data.push(data[i].author1_name);
           this.option.series[0].data.push({
             value: data[i].co_num,
@@ -84,6 +86,7 @@ export default {
             url: "/author/cs/" + data[i].author1_id,
           });
         } else {
+          data[i].author2_name=this.commonApi.titleCase(data[i].author2_name)
           this.option.legend.data.push(data[i].author2_name);
           this.option.series[0].data.push({
             value: data[i].co_num,
