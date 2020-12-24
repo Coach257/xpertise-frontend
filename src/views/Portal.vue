@@ -44,6 +44,8 @@
           <el-row :gutter="5">
             <el-col :span="20" :offset="2"><h1></h1></el-col>
           </el-row>
+          
+          <center>
           <div id="charts">
             <div class="datatitle" style="width: 1250px">
               <h2>数据统计</h2>
@@ -91,6 +93,8 @@
               v-if="this.relatedloaded"
             ></related-author-chart>
           </div>
+          </center>
+          
           <el-row :gutter="10">
             <el-col :span="20" :offset="2">
               <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -489,20 +493,10 @@ export default {
         });
     },
     getpapers() {
-      console.log("aa");
       var a = [];
-      //console.log(JSON.parse(localStorage.getItem("paper_info")))
-      //  for(var i=0;i< localStorage.getItem("paper_info").length;i++){
-      //    console.log(localStorage.getItem("paper_info"))
-      //    //this.papers.push(JSON.parse(localStorage.getItem("paper_info")[i]))
-      //  }
       var one = JSON.parse(localStorage.getItem("paper_info"));
-      //.log(JSON.parse(one[90]))
-      for (var kkey in one) {
-        //if(kkey == "title")
-
+      for (var kkey in one)
         this.papers.push(JSON.parse(one[kkey]));
-      }
       this.total1 = this.papers.length;
       this.papers.sort(function (a1, b1) {
         return b1.r - a1.r;
@@ -513,13 +507,6 @@ export default {
     },
     routerPush() {
       this.$router.push("/detail/" + "main" + "/" + "53e99e99b7602d970275f7a6");
-      // if (this.$props.option == 'paper') {
-      //   this.$router.push('/detail/'+this.type+'/'+this.paper.id)
-      // }else if(this.$props.option == 'author') {
-      //   this.$router.push('/author/'+this.type+'/'+this.author.id)
-      // }else {
-      //   this.$router.push('/affiliation/'+this.affiliation.id)
-      // }
     },
     handleClick(tab, event) {
       if (tab.name == "forth") {
@@ -531,14 +518,6 @@ export default {
     },
     showcolpapers() {
       driver = new SearchDriver(mainpaperconfig);
-      // for ( var i=0;i< this.papersincoll.length;i++){
-      //driver.addFilter("id",this.papersincoll[i].paper_id,"any")
-      // driver.addFilter("id","53e99e99b7602d970275f7a6","any")
-
-      //    driver.subscribeToStateChanges((state) => {
-      //   this.searchState = state;
-      // });
-      // console.log(this.papersincoll[i].paper_id);
     },
 
     checkau() {
@@ -552,12 +531,7 @@ export default {
       formData.append("total", 200);
       let config = { headers: { "Content-Type": "multipart/form-data" } };
       var _this = this;
-      axios
-        .post(
-          "https://go-service-296709.df.r.appspot.com/api/v1/portal/author_connection_graph",
-          formData,
-          config
-        )
+      axios.post("https://go-service-296709.df.r.appspot.com/api/v1/portal/author_connection_graph", formData, config)
         .then(function (response) {
           if (response.data.success) {
             _this.mapdata = response.data.message;

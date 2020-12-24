@@ -38,20 +38,20 @@
             >
               <div>
                 <div v-if="blankcol"> <a>空</a></div>
+
                 <router-link
+                  class="link"
+                  v-for="(paper,index) in colpapers"
+                  :key="index"
+                  :to="'/detail/cs/' + paper.id"
+                  tag="a"
+                  >
 
-            v-for="(paper,index) in colpapers"
-            :key="index"
-            :to="'/detail/cs/' + paper.id"
-            tag="a"
-            >
+                  <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
+                  <div style="width: 900px;"> {{ paper.name }} </div>
 
+                </router-link>
 
-              <div id='paperindex'>{{index+1+(currentPage1-1)*eachPage}}</div>
-              <div style="width: 900px;"> {{ paper.name }} </div>
-
-
-          </router-link>
               </div>
             </el-collapse-item>
           </el-collapse>
@@ -360,7 +360,7 @@ export default {
   margin-right: 10px;
 }
 .link {
-
+  text-decoration: none;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -370,6 +370,7 @@ export default {
   cursor: pointer;
   align-items: center;
 }
+
 
 a:link {
   color: #000000;

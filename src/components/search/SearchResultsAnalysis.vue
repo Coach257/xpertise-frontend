@@ -17,6 +17,14 @@
         <LangAnalysis v-if="langanalysis" :data="this.facets.lang"></LangAnalysis>
         </div>
 
+        <div v-if="show3">
+          <h1>机构排行</h1>
+        </div>
+
+        <div v-if="show4">
+          <h1>作者排行</h1>
+        </div>
+
       </div>
 
 
@@ -47,6 +55,8 @@ export default {
           show0: true,
           show1: false,
           show2: false,
+          show3: false,
+          show4: false
       }
   },
   methods: {
@@ -57,16 +67,36 @@ export default {
               this.show0 = true
               this.show1 = false
               this.show2 = false
+              this.show3 = false
+              this.show4 = false
               break;
           case 1:
               this.show0 = false
               this.show1 = true
               this.show2 = false
+              this.show3 = false
+              this.show4 = false
               break;
           case 2:
               this.show0 = false
               this.show1 = false
               this.show2 = true
+              this.show3 = false
+              this.show4 = false
+              break;
+          case 3:
+              this.show0 = false
+              this.show1 = false
+              this.show2 = false
+              this.show3 = true
+              this.show4 = false
+              break;
+          case 4:
+              this.show0 = false
+              this.show1 = false
+              this.show2 = false
+              this.show3 = false
+              this.show4 = true
               break;
       }
     }
@@ -85,6 +115,9 @@ export default {
           this.langanalysis = true;
           this.buttons.push('语言分析')
       }
+
+      this.buttons.push('机构排行')
+      this.buttons.push('作者排行')
   }
 
 };
