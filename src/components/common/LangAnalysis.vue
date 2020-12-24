@@ -14,7 +14,7 @@ export default {
         backgroundColor: "#2c343c",
 
         title: {
-          text: "Customized Pie",
+          text: "",
           left: "center",
           top: 20,
           textStyle: {
