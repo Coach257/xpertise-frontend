@@ -17,7 +17,7 @@
     </div>
 
     <div v-if='!show' id='rankinglist'>
-      <RankingList class='list' title="Hot Paper" type="main"/>
+      <!-- <RankingList class='list' title="Hot Paper" type="main"/> -->
       <RankingList class='list' title='Top Paper' type='main'/>
       <RankingList class='list' title='Top Author' type='main'/>
       <RankingList class='list' title='Top Affiliation' type='main'/>
@@ -136,7 +136,6 @@ export default {
 
 #rankinglist {
   /* outline: #21ff06 dotted thick; */
-  width: 1500px;
 
   display: flex;
   align-items: flex-start;
