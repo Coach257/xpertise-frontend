@@ -23,14 +23,14 @@ export default {
             if (params.data.source || params.data.target) {
               return (
                 params.data.source_name +
-                "与" +//todo
+                "与" +
                 params.data.target_name +
-                "</br>" +//todo
+                "</br>" +
                 "合作文献数量: " +
                 params.data.value
               );
             } else {
-              return (//todo
+              return (
                 params.data.name + "</br>" + "h-index: " + params.data.value
               );
             }
