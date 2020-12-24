@@ -126,7 +126,7 @@
       </div>
       <div class="result_detail_side_area">
         <div class="result_detail_side_container">
-          <br/> 
+          <br/>
           <h3>引用</h3>
           <br/>
           <el-button
@@ -771,35 +771,7 @@ export default {
         });
       return;
     },
-
-    isFav() {
-      let that = this;
-      let formData = new FormData();
-      formData.append("user_id", localStorage.getItem("userid"));
-      formData.append("paper_id", this.docid);
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      axios
-        .post(
-          "https://go-service-296709.df.r.appspot.com/api/v1/user/wish/paper_in_wish",
-          formData,
-          config
-        )
-        .then((response) => {
-          if (response) {
-            console.log(response.data);
-            if (response.data.message == "已在用户的心愿清单中") {
-              that.article.listed = true;
-            } else {
-              that.article.listed = false;
-            }
-          }
-        });
-      return;
-    },
+    
     // 加载评论
     loadcomment() {},
     // 加载推荐
