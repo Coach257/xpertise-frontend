@@ -67,6 +67,7 @@ export default {
         if (response) {
           if (response.data.success) {
             this.vote = method;
+            this.$parent.getCommentList();
           } else {
             console.log(response)
           }
@@ -83,7 +84,7 @@ export default {
       axios.post(opeurl, formData, config).then((response) => {
         if (response) {
           if (response.data.success) {
-            window.location.reload();
+            this.$parent.getCommentList();
           } else {
             console.log(response)
           }

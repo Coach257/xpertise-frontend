@@ -249,9 +249,9 @@
             :disabled="true"
           ></el-input>
         </el-form-item>
-        <el-form-item label="推荐人用户名" :label-width="formLabelWidth">
+        <el-form-item label="推荐人姓名" :label-width="formLabelWidth">
           <el-input
-            v-model="recommendForm.username"
+            v-model="recommendForm.name"
             :disabled="true"
           ></el-input>
         </el-form-item>
@@ -378,6 +378,7 @@ export default {
       },
       recommendForm: {
         username: "",
+        name: "",
         author_id: "",
         reason: "",
       },
@@ -442,6 +443,7 @@ export default {
       this.option = "paper";
       this.docid = this.$route.params.docid;
       this.recommendForm.username = localStorage.getItem("username");
+      this.recommendForm.name = localStorage.getItem("name");
       this.recommendForm.author_id = localStorage.getItem("authorId");
     },
     // 配置es连接器
@@ -848,7 +850,7 @@ export default {
       let that = this;
       let formData = new FormData();
       formData.append("author_id", this.recommendForm.author_id);
-      formData.append("author_name", this.recommendForm.username);
+      formData.append("author_name", this.recommendForm.name);
       formData.append("paper_id", this.article.paper_id);
       formData.append("paper_title", this.article.title);
       formData.append("n_citation", this.article.n_citation);
