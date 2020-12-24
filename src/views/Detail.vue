@@ -116,17 +116,17 @@
         <div class="result_detail_comment_area">
           <el-tabs class="tabs_area" type="border-card">
             <el-tab-pane label="评论">
-              <CommentSection :id="this.$route.params.docid" />
+              <CommentSection :id="this.$route.params.docid" ref="comment_child"/>
             </el-tab-pane>
             <el-tab-pane label="专家推荐"
-              ><RecommendSection :recommends="this.$data.recommends"
+              ><RecommendSection :recommends="this.$data.recommends" ref="child"
             /></el-tab-pane>
           </el-tabs>
         </div>
       </div>
       <div class="result_detail_side_area">
         <div class="result_detail_side_container">
-          <br/> 
+          <br/>
           <h3>引用</h3>
           <br/>
           <el-button
@@ -405,7 +405,6 @@ export default {
   },
   watch: {
     searchState(newsearchState) {
-      console.log(newsearchState);
       if (this.thereAreResults()) {
         if (this.driverlink == "thispaper") {
           this.getthispaper();
@@ -514,11 +513,9 @@ export default {
             if (response.data.success === true) {
               that.$data.article.listed = true;
             } else {
-              console.log("添加失败" + response.data);
               alert("添加失败，请检查网络");
             }
           } else {
-            console.log("添加失败" + response.data);
             alert("添加失败，请检查网络");
           }
         })
@@ -546,7 +543,6 @@ export default {
           if (response) {
             if (response.data.success) {
               let favorArray = response.data.data;
-              console.log(favorArray);
               for (let i = 0, len = favorArray.length; i < len; i++) {
                 if (favorArray[i].paper_id == this.article.paper_id) {
                   formData = new FormData();
@@ -676,8 +672,6 @@ export default {
         for (var i = 0; i < raw.length; i++) {
           this.article.keywords.push(raw[i]);
         }
-        console.log("keywords");
-        console.log(this.article.keywords);
       }
       if (results.n_citation && results.n_citation.raw)
         this.article.n_citation = results.n_citation.raw;
@@ -697,7 +691,6 @@ export default {
         this.article.issn = results.issn.raw;
       if (results.doi && results.doi.raw) this.article.doi = results.doi.raw;
       if (results.url && results.url.raw) this.article.url = results.url.raw[0];
-      console.log(this.article.url);
       this.articleloaded = true;
       this.loadrelatedpapers();
       this.loaddocumentcopyinfo();
@@ -761,7 +754,6 @@ export default {
         )
         .then((response) => {
           if (response) {
-            console.log(response.data);
             if (response.data.message == "true") {
               that.article.starred = true;
             } else {
@@ -772,34 +764,6 @@ export default {
       return;
     },
 
-    isFav() {
-      let that = this;
-      let formData = new FormData();
-      formData.append("user_id", localStorage.getItem("userid"));
-      formData.append("paper_id", this.docid);
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      axios
-        .post(
-          "https://go-service-296709.df.r.appspot.com/api/v1/user/wish/paper_in_wish",
-          formData,
-          config
-        )
-        .then((response) => {
-          if (response) {
-            console.log(response.data);
-            if (response.data.message == "已在用户的心愿清单中") {
-              that.article.listed = true;
-            } else {
-              that.article.listed = false;
-            }
-          }
-        });
-      return;
-    },
     // 加载评论
     loadcomment() {},
     // 加载推荐
@@ -873,6 +837,7 @@ export default {
       });
     },
     recommendPaper() {
+
       this.recommendVisible = false;
       let that = this;
       let formData = new FormData();
@@ -886,9 +851,9 @@ export default {
       let config = { headers: { "Content-Type": "multipart/form-data" } };
       axios.post(testurl, formData, config).then((response) => {
         if (response) {
-          console.log(response);
           if (response.data.success) {
             console.log("推荐成功");
+            this.$refs.child.getRecommendation();
           } else {
             console.log(response);
           }
@@ -903,7 +868,6 @@ export default {
       let config = { headers: { "Content-Type": "multipart/form-data" } };
       axios.post(columnUrl, formData, config).then((response) => {
         if (response) {
-          console.log(response);
           if (response.data.success) {
             this.columnList = [];
             console.log("查找专栏成功");
@@ -930,7 +894,6 @@ export default {
       let config = { headers: { "Content-Type": "multipart/form-data" } };
       axios.post(addUrl, formData, config).then((response) => {
         if (response) {
-          console.log(response);
           if (response.data.success) {
             console.log("放入专栏成功");
           } else {
