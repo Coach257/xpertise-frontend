@@ -5,8 +5,7 @@
         <div class="comment_head">
         <div class="comment_avatar"><i class="el-icon-success" v-if=this.comment.on_top>置顶 </i>
           <i class="el-icon-user"/></div>
-          <div class="comment_username" v-if="judgeSettle">  {{ this.comment.author_name.toUpperCase() }} </div>
-          <div class="comment_username" v-else-if="commentOperate">  (作者本人) </div>
+          <div class="comment_username" v-if="judgeSettle">  {{ this.comment.author_name }} </div>
           <div class="comment_username" v-else>  {{ this.comment.username }}</div>
           <br/>
         <div class="comment_create_time">{{ this.comment.create_time }}</div></div>
