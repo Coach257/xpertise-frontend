@@ -149,5 +149,6 @@ export default {
   border-radius: 30px;
   box-shadow:inset 0px 0px 10px 6px rgb(50,50,50,0.1);
   padding: 20px 40px 20px 40px;
+  margin-bottom: 40px;
 }
 </style>

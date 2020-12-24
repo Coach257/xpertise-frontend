@@ -4,19 +4,19 @@
   <div class="search-result__heading" v-if="ispaper">
     <i class="el-icon-document" attr='el-icon'></i>
     <div id='docTitle'>
-      {{ this.paper.title }}
+      {{ this.commonApi.titleCase(this.paper.title) }}
     </div>
   </div>
   <div class="search-result__heading" v-if="isauthor">
     <i class="el-icon-s-custom" attr='el-icon'></i>
     <div id='docTitle'>
-      {{ this.author.name }}
+      {{ this.commonApi.titleCase(this.author.name) }}
     </div>
   </div>
    <div class="search-result__heading" v-if="isaffiliation">
     <i class="el-icon-office-building" attr='el-icon'></i>
     <div id='docTitle'>
-      {{ this.affiliation.name }}
+      {{ this.commonApi.titleCase(this.affiliation.name) }}
     </div>
   </div>
 
@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import commonApi from "../../commonApi"
 export default {
   props: {
     result: {
@@ -158,6 +159,7 @@ export default {
         return
       } else {
         this.paper.authors.push(JSON.parse(value).name);
+        //this.paper.authors[authorNum].name=this.commonApi.titleCase(this.paper.authors[authorNum].name)
         this.paper.authorNum++;
       }
     },
@@ -171,6 +173,7 @@ export default {
         return
       } else {
         this.affiliation.authors.push(JSON.parse(value).name);
+        //this.affiliation.authors[authorNum].name=this.commonApi.titleCase(this.affiliation.authors[authorNum].name)
         this.affiliation.authorNum++;
       }
     },
@@ -178,6 +181,7 @@ export default {
       var limit = 10
       if (this.author.pubsnum == limit){
         this.author.pubs.push('...');
+        //this.author.pubs[pubsnum].title=this.commonApi.titleCase(this.author.pubs[pubsnum].title)
         this.author.pubsnum ++;
         return ;
       }
@@ -186,6 +190,7 @@ export default {
       }
       else {
         this.author.pubs.push(JSON.parse(value).title);
+        //this.author.pubs[pubsnum].title=this.commonApi.titleCase(this.author.pubs[pubsnum].title)
         this.author.pubsnum ++;
       }
     },
@@ -207,28 +212,29 @@ export default {
         return
       } else {
         this.affiliation.pubs.push(JSON.parse(value).title);
+        //this.affiliation.pubs[pubsnum].title=this.commonApi.titleCase(this.affiliation.pubs[pubsnum].title)
         this.affiliation.pubsnum++;
       }
     },
     routerPush () {
-      console.log(" 至诚不悖否?")
+      //console.log(" 至诚不悖否?")
       if (this.$props.option == 'paper') {
         let routeData = this.$router.resolve({ path: '/detail/'+this.type+'/'+this.paper.id, query: {  id: 1 } });
         window.open(routeData.href, '_blank');
-        console.log(" 言行不耻否?")
+        //console.log(" 言行不耻否?")
         //this.$router.push('/detail/'+this.type+'/'+this.paper.id)
       }else if(this.$props.option == 'author') {
         let routeData = this.$router.resolve({ path: '/author/'+this.type+'/'+this.author.id, query: {  id: 1 } });
         window.open(routeData.href, '_blank');
-        console.log(" 气力无缺否?")
+        //console.log(" 气力无缺否?")
         //this.$router.push('/author/'+this.type+'/'+this.author.id)
       }else {
         let routeData = this.$router.resolve({ path: '/affiliation/'+this.affiliation.id, query: {  id: 1 } });
         window.open(routeData.href, '_blank');
-        console.log(" 努力无憾否?")
+        //console.log(" 努力无憾否?")
         //this.$router.push('/affiliation/'+this.affiliation.id)
       }
-      console.log(" 亘勿懈怠否?")
+      //console.log(" 亘勿懈怠否?")
     }
   },
   mounted() {
