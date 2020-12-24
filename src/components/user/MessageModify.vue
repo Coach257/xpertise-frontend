@@ -10,11 +10,8 @@
 		  </el-form-item>
       <!-- TODO：基本信息 -->
       <el-form-item label="基本信息">
-      <el-input></el-input>
+      <el-input v-model="userinfo.basic_info"></el-input>
       </el-form-item>
-		  <el-form-item label="描述">
-			<el-input v-model="userinfo.basic_info"></el-input>
-		  </el-form-item>
 		  <el-form-item label="邮箱">
 			<el-input v-model="userinfo.email"></el-input>
 		  </el-form-item>
@@ -60,6 +57,15 @@ export default {
     this.userinfo.basic_info = localStorage.getItem("basic_info")
   },
   methods: {
+    success() {
+      this.$message({
+        message: '修改成功',
+        type: 'success'
+      });
+    },
+    fail() {
+      this.$message.error('修改失败');
+    },
     saveChange(formName) {
       var _this = this;
       let formData = new FormData();
@@ -69,81 +75,41 @@ export default {
       formData.append('info', this.userinfo.basic_info);
       formData.append('password1', this.userinfo.password1);
       formData.append('password2', this.userinfo.password2);
-      //formData.append('token', localStorage.getItem('token'));
-      //console.log(localStorage.getItem('token')); // 验证
-      let config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          //Authorization: localStorage.getItem('token')
-        }
-      };
+      let config = { headers: { 'Content-Type': 'multipart/form-data', } };
       axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/modify', formData,config)
         .then(function (response) {
-          if (response){
-            console.log(response)
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+          if (response.data.success){
+            _this.success();
           }
-          else {
-            console.log("error2");
-          }
+          else
+            _this.fail();
         })
         .catch(function () {
-          console.log("error");
+          _this.fail();
         });
     },
     getInfo() {
       let formData = new FormData();
       console.log(localStorage.getItem('userid'));
       formData.append('user_id', localStorage.getItem('userid'));
-      let config = {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      };
+      let config = { headers: { 'Content-Type': 'multipart/form-data' } };
       var _this = this;
       axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/info', formData, config).then(response => {
         if(response) {
-          if(response) {
-            if(response.data.success) {
-              console.log(response.data)
-              _this.userinfo.username = response.data.data.username
-              _this.userinfo.email = response.data.data.email
-              _this.userinfo.basic_info = response.data.data.basic_info
-              _this.userinfo.password = response.data.data.password
-            }
-            else {
-              console.log(response.data)
-              console.log("获取失败 " + response.data)
-            }
+          if(response.data.success) {
+            _this.success();
+            _this.userinfo.username = response.data.data.username;
+            _this.userinfo.email = response.data.data.email;
+            _this.userinfo.basic_info = response.data.data.basic_info;
+            _this.userinfo.password = response.data.data.password;
           }
+          else
+            _this.fail();
         }
         else {
-          console.log("error");
+          _this.fail();
         }
       })
-      // var _this = this;
-      // axios.post('https://go-service-296709.df.r.appspot.com/api/v1/user/return/account_info/:userid', formData, config)
-      // .then(function(response) {
-      // if(response) {
-      //     if(response.data.success) {
-      //         console.log(response)
-      //         _this.userinfo.username = response.data.data.username
-      //         _this.userinfo.email = response.data.data.email
-      //         _this.userinfo.basic_info = response.data.data.basic_info
-      //         _this.userinfo.password = response.data.data.password
-      //     }
-      //     else {
-      //         console.log(userid)
-      //         console.log(response.data)
-      //         console.log("获取失败 " + response.data)
-      //     }
-      //     //_this.username = response.data.
-      // }
-      // }).catch(error=> {
-      //     console.log('error', error);
-      // })
     }
   },
 }

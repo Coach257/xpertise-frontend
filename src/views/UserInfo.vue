@@ -9,7 +9,7 @@
                  :default-active="this.$route.path">
 
           <router-link :to="{name: 'MessageModify'}">
-            <el-menu-item index="/user/massage-modify">
+            <el-menu-item index="/user/message-modify">
               <i class=""></i>
               <span slot="title">个人信息修改</span>
             </el-menu-item>
