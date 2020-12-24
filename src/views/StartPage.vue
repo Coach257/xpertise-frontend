@@ -17,13 +17,13 @@
     </div>
 
     <div v-if='!show' id='rankinglist'>
-      <RankingList title="Hot Paper" type="main"/>
-      <RankingList title='Top Paper' type='main'/>
-      <RankingList title='Top Author' type='main'/>
-      <RankingList title='Top Affiliation' type='main'/>
+      <!-- <RankingList class='list' title="Hot Paper" type="main"/> -->
+      <RankingList class='list' title='Top Paper' type='main'/>
+      <RankingList class='list' title='Top Author' type='main'/>
+      <RankingList class='list' title='Top Affiliation' type='main'/>
     </div>
 
-    <static-relation-map v-if="!show"></static-relation-map>
+    <static-relation-map v-if="!show" id = 'paper-chart'></static-relation-map>
 
     <SearchSection :type="'main'" :input='input' v-if='show'/>
   </div>
@@ -136,7 +136,6 @@ export default {
 
 #rankinglist {
   /* outline: #21ff06 dotted thick; */
-  width: 1500px;
 
   display: flex;
   align-items: flex-start;
@@ -144,5 +143,15 @@ export default {
 
   position: relative;
   top: -150px;
+}
+.list{
+  margin: 25px;
+}
+#paper-chart{
+  position: relative;top: -115px;
+  /* border: #cccccc solid thin; */
+  border-radius: 30px;
+  box-shadow:inset 0px 0px 10px 6px rgb(50,50,50,0.1);
+  padding: 20px 40px 20px 40px;
 }
 </style>

@@ -136,7 +136,7 @@
       </div>
     </div>
 
-    <div style="height: 350px"></div>
+    <div style="height: 390px"></div>
 
     <div id="charts">
       <div class="datatitle" style="width: 1250px">
