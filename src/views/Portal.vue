@@ -44,7 +44,7 @@
           <el-row :gutter="5">
             <el-col :span="20" :offset="2"><h1></h1></el-col>
           </el-row>
-          
+
           <center>
           <div id="charts">
             <div class="datatitle" style="width: 1250px">
@@ -78,13 +78,14 @@
             ></author-compare-chart>
             <author-year-paper-chart
               class="chart"
+              v-if="author_type"
               :year_citation="this.author.year_citation"
               :year_pubs="this.author.year_pubs"
             ></author-year-paper-chart>
             <author-relation-map
               class="chart"
               :data="this.mapdata"
-              v-if="this.graphloaded"
+              v-if="this.graphloaded && author_type"
             ></author-relation-map>
             <related-author-chart
               class="chart"
@@ -94,7 +95,7 @@
             ></related-author-chart>
           </div>
           </center>
-          
+
           <el-row :gutter="10">
             <el-col :span="20" :offset="2">
               <el-tabs v-model="activeName" @tab-click="handleClick">
