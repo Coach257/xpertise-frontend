@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="chartContainer" style="width: 900px;height: 600px"></div>
+    <div id="chartContainer" style="width: 900px;height: 700px"></div>
   </div>
 </template>
 
@@ -34,6 +34,7 @@ export default {
           {
             type: 'graph',
             layout: 'none',
+            zoom: 1.5,
             // progressiveThreshold: 700,
             data: map_data.nodes.map(function (node) {
               return {
