@@ -163,7 +163,7 @@
 
       <el-divider></el-divider>
 
-      <div v-if="this.type==2" style="margin-left:300px">
+      <div v-if="this.type==2" style="margin-left:100px">
       <author-compare-chart
         class="chart"
         :h_index="this.author.h_index"
