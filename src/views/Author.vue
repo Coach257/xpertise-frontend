@@ -358,6 +358,7 @@ export default {
       authorId: "",
       issettled: false,
       type: 0,
+      author_type: localStorage.getItem("authorId") > 10,
       author: {
         h_index: 0,
         orgs_main: [],

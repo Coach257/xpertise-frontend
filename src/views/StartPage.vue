@@ -22,9 +22,6 @@
       <RankingList class='list' title='Top Author' type='main'/>
       <RankingList class='list' title='Top Affiliation' type='main'/>
     </div>
-
-    
-
     <SearchSection :type="'main'" :input='input' v-if='show'/>
   </div>
 </template>

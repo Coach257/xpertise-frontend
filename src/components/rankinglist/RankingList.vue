@@ -130,7 +130,7 @@ export default {
         .then(function (response) {
           if (response.data.success) {
             let list = response.data.data;
-            if(list.length == 0)return 
+            if(list.length == 0)return
             console.log(list)
             let Maximum;
             Maximum = list[0].value;
@@ -176,7 +176,7 @@ export default {
               item.rank = i + 1;
               item.papers = list[i].value;
               item.title = list[i].paper_title;
-              item.url = "/main/cs/" + list[i].paper_id;
+              item.url = "/detail/main/" + list[i].paper_id;
               _this.itemList.push(item);
             }
             _this.contendLoaded = true;
