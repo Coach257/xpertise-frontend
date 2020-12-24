@@ -60,7 +60,6 @@ export default {
   methods: {
     loadoption() {
       var data = this.$props.data;
-      console.log(data)
       for (let i = 0; i < data.length; i++) {
         data[i].title.raw=this.commonApi.titleCase(data[i].title.raw)
         data[i].title.raw =
