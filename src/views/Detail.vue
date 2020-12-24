@@ -116,7 +116,7 @@
         <div class="result_detail_comment_area">
           <el-tabs class="tabs_area" type="border-card">
             <el-tab-pane label="评论">
-              <CommentSection :id="this.$route.params.docid" ref="comment_child"/>
+              <CommentSection :id="this.$route.params.docid" :paper="this.article" ref="comment_child"/>
             </el-tab-pane>
             <el-tab-pane label="专家推荐"
               ><RecommendSection :recommends="this.$data.recommends" ref="child"
