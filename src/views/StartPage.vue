@@ -23,7 +23,7 @@
       <RankingList class='list' title='Top Affiliation' type='main'/>
     </div>
 
-    <static-relation-map v-if="!show" id = 'paper-chart'></static-relation-map>
+    
 
     <SearchSection :type="'main'" :input='input' v-if='show'/>
   </div>
@@ -33,13 +33,12 @@
 import SearchSection from "../components/search/SearchSection.vue";
 import StartPageInfo from "../components/common/StartPageInfo.vue";
 import RankingList from "../components/rankinglist/RankingList.vue"
-import StaticRelationMap from "@/components/common/StaticRelationMap";
+
 
 export default {
   name: 'StartPage',
   props: [],
   components: {
-    StaticRelationMap,
     SearchSection,
     StartPageInfo,
     RankingList
@@ -58,9 +57,6 @@ export default {
   methods: {
     submit() {
       if (this.input != '') {
-        sessionStorage.setItem('CurrentSearchBool', false)
-        sessionStorage.setItem('CurrentSearchInput', this.input)
-        sessionStorage.setItem('CurrentSearchType', "paper")
         this.show = true
       }
     },

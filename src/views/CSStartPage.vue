@@ -26,7 +26,7 @@
 
 
     <c-s-total-paper-chart v-if="!show" id = 'paper-chart'></c-s-total-paper-chart>
-
+    <static-relation-map v-if="!show" id = 'paper-chart'></static-relation-map>
     <SearchSection :type="'cs'" :input='input' v-if='show'/>
   </div>
 </template>
@@ -36,6 +36,7 @@ import SearchSection from "../components/search/SearchSection.vue";
 import StartPageInfo from "../components/common/StartPageInfo.vue";
 import RankingList from "../components/rankinglist/RankingList.vue"
 import CSTotalPaperChart from "@/components/common/CSTotalPaperChart";
+import StaticRelationMap from "@/components/common/StaticRelationMap";
 
 export default {
   name: 'StartPage',
@@ -44,7 +45,8 @@ export default {
     CSTotalPaperChart,
     SearchSection,
     StartPageInfo,
-    RankingList
+    RankingList,
+    StaticRelationMap,
   },
   mounted() {
     if (this.$route.params.type == "cs") {
@@ -60,8 +62,6 @@ export default {
   methods: {
     submit() {
       if (this.input != '') {
-        sessionStorage.setItem('CurrentSearchBool', false)
-        sessionStorage.setItem('CurrentSearchInput', this.input)
         this.show = true
       }
     },

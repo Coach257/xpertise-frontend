@@ -130,6 +130,8 @@ export default {
         .then(function (response) {
           if (response.data.success) {
             let list = response.data.data;
+            if(list.length == 0)return 
+            console.log(list)
             let Maximum;
             Maximum = list[0].value;
             console.log(list[0].paper_title);
@@ -147,7 +149,6 @@ export default {
               item.url = "/author/cs/" + list[i].paper_id;
               _this.itemList.push(item);
             }
-            console.log(_this.itemList);
             _this.contendLoaded = true;
           } else {
             console.log(response);

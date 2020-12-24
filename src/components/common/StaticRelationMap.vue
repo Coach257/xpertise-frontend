@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="chartContainer" style="width: 900px;height: 700px"></div>
+    <div id="staticrelationmap" style="width: 900px;height: 700px"></div>
   </div>
 </template>
 
@@ -16,13 +16,12 @@ export default {
 
   },
   mounted() {
-    this.myChart = this.$echarts.init(document.getElementById('chartContainer'));
+    this.myChart = this.$echarts.init(document.getElementById('staticrelationmap'));
     this.loadOption()
   },
   methods: {
     loadOption() {
       let map_data = response_data.message
-      console.log(response_data.success)
       let option = {
         title: {
           text: 'Top 30 Author Relations',
