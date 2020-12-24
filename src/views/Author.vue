@@ -90,7 +90,7 @@
             style="display: flex; align-items: center; justify-content: center"
           >
             <span style="color: #666666; font-weight: bold; margin-right: 10px"
-              >隶属机构</span
+            >隶属机构</span
             >
             <svg
               class="icon"
@@ -164,13 +164,13 @@
       <el-divider></el-divider>
 
       <div v-if="this.type==2" style="margin-left:0px">
-      <author-compare-chart
-        class="chart"
-        :h_index="this.author.h_index"
-        :n_pubs="this.author.n_pubs"
-        :n_citation="this.author.n_citation"
-        v-if="loadfinish"
-      ></author-compare-chart>
+        <author-compare-chart
+          class="chart"
+          :h_index="this.author.h_index"
+          :n_pubs="this.author.n_pubs"
+          :n_citation="this.author.n_citation"
+          v-if="loadfinish"
+        ></author-compare-chart>
       </div>
       <author-compare-chart
         class="chart"
@@ -340,7 +340,7 @@
 
 <script>
 import commonApi from "../commonApi"
-import { SearchDriver } from "@elastic/search-ui";
+import {SearchDriver} from "@elastic/search-ui";
 import AuthorRelationMap from "../components/common/AuthorRelationMap.vue";
 import RelatedAuthorChart from "../components/common/RelatedAuthorChart.vue";
 import AuthorCompareChart from "../components/common/AuthorCompareChart.vue";
@@ -352,6 +352,7 @@ import {
   csauthorconfig,
   csaffiliationconfig,
 } from "../searchConfig";
+
 var driver = null;
 import axios from "axios";
 
@@ -529,11 +530,10 @@ export default {
         this.author.h_index = results.h_index.raw;
       if (results.orgs && results.orgs.raw) {
         for (let i = 0; i < results.orgs.raw.length; i++) {
-          if (this.type === 1){
+          if (this.type === 1) {
             this.author.orgs_cs.push(JSON.parse(results.orgs.raw[i]));
             //this.author.orgs_cs[i].name=this.commonApi.titleCase(this.author.orgs_cs[i].name)
-          }
-          else{
+          } else {
             this.author.orgs_main.push(results.orgs.raw[i]);
             //this.author.orgs_main[i].name=this.commonApi.titleCase(this.author.orgs_main[i].name)
           }
@@ -547,7 +547,7 @@ export default {
 
       if (results.pubs && results.pubs.raw) {
         raw = results.pubs.raw;
-        for (let i = 0; i < raw.length; i++){
+        for (let i = 0; i < raw.length; i++) {
           this.author.pubs.push(JSON.parse(raw[i]));
           //this.author.pubs[i].title=this.commonApi.titleCase(this.author.pubs[i].title)
         }
@@ -563,16 +563,16 @@ export default {
       this.total1 = this.author.tags.length;
 
       //文献按照n_citation排序
-      if(this.type == 1){
+      if (this.type == 1) {
         this.author.pubs.sort(function (a, b) {
-        return b.n_citation - a.n_citation;
-      });
-      }else {
+          return b.n_citation - a.n_citation;
+        });
+      } else {
         this.author.pubs.sort(function (a, b) {
-        return b.r - a.r;
-      });
+          return b.r - a.r;
+        });
       }
-      
+
     },
     // 获取合作作者数据
     getrelatedauthor() {
@@ -595,10 +595,14 @@ export default {
             _this.relateddata = response.data.message;
             _this.relatedloaded = true;
           } else {
-            console.log("请求失败");
-            console.log(response.data);
+            // console.log("请求失败");
+            // console.log(response.data);
+            _this.fail()
           }
         });
+    },
+    fail() {
+      this.$message.error('请求失败');
     },
     // 请求判断该作者是否入驻
     setissettled() {
@@ -646,8 +650,7 @@ export default {
             _this.mapdata = response.data.message;
             _this.graphloaded = true;
           } else {
-            console.log("请求失败");
-            console.log(response.data);
+            _this.fail()
           }
         });
     },
@@ -661,6 +664,7 @@ export default {
   flex-direction: column;
   align-items: center;
 }
+
 #authorHeader {
   /* outline: #21ff06 dotted thick; */
   border: #e6e6e6 solid thin;
@@ -675,12 +679,14 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
 #authorsvg {
   position: absolute;
   top: 20px;
   left: 20px;
   opacity: 20%;
 }
+
 #authorName {
   font-size: 30px;
   font-weight: bolder;
@@ -692,6 +698,7 @@ export default {
   width: 360px;
   text-align: center;
 }
+
 #authorNameFake {
   opacity: 0;
 
@@ -704,6 +711,7 @@ export default {
   width: 360px;
   text-align: center;
 }
+
 #authorInfo {
   display: flex;
   justify-content: space-between;
@@ -712,6 +720,7 @@ export default {
   width: 260px;
   margin-top: 20px;
 }
+
 #authorAff {
   margin-top: 20px;
 
@@ -719,6 +728,7 @@ export default {
   flex-direction: column;
   align-items: center;
 }
+
 .affname {
   border-radius: 10px;
   background-color: #26beb8;
@@ -734,11 +744,13 @@ export default {
 
   max-width: 300px;
 }
+
 #authorData {
   display: flex;
   justify-content: center;
   width: 1200px;
 }
+
 #authorRecommend {
   border: #e6e6e6 solid thin;
   border-radius: 30px;
@@ -753,6 +765,7 @@ export default {
   justify-content: center;
   margin: 10px;
 }
+
 #authorColumn {
   border: #e6e6e6 solid thin;
   border-radius: 30px;
@@ -767,6 +780,7 @@ export default {
   justify-content: center;
   margin: 10px;
 }
+
 .dataWrapper {
   border: #e6e6e6 solid thin;
   border-radius: 30px;
@@ -774,6 +788,7 @@ export default {
   padding: 20px;
   margin: 40px;
 }
+
 .datatitle {
   /* outline: #21ff06 dotted thick; */
   height: 40px;
@@ -783,6 +798,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
 .paperindex {
   /* outline: #21ff06 dotted thick; */
   border-radius: 50px;
@@ -798,6 +814,7 @@ export default {
   margin: 4px;
   margin-right: 10px;
 }
+
 .citation {
   white-space: nowrap;
 
@@ -819,6 +836,7 @@ export default {
   margin-bottom: 3px;
   margin-top: 3px;
 }
+
 .citation2 {
   white-space: nowrap;
 
@@ -840,6 +858,7 @@ export default {
   margin-bottom: 3px;
   margin-top: 3px;
 }
+
 .tagName {
   text-align: left;
 
@@ -864,16 +883,20 @@ export default {
   align-items: center;
   cursor: pointer;
 }
+
 a:link {
   color: #000000;
 }
+
 a:visited {
   color: #666666;
 }
+
 a:hover {
   color: #1292fd;
   font-weight: bold;
 }
+
 #charts {
   /* outline: #21ff06 dotted thick; */
   display: flex;
@@ -893,10 +916,11 @@ a:hover {
 
   overflow: hidden;
 }
+
 .chart {
   /* outline: #21ff06 dotted thick; */
 
-  box-shadow: inset 0px 0px 10px 6px rgb(50, 50, 50, 0.1);
+  box-shadow: inset 0px 0px 10px 6px rgba(50, 50, 50, 0.1);
   border-radius: 30px;
 
   width: 600px;
