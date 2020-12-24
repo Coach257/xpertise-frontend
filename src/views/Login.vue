@@ -48,7 +48,7 @@
     align-items: center;
     flex-direction: column;
 
-    background-image: url(../assets/loginBack.jpeg);
+    background-image: url(../assets/loginBack.jpg);
     background-repeat:no-repeat;
     background-size:100% 100%;
 
