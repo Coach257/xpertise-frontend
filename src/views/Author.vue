@@ -173,6 +173,7 @@
       <author-year-paper-chart
         class="chart"
         v-if="loadfinish"
+        v-show="this.type==1"
         :year_citation="this.author.year_citation"
         :year_pubs="this.author.year_pubs"
       ></author-year-paper-chart>
