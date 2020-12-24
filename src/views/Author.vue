@@ -109,7 +109,7 @@
 
           <div class="affname" v-if="type == 2">
             <span v-for="(org, index) in this.author.orgs_main" :key="index">
-              {{ org }}
+              {{ this.commonApi.titleCase(org) }}
             </span>
           </div>
 
@@ -302,7 +302,7 @@
               )"
               :key="index"
             >
-              {{ tag.t }}
+              {{ commonApi.titleCase(tag.t) }}
             </div>
 
             <center style="margin-top: 30px; margin-bottom: 30px">
@@ -312,7 +312,7 @@
                 :total="total1"
                 :page-size="eachPage1"
                 @current-change="handleCurrentChange1"
-                pager-count="5"
+                :pager-count="5"
                 :hide-on-single-page="true"
               >
               </el-pagination>
@@ -507,7 +507,6 @@ export default {
     // 赋值本作者信息
     getthisauthor() {
       var results = this.searchState.results[0];
-      console.log(results);
       var raw;
       if (results.name && results.name.raw) this.author.name = results.name.raw;
       if (this.type == 1) {
@@ -522,11 +521,11 @@ export default {
         for (let i = 0; i < results.orgs.raw.length; i++) {
           if (this.type === 1){
             this.author.orgs_cs.push(JSON.parse(results.orgs.raw[i]));
-            this.author.orgs_cs[i].name=this.commonApi.titleCase(this.author.orgs_cs[i].name)
+            //this.author.orgs_cs[i].name=this.commonApi.titleCase(this.author.orgs_cs[i].name)
           }
           else{
             this.author.orgs_main.push(results.orgs.raw[i]);
-            this.author.orgs_main[i].name=this.commonApi.titleCase(this.author.orgs_main[i].name)
+            //this.author.orgs_main[i].name=this.commonApi.titleCase(this.author.orgs_main[i].name)
           }
         }
       }
@@ -540,7 +539,7 @@ export default {
         raw = results.pubs.raw;
         for (let i = 0; i < raw.length; i++){
           this.author.pubs.push(JSON.parse(raw[i]));
-          this.author.pubs[i].title=this.commonApi.titleCase(this.author.pubs[i].title)
+          //this.author.pubs[i].title=this.commonApi.titleCase(this.author.pubs[i].title)
         }
       }
 
