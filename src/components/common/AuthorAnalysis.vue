@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import commonApi from "../../commonApi"
 export default {
   name: "AuthorAnalysis",
   props: ["data"],
@@ -68,15 +69,11 @@ export default {
     loadoption() {
       var authors = this.$props.data[0].data;
       for (let i = 0; i < authors.length; i++) {
-        var author = JSON.parse(authors[i].value);
-        if (
-          author.name &&
-          author.name.search("NA") == -1 &&
-          author.name.search("null") == -1
-        ) {
-          this.option.xAxis[0].data.push(author.name);
-          this.option.series[0].data.push(authors[i].count);
-        }
+          var author = JSON.parse(authors[i].value);
+          if(author.name && author.name.search("NA")==-1 && author.name.search("null")==-1){
+              this.option.xAxis[0].data.push(this.commonApi.titleCase(author.name));
+              this.option.series[0].data.push(authors[i].count);
+          }
       }
     },
   },
