@@ -377,9 +377,9 @@ export default {
         citation_by_year: {},
       },
       recommendForm: {
-        username: "IAmParasite",
-        author_id: "1",
-        reason: "这是一首简单的小情歌~",
+        username: "",
+        author_id: "",
+        reason: "",
       },
       columnForm: {
         name: "",
