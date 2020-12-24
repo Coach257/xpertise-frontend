@@ -13,7 +13,7 @@
         </svg>
 
         <div id='affiliationName'>
-          <div>{{ this.affiliation.name }}</div>
+          <div>{{ this.commonApi.titleCase(this.affiliation.name) }}</div>
         </div>
 
         <div id='affiliationInfo'>
@@ -181,6 +181,7 @@
 </template>
 
 <script>
+import commonApi from '../commonApi'
 import {SearchDriver} from "@elastic/search-ui"
 import AuthorYearPaperChart from "../components/common/AuthorYearPaperChart.vue";
 import OrganizationYearPaperChart from "../components/common/OrganizationYearPaperChart.vue";

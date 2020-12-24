@@ -3,7 +3,7 @@
     <div class="result_detail_page_container">
       <div class="result_detail_title_area">
         <div class="result_detail_title">
-          {{ this.article.title }}
+          {{ this.commonApi.titleCase(this.article.title) }}
         </div>
         <div class="result_detail_author_container">
           <router-link
@@ -47,6 +47,7 @@
   </div>
 </template>
 <script>
+import commonApi from "../commonApi"
 import { SearchDriver } from "@elastic/search-ui";
 import SearchResults from "../components/search/SearchResults";
 import CommentSection from "../components/comment/CommentSection";
