@@ -14,26 +14,21 @@
       </div>
       <div class="wishlist_card_info">
         <el-divider content-position="left">操作</el-divider>
-        <!-- <el-popover
-          placement="left"
-          width="600"
-          trigger="hover"
-          content="this is content, this is content, this is content"
+
+        <el-button
+          slot="reference"
+          style="height: 50"
+          type="primary"
+          icon="el-icon-document"
+          @click="onSee"
+          plain
+          >查看</el-button
         >
-          <el-button
-            slot="reference"
-            style="height: 50"
-            type="primary"
-            icon="el-icon-document"
-            plain
-            >预览</el-button
-          >
-          <detail-preview type="main" :docid="getid" />
-        </el-popover> -->
+
         <el-button
           style="height: 50; margin-left: 10px"
           type="primary"
-          @click="onShare"
+          :v-clipboard="'/detail/' + this.$props.wish.type + '/' + this.$props.wish.paper_id"
           icon="el-icon-share"
           >分享链接</el-button
         >
@@ -42,24 +37,28 @@
   </div>
 </template>
 <script>
-import axios from "axios"
+import axios from "axios";
+import DetailPreview from "./DetailPreview";
 export default {
   name: "WishlistCard",
+  components: {
+    DetailPreview,
+  },
   props: {
-    wish: {},
+    wish: {
+    },
     click_call_back: {
       //定义一个外来方法
       type: Function,
     },
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     getid() {
       return this.$props.wish.paper_id;
     },
-    onShare(){
-
+    onSee() {
+      window.open('/detail/' + this.$props.wish.type + '/' + this.$props.wish.paper_id);
     },
     onDelete() {
       let that = this;

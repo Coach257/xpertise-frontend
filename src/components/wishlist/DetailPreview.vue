@@ -1,5 +1,5 @@
 <template>
-  <div id="result_detail_page" v-if="showarticle">
+  <div v-if="showarticle">
     <div class="result_detail_page_container">
       <div class="result_detail_title_area">
         <div class="result_detail_title">
@@ -310,11 +310,8 @@
 </template>
 <script>
 import { SearchDriver } from "@elastic/search-ui";
-import SearchResults from "../components/search/SearchResults";
-import CommentSection from "../components/comment/CommentSection";
-import RelatedPaperChart from "../components/common/RelatedPaperChart.vue";
-import PaperCitation from "../components/common/PaperCitation.vue";
-import ReferenceChart from "../components/common/ReferenceChart.vue";
+import SearchResults from "../../components/search/SearchResults";
+
 const testurl =
   "https://go-service-296709.df.r.appspot.com/api/v1/portal/recommend/create";
 const columnUrl =
@@ -329,21 +326,15 @@ import {
   cspaperconfig,
   csauthorconfig,
   csaffiliationconfig,
-} from "../searchConfig";
+} from "../../searchConfig";
 import axios from "axios";
-import RecommendSection from "../components/recommendation/RecommendSection";
 var driver = null;
 
 export default {
-  name: "Detail",
-  props: [],
+  name: "DetailPreview",
+  props: ['docid','type'],
   components: {
-    CommentSection,
-    RecommendSection,
     SearchResults,
-    RelatedPaperChart,
-    PaperCitation,
-    ReferenceChart,
   },
   mounted() {
     this.init_data();
@@ -438,9 +429,9 @@ export default {
     },
     // 初始化全局数据
     init_data() {
-      this.type = this.$route.params.type;
+      this.type = this.$props.type;
       this.option = "paper";
-      this.docid = this.$route.params.docid;
+      this.docid = this.$props.docid;
       this.recommendForm.username = localStorage.getItem("username");
       this.recommendForm.author_id = localStorage.getItem("authorId");
     },

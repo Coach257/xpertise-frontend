@@ -45,6 +45,7 @@ export default {
         if (response) {
           if (response.data.success) {
             let list = response.data.data;
+            if(list == null) return ;
             for (let i = 0; i < list.length; i++) {
               this.commentList.push({
                 create_time: list[i]['comment_time'],
@@ -63,6 +64,17 @@ export default {
           }
         }
       });
+      if(this.commentList!=null)
+    this.commentList.sort(
+      function(x,y){
+        if(x.on_top == y.on_top){
+          if(x.like > y.on_top) return 1;
+          else if(x.like < y.on_top) return -1;
+          else return x.create_time > y.create_time;
+        }
+        else return x.on_top > y.on_top;
+      }
+    );
   },
   methods: {
     submitComment() {

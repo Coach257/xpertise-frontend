@@ -43,8 +43,6 @@ export default {
         username: "usernmae",
         create_time: "2020-12-18 20:23:23",
         recommend: "this is an example recommend",
-        upvote: 12,
-        downvote: 11,
       },
     };
   },

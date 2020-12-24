@@ -9,8 +9,8 @@
         <div class="comment_create_time">{{ this.comment.create_time }}</div></div>
         <div class="comment_actions">
         <el-button-group>
-          <el-button icon="el-icon-top" :type="getLikeType()" @click="dislikeOrLikeComment(1)">顶</el-button>
-          <el-button icon="el-icon-bottom" :type="getDislikeType()" @click="dislikeOrLikeComment(2)">踩</el-button>
+          <el-button icon="el-icon-top" :type="getLikeType()" @click="dislikeOrLikeComment(1)">顶 {{this.getLikeCount()}}</el-button>
+          <el-button icon="el-icon-bottom" :type="getDislikeType()" @click="dislikeOrLikeComment(2)">踩 {{this.getDislikeCount()}}</el-button>
           <el-button icon="el-icon-bottom" @click="operateComment(1)" v-if="this.commentOperate">置顶</el-button>
           <el-button icon="el-icon-bottom" @click="operateComment(3)" v-if=this.commentOperate>删除</el-button>
         </el-button-group>
@@ -42,6 +42,8 @@ export default {
     }
   },
   methods: {
+    getLikeCount(){return this.comment.like + (this.vote === 1?1:0);},
+    getDislikeCount(){return this.comment.dislike + (this.vote === 2?1:0);},  
     getLikeType(){
       if(this.vote === 1)return "success";
       else return "plain";

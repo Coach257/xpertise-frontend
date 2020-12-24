@@ -4,10 +4,9 @@
     <div class="app_container">
     <router-view v-wechat-title='$route.meta.title'></router-view>
     </div>
-    <!-- <WishlistDrawer/> -->
+    <WishlistDrawer/>
     <!-- <el-button @click="debug">debug</el-button> -->
     <Footer/>
-    
   </div>
 </template>
 
