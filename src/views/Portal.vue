@@ -10,7 +10,7 @@
             ></el-col>
             <el-col :span="6"
               ><div class="name">
-                {{ this.commonApi.titleCase(this.authorname) }}
+                {{ this.authorname }}
               </div></el-col
             >
           </el-row>
@@ -135,7 +135,7 @@
                           <div id="paperindex">
                             {{ index + 1 + (currentPage1 - 1) * eachPage }}
                           </div>
-                          <div style="width: 1100px">{{ paper.title }}</div>
+                          <div style="width: 1100px">{{ commonApi.titleCase(paper.title) }}</div>
                           <div class="citation2">第{{paper.r}}作者</div>
                           <div class="citation">被引{{ paper.n_citation }}次</div>
                         </router-link>
@@ -272,7 +272,7 @@
                         >
                           <div id="paperindex">{{ index + 1 }}</div>
                           <div style="width: 1100px">
-                            {{ JSON.parse(org).name }}
+                            {{commonApi.titleCase(JSON.parse(org).name) }}
                           </div>
                         </router-link>
                       </div>
@@ -287,7 +287,7 @@
                         >
                           <div id="paperindex">{{ index + 1 }}</div>
                           <div style="width: 1100px">
-                            {{ org }}
+                            {{ commonApi.titleCase(org) }}
                           </div>
                         </router-link>
                       </div>
@@ -323,7 +323,6 @@
 </template>
 
 <script>
-import commonApi from "../commonApi"
 import axios from "axios";
 import Column from "./Column";
 import { SearchDriver } from "@elastic/search-ui";
