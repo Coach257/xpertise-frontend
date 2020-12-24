@@ -602,10 +602,7 @@ export default {
         });
     },
     fail() {
-      this.$message({
-        message: '请求失败',
-        type: 'fail'
-      });
+      this.$message.error('请求失败');
     },
     // 请求判断该作者是否入驻
     setissettled() {
