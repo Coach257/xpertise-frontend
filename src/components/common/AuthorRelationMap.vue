@@ -48,7 +48,7 @@ export default {
             roam: true,
             focusNodeAdjacency: true,
             symbolSize: (value, params) => {
-              return value;
+              return value*3+1;
             },
 
             itemStyle: {
