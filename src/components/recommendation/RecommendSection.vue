@@ -8,6 +8,7 @@
 <script>
 import RecommendCard from "./RecommendCard";
 import axios from 'axios';
+import moment from 'moment';
 const testurl = "https://go-service-296709.df.r.appspot.com/api/v1/portal/recommend/recommends_from_one_paper"
 export default{
   components: { RecommendCard },
@@ -36,7 +37,7 @@ export default{
               this.examplerecommends.push({
                 username: list[i].author_name,
                 recommend: list[i].reason,
-                create_time: list[i].recommend_time,
+                create_time: moment(list[i].recommend_time).fromNow(),
               })
             }
           } else {

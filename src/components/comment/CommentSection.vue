@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import CommentCard from '@/components/comment/CommentCard'
-import axios from 'axios'
-
+import CommentCard from '@/components/comment/CommentCard';
+import axios from 'axios';
+import moment from 'moment';
 const testurl = "https://go-service-296709.df.r.appspot.com/api/v1/branch/comment/list_all_comments"
 const commenturl = "https://go-service-296709.df.r.appspot.com/api/v1/branch/comment/create"
 export default {
@@ -36,19 +36,23 @@ export default {
     }
   },
   mounted () {
-    console.log(this.id);
-    let that = this;
-    let formData = new FormData();
-    formData.append("paper_id", this.id);
-    let config = { headers: { "Content-Type": "multipart/form-data", }, };
-    axios.post(testurl, formData, config).then((response) => {
+    this.getCommentList();
+  },
+  methods: {
+    getCommentList() {
+      this.commentList = [];
+      let that = this;
+      let formData = new FormData();
+      formData.append("paper_id", this.id);
+      let config = { headers: { "Content-Type": "multipart/form-data", }, };
+      axios.post(testurl, formData, config).then((response) => {
         if (response) {
           if (response.data.success) {
             let list = response.data.data;
             if(list == null) return ;
             for (let i = 0; i < list.length; i++) {
               this.commentList.push({
-                create_time: list[i]['comment_time'],
+                create_time: moment(list[i]['comment_time']).fromNow(),
                 content: list[i]['content'],
                 dislike: list[i]['dislike'],
                 like: list[i]['like'],
@@ -65,18 +69,17 @@ export default {
         }
       });
       if(this.commentList!=null)
-    this.commentList.sort(
-      function(x,y){
-        if(x.on_top == y.on_top){
-          if(x.like > y.on_top) return 1;
-          else if(x.like < y.on_top) return -1;
-          else return x.create_time > y.create_time;
-        }
-        else return x.on_top > y.on_top;
-      }
-    );
-  },
-  methods: {
+        this.commentList.sort(
+          function(x,y){
+            if(x.on_top == y.on_top){
+              if(x.like > y.on_top) return 1;
+              else if(x.like < y.on_top) return -1;
+              else return x.create_time > y.create_time;
+            }
+            else return x.on_top > y.on_top;
+          }
+        );
+    },
     submitComment() {
       let that = this;
       let formData = new FormData();
@@ -88,7 +91,7 @@ export default {
         if (response) {
           //console.log(response);
           if (response.data.success) {
-            //console.log("评论成功");
+            that.getCommentList();
           } else {
             console.log(response);
           }
