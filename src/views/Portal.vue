@@ -3,7 +3,9 @@
     <el-container>
       <el-main>
         <div>
-          <el-row :gutter="10">
+
+
+          <el-row style="display: inline" :gutter="10">
             <el-col :span="3" :offset="7"
               ><div class="grid-content">
                 <el-avatar :size="100" :src="circleUrl"></el-avatar></div
@@ -15,7 +17,7 @@
             >
           </el-row>
 
-          <el-row :gutter="24">
+          <el-row style="display: inline" :gutter="24">
             <el-col :span="20" :offset="7">
               <div class="info">
                 <el-table
@@ -44,7 +46,7 @@
           <el-row :gutter="5">
             <el-col :span="20" :offset="2"><h1></h1></el-col>
           </el-row>
-
+          
           <center>
           <div id="charts">
             <div class="datatitle" style="width: 1250px">
@@ -708,7 +710,7 @@ a:hover {
 #charts {
   /* outline: #21ff06 dotted thick; */
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
 
