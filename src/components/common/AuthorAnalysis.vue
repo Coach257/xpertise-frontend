@@ -32,6 +32,15 @@ export default {
             axisTick: {
               alignWithLabel: true,
             },
+            axisLabel: {
+              interval: 0,
+              rotate: 45, //倾斜度 -90 至 90 默认为0
+              margin: 6,
+              textStyle: {
+                fontWeight: "bolder",
+                color: "#000000",
+              },
+            },
           },
         ],
         yAxis: [
@@ -59,11 +68,15 @@ export default {
     loadoption() {
       var authors = this.$props.data[0].data;
       for (let i = 0; i < authors.length; i++) {
-          var author = JSON.parse(authors[i].value);
-          if(author.name && author.name.search("NA")==-1 && author.name.search("null")==-1){
-              this.option.xAxis[0].data.push(author.name);
-              this.option.series[0].data.push(authors[i].count);
-          }
+        var author = JSON.parse(authors[i].value);
+        if (
+          author.name &&
+          author.name.search("NA") == -1 &&
+          author.name.search("null") == -1
+        ) {
+          this.option.xAxis[0].data.push(author.name);
+          this.option.series[0].data.push(authors[i].count);
+        }
       }
     },
   },
