@@ -17,7 +17,7 @@
     </div>
 
     <div v-if='!show' id='rankinglist'>
-      <!-- <RankingList class='list' title="Hot Paper" type="cs"/> -->
+      <RankingList class='list' title="Hot Paper" type="cs"/>
       <RankingList class='list' title='Top Paper' type='cs'/>
       <RankingList class='list' title='Top Author' type='cs'/>
       <RankingList class='list' title='Top Affiliation' type='cs'/>

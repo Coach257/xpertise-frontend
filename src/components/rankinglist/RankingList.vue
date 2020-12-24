@@ -53,11 +53,11 @@ export default {
     } else if (this.title == "Top Affiliation") {
       driver = new SearchDriver(csaffiliationconfig);
     } else if (this.title == "Hot Paper" && this.type == "cs") {
-      this.itemType = "Hot";
+      this.itemType = "🔥";
       this.getCSHotPaper();
       return;
     } else if (this.title == "Hot Paper" && this.type == "main") {
-      this.itemType = "Hot";
+      this.itemType = "🔥";
       this.getMainHotPaper();
       return;
     }
