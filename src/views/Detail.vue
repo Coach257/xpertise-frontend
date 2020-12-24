@@ -119,7 +119,7 @@
               <CommentSection :id="this.$route.params.docid" />
             </el-tab-pane>
             <el-tab-pane label="专家推荐"
-              ><RecommendSection :recommends="this.$data.recommends"
+              ><RecommendSection :recommends="this.$data.recommends" ref="child"
             /></el-tab-pane>
           </el-tabs>
         </div>
@@ -771,7 +771,7 @@ export default {
         });
       return;
     },
-    
+
     // 加载评论
     loadcomment() {},
     // 加载推荐
@@ -845,6 +845,7 @@ export default {
       });
     },
     recommendPaper() {
+
       this.recommendVisible = false;
       let that = this;
       let formData = new FormData();
@@ -861,6 +862,7 @@ export default {
           console.log(response);
           if (response.data.success) {
             console.log("推荐成功");
+            this.$refs.child.getRecommendation();
           } else {
             console.log(response);
           }

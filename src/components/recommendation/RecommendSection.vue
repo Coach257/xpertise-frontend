@@ -22,6 +22,7 @@ export default{
   },
   methods: {
     getRecommendation(){
+      this.examplerecommends = [];
       let that = this;
       let formData = new FormData();
       formData.append("paper_id", this.$route.params.docid);
