@@ -10,7 +10,7 @@
             ></el-col>
             <el-col :span="6"
               ><div class="name">
-                {{ this.authorname }}
+                {{ this.commonApi.titleCase(this.authorname) }}
               </div></el-col
             >
           </el-row>
@@ -322,6 +322,7 @@
 </template>
 
 <script>
+import commonApi from "../commonApi"
 import axios from "axios";
 import Column from "./Column";
 import { SearchDriver } from "@elastic/search-ui";
