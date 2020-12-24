@@ -105,7 +105,7 @@ export default {
           if (response) {
             if (response.data.success) {
               console.log("删除成功", response.data);
-              this.delete_call_back();
+              that.click_call_back();
             } else {
               console.log("删除失败", response.data);
               alert("删除失败，请检查网络");

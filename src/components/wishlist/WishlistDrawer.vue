@@ -15,7 +15,7 @@
       :with-header="true"
     >
       <el-divider content-position="left">我的清单</el-divider>
-      <WishlistCard v-for="(wish,index) in items" :key="index" :wish="wish" :delete_call_back="refreshData" />
+      <WishlistCard v-for="(wish,index) in items" :key="index" :wish="wish" :click_call_back="refreshData" />
     </el-drawer>
   </div>
 </template>
