@@ -19,11 +19,11 @@
         </svg>
 
         <div id="authorName">
-          <div>{{ this.commonApi.titleCase(this.author.name) }}</div>
+          <div>{{ commonApi.titleCase(this.author.name) }}</div>
         </div>
 
         <div id="authorNameFake">
-          <div>{{ this.commonApi.titleCase(this.author.name) }}</div>
+          <div>{{ commonApi.titleCase(this.author.name) }}</div>
         </div>
 
         <div id="authorInfo">
@@ -109,7 +109,7 @@
 
           <div class="affname" v-if="type == 2">
             <span v-for="(org, index) in this.author.orgs_main" :key="index">
-              {{ this.commonApi.titleCase(org) }}
+              {{ commonApi.titleCase(org) }}
             </span>
           </div>
 
@@ -553,9 +553,16 @@ export default {
       this.total1 = this.author.tags.length;
 
       //文献按照n_citation排序
-      this.author.pubs.sort(function (a, b) {
+      if(this.type == 1){
+        this.author.pubs.sort(function (a, b) {
         return b.n_citation - a.n_citation;
       });
+      }else {
+        this.author.pubs.sort(function (a, b) {
+        return b.r - a.r;
+      });
+      }
+      
     },
     // 获取合作作者数据
     getrelatedauthor() {
